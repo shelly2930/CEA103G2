@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+  <display-name>CEA103G2111</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <resource-ref>
+    <description>DB Connection</description>
+    <res-ref-name>jdbc/HowTrueProject</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+  <servlet>
+    <servlet-name>MemTenServlet</servlet-name>
+    <servlet-class>com.memTen.controller.MemTenServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemTenServlet</servlet-name>
+    <url-pattern>/memTen/memTen.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>MemPicReadServlet</servlet-name>
+    <servlet-class>com.memTen.controller.MemPicReadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemPicReadServlet</servlet-name>
+    <url-pattern>/memTen/memPicReadServlet.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>BillServlet</servlet-name>
+    <servlet-class>com.bill.controller.BillServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BillServlet</servlet-name>
+    <url-pattern>/bill/bill.do</url-pattern>
+  </servlet-mapping>
+</web-app>
