@@ -38,9 +38,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String UPDATE = 
 			"UPDATE MEMBER_TENANT SET mem_username=?, mem_password=?, mem_pic=?, mem_name=?, mem_gender=?, mem_id=?,"
 									+ " mem_birthday=?, mem_phone=?, mem_mobile=?, mem_email=?, mem_addr=? WHERE mem_no = ?";
-//		public static final String GET_ONE_PIC = // 不能用private // 多餘的?
-//				"SELECT mem_pic FROM MEMBER_TENANT WHERE mem_no = ?";
-		
+		private static final String VALIDATE_STMT = "SELECT MEM_USERNAME, MEM_PASSWORD, MEM_NAME, MEM_STATUS FROM MEMBER_TENANT WHERE mem_username=?";
+	
 		@Override
 		public void insert(MemTenVO memTenVO) {
 			Connection con = null;
@@ -325,5 +324,55 @@ public class MemTenDAO implements MemTenDAO_interface {
 				}
 			}
 			return list;
-		}				
+		}
+		
+		public MemTenVO validate(String mem_username) {
+			MemTenVO memTenVO = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(VALIDATE_STMT);
+				
+				pstmt.setString(1, mem_username);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					memTenVO = new MemTenVO();
+					memTenVO.setMem_username(rs.getString("mem_username"));
+					memTenVO.setMem_password(rs.getString("mem_password"));
+					memTenVO.setMem_name(rs.getString("mem_name"));
+					memTenVO.setMem_status(rs.getByte("mem_status"));
+				}
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. " + se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return memTenVO;
+		}
 }

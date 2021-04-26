@@ -79,4 +79,8 @@ public class MemTenService {
 	public List<MemTenVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public MemTenVO validate(String mem_username){
+		return dao.validate(mem_username);
+	}
 }

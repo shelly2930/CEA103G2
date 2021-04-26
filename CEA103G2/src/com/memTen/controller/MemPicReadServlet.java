@@ -56,7 +56,7 @@ public class MemPicReadServlet extends HttpServlet {
 			pstmt.close();
 		} catch (Exception e) {
 //			System.out.println(e);
-			InputStream in = getServletContext().getResourceAsStream("/images/null.jpg");
+			InputStream in = getServletContext().getResourceAsStream("/images/null2.jpg");
 			byte[] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);

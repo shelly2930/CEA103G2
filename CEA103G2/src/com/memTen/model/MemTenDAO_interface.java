@@ -8,4 +8,6 @@ public interface MemTenDAO_interface {
 	public void delete(Integer mem_no);
 	public MemTenVO findByPrimaryKey(Integer mem_no);
 	public List<MemTenVO> getAll();
+	public MemTenVO validate(String mem_username);
+	
 }

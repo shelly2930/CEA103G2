@@ -41,6 +41,10 @@
   th, td {
     padding: 1px;
   }
+  img {
+  	width: 200px;
+  	height: auto;
+  }
 </style>
 
 </head>
@@ -79,8 +83,7 @@
 	</tr>
 	<tr>
 		<td>照片:</td>
-		<td><input type="file" name="mem_pic" size="45"
-			value="<%=(memTenVO == null) ? "" : memTenVO.getMem_pic()%>" /></td>
+		<td><div id="preview"></div><input type="file" name="mem_pic" id="mem_pic" size="45" /></td>
 	</tr>
 	<tr>
 		<td>姓名:</td>
@@ -131,8 +134,54 @@
 <br>
 <input type="hidden" name="action" value="insert">
 <input type="submit" value="送出新增"></FORM>
-</body>
 
+<!-- 上傳圖片可預覽 -->
+<script>
+function init() {
+
+    let myFile = document.getElementById("mem_pic");
+    let preview = document.getElementById("preview");
+
+    myFile.addEventListener('change', function(e) {
+        // 取得檔案物件的兩種方式
+        // 1. 直接從myFile物件上取得檔案物件 (因為非同步，一樣，多個classname註冊時會有問題)
+        // 2. 從event物件中取得他的soure target，也就是myFile物件，再取得檔案物件 
+        // 檔案的基本資訊，包括：檔案的名稱、大小與文件型態
+        let files = e.target.files;
+        // 判斷files物件是否存在
+        if (files !== null) {
+            // 取出files物件的第一個
+            let file = files[0];
+            // 判斷file.type的型別是否包含'image'
+            if (file.type.indexOf('image') > -1) {
+                // new a FileReader
+                let reader = new FileReader();
+                // 在FileReader物件上註冊load事件 - 載入檔案的意思
+                reader.addEventListener('load', function(e) {
+                    // 取得結果 提示：從e.target.result取得讀取到結果
+                    let result = e.target.result;
+                    // console.log(result) 確認讀取到結果
+                    // 新增img元素
+                    let img = document.createElement('img');
+                    // 賦予src屬性
+                    img.src = result;
+                    // 放到div裡面
+                    preview.append(img);
+                });
+                // 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
+                reader.readAsDataURL(file); // trigger!!!!
+            } else {
+                // 彈出警告視窗 alert('請上傳圖片！');
+                alert('請上傳圖片！');
+            }
+        }
+    });
+}
+
+window.onload = init;
+</script>
+
+</body>
 
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->

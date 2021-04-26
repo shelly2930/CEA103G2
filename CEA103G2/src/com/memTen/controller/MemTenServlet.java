@@ -22,6 +22,92 @@ public class MemTenServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		// 登入
+		if ("login".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+				// 【取得使用者 帳號(account) 密碼(password)】
+				String mem_username = req.getParameter("mem_username");//a
+				if (mem_username == null || (mem_username.trim()).isEmpty()) {
+					errorMsgs.add("請輸入帳號");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/login.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+				
+				String mem_password = req.getParameter("mem_password");
+				if (mem_password == null || (mem_password.trim()).isEmpty()) {
+					errorMsgs.add("請輸入密碼");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/login.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+				
+				/*************************** 2.開始查詢資料 *****************************************/
+				// 【檢查使用者輸入的帳號(account) 密碼(password)是否有效】
+				MemTenService memTenSvc = new MemTenService();
+				MemTenVO memTenVO = memTenSvc.validate(mem_username);
+				
+				// 各種登入失敗
+				if (memTenVO == null) {
+					errorMsgs.add("查無此帳號");
+					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					failureView.forward(req, res);
+				} else if (memTenVO.getMem_status() == 0) {
+					errorMsgs.add("您的帳號尚未驗證");
+					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					failureView.forward(req, res);
+				} else if (memTenVO.getMem_status() == 2) { // 是否增加驗證頁面?
+					errorMsgs.add("您的帳號已停權");
+					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					failureView.forward(req, res);
+				} else if(!(mem_password.equals(memTenVO.getMem_password()))) {
+					errorMsgs.add("密碼錯誤");
+					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					failureView.forward(req, res);
+				} else { // 帳密正確
+					HttpSession session = req.getSession();
+					session.setAttribute("MemTenVO", memTenVO);//這行 寫了表示你要傳其他資訊給別人 不單單是帳號
+				
+					try {                                                        
+				         String location = (String) session.getAttribute("location");
+				         if (location != null) {
+				           session.removeAttribute("location");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+				           res.sendRedirect(location);            
+				           return;
+				         }
+				       }catch (Exception ignored) { 
+				       
+				    }
+				  res.sendRedirect(req.getContextPath()+"/front-end/memTen/login_success.jsp");  //*工作3: (-->如無來源網頁:則重導至login_success.jsp)
+				}				
+				
+				
+			/*************************** 其他可能的錯誤處理 *************************************/	
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+				failureView.forward(req, res);
+			}
+			
+		}
+		
+		
+		
 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -137,16 +223,30 @@ public class MemTenServlet extends HttpServlet {
 	            }
 				
 				String mem_password = req.getParameter("mem_password");
-				String mem_passwordReg = "^[(a-zA-Z0-9_)]{8,20}$";
+				String mem_passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}|"
+						+ "(?=.*[@$!%*#?&_-])(?=.*\\d)[\\d@$!%*#?&_-]{8,}|"
+						+ "(?=.*[@$!%*#?&_-])(?=.*[A-Za-z])[A-Za-z@$!%*#?&_-]{8,}|"
+						+ "(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&_-])[A-Za-z\\d@$!%*#?&_-]{8,}$"; // 英文字母與數字
+//				String mem_passwordReg2 = "^(?=.*[@$!%*#?&_-])(?=.*\\d)[\\d@$!%*#?&_-]{8,}$"; // 數字與特殊符號
+//				String mem_passwordReg3 = "^(?=.*[@$!%*#?&_-])(?=.*[A-Za-z])[A-Za-z@$!%*#?&_-]{8,}$"; // 英文字母與符號
+//				String mem_passwordReg4 = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&_-])[A-Za-z\\d@$!%*#?&_-]{8,}$"; // 英文字母與數字與符號
 				if (mem_password == null || mem_password.trim().length() == 0) {
 					errorMsgs.add("會員密碼: 請勿空白");
 				} else if(!mem_password.trim().matches(mem_passwordReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("會員密碼: 密碼應包含英文字母、數字和_其中2項, 且長度須在8到20之間");
+					errorMsgs.add("會員密碼: 密碼應包含英文字母、數字和特殊符號(如_)至少其中2項, 且長度須在8以上");
 	            }
 				
-				InputStream mem_picin = req.getPart("mem_pic").getInputStream();
-				byte[] mem_picBuf = new byte[mem_picin.available()];
-				mem_picin.read(mem_picBuf);
+				// 若無選擇圖片，則會抓原本的圖
+				Part part = req.getPart("mem_pic");
+				InputStream mem_picin = part.getInputStream();
+				byte[] mem_picBuf = null;
+				if(mem_picin.available() == 0) {
+					mem_picBuf = new MemTenService().getOneMemTen(mem_no).getMem_pic();
+			    } else {
+			    	mem_picBuf = new byte[mem_picin.available()];
+			    	mem_picin.read(mem_picBuf);
+			    }
+				mem_picin.close();
 				
 				String mem_name = req.getParameter("mem_name");
 				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{1,60}$";
@@ -159,8 +259,9 @@ public class MemTenServlet extends HttpServlet {
 				Byte mem_gender = null;
 				mem_gender = Byte.valueOf(req.getParameter("mem_gender").trim());
 				
+				//還沒寫完檢查碼驗證
 				String mem_id = req.getParameter("mem_id");
-				String mem_idReg = "^[A-Za-z][12]\\\\d{8}$";
+				String mem_idReg = "^[A-Za-z][12][\\d]{8}$";
 				if (mem_id == null || mem_id.trim().length() == 0) {
 					errorMsgs.add("會員身分證字號: 請勿空白");
 				} else if(!mem_id.trim().matches(mem_idReg)) { //以下練習正則(規)表示式(regular-expression)
@@ -186,7 +287,7 @@ public class MemTenServlet extends HttpServlet {
 	            }
 
 				String mem_email = req.getParameter("mem_email");
-				String mem_emailReg = "^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4})*$";
+				String mem_emailReg = "^(.+)@(.+)$";
 				if (mem_email == null || mem_email.trim().length() == 0) {
 					errorMsgs.add("會員信箱: 請勿空白");
 				} else if(!mem_email.trim().matches(mem_emailReg)) { //以下練習正則(規)表示式(regular-expression)
@@ -194,12 +295,12 @@ public class MemTenServlet extends HttpServlet {
 	            }
 				
 				String mem_addr = req.getParameter("mem_addr");
-				String mem_addrReg = "^[(\u4e00-\u9fa5)(a-zA-Z)(0-9)]{1,60}$";
-				if (mem_addr == null || mem_addr.trim().length() == 0) {
-					errorMsgs.add("會員地址: 請勿空白");
-				} else if(!mem_addr.trim().matches(mem_addrReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("會員地址: 只能是中、英文字母與數字, 且長度必須在1到60之間");
-	            }
+//				String mem_addrReg = "^[(\u4e00-\u9fa5)(a-zA-Z)(0-9)]{1,60}$";
+//				if (mem_addr == null || mem_addr.trim().length() == 0) {
+//					errorMsgs.add("會員地址: 請勿空白");
+//				} else if(!mem_addr.trim().matches(mem_addrReg)) { //以下練習正則(規)表示式(regular-expression)
+//					errorMsgs.add("會員地址: 只能是中、英文字母與數字, 且長度必須在1到60之間");
+//	            }
 				
 //				Byte mem_status = null;
 //				mem_status = Byte.valueOf(req.getParameter("mem_status").trim());
@@ -257,7 +358,7 @@ public class MemTenServlet extends HttpServlet {
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
-				String url = "/front-end/memTen/listOneMemTen.jsp";
+				String url = "/back-end/memTen/listOneMemTen.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMemTen.jsp
 				successView.forward(req, res);
 
@@ -288,16 +389,21 @@ public class MemTenServlet extends HttpServlet {
 	            }
 				
 				String mem_password = req.getParameter("mem_password");
-				String mem_passwordReg = "^[(a-zA-Z0-9_)]{8,20}$";
+				String mem_passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}|(?=.*[@$!%*#?&_-])(?=.*\\d)[\\d@$!%*#?&_-]{8,}|(?=.*[@$!%*#?&_-])(?=.*[A-Za-z])[A-Za-z@$!%*#?&_-]{8,}|(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&_-])[A-Za-z\\d@$!%*#?&_-]{8,}$"; // 英文字母與數字
+//				String mem_passwordReg2 = "^(?=.*[@$!%*#?&_-])(?=.*\\d)[\\d@$!%*#?&_-]{8,}$"; // 數字與特殊符號
+//				String mem_passwordReg3 = "^(?=.*[@$!%*#?&_-])(?=.*[A-Za-z])[A-Za-z@$!%*#?&_-]{8,}$"; // 英文字母與符號
+//				String mem_passwordReg4 = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&_-])[A-Za-z\\d@$!%*#?&_-]{8,}$"; // 英文字母與數字與符號
 				if (mem_password == null || mem_password.trim().length() == 0) {
 					errorMsgs.add("會員密碼: 請勿空白");
 				} else if(!mem_password.trim().matches(mem_passwordReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("會員密碼: 密碼應包含英文字母、數字和_其中2項, 且長度須在8到20之間");
+					errorMsgs.add("會員密碼: 密碼應包含英文字母、數字和特殊符號(如_)至少其中2項, 且長度須在8以上");
 	            }
 				
-				InputStream mem_picin = req.getPart("mem_pic").getInputStream();
+				Part part = req.getPart("mem_pic");
+				InputStream mem_picin = part.getInputStream();
 				byte[] mem_picBuf = new byte[mem_picin.available()];
 				mem_picin.read(mem_picBuf);
+				mem_picin.close();
 				
 				String mem_name = req.getParameter("mem_name");
 				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{1,60}$";
@@ -311,12 +417,12 @@ public class MemTenServlet extends HttpServlet {
 				mem_gender = Byte.valueOf(req.getParameter("mem_gender").trim());
 				
 				String mem_id = req.getParameter("mem_id");
-//				String mem_idReg = "^[A-Za-z][12]\\\\d{8}$";
-//				if (mem_id == null || mem_id.trim().length() == 0) {
-//					errorMsgs.add("會員身分證字號: 請勿空白");
-//				} else if(!mem_id.trim().matches(mem_idReg)) { //以下練習正則(規)表示式(regular-expression)
-//					errorMsgs.add("身分證字號格式錯誤！");
-//	            }
+				String mem_idReg = "^[A-Za-z][12]\\d{8}$";
+				if (mem_id == null || mem_id.trim().length() == 0) {
+					errorMsgs.add("會員身分證字號: 請勿空白");
+				} else if(!mem_id.trim().matches(mem_idReg)) { //以下練習正則(規)表示式(regular-expression)
+					errorMsgs.add("身分證字號格式錯誤！");
+	            }
 				
 				java.sql.Date mem_birthday = null;
 				try {
@@ -327,12 +433,6 @@ public class MemTenServlet extends HttpServlet {
 				}
 				
 				String mem_phone = req.getParameter(("mem_phone").trim());
-//				String mem_phoneReg = "^[A-Za-z][12]\\\\d{8}$";
-//				if (mem_phone == null || mem_phone.trim().length() == 0) {
-//					errorMsgs.add("會員聯絡電話: 請勿空白");
-//				} else if(!mem_phone.trim().matches(mem_phoneReg)) { //以下練習正則(規)表示式(regular-expression)
-//					errorMsgs.add("身分證字號格式錯誤！");
-//	            }
 				
 				String mem_mobile = req.getParameter("mem_mobile");
 				String mem_mobileReg = "^09[0-9]{8}$";
@@ -343,7 +443,7 @@ public class MemTenServlet extends HttpServlet {
 	            }
 
 				String mem_email = req.getParameter("mem_email");
-				String mem_emailReg = "^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4})*$";
+				String mem_emailReg = "^(.+)@(.+)$";
 				if (mem_email == null || mem_email.trim().length() == 0) {
 					errorMsgs.add("會員信箱: 請勿空白");
 				} else if(!mem_email.trim().matches(mem_emailReg)) { //以下練習正則(規)表示式(regular-expression)
@@ -405,14 +505,12 @@ public class MemTenServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;
 				}
-				System.out.println("AAAAAAAAAAa");
 
 				/***************************2.開始新增資料***************************************/
 				MemTenService memTenSvc = new MemTenService();
 				memTenVO = memTenSvc.addMemTen(mem_username, mem_password, mem_picBuf, mem_name, mem_gender, mem_id,
 						mem_birthday, mem_phone, mem_mobile, mem_email, mem_addr, mem_status, 
 						mem_id_status, mem_suspend, mem_refuse);
-				System.out.println("Avvvva");
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/back-end/memTen/listAllMemTen.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllMemTen.jsp
