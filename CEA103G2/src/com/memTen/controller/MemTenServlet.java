@@ -37,13 +37,6 @@ public class MemTenServlet extends HttpServlet {
 				if (mem_username == null || (mem_username.trim()).isEmpty()) {
 					errorMsgs.add("請輸入帳號");
 				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/login.jsp");
-					failureView.forward(req, res);
-					return;//程式中斷
-				}
 				
 				String mem_password = req.getParameter("mem_password");
 				if (mem_password == null || (mem_password.trim()).isEmpty()) {

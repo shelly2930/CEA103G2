@@ -29,8 +29,8 @@ public class LoginFilter implements Filter {
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
-		Object mem_username = session.getAttribute("mem_username");//b
-		if (mem_username == null) {
+		Object memTenVO = session.getAttribute("MemTenVO");//b
+		if (memTenVO == null) {
 			session.setAttribute("location", req.getRequestURI());
 			res.sendRedirect(req.getContextPath() + "/login.jsp");
 			return;
