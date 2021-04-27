@@ -56,4 +56,16 @@
     <servlet-name>BillServlet</servlet-name>
     <url-pattern>/bill/bill.do</url-pattern>
   </servlet-mapping>
+  
+<!--   ↓東緯↓   -->
+  <servlet>
+    <servlet-name>EmployeeServlet</servlet-name>
+    <servlet-class>com.employee.controller.EmployeeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmployeeServlet</servlet-name>
+    <url-pattern>/employee/employee.do</url-pattern>
+  </servlet-mapping>
+<!--   ↑東緯↑   -->
+  
 </web-app>
