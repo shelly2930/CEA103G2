@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
 		Object memTenVO = session.getAttribute("MemTenVO");//b
 		if (memTenVO == null) {
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/login.jsp");
+			res.sendRedirect(req.getContextPath() + "/unprotected/login.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);

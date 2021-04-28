@@ -45,7 +45,7 @@ public class MemTenServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/login.jsp");
+							.getRequestDispatcher("/unprotected/login.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -58,19 +58,19 @@ public class MemTenServlet extends HttpServlet {
 				// 各種登入失敗
 				if (memTenVO == null) {
 					errorMsgs.add("查無此帳號");
-					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
 					failureView.forward(req, res);
 				} else if (memTenVO.getMem_status() == 0) {
 					errorMsgs.add("您的帳號尚未驗證");
-					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
 					failureView.forward(req, res);
 				} else if (memTenVO.getMem_status() == 2) { // 是否增加驗證頁面?
 					errorMsgs.add("您的帳號已停權");
-					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
 					failureView.forward(req, res);
 				} else if(!(mem_password.equals(memTenVO.getMem_password()))) {
 					errorMsgs.add("密碼錯誤");
-					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
 					failureView.forward(req, res);
 				} else { // 帳密正確
 					HttpSession session = req.getSession();
@@ -93,7 +93,7 @@ public class MemTenServlet extends HttpServlet {
 			/*************************** 其他可能的錯誤處理 *************************************/	
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
 				failureView.forward(req, res);
 			}
 			
