@@ -33,7 +33,6 @@ public class LoginFilterBack implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;;
 		HttpSession session = req.getSession();
-		
 	    EmployeeVO employeeVO = (EmployeeVO)session.getAttribute("employeeVO");
 	    
 		if(employeeVO == null) {

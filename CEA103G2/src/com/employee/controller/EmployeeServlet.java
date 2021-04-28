@@ -533,8 +533,10 @@ public class EmployeeServlet extends HttpServlet {
 							session.setAttribute("employeeVO", employeeVO);
 //							session.setAttribute("staRigVOs", Åv­­list);
 							String location = (String)session.getAttribute("location");
-							if(location == null)
-								res.sendRedirect(req.getContextPath() + "/indexBack.jsp");
+							session.removeAttribute("location");
+							if(location == null) {
+								res.sendRedirect(req.getContextPath() + "/back-end/indexBack.jsp");
+							}
 							else
 								res.sendRedirect(location);
 							return;
