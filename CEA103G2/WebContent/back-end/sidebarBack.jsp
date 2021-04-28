@@ -44,6 +44,15 @@
                 <div class="sidebar-brand-text mx-3">HowTrue <sup>好厝</sup></div>
             </a>
 
+			<hr class="sidebar-divider my-0">
+
+            <!-- 前台首頁 -->
+            <li class="nav-item active">
+                <a class="nav-link" href="../index.jsp">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>前台首頁</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
