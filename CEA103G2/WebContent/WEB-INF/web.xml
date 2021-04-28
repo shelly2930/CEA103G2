@@ -23,7 +23,7 @@
   </filter>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
-    <url-pattern>/memTen/login_success.jsp/</url-pattern>
+    <url-pattern>/front-end/memTen/login_success.jsp/</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
     <dispatcher>INCLUDE</dispatcher>
