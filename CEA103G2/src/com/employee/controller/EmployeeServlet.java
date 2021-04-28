@@ -15,6 +15,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.employee.model.EmployeeDAO;
@@ -243,16 +244,6 @@ public class EmployeeServlet extends HttpServlet {
 					errorMsgs.put("emp_password", "只能是英文字母、數字和_ , 且長度必須大於6並包含一個英文字母及一個數字");
 				}
 				
-//				Byte emp_gender = null;
-//				try {
-//					emp_gender = new Byte(req.getParameter("emp_gender").trim());
-//					if(emp_gender != 0 && emp_gender != 1) {
-//						errorMsgs.put("emp_gender", "只能是  0:男性  或  1:女性");
-//					}
-//				} catch(NumberFormatException e) {
-//					emp_gender = null;
-//					// 性別可為空白
-//				}
 				Byte emp_gender = new Byte(req.getParameter("emp_gender"));
 				
 				String emp_id = req.getParameter("emp_id").trim().toUpperCase();
@@ -342,9 +333,7 @@ public class EmployeeServlet extends HttpServlet {
 
 				/*************************** 2.開始修改資料 *****************************************/
 				EmployeeService employeeSvc = new EmployeeService();
-				System.out.println("????OK???");
 				employeeVO = employeeSvc.updateByEmp(emp_no, emp_name, emp_password, emp_gender, emp_id, emp_birthday, emp_phone, emp_mobile, emp_addr, emp_email, emp_bank, emp_account, emp_pic);
-				System.out.println("????OK???");
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("employeeVO", employeeVO); // 資料庫update成功後,正確的的empVO物件,存入req
 				String url = "/back-end/employee/listOneEmp.jsp";
@@ -532,6 +521,7 @@ public class EmployeeServlet extends HttpServlet {
 		if("login".equals(action)) {
 			Map<String,String> messages = new HashMap<String,String>();
 			req.setAttribute("messages", messages);
+			HttpSession session = req.getSession();
 			
 			try {
 				String emp_username = req.getParameter("emp_username").trim();
@@ -540,13 +530,18 @@ public class EmployeeServlet extends HttpServlet {
 				for(EmployeeVO employeeVO : list) {
 					if(employeeVO.getEmp_username().equals(emp_username)) {
 						if(employeeVO.getEmp_password().equals(emp_password)) {
-							RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/select_page.jsp");
-							failureView.forward(req, res);
+							session.setAttribute("employeeVO", employeeVO);
+//							session.setAttribute("staRigVOs", 權限list);
+							String location = (String)session.getAttribute("location");
+							if(location == null)
+								res.sendRedirect(req.getContextPath() + "/indexBack.jsp");
+							else
+								res.sendRedirect(location);
 							return;
 						} else {
 							messages.put("emp_username", emp_username);
 							messages.put("failure", "密碼錯誤");
-							RequestDispatcher failureView = req.getRequestDispatcher("/back-end/backEndLogin.jsp");
+							RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 							failureView.forward(req, res);
 							return;
 						}
@@ -554,11 +549,11 @@ public class EmployeeServlet extends HttpServlet {
 				}
 				messages.put("emp_username", emp_username);
 				messages.put("failure", "查無此帳號");
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/backEndLogin.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 				failureView.forward(req, res);
 			} catch (Exception e) {
 				messages.put("failure", "無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/backEndLogin.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 				failureView.forward(req, res);
 			}
 		}
