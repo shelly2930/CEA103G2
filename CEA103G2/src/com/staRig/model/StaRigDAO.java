@@ -18,7 +18,7 @@ public class StaRigDAO implements StaRigDAO_interface {
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/HowTrue");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/HowTrueProject");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
