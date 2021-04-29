@@ -263,12 +263,7 @@
 	</footer>
 	<!--::footer_part end::-->
 
-	<!-- jquery plugins here-->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-	<!-- popper js -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/popper.min.js"></script>
-	<!-- bootstrap js -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/bootstrap.min.js"></script>
+<!-- Required source start 不能刪、不能移動位置-->	
 	<!-- easing js -->
 	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery.magnific-popup.js"></script>
 	<!-- swiper js -->
@@ -289,6 +284,7 @@
 	<script src="<%=request.getContextPath()%>/template_front-end/js/mail-script.js"></script>
 	<!-- custom js -->
 	<script src="<%=request.getContextPath()%>/template_front-end/js/custom.js"></script>
+<!-- Required source end -->
 
 </body>
 </html>
