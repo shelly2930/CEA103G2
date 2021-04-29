@@ -33,6 +33,7 @@
 	<!-- style CSS -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/style.css">
 	<!-- navbar CSS -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/lightslider.min.css">
 	<%--     <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/headerCSS.css"> --%>
 <!-- Required CSS end -->
 
@@ -104,7 +105,7 @@
 						<div class="collapse navbar-collapse main-menu-item"
 							id="navbarSupportedContent">
 							<ul class="navbar-nav">
-								<li class="nav-item"><a class="nav-link" href="index.html">¯²
+								<li class="nav-item"><a class="nav-link" href=""<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery"">¯²
 										«Î</a></li>
 								<li class="nav-item dropdown"><a
 									class="nav-link dropdown-toggle" href="blog.html"
