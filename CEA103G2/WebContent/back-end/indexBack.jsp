@@ -13,13 +13,13 @@
     <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<%=request.getContextPath() %>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<%=request.getContextPath() %>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
 
 <!--     <style>
         .bg-gradient-prima{
@@ -55,7 +55,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
+<!--        以下敬達負責 -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
@@ -65,13 +65,16 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Escrow Management:</h6>
-                        <a class="collapse-item" href="buttons.html">代管申請</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend_Emp&hos_state=0&hos_status=0">代管申請</a>
+                        <a class="collapse-item" href="cards.html">上下架</a>
+                        <a class="collapse-item" href="#">物件照片管理</a>
                         <a class="collapse-item" href="cards.html">物件資料</a>
                         <a class="collapse-item" href="cards.html">代管合約</a>
                     </div>
                 </div>
             </li>
-
+<!--        以上敬達負責 -->
+<!--        以下敬達負責 -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
@@ -87,7 +90,7 @@
                     </div>
                 </div>
             </li>
-
+<!--        以上敬達負責 -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
@@ -170,8 +173,10 @@
                 <div id="collapseAssign" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Assign Employee:</h6>
-                        <a class="collapse-item" href="register.html">代管申請指派</a>
+<!--        			以下敬達負責 -->
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend">代管申請指派</a>
                         <a class="collapse-item" href="login.html">預約看房申請指派</a>
+<!--        			以下敬達負責 -->
                         <a class="collapse-item" href="register.html">租家具申請指派</a>
                         <a class="collapse-item" href="register.html">修繕申請指派</a>
                     </div>
@@ -775,21 +780,21 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../template_back-end/vendor/jquery/jquery.min.js"></script>
-    <script src="../template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<%=request.getContextPath() %>/template_back-end/vendor/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath() %>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="<%=request.getContextPath() %>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../template_back-end/js/sb-admin-2.min.js"></script>
+    <script src="<%=request.getContextPath() %>/template_back-end/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../template_back-end/vendor/chart.js/Chart.min.js"></script>
+    <script src="<%=request.getContextPath() %>/template_back-end/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="../template_back-end/js/demo/chart-area-demo.js"></script>
-    <script src="../template_back-end/js/demo/chart-pie-demo.js"></script>
+    <script src="<%=request.getContextPath() %>/template_back-end/js/demo/chart-area-demo.js"></script>
+    <script src="<%=request.getContextPath() %>/template_back-end/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
