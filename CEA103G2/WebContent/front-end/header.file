@@ -29,7 +29,7 @@
 	<!-- overrided CSS -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/headerCSS.css">
 	<!-- product page CSS -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/lightslider.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/lightslider.min.css">
 <!-- Required CSS end -->
 
 
