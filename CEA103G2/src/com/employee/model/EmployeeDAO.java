@@ -140,7 +140,6 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 
 			pstmt.setString(1, employeeVO.getEmp_name());
 			pstmt.setString(2, employeeVO.getEmp_password());
-			System.out.println(employeeVO.getEmp_gender());
 			pstmt.setByte(3, employeeVO.getEmp_gender());
 			pstmt.setString(4, employeeVO.getEmp_id());
 			pstmt.setDate(5, employeeVO.getEmp_birthday());
