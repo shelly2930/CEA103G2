@@ -2,10 +2,10 @@ package com.staFun.model;
 
 import java.util.List;
 
-public class StaFunServie {
+public class StaFunService {
 	private StaFunDAO_interface sfd;
 	
-	public StaFunServie() {
+	public StaFunService() {
 		sfd = new StaFunDAO();
 	}
 	
