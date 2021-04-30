@@ -28,8 +28,12 @@ public class PostDAO implements PostDAO_interface {
 			"INSERT INTO post (post_title, post_content, post_status) VALUES (?, ?, ?)";
 	private static final String GET_ALL_STMT = 
 			"SELECT post_no,post_time, post_title, post_content, post_status FROM post order by post_time desc";
+	private static final String GET_ALL_STMTASC = 
+			"SELECT post_no,post_time, post_title, post_content, post_status FROM post order by post_time asc";
 	private static final String GET_ALLFRONT_STMT = 
-			"SELECT post_no,post_time, post_title, post_content, post_status FROM post where post_status =1 order by post_time desc limit 10";
+			"SELECT post_no,post_time, post_title, post_content, post_status FROM post where post_status =1 order by post_time desc";
+	private static final String GET_ALLFRONTASC_STMT = 
+			"SELECT post_no,post_time, post_title, post_content, post_status FROM post where post_status =1 order by post_time asc";
 	private static final String GET_ONE_STMT = 
 			"SELECT post_no,post_time, post_title, post_content, post_status FROM post where post_no = ?";
 	private static final String DELETE = 
@@ -280,7 +284,7 @@ public class PostDAO implements PostDAO_interface {
 	
 
 	@Override
-	public List<PostVO> getAll() {
+	public List<PostVO> getAllDesc() {
 		// TODO Auto-generated method stub
 		List<PostVO> list = new ArrayList<PostVO>();
 		PostVO postVO = null;
@@ -336,7 +340,126 @@ public class PostDAO implements PostDAO_interface {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<PostVO> getAllAsc() {
+		// TODO Auto-generated method stub
+		List<PostVO> list = new ArrayList<PostVO>();
+		PostVO postVO = null;
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_STMTASC);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVO 也稱為 Domain objects
+				postVO = new PostVO();
+				postVO.setPost_no(rs.getInt("post_no"));
+				postVO.setPost_time(rs.getTimestamp("post_time"));
+				postVO.setPost_title(rs.getString("post_title"));
+				postVO.setPost_content(rs.getString("post_content"));
+				postVO.setPost_status(rs.getByte("post_status"));
+				list.add(postVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	
+
+	
+	@Override
+	public List<PostVO> getAllFrontAsc() {
+		// TODO Auto-generated method stub
+		List<PostVO> list = new ArrayList<PostVO>();
+		PostVO postVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALLFRONTASC_STMT);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVO 也稱為 Domain objects
+				postVO = new PostVO();
+				postVO.setPost_no(rs.getInt("post_no"));
+				postVO.setPost_time(rs.getTimestamp("post_time"));
+				postVO.setPost_title(rs.getString("post_title"));
+				postVO.setPost_content(rs.getString("post_content"));
+				postVO.setPost_status(rs.getByte("post_status"));
+				list.add(postVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
 	
 	@Override
 	public List<PostVO> getAllFront() {
