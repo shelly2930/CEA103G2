@@ -1,18 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 
-<!DOCTYPE html>
-<html>
-
-<head>
-
-	<meta charset="BIG5">
-	<!-- Required meta tags -->
+<!-- Required meta tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- web icon -->
+
+<!-- web icon -->
 	<link rel="icon" href="<%=request.getContextPath()%>/images/favicon.png">
-	
-	<title>header</title>
 
 <!-- Required CSS start -->	
 	<!-- Bootstrap CSS -->
@@ -32,62 +24,19 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/slick.css">
 	<!-- style CSS -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/style.css">
-	<!-- navbar CSS -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/lightslider.min.css">
-	<%--     <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/headerCSS.css"> --%>
+
+	<!-- added CSS 以下放我們新增的 -->
+	<!-- overrided CSS -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/headerCSS.css">
+	<!-- product page CSS -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/lightslider.min.css">
 <!-- Required CSS end -->
 
-	<style type="text/css">
-	/*navbar CSS*/
-	.main_menu {
-		position: fixed;
-		background-color: white;
-		/* border: 1px solid red; */
-	}
 
-	.main_menu .main-menu-item ul li .nav-link {
-		color: #000;
-		font-size: 18px;
-		padding: 36px 23px;
-		font-family: "Poppins", sans-serif;
-		text-transform: capitalize;
-		line-height: 12px;
-		font-weight: 400;
-	}
-	
-	.main_menu .main-menu-item ul li .nav-link:hover {
-		color: #61D2B4;
-	}
-	
-	.main_menu .main-menu-item ul li .nav-link:active {
-		color: #61D2B4;
-	}
-	
-	.navbar-brand img {
-		height: 60px;
-		width: auto;
-		top: -20px;
-		/* max-height: 60px; */
-	}
-	
-	.fa-user-circle::before {
-		font-size: 20px;
-	}
-	
-	.fa-cart-plus::before {
-		font-size: 20px;
-	}
-	
-	.fa-bell::before {
-		font-size: 20px;
-	}
-	</style>
 
-</head>
 
-<body>
-	<!--::header part start::-->
-<<<<<<< HEAD
+
+<!--::header part start::-->
 	<header class="main_menu home_menu">
 		<div class="container">
 			<div class="row align-items-center">
@@ -175,18 +124,5 @@
             </div>
         </div> -->
 	</header>
-	<!-- Header part end-->
-	
-	
-<!-- Required source start -->
-	<!-- jquery plugins here-->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-	<!-- popper js -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/popper.min.js"></script>
-	<!-- bootstrap js -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/bootstrap.min.js"></script>
-<!-- Required source end -->
-	
-</body>
+<!-- Header part end-->
 
-</html>

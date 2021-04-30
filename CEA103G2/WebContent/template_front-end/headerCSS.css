@@ -1,0 +1,36 @@
+/*navbar CSS*/
+.main_menu  {
+position: fixed;
+background-color: white;
+/* border: 1px solid red; */
+}
+.main_menu .main-menu-item ul li .nav-link {
+color: #000;
+font-size: 18px;
+padding: 36px 23px;
+font-family: "Poppins", sans-serif;
+text-transform: capitalize;
+line-height: 12px;
+font-weight: 400;
+}
+.main_menu .main-menu-item ul li .nav-link:hover {
+color: #61D2B4;
+}
+.main_menu .main-menu-item ul li .nav-link:active {
+color: #61D2B4;
+}
+.navbar-brand img {
+height: 60px;
+width: auto;
+top: -20px;
+/* max-height: 60px; */
+}
+.fa-user-circle::before {
+font-size: 20px; 
+}
+.fa-cart-plus::before {
+font-size: 20px;
+}
+.fa-bell::before {
+font-size: 20px;
+}
