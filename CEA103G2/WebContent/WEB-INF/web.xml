@@ -17,20 +17,20 @@
   </resource-ref>
   
 <!--   ↓濾器↓   -->
-  <filter>
-    <filter-name>LoginFilter</filter-name>
-    <filter-class>filter.LoginFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>LoginFilter</filter-name>
-    <url-pattern>/front-end/memTen/login_success.jsp/</url-pattern>
+<!--   <filter> -->
+<!--     <filter-name>LoginFilter</filter-name> -->
+<!--     <filter-class>filter.LoginFilter</filter-class> -->
+<!--   </filter> -->
+<!--   <filter-mapping> -->
+<!--     <filter-name>LoginFilter</filter-name> -->
+<!--     <url-pattern>/front-end/memTen/login_success.jsp/</url-pattern> -->
 <!--     <url-pattern>/front-end/*</url-pattern> -->
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-    <dispatcher>INCLUDE</dispatcher>
-    <dispatcher>ERROR</dispatcher>
-    <dispatcher>ASYNC</dispatcher>
-  </filter-mapping>
+<!--     <dispatcher>REQUEST</dispatcher> -->
+<!--     <dispatcher>FORWARD</dispatcher> -->
+<!--     <dispatcher>INCLUDE</dispatcher> -->
+<!--     <dispatcher>ERROR</dispatcher> -->
+<!--     <dispatcher>ASYNC</dispatcher> -->
+<!--   </filter-mapping> -->
   
 <!--   <filter> -->
 <!--     <filter-name>LoginFilterBack</filter-name> -->
@@ -71,6 +71,17 @@
     <servlet-name>BillServlet</servlet-name>
     <url-pattern>/bill/bill.do</url-pattern>
   </servlet-mapping>
+  
+<!--   ↓智鈞↓   -->
+  <servlet>
+    <servlet-name>PostServlet</servlet-name>
+    <servlet-class>com.post.controller.PostServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PostServlet</servlet-name>
+    <url-pattern>/post/post.do</url-pattern>
+  </servlet-mapping>
+<!--   ↑智鈞↑   -->
   
 <!--   ↓東緯↓   -->
   <servlet>
