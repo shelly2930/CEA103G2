@@ -1,0 +1,18 @@
+/* footer CSS start */
+.footer_part {
+  	padding: 70px 0px 25px !important;
+}
+.footer_part .copyright_part {
+	padding: 0px !important;
+	margin-top: 0px !important;
+}
+.footer_part .copyright_text {
+    text-align: center !important;
+  }
+.footer_part .copyright_text p a {
+	color: #61D2B4 !important;
+}
+.footer_part .copyright_text p a:hover {
+  color: #61D2B4 !important;
+}
+/* footer CSS end */
