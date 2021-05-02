@@ -93,5 +93,51 @@
     <url-pattern>/employee/employee.do</url-pattern>
   </servlet-mapping>
 <!--   ↑東緯↑   -->
+
+
+
+
+<!--   ↓怡蓁↓   -->
+    <servlet>
+    <servlet-name>FurCatServlet</servlet-name>
+    <servlet-class>com.furCat.controller.FurCatServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurCatServlet</servlet-name>
+    <url-pattern>/furCat/furCat.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FurIteServlet</servlet-name>
+    <servlet-class>com.furIte.controller.FurIteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurIteServlet</servlet-name>
+    <url-pattern>/furIte/furIte.do</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>FurLisServlet</servlet-name>
+    <servlet-class>com.furLis.controller.FurLisServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurLisServlet</servlet-name>
+    <url-pattern>/furLis/furLis.do</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>FurPhoShowServlet</servlet-name>
+    <servlet-class>com.furPho.controller.FurPhoShowServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurPhoShowServlet</servlet-name>
+    <url-pattern>/furPho/furPhoShow.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FurPhoServlet</servlet-name>
+    <servlet-class>com.furPho.controller.FurPhoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurPhoServlet</servlet-name>
+    <url-pattern>/furPho/furPho.do</url-pattern>
+  </servlet-mapping>
+<!--   ↑怡蓁↑   -->
   
 </web-app>
