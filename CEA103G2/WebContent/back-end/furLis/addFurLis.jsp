@@ -90,8 +90,10 @@ function showFurItes(data){
     	txt+="<option value=\"none\">此類別尚無家具品項</option>";
     
     }else{
-         for(i in fnt_data)
-         	 txt+="<option value="+fnt_data[i].slice(0,1)+">"+fnt_data[i].slice(2)+"</option>";
+    	for(i in fnt_data){
+       	 var cut = fnt_data[i].indexOf('-');
+        	 txt+="<option value="+fnt_data[i].slice(0,cut)+">"+fnt_data[i].slice(cut+1)+"</option>";
+        }  
     }
     $("#furIteSelect").append(txt); 
 }
@@ -131,7 +133,7 @@ window.addEventListener("load",function (){
 	
 <%--        <jsp:useBean id="furIteSvc2" scope="page" class="com.furIte.model.FurIteService" /> --%>
   		<th>家具類別名稱:</th>
-		<td><select size="1" name="fnt_ctgr_no"  id="furCatSelect" style="width:80px; height:30px;">
+		<td><select size="1" name="fnt_ctgr_no"  id="furCatSelect" style="width:90px; height:30px;">
 	      <option>請選擇</option>
          <c:forEach var="furCatVO" items="${furCatSvc.all}" > 
         				<option value="${furCatVO.fnt_ctgr_no}" ${(fnt_ctgr_no==furCatVO.fnt_ctgr_no)? 'selected':'' } >${furCatVO.fnt_ctgr_name}
@@ -145,7 +147,7 @@ window.addEventListener("load",function (){
 	<tr>
 		<th>家具品項名稱:  <% %></th>
 		<td>
-	    <select size="1" name="fnt_it_no" id="furIteSelect"  style="width:150px; height:30px;">
+	    <select size="1" name="fnt_it_no" id="furIteSelect"  style="width:170px; height:30px;">
 	      <option >請選擇</option>
         	 <c:forEach var="furIteVO"  items="${furIteSvc.all}" > 
          		<c:if test="${fnt_ctgr_no==furIteVO.fnt_ctgr_no}">

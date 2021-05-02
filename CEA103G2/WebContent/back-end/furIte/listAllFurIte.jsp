@@ -3,9 +3,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.furIte.model.*"%>
 
-待處理分頁、圖片插入問題、各品項清單連結
 家具大類及規格複合查詢
-session值可取出 也可順利跳轉  但測if時不行
 
 <% 	  
 		List<FurIteVO> list =null;
@@ -149,8 +147,10 @@ function showFurItes(data){
 	    	txt+="<option value=\"none\">此類別尚無家具品項</option>";
 	    
 	    }else{
-	         for(i in fnt_data)
-	         	 txt+="<option value="+fnt_data[i].slice(0,1)+">"+fnt_data[i].slice(2)+"</option>";
+	         for(i in fnt_data){
+	        	 var cut = fnt_data[i].indexOf('-');
+	         	 txt+="<option value="+fnt_data[i].slice(0,cut)+">"+fnt_data[i].slice(cut+1)+"</option>";
+	         }    
 	    }
 	    $("#furIteSelect").append(txt); 
 	}
@@ -203,7 +203,7 @@ window.addEventListener("load",function (){
 	 </FORM>
 </div>
 <br>
-<div id="showResult"	>
+<div id="showResult">
 <br>
 
 <br>

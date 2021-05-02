@@ -113,6 +113,62 @@ a:hover {
 /*    } */
 </style>
 
+<!-- 處理下拉式選單連動取值 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
+<script type="text/javascript">
+
+function getFurCat(e){ 
+    $("#furIteSelect option:not(:first)").remove();
+    var fnt_ctgr_no=(e.target.value);
+    console.log(fnt_ctgr_no);
+    if(fnt_ctgr_no !="" && fnt_ctgr_no !="家具類別"){
+        $.ajax({
+            url:"<%=request.getContextPath()%>/furIte/furIte.do",
+            type:"POST",
+            data:{
+            	"action":"getFurIteSelect",
+            	"fnt_ctgr_no":fnt_ctgr_no,
+           },
+            success: function(data){
+            	 console.log(data);
+               showFurItes(data);
+                }
+            });
+    }else {
+    	  $.ajax({
+              url:"<%=request.getContextPath()%>/furIte/furIte.do",
+              type:"POST",
+              data:{
+              	"action":"getFurIteSelect",
+             },
+              success: function(data){
+              	 console.log(data);
+                 showFurItes(data);
+                  }
+              });
+    }
+}
+
+function showFurItes(data){
+	   var fnt_data=data.split(",");
+	    var txt="";
+
+	    if(fnt_data===""){
+	    	txt+="<option value=\"none\">此類別尚無家具品項</option>";
+	    
+	    }else{
+	         for(i in fnt_data){
+	        	 var cut = fnt_data[i].indexOf('-');
+	         	 txt+="<option value="+fnt_data[i].slice(0,cut)+">"+fnt_data[i].slice(cut+1)+"</option>";
+	         }    
+	    }
+	    $("#furIteSelect").append(txt); 
+	}
+
+window.addEventListener("load",function (){
+ document.getElementById("furCatSelect").onchange=getFurCat;}, false);
+</script>
+
 </head>
 <body bgcolor='white'>
 
@@ -147,7 +203,7 @@ a:hover {
 		<FORM METHOD="post"
 			ACTION="<%=request.getContextPath()%>/furLis/furLis.do" name="form1">
 
-			<select size="1" name="fnt_ctgr_no"
+			<select size="1" name="fnt_ctgr_no"  id="furCatSelect" 
 				style="width: 80px; height: 30px;">
 				<option>家具類別</option>
 				<c:forEach var="furCatVO" items="${furCatDAO.all}">
@@ -155,7 +211,7 @@ a:hover {
 				</c:forEach>
 			</select>
 			<%--        <jsp:useBean id="furIteSvc2" scope="page" class="com.furIte.model.FurIteService" /> --%>
-			<select size="1" name="fnt_it_no" style="width: 150px; height: 30px;">
+			<select size="1" name="fnt_it_no" style="width: 150px; height: 30px;" id="furIteSelect">
 				<option>家具品項</option>
 				<c:forEach var="furIteVO" items="${furIteDAO.all}">
 					<option value="${furIteVO.fnt_it_no}">${furIteVO.fnt_name}</option>
@@ -254,7 +310,6 @@ a:hover {
 		</c:forEach>
 	</table>
 
-	<!-- 待處理分頁問題 -->
 	<%@ include file="page2.file"%>
 </body>
 </html>
