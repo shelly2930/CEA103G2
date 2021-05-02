@@ -12,7 +12,7 @@
 <html>
 <head>
 
-<%@ include file="/front-end/header.jsp"%>
+<%@include file="/front-end/header.file"%>
 
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/template_front-end/css/all.css">
