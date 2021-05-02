@@ -1,0 +1,15 @@
+package com.renFurApp.model;
+
+import java.util.*;
+
+public interface RenFurAppDAO_interface {
+	public void insert(RenFurAppVO renFurAppVO);
+    public void update(RenFurAppVO renFurAppVO);
+    public void delete(Integer rfa_no);
+    public RenFurAppVO findByPrimaryKey(Integer rfa_no);
+    public List<RenFurAppVO> getAll();
+  //查詢某申請單編號 回傳多個明細(一對多)(回傳 Set) 寫法待確認
+   // public Set<RenFurDetVO> getRenFurDetByRfa_no(Integer rfa_no);
+    //查詢某員工負責之申請單 回傳多張申請單(一對多)(回傳 Set) 寫法待確認
+   // public Set<MenTenVO> getRfasByMem_no(Integer mem_no);
+}

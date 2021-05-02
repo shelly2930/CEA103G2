@@ -52,7 +52,7 @@
   
   
   <li>
-    <FORM METHOD="post" ACTION="furCat.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furCat/furCat.do" >
         <b>輸入家具類別編號 (如1、2、3):</b>
         <input type="text" name="fnt_ctgr_no">
         <input type="hidden" name="action" value="getOne_For_Display">
@@ -63,7 +63,7 @@
   <jsp:useBean id="furCatSvc" scope="page" class="com.furCat.model.FurCatService" />
    
   <li>
-     <FORM METHOD="post" ACTION="furCat.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furCat/furCat.do" >
        <b>選擇家具類別編號:</b>
        <select size="1" name="fnt_ctgr_no">
          <c:forEach var="furCatVO" items="${furCatSvc.all}" > 
@@ -76,7 +76,7 @@
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="furCat.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furCat/furCat.do" >
        <b>選擇家具類別名稱:</b>
        <select size="1" name="fnt_ctgr_no">
          <c:forEach var="furCatVO" items="${furCatSvc.all}" > 

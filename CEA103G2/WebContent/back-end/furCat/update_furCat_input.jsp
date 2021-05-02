@@ -9,7 +9,8 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>家具類別資料新增 - addFurCat.jsp</title>
+<title>家具類別資料修改 - addFurCat.jsp</title>
+
 
 <style>
   table#table-1 {
@@ -30,7 +31,7 @@
 
 <style>
   table {
-	width: 450px;
+	width: 600px;
 	background-color: white;
 	margin-top: 1px;
 	margin-bottom: 1px;
@@ -48,12 +49,12 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h3>家具類別資料新增 - addFurCat.jsp</h3></td><td>
-		 <h4><a href="select_page.jsp"><img src="images/tomcat.png" width="100" height="100" border="0">回首頁</a></h4>
+		 <h3>家具類別資料修改 - addFurCat.jsp</h3></td><td>
+		 <h4><a href="<%=request.getContextPath()%>/back-end/furCat/listAllFurCat.jsp"><img src="images/tomcat.png" width="100" height="100" border="0">返回類別管理</a></h4>
 	</td></tr>
 </table>
 
-<h3>資料新增:</h3>
+<h3>資料修改:</h3>
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -65,8 +66,13 @@
 	</ul>
 </c:if>
 
-<FORM METHOD="post" ACTION="furCat.do" name="form1">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furCat/furCat.do" name="form1">
 <table>
+
+	<tr>
+		<td>家具類別編號:</td>
+		<td><%=furCatVO.getFnt_ctgr_no()%></td>
+	</tr>
 	<tr>
 		<td>家具類別名稱:</td>
 		<td><input type="TEXT" name="fnt_ctgr_name" size="45" 
@@ -75,7 +81,8 @@
 	
 </table>
 <br>
-<input type="hidden" name="action" value="insert">
-<input type="submit" value="送出新增"></FORM>
+<input type="hidden" name="action" value="update">
+<input type="hidden" name="fnt_ctgr_no" value="<%=furCatVO.getFnt_ctgr_no()%>">
+<input type="submit" value="送出修改"></FORM>
 </body>
 </html>

@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.furCat.model.*"%>
-<%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
     FurCatService furCatSvc = new FurCatService();
@@ -31,9 +30,26 @@
     color: blue;
     display: inline;
   }
-</style>
-
-<style>
+  #addButton {
+	border: 0;
+	background-color: #628AC0;
+	color: #fff;
+	border-radius: 10px;
+	height: 30px;
+	width: 120px;
+	font-size: 20px;
+	text-align: center;
+}
+ #getAllButton{
+	border: 0;
+	background-color: #628AC0;
+	color: #fff;
+	border-radius: 10px;
+	height: 30px;
+	width: 60px;
+	font-size: 20px;
+	text-align: center;
+}
   table {
 	width: 800px;
 	background-color: white;
@@ -47,16 +63,24 @@
     padding: 5px;
     text-align: center;
   }
+  a:link{
+  	color:blue;
+  	text-decoration:none;
+  }
+  a:hover{
+   	color:purple;
+  	text-decoration:underline;
+  	cursor:pointer;
+  }
 </style>
 
 </head>
 <body bgcolor='white'>
 
-<h4>此頁練習採用 EL 的寫法取值:</h4>
 <table id="table-1">
 	<tr><td>
-		 <h3>所有家具類別資料 - listAllFurCat.jsp</h3>
-		 <h4><a href="select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
+		 <h3>家具類別管理</h3>
+		 <img src="images/back1.gif" width="100" height="32" border="0">
 	</td></tr>
 </table>
 
@@ -69,7 +93,15 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
+<a href="<%=request.getContextPath()%>/back-end/furCat/listAllFurCat.jsp">
+			<input type="button" value="全部" id="getAllButton"></a>
+			<a href="<%=request.getContextPath()%>/back-end/furCat/addFurCat.jsp">
+			<input type="button" value="新增資料" id="addButton">
+		</a>
+<br>
+<!-- 測試用 -->
+<!-- <a href="http://localhost:8081/CEA103G2/back-end/furIte/listAllFurIte.jsp?fnt_ctgr_no=1">希望全部!!!!</a> -->
+<!-- fnt_ctgr_no -->
 <table>
 	<tr>
 		<th>家具類別編號</th>
@@ -82,8 +114,10 @@
 		
 		<tr>
 			<td>${furCatVO.fnt_ctgr_no}</td>
-			<td>${furCatVO.fnt_ctgr_name}</td>
-			
+<!-- 			過controller寫法 -->
+<%-- 			<td><a href="<%=request.getContextPath()%>/furCat/furCat.do?fnt_ctgr_no=${furCatVO.fnt_ctgr_no}&action=getOne_furCat">${furCatVO.fnt_ctgr_name}</a></td> --%>
+<!-- 			直接從連結取值寫法 -->
+			<td><a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIte.jsp?fnt_ctgr_no=${furCatVO.fnt_ctgr_no}">${furCatVO.fnt_ctgr_name}</a></td>
 	
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furCat/furCat.do" style="margin-bottom: 0px;">
