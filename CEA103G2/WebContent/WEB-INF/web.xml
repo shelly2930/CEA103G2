@@ -17,20 +17,20 @@
   </resource-ref>
   
 <!--   ↓濾器↓   -->
-  <filter>
-    <filter-name>LoginFilter</filter-name>
-    <filter-class>filter.LoginFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>LoginFilter</filter-name>
-    <url-pattern>/front-end/memTen/login_success.jsp/</url-pattern>
+<!--   <filter> -->
+<!--     <filter-name>LoginFilter</filter-name> -->
+<!--     <filter-class>filter.LoginFilter</filter-class> -->
+<!--   </filter> -->
+<!--   <filter-mapping> -->
+<!--     <filter-name>LoginFilter</filter-name> -->
+<!--     <url-pattern>/front-end/memTen/login_success.jsp/</url-pattern> -->
 <!--     <url-pattern>/front-end/*</url-pattern> -->
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-    <dispatcher>INCLUDE</dispatcher>
-    <dispatcher>ERROR</dispatcher>
-    <dispatcher>ASYNC</dispatcher>
-  </filter-mapping>
+<!--     <dispatcher>REQUEST</dispatcher> -->
+<!--     <dispatcher>FORWARD</dispatcher> -->
+<!--     <dispatcher>INCLUDE</dispatcher> -->
+<!--     <dispatcher>ERROR</dispatcher> -->
+<!--     <dispatcher>ASYNC</dispatcher> -->
+<!--   </filter-mapping> -->
   
 <!--   <filter> -->
 <!--     <filter-name>LoginFilterBack</filter-name> -->
@@ -72,6 +72,17 @@
     <url-pattern>/bill/bill.do</url-pattern>
   </servlet-mapping>
   
+<!--   ↓智鈞↓   -->
+  <servlet>
+    <servlet-name>PostServlet</servlet-name>
+    <servlet-class>com.post.controller.PostServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PostServlet</servlet-name>
+    <url-pattern>/post/post.do</url-pattern>
+  </servlet-mapping>
+<!--   ↑智鈞↑   -->
+  
 <!--   ↓東緯↓   -->
   <servlet>
     <servlet-name>EmployeeServlet</servlet-name>
@@ -82,5 +93,51 @@
     <url-pattern>/employee/employee.do</url-pattern>
   </servlet-mapping>
 <!--   ↑東緯↑   -->
+
+
+
+
+<!--   ↓怡蓁↓   -->
+    <servlet>
+    <servlet-name>FurCatServlet</servlet-name>
+    <servlet-class>com.furCat.controller.FurCatServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurCatServlet</servlet-name>
+    <url-pattern>/furCat/furCat.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FurIteServlet</servlet-name>
+    <servlet-class>com.furIte.controller.FurIteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurIteServlet</servlet-name>
+    <url-pattern>/furIte/furIte.do</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>FurLisServlet</servlet-name>
+    <servlet-class>com.furLis.controller.FurLisServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurLisServlet</servlet-name>
+    <url-pattern>/furLis/furLis.do</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>FurPhoShowServlet</servlet-name>
+    <servlet-class>com.furPho.controller.FurPhoShowServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurPhoShowServlet</servlet-name>
+    <url-pattern>/furPho/furPhoShow.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FurPhoServlet</servlet-name>
+    <servlet-class>com.furPho.controller.FurPhoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurPhoServlet</servlet-name>
+    <url-pattern>/furPho/furPho.do</url-pattern>
+  </servlet-mapping>
+<!--   ↑怡蓁↑   -->
   
 </web-app>

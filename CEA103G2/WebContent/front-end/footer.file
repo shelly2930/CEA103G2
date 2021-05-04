@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 
 <!-- Required source start -->
-	<!-- jquery -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+	<!-- jquery 這行有需要的人自己引入就好 -->
+<!-- <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script> -->
 	<!-- popper js -->
 	<script src="<%=request.getContextPath()%>/template_front-end/js/popper.min.js"></script>
 	<!-- bootstrap js -->

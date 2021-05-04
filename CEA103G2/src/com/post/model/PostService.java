@@ -47,11 +47,17 @@ public class PostService {
 		return dao.findByPrimaryKeyShow(post_no);
 	}
 
-	public List<PostVO> getAll() {
-		return dao.getAll();
+	public List<PostVO> getAllDesc() {
+		return dao.getAllDesc();
+	}
+	public List<PostVO> getAllAsc() {
+		return dao.getAllAsc();
 	}
 
 	public List<PostVO> getAllFront() {
 		return dao.getAllFront();
+	}
+	public List<PostVO> getAllFrontAsc() {
+		return dao.getAllFrontAsc();
 	}
 }

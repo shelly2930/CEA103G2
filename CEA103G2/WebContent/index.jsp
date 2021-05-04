@@ -156,7 +156,12 @@
 	</section>
 	<!-- product_list2 part end-->
 
+<!-- Required source start -->
+	<!-- jquery 這行有需要的人在自己的頁面加 -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<!-- Required source end -->
 
+<!-- 要放在最下面 -->
 <%@include file="/front-end/footer.file"%>
 
 
