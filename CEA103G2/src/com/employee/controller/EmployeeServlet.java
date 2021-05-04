@@ -3,6 +3,7 @@ package com.employee.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,8 @@ import javax.servlet.http.Part;
 import com.employee.model.EmployeeDAO;
 import com.employee.model.EmployeeService;
 import com.employee.model.EmployeeVO;
+import com.staRig.model.StaRigService;
+import com.staRig.model.StaRigVO;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class EmployeeServlet extends HttpServlet {
@@ -109,17 +112,20 @@ public class EmployeeServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 ****************************************/
 				EmployeeService employeeSvc = new EmployeeService();
 				EmployeeVO employeeVO = employeeSvc.getOneEmp(emp_no);
+				StaRigService staRigService = new StaRigService();
+				List<StaRigVO> list_StaRigVO = staRigService.getOneEmpStaRig(emp_no);
 				
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("employeeVO", employeeVO); // 資料庫取出的empVO物件,存入req
-				String url = "/back-end/employee/updateByEmp.jsp";
+				req.setAttribute("list_StaRigVO", list_StaRigVO);
+				String url = "/back-end/employee/updateEmpData.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.put("Exception", "無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/listAllEmp.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/showAllEmp.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -133,7 +139,9 @@ public class EmployeeServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				Integer emp_no = new Integer(req.getParameter("emp_no").trim());
+				Integer emp_no = new Integer(req.getParameter("emp_no"));
+				
+				String emp_username = req.getParameter("emp_username");
 
 				String emp_job = req.getParameter("emp_job").trim();
 				
@@ -186,35 +194,44 @@ public class EmployeeServlet extends HttpServlet {
 				
 				EmployeeVO employeeVO = new EmployeeVO();
 				employeeVO.setEmp_no(emp_no);
+				employeeVO.setEmp_username(emp_username);
 				employeeVO.setEmp_job(emp_job);
 				employeeVO.setEmp_hiredate(emp_hiredate);
 				employeeVO.setEmp_quitdate(emp_quitdate);
 				employeeVO.setEmp_email(emp_email);
 				employeeVO.setEmp_sal(emp_sal);
 				employeeVO.setEmp_bonus(emp_bonus);
+				
+				
+				List<Integer> list_Fun_no = new ArrayList<Integer>();
+				String[] staFun = req.getParameterValues("staFun");
+				for(String fun_no_Str : staFun) {
+					Integer fun_no = new Integer(fun_no_Str);
+					list_Fun_no.add(fun_no);
+				}
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("employeeVO", employeeVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/updateBySup.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/updateEmpData.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
 
 				/*************************** 2.開始修改資料 *****************************************/
 				EmployeeService employeeSvc = new EmployeeService();
-				employeeVO = employeeSvc.updateBySup(emp_no, emp_job, emp_hiredate, emp_quitdate, emp_email, emp_sal, emp_bonus);
+				employeeVO = employeeSvc.updateBySup(emp_no, emp_job, emp_hiredate, emp_quitdate, emp_email, emp_sal, emp_bonus, list_Fun_no);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("employeeVO", employeeVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/back-end/employee/listOneEmp.jsp";
+				String url = "/back-end/employee/showAllEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.put("Exception", "修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/updateBySup.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/updateEmpData.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -357,15 +374,19 @@ public class EmployeeServlet extends HttpServlet {
 
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-				String emp_job = req.getParameter("emp_job").trim();
-				
 				String emp_username = req.getParameter("emp_username").trim();
-				if(emp_username.length() == 0)
+				String emp_usernameReg = "^(\\w*[a-zA-Z]+\\w*\\d+\\w*)|(\\w*\\d+\\w*[a-zA-Z]+\\w*)$";
+				if(emp_username == null || emp_username.length() == 0)
 					errorMsgs.put("emp_username", "請勿空白");
-//				String emp_usernameReg = "^(\\w*[a-zA-Z]+\\w*\\d+\\w*)|(\\w*\\d+\\w*[a-zA-Z]+\\w*)$";
-//				if(!emp_username.matches(emp_usernameReg) || emp_username.length() < 6) {
-//					errorMsgs.put("emp_username", "只能是英文字母、數字和_ , 且長度必須大於6並包含一個英文字母及一個數字");
-//				}
+				else if(!emp_username.matches(emp_usernameReg) || emp_username.length() < 6)
+					errorMsgs.put("emp_username", "只能是英文字母、數字和_ , 且長度必須大於6並包含一個英文字母及一個數字");
+				else if(new EmployeeService().doesItExist(emp_username))
+					errorMsgs.put("emp_username", "此代號已使用");
+				
+				String emp_job = req.getParameter("emp_job").trim();
+				if(emp_job == "") {
+					errorMsgs.put("emp_job", "請選擇職位");
+				}
 				
 				StringBuffer sb = new StringBuffer();
 				for(int i = 0; i < 8; i++) {
@@ -396,7 +417,9 @@ public class EmployeeServlet extends HttpServlet {
 				
 				String emp_email = req.getParameter("emp_email").trim();
 				String emp_emailReg = "^.+@{1}.+$";
-				if(!emp_email.matches(emp_emailReg)) {
+				if(emp_email == null || emp_email.length() == 0) {
+					errorMsgs.put("emp_email", "請勿空白");
+				}else if(!emp_email.matches(emp_emailReg)) {
 					errorMsgs.put("emp_email", "格式不正確 , 必須包含\"@\"符號且前後不得為空白");
 				}
 				
@@ -415,6 +438,7 @@ public class EmployeeServlet extends HttpServlet {
 //				} catch (Exception e) {
 //					errorMsgs.put("emp_sal", "格式不正確 , 只能是整數");
 //				}
+					
 				
 				EmployeeVO employeeVO = new EmployeeVO();
 				employeeVO.setEmp_job(emp_job);
@@ -424,10 +448,18 @@ public class EmployeeServlet extends HttpServlet {
 				employeeVO.setEmp_email(emp_email);
 				employeeVO.setEmp_sal(emp_sal);
 
+				
+				List<Integer> list_Fun_no = new ArrayList<Integer>();
+				String[] staFun = req.getParameterValues("staFun");
+				for(String fun_no_Str : staFun) {
+					Integer fun_no = new Integer(fun_no_Str);
+					list_Fun_no.add(fun_no);
+				}
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("employeeVO", employeeVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/addEmp.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/addNewEmp.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -435,27 +467,25 @@ public class EmployeeServlet extends HttpServlet {
 				/*************************** 2.開始新增資料 ***************************************/
 				// 1. 亂數產生密碼 password
 				// 2. password --> email --> employee
-				MailService mailService = new MailService();
-				
-				String to = emp_email;
-			    String subject = "HowTrue好厝  - 新進員工登入通知";
-			    String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password; 
-			       
-			    mailService.sendMail(to, subject, messageText);
+//				MailService mailService = new MailService();
+//			    String subject = "HowTrue好厝  - 新進員工登入通知";
+//			    String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password;
+//			    mailService.sendMail(emp_email, subject, messageText);
 				// 3. password 轉成另一組亂數存進資料庫 (安全性問題)
 				
 				EmployeeService employeeSvc = new EmployeeService();
-				employeeVO = employeeSvc.addEmp(emp_job, emp_username, emp_password, emp_hiredate, emp_email, emp_sal);
+				employeeVO = employeeSvc.addEmp(emp_job, emp_username, emp_password, emp_hiredate, emp_email, emp_sal, list_Fun_no);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/back-end/employee/listAllEmp.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-				successView.forward(req, res);
+//				String url = "/back-end/employee/listAllEmp.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交showAllEmp.jsp
+//				successView.forward(req, res);
+				res.sendRedirect(req.getContextPath() + "/back-end/employee/showAllEmp.jsp");
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.put("Exception",e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/addEmp.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/addNewEmp.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -476,14 +506,14 @@ public class EmployeeServlet extends HttpServlet {
 				employeeSvc.deleteEmp(emp_no);
 
 				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-				String url = "/back-end/employee/listAllEmp.jsp";
+				String url = "/back-end/employee/showAllEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.put("Exception", "刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/listAllEmp.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/showAllEmp.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -503,7 +533,7 @@ public class EmployeeServlet extends HttpServlet {
 			}
 			
 			if(new EmployeeService().doesItExist(emp_username))
-				out.print("已使用");
+				out.print("此代號已使用");
 			else
 				out.print("可使用");
 			
@@ -531,7 +561,16 @@ public class EmployeeServlet extends HttpServlet {
 					if(employeeVO.getEmp_username().equals(emp_username)) {
 						if(employeeVO.getEmp_password().equals(emp_password)) {
 							session.setAttribute("employeeVO", employeeVO);
-//							session.setAttribute("staRigVOs", 權限list);
+							
+							StaRigService staRigService = new StaRigService();
+							List<StaRigVO> list_StaRigVO = staRigService.getOneEmpStaRig(employeeVO.getEmp_no());
+							List<Integer> list_Fun_no = new ArrayList<Integer>();
+							for(StaRigVO staRigVO : list_StaRigVO) {
+								Integer fun_no = staRigVO.getFun_no();
+								list_Fun_no.add(fun_no);
+							}
+							session.setAttribute("list_Fun_no", list_Fun_no);
+							
 							String location = (String)session.getAttribute("location");
 							session.removeAttribute("location");
 							if(location == null) {
@@ -557,6 +596,26 @@ public class EmployeeServlet extends HttpServlet {
 				messages.put("failure", "無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 				failureView.forward(req, res);
+			}
+		}
+		
+		if("sendEmail".equals(action)) {
+			PrintWriter out = res.getWriter();
+			
+			String emp_email = req.getParameter("emp_email").trim();
+			String emp_emailReg = "^.+@{1}.+$";
+			if(emp_email == null || emp_email.length() == 0) {
+				out.print("請勿空白");
+			}else if(!emp_email.matches(emp_emailReg)) {
+				out.print("格式不正確 , 必須包含\"@\"符號且前後不得為空白");
+			}else {
+				MailService mailService = new MailService();
+				String emp_username = req.getParameter("emp_username");
+				String emp_password = req.getParameter("emp_password");
+				String subject = "HowTrue好厝  - 新進員工登入通知";
+				String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password;
+				mailService.sendMail(emp_email, subject, messageText);
+				out.print("發送成功");
 			}
 		}
 		

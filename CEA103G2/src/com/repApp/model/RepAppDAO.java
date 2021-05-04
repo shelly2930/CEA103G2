@@ -40,7 +40,8 @@ public class RepAppDAO implements RepAppDAO_interface {
 
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT, 1);
+			String[] cols = {"RA_NO"};
+			pstmt = con.prepareStatement(INSERT, cols);
 			
 			con.setAutoCommit(false);
 			
@@ -113,7 +114,7 @@ public class RepAppDAO implements RepAppDAO_interface {
 			pstmt.setTimestamp(2, repAppVO.getRa_end_time());
 			pstmt.setByte(3, repAppVO.getRa_status());
 			pstmt.setInt(4, repAppVO.getRa_no());
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());

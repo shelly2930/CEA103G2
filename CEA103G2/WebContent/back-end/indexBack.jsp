@@ -34,7 +34,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <jsp:include page="includeFile/sidebarBack.file"></jsp:include>
+        <%@ include file="/back-end/includeFile/sidebarBack.file" %>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -43,7 +43,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <jsp:include page="includeFile/topbarBack.file"></jsp:include>
+                <%@ include file="/back-end/includeFile/topbarBack.file" %>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -380,7 +380,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <jsp:include page="includeFile/footerBack.file"></jsp:include>
+            <%@ include file="/back-end/includeFile/footerBack.file" %>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -388,7 +388,7 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <jsp:include page="includeFile/otherBack.file"></jsp:include>
+    <%@ include file="/back-end/includeFile/otherBack.file" %>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../template_back-end/vendor/jquery/jquery.min.js"></script>

@@ -1,5 +1,6 @@
 package com.staRig.model;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class StaRigService {
@@ -9,22 +10,22 @@ public class StaRigService {
 		srd = new StaRigDAO();
 	}
 	
-	public StaRigVO addStaRig(Integer emp_no, Integer fun_no) {
+	public StaRigVO addStaRig(Integer emp_no, Integer fun_no, Connection con) {
 		StaRigVO srv = new StaRigVO();
 		
 		srv.setEmp_no(emp_no);
 		srv.setFun_no(fun_no);
-		srd.insert(srv);;
+		srd.insert(srv, con);;
 		
 		return srv;
 	}
 	
-	public StaRigVO deleteStaRig(Integer emp_no, Integer fun_no) {
+	public StaRigVO deleteStaRig(Integer emp_no, Integer fun_no, Connection con) {
 		StaRigVO srv = new StaRigVO();
 		
 		srv.setEmp_no(emp_no);
 		srv.setFun_no(fun_no);
-		srd.delete(srv);;
+		srd.delete(srv, con);;
 		
 		return srv;
 	}
@@ -36,4 +37,5 @@ public class StaRigService {
 	public List<StaRigVO> getAllEmpStaRig() {
 		return srd.getAll();
 	}
+	
 }

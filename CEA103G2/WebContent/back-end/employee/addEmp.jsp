@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.employee.model.*"%>
+<%@ page import="java.util.List"%>
 
 <%
   EmployeeVO employeeVO = (EmployeeVO) request.getAttribute("employeeVO");
@@ -39,7 +40,7 @@
     padding: 1px;
   }
   .errorMsgs {
-  	color: red;
+  	color: #1cc88a;
   }
 </style>
 
@@ -68,46 +69,12 @@
 
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/employee/employee.do" name="form1">
 <table>
-<!-- 	<tr> -->
-<!-- 		<td>員工姓名:</td> -->
-<!-- 		<td><input type="TEXT" name="emp_name" size="45"  -->
-<%-- 			 value="<%= (employeeVO==null)? "陳東緯" : employeeVO.getEmp_name()%>" /></td> --%>
-<!-- 	</tr> -->
 	<tr>
 		<td>員工代號:</td>
 		<td><input type="TEXT" name="emp_username" size="45"
 			 value="<%= (employeeVO==null)? "" : employeeVO.getEmp_username()%>" /></td>
 		<td class="errorMsgs emp_username">${errorMsgs.emp_username}</td>
 	</tr>
-<!-- 	<tr> -->
-<!-- 		<td>密碼:</td> -->
-<!-- 		<td><input type="TEXT" name="emp_password" size="45" -->
-<%-- 			 value="<%= (employeeVO==null)? "password123" : employeeVO.getEmp_password()%>" /></td> --%>
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 		<td>性別:</td> -->
-<!-- 		<td><input type="TEXT" name="emp_gender" size="45" -->
-<%-- 			 value="<%= (employeeVO==null)? "0" : employeeVO.getEmp_gender()%>" /></td> --%>
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 		<td>身分證字號:</td> -->
-<!-- 		<td><input type="TEXT" name="emp_id" size="45" -->
-<%-- 			 value="<%= (employeeVO==null)? "" : employeeVO.getEmp_id()%>" /></td> --%>
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 		<td>行動電話:</td> -->
-<!-- 		<td><input type="TEXT" name="emp_mobile" size="45" -->
-<%-- 			 value="<%= (employeeVO==null)? "" : employeeVO.getEmp_mobile()%>" /></td> --%>
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 		<td>地址:</td> -->
-<!-- 		<td><input type="TEXT" name="emp_addr" size="45" -->
-<%-- 			 value="<%= (employeeVO==null)? "" : employeeVO.getEmp_addr()%>" /></td> --%>
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 		<td>離職日:</td> -->
-<!-- 		<td><input type="text" name="emp_quitdate" id="f_date2"></td> -->
-<!-- 	</tr> -->
 	<tr>
 		<td>電子信箱:</td>
 		<td><input type="text" name="emp_email" size="45"
@@ -117,7 +84,6 @@
 	<tr>
 		<td>職位:</td>
 		<td>
-<%-- 			<input type="text" name="emp_job" size="45" value="<%= (employeeVO==null)? "" : employeeVO.getEmp_job()%>" /> --%>
 			<select name="emp_job">
 				<option value="一般員工" ${(employeeVO.emp_job eq "一般員工") ? "selected" : ""}>一般員工</option>
 				<option value="平台管理員" ${(employeeVO.emp_job eq "平台管理員") ? "selected" : ""}>平台管理員</option>
@@ -136,6 +102,15 @@
 		<td>到職日:</td>
 		<td><input type="text" name="emp_hiredate" id="f_date1"></td>
 		<td class="errorMsgs">${errorMsgs.emp_hiredate}</td>
+	</tr>
+<jsp:useBean id="StaFunService" scope="page" class="com.staFun.model.StaFunService" />
+	<tr>
+		<td>權限:</td>
+		<td>
+			<c:forEach var="StaFunVO" items="${StaFunService.allStaFun}" > 
+	          <label><input type="checkbox" name="staFun" value="${StaFunVO.fun_no}">${StaFunVO.fun_name}</label>
+	        </c:forEach>
+		</td>
 	</tr>
 
 </table>

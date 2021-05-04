@@ -1,6 +1,7 @@
 package com.employee.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeService {
@@ -10,7 +11,7 @@ public class EmployeeService {
 		employeeDAO = new EmployeeDAO();
 	}
 
-	public EmployeeVO addEmp(String emp_job, String emp_username, String emp_password, Date emp_hiredate, String emp_email, Integer emp_sal) {
+	public EmployeeVO addEmp(String emp_job, String emp_username, String emp_password, Date emp_hiredate, String emp_email, Integer emp_sal, List<Integer> list_Fun_no) {
 
 		EmployeeVO employeeVO = new EmployeeVO();
 		employeeVO.setEmp_job(emp_job);
@@ -19,12 +20,12 @@ public class EmployeeService {
 		employeeVO.setEmp_hiredate(emp_hiredate);
 		employeeVO.setEmp_email(emp_email);
 		employeeVO.setEmp_sal(emp_sal);
-		employeeDAO.insert(employeeVO);
+		employeeDAO.insert(employeeVO, list_Fun_no);
 
 		return employeeVO;
 	}
 
-	public EmployeeVO updateBySup(Integer emp_no, String emp_job, Date emp_hiredate, Date emp_quitdate, String emp_email, Integer emp_sal, Integer emp_bonus) {
+	public EmployeeVO updateBySup(Integer emp_no, String emp_job, Date emp_hiredate, Date emp_quitdate, String emp_email, Integer emp_sal, Integer emp_bonus, List<Integer> list_Fun_no) {
 
 		EmployeeVO employeeVO = new EmployeeVO();
 		employeeVO.setEmp_no(emp_no);
@@ -34,7 +35,7 @@ public class EmployeeService {
 		employeeVO.setEmp_email(emp_email);
 		employeeVO.setEmp_sal(emp_sal);
 		employeeVO.setEmp_bonus(emp_bonus);
-		employeeDAO.updateBySup(employeeVO);
+		employeeDAO.updateBySup(employeeVO, list_Fun_no);
 
 		employeeVO = employeeDAO.getByPK(emp_no);
 		return employeeVO;
@@ -76,5 +77,14 @@ public class EmployeeService {
 	
 	public boolean doesItExist(String emp_username) {
 		return employeeDAO.doesItExist(emp_username);
+	}
+	
+	public static void main(String[] args) {
+		EmployeeService EmployeeService = new EmployeeService();
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(2);
+		list.add(5);
+		list.add(7);
+		EmployeeService.addEmp("¶—¡Û", "EMPPP11", "123321", java.sql.Date.valueOf("2001-01-15"), "123@ggg", 399, list);
 	}
 }

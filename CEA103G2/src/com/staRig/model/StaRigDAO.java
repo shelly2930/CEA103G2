@@ -25,23 +25,29 @@ public class StaRigDAO implements StaRigDAO_interface {
 	}
 	
 	private static final String INSERT = "INSERT INTO STAFF_RIGHT(EMP_NO, FUN_NO) VALUES (?, ?)";
-	private static final String DELETE = "DELETE FROM STAFF_RIGHT WHEWE EMP_NO = ? AND FUN_NO = ?";
+	private static final String DELETE = "DELETE FROM STAFF_RIGHT WHERE EMP_NO = ? AND FUN_NO = ?";
 	private static final String GETONE = "SELECT * FROM STAFF_RIGHT WHERE EMP_NO = ? ORDER BY FUN_NO";
 	private static final String GETALL = "SELECT * FROM STAFF_RIGHT ORDER BY EMP_NO, FUN_NO";
 	
-	public void insert(StaRigVO srv) {
-		Connection con = null;
+	public void insert(StaRigVO srv, Connection con) {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT);
 			
 			pstmt.setInt(1, srv.getEmp_no());
 			pstmt.setInt(2, srv.getFun_no());
-			pstmt.executeQuery();
-			
-		} catch(SQLException se) {
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					System.err.println("rolled back(StaRigDAO_insert)");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured." + excep.getMessage());
+				}
+			}
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -49,31 +55,30 @@ public class StaRigDAO implements StaRigDAO_interface {
 					pstmt.close();
 				} catch (SQLException se) {
 					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
 				}
 			}
 		}
 	}
 
-	public void delete(StaRigVO srv) {
-		Connection con = null;
+	public void delete(StaRigVO srv, Connection con) {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 			
 			pstmt.setInt(1, srv.getEmp_no());
 			pstmt.setInt(2, srv.getFun_no());
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
-		} catch(SQLException se) {
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					System.err.println("rolled back(StaRigDAO_delete)");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured." + excep.getMessage());
+				}
+			}
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -81,13 +86,6 @@ public class StaRigDAO implements StaRigDAO_interface {
 					pstmt.close();
 				} catch (SQLException se) {
 					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
 				}
 			}
 		}

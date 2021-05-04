@@ -39,12 +39,11 @@ public class RepAppDetDAO implements RepAppDetDAO_interface {
 			pstmt.setInt(1, repAppDetVO.getRa_no());
 			pstmt.setTimestamp(2, repAppDetVO.getRad_order_time());
 			pstmt.setString(3, repAppDetVO.getRad_dmg_dsc());
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
 		} catch (SQLException se) {
 			if (con != null) {
 				try {
-					System.err.print("Transaction is being ");
 					System.err.println("rolled back(RepAppDet)");
 					con.rollback();
 				} catch (SQLException excep) {
@@ -75,6 +74,8 @@ public class RepAppDetDAO implements RepAppDetDAO_interface {
 			pstmt.setInt(2, repAppDetVO.getRad_expz());
 			pstmt.setByte(3, repAppDetVO.getRad_tr_dmg());
 			pstmt.setInt(4, repAppDetVO.getRad_no());
+			pstmt.executeUpdate();
+			
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {

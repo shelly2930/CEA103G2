@@ -13,6 +13,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.employee.model.EmployeeVO;
+import com.staRig.model.StaRigService;
+import com.staRig.model.StaRigVO;
 
 public class EmployeeDAO implements EmployeeDAO_interface {
 
@@ -43,30 +45,61 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 		"SELECT * FROM EMPLOYEE WHERE EMP_USERNAME = ?";
 
 	@Override
-	public void insert(EmployeeVO employeeVO) {
+	public void insert(EmployeeVO employeeVO, List<Integer> list_Fun_no) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT);
-
+			String[] cols = {"EMP_NO"};
+			pstmt = con.prepareStatement(INSERT, cols);
+			
+			con.setAutoCommit(false);
+			
 			pstmt.setString(1, employeeVO.getEmp_job());
 			pstmt.setString(2, employeeVO.getEmp_username());
 			pstmt.setString(3, employeeVO.getEmp_password());
 			pstmt.setDate(4, employeeVO.getEmp_hiredate());
 			pstmt.setString(5, employeeVO.getEmp_email());
 			pstmt.setInt(6, employeeVO.getEmp_sal());
-
 			pstmt.executeUpdate();
-
+			
+			rs = pstmt.getGeneratedKeys();
+			
+			Integer emp_no = null;
+			if(rs.next())
+				emp_no = rs.getInt(1);
+			else
+				System.out.println("未取得自增主鍵值");
+			
+			StaRigService staRigService = new StaRigService();
+			for(Integer fun_no : list_Fun_no)
+				staRigService.addStaRig(emp_no, fun_no, con);
+			
+			con.commit();
+			con.setAutoCommit(true);
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured." +  se.getMessage());
-			// Clean up JDBC resources
+			if (con != null) {
+				try {
+					System.err.println("rolled back(EmployeeDAO)");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured." + excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -85,7 +118,7 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 	}
 
 	@Override
-	public void updateBySup(EmployeeVO employeeVO) {
+	public void updateBySup(EmployeeVO employeeVO, List<Integer> list_Fun_no) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -95,20 +128,58 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_BY_SUP);
 
+			con.setAutoCommit(false);
+			
 			pstmt.setString(1, employeeVO.getEmp_job());
 			pstmt.setDate(2, employeeVO.getEmp_hiredate());
 			pstmt.setDate(3, employeeVO.getEmp_quitdate());
 			pstmt.setString(4, employeeVO.getEmp_email());
 			pstmt.setInt(5, employeeVO.getEmp_sal());
 			pstmt.setInt(6, employeeVO.getEmp_bonus());
-			pstmt.setInt(7, employeeVO.getEmp_no());
-
+			
+			Integer emp_no = employeeVO.getEmp_no();
+			pstmt.setInt(7, emp_no);
 			pstmt.executeUpdate();
+			
+			StaRigService staRigService = new StaRigService();
+			// 找出原本的權限
+			List<StaRigVO> list_StaRigVO =  staRigService.getOneEmpStaRig(emp_no);
+			List<Integer> list_Fun_no_init = new ArrayList<Integer>();
+			for(StaRigVO staRigVO : list_StaRigVO) {
+				Integer fun_no = staRigVO.getFun_no();
+				list_Fun_no_init.add(fun_no);
+			}
+			
+			// 找出原權限與新權限的交集
+			List<Integer> list_Intersection = new ArrayList<Integer>(list_Fun_no);
+			list_Intersection.retainAll(list_Fun_no_init);
+			
+			// 找出新權限與原權限的差集,新增原本沒有的權限
+			list_Fun_no.removeAll(list_Intersection);
+			System.out.println("員工編號:" + emp_no + ", 新增權限:"+ list_Fun_no);
+			for(Integer fun_no : list_Fun_no)
+				staRigService.addStaRig(emp_no, fun_no, con);
+			
+			// 找出原權限與新權限的差集,刪除原本有的權限
+			list_Fun_no_init.removeAll(list_Intersection);
+			System.out.println("員工編號:" + emp_no + ", 刪除權限:"+ list_Fun_no_init);
+			for(Integer fun_no : list_Fun_no_init)
+				staRigService.deleteStaRig(emp_no, fun_no, con);
 
 			// Handle any driver errors
+			con.commit();
+			con.setAutoCommit(true);
+			// Handle any SQL errors
 		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					System.err.println("rolled back(EmployeeDAO)");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured." + excep.getMessage());
+				}
+			}
 			throw new RuntimeException("A database error occured." + se.getMessage());
-			// Clean up JDBC resources
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -401,4 +472,5 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 			}
 		}
 	}
+	
 }

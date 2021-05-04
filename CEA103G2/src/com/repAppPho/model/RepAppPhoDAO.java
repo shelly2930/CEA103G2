@@ -42,7 +42,7 @@ public class RepAppPhoDAO implements RepAppPhoDAO_interface {
 			
 			pstmt.setInt(1, repAppPhoVO.getRa_no());
 			pstmt.setBytes(2, repAppPhoVO.getRap_photo());
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
 		} catch(SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
@@ -74,7 +74,7 @@ public class RepAppPhoDAO implements RepAppPhoDAO_interface {
 			
 			pstmt.setBytes(1, repAppPhoVO.getRap_photo());
 			pstmt.setInt(2, repAppPhoVO.getRap_no());
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
 		} catch(SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
@@ -105,7 +105,7 @@ public class RepAppPhoDAO implements RepAppPhoDAO_interface {
 			pstmt = con.prepareStatement(DELETE);
 			
 			pstmt.setInt(1, rap_no);
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
 		} catch(SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
