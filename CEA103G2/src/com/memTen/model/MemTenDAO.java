@@ -24,21 +24,20 @@ public class MemTenDAO implements MemTenDAO_interface {
 			}
 		}
 		
-		private static final String INSERT_STMT = 
-			"INSERT INTO MEMBER_TENANT (mem_username, mem_password, mem_pic, mem_name, mem_gender, mem_id,"
-									+ " mem_birthday, mem_phone, mem_mobile, mem_email, mem_addr, mem_status,"
-									+ " mem_id_status, mem_suspend, mem_refuse)"
-									+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		private static final String GET_ALL_STMT = 
-			"SELECT * FROM MEMBER_TENANT ORDER BY mem_no";
-		private static final String GET_ONE_STMT = 
-			"SELECT * FROM MEMBER_TENANT WHERE mem_no = ?";
-		private static final String DELETE = 
-				"DELETE FROM MEMBER_TENANT WHERE mem_no = ?";
-		private static final String UPDATE = 
-			"UPDATE MEMBER_TENANT SET mem_username=?, mem_password=?, mem_pic=?, mem_name=?, mem_gender=?, mem_id=?,"
-									+ " mem_birthday=?, mem_phone=?, mem_mobile=?, mem_email=?, mem_addr=? WHERE mem_no = ?";
-		private static final String VALIDATE_STMT = "SELECT MEM_USERNAME, MEM_PASSWORD, MEM_NAME, MEM_STATUS FROM MEMBER_TENANT WHERE mem_username=?";
+		private static final String INSERT_STMT = "INSERT INTO MEMBER_TENANT (mem_username, mem_password, mem_pic,"
+									+ " mem_name, mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email,"
+									+ " mem_city, mem_dist, mem_addr VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		private static final String GET_ALL_STMT = "SELECT * FROM MEMBER_TENANT ORDER BY mem_no";
+		private static final String GET_ONE_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_no = ?";
+		private static final String DELETE = "DELETE FROM MEMBER_TENANT WHERE mem_no = ?";
+		private static final String UPDATE = "UPDATE MEMBER_TENANT SET mem_username=?, mem_password=?, mem_pic=?,"
+									+ " mem_name=?, mem_gender=?, mem_id=?, mem_birthday=?, mem_phone=?,"
+									+ " mem_mobile=?, mem_email=?, mem_city=?, mem_dist=?, mem_addr=? WHERE mem_no=?";
+		private static final String LOGIN_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_username=?";
+		private static final String FIND_BY_EMAIL = "SELECT * FROM MEMBER_TENANT WHERE mem_email=?";
+		private static final String UPDATE_PWD_BY_EMAIL = "UPDATE MEMBER_TENANT set mem_password=? WHERE mem_email=?";
+		private static final String UPDATE_MEMSTATUS = "UPDATE MEMBER_TENANT SET mem_status=? WHERE mem_username=?";
+		private static final String UPDATE_MEM_ID_STATUS = "UPDATE MEMBER_TENANT SET mem_id_status=? WHERE mem_no=?";
 	
 		@Override
 		public void insert(MemTenVO memTenVO) {
@@ -59,13 +58,9 @@ public class MemTenDAO implements MemTenDAO_interface {
 				pstmt.setString(8, memTenVO.getMem_phone());
 				pstmt.setString(9, memTenVO.getMem_mobile());
 				pstmt.setString(10, memTenVO.getMem_email());
-				pstmt.setString(11, memTenVO.getMem_addr());
-				pstmt.setByte(12, memTenVO.getMem_status());
-//				pstmt.setBytes(13, memTenVO.getMem_idcard_f());
-//				pstmt.setBytes(14, memTenVO.getMem_idcard_r());
-				pstmt.setByte(13, memTenVO.getMem_id_status());
-				pstmt.setString(14, memTenVO.getMem_suspend());
-				pstmt.setString(15, memTenVO.getMem_refuse());
+				pstmt.setString(11, memTenVO.getMem_city());
+				pstmt.setString(12, memTenVO.getMem_dist());
+				pstmt.setString(13, memTenVO.getMem_addr());
 				
 				pstmt.executeUpdate();
 
@@ -152,14 +147,16 @@ public class MemTenDAO implements MemTenDAO_interface {
 				pstmt.setString(8, memTenVO.getMem_phone());
 				pstmt.setString(9, memTenVO.getMem_mobile());
 				pstmt.setString(10, memTenVO.getMem_email());
-				pstmt.setString(11, memTenVO.getMem_addr());
+				pstmt.setString(11, memTenVO.getMem_city());
+				pstmt.setString(12, memTenVO.getMem_dist());
+				pstmt.setString(13, memTenVO.getMem_addr());
 //				pstmt.setByte(12, memTenVO.getMem_status());
 //				pstmt.setBytes(13, memTenVO.getMem_idcard_f());
 //				pstmt.setBytes(14, memTenVO.getMem_idcard_r());
 //				pstmt.setByte(13, memTenVO.getMem_id_status());
 //				pstmt.setString(12, memTenVO.getMem_suspend());
 //				pstmt.setString(13, memTenVO.getMem_refuse());
-				pstmt.setInt(12, memTenVO.getMem_no());
+				pstmt.setInt(14, memTenVO.getMem_no());
 				
 				pstmt.executeUpdate();
 
@@ -216,6 +213,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 					memTenVO.setMem_phone(rs.getString("mem_phone"));
 					memTenVO.setMem_mobile(rs.getString("mem_mobile"));
 					memTenVO.setMem_email(rs.getString("mem_email"));
+					memTenVO.setMem_city(rs.getString("mem_city"));
+					memTenVO.setMem_dist(rs.getString("mem_dist"));
 					memTenVO.setMem_addr(rs.getString("mem_addr"));
 					memTenVO.setMem_status(rs.getByte("mem_status"));
 					memTenVO.setMem_idcard_f(rs.getBytes("mem_idcard_f"));
@@ -285,6 +284,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 					memTenVO.setMem_phone(rs.getString("mem_phone"));
 					memTenVO.setMem_mobile(rs.getString("mem_mobile"));
 					memTenVO.setMem_email(rs.getString("mem_email"));
+					memTenVO.setMem_city(rs.getString("mem_city"));
+					memTenVO.setMem_dist(rs.getString("mem_dist"));
 					memTenVO.setMem_addr(rs.getString("mem_addr"));
 					memTenVO.setMem_status(rs.getByte("mem_status"));
 					memTenVO.setMem_idcard_f(rs.getBytes("mem_idcard_f"));
@@ -326,7 +327,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 			return list;
 		}
 		
-		public MemTenVO validate(String mem_username) {
+		public MemTenVO loginCheck(String mem_username) {
 			MemTenVO memTenVO = null;
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -334,17 +335,34 @@ public class MemTenDAO implements MemTenDAO_interface {
 
 			try {
 				con = ds.getConnection();
-				pstmt = con.prepareStatement(VALIDATE_STMT);
+				pstmt = con.prepareStatement(LOGIN_STMT);
 				
 				pstmt.setString(1, mem_username);
-				rs = pstmt.executeQuery();
 				
-				while(rs.next()) {
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
 					memTenVO = new MemTenVO();
+					memTenVO.setMem_no(rs.getInt("mem_no"));
 					memTenVO.setMem_username(rs.getString("mem_username"));
 					memTenVO.setMem_password(rs.getString("mem_password"));
+					memTenVO.setMem_pic(rs.getBytes("mem_pic"));
 					memTenVO.setMem_name(rs.getString("mem_name"));
+					memTenVO.setMem_gender(rs.getByte("mem_gender"));
+					memTenVO.setMem_id(rs.getString("mem_id"));
+					memTenVO.setMem_birthday(rs.getDate("mem_birthday"));
+					memTenVO.setMem_phone(rs.getString("mem_phone"));
+					memTenVO.setMem_mobile(rs.getString("mem_mobile"));
+					memTenVO.setMem_email(rs.getString("mem_email"));
+					memTenVO.setMem_city(rs.getString("mem_city"));
+					memTenVO.setMem_dist(rs.getString("mem_dist"));
+					memTenVO.setMem_addr(rs.getString("mem_addr"));
 					memTenVO.setMem_status(rs.getByte("mem_status"));
+					memTenVO.setMem_idcard_f(rs.getBytes("mem_idcard_f"));
+					memTenVO.setMem_idcard_r(rs.getBytes("mem_idcard_r"));
+					memTenVO.setMem_id_status(rs.getByte("mem_id_status"));
+					memTenVO.setMem_suspend(rs.getString("mem_suspend"));
+					memTenVO.setMem_refuse(rs.getString("mem_refuse"));
 				}
 				// Handle any driver errors
 			} catch (SQLException se) {
@@ -374,5 +392,151 @@ public class MemTenDAO implements MemTenDAO_interface {
 				}
 			}
 			return memTenVO;
+		}
+		
+		public MemTenVO findByEmail(String mem_email) {
+			MemTenVO memTenVO = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(FIND_BY_EMAIL);
+	
+				pstmt.setString(1, mem_email);
+	
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					memTenVO = new MemTenVO();
+					memTenVO.setMem_no(rs.getInt("mem_no"));
+					memTenVO.setMem_username(rs.getString("mem_username"));
+					memTenVO.setMem_password(rs.getString("mem_password"));
+					memTenVO.setMem_pic(rs.getBytes("mem_pic"));
+					memTenVO.setMem_name(rs.getString("mem_name"));
+					memTenVO.setMem_gender(rs.getByte("mem_gender"));
+					memTenVO.setMem_id(rs.getString("mem_id"));
+					memTenVO.setMem_birthday(rs.getDate("mem_birthday"));
+					memTenVO.setMem_phone(rs.getString("mem_phone"));
+					memTenVO.setMem_mobile(rs.getString("mem_mobile"));
+					memTenVO.setMem_email(rs.getString("mem_email"));
+					memTenVO.setMem_city(rs.getString("mem_city"));
+					memTenVO.setMem_dist(rs.getString("mem_dist"));
+					memTenVO.setMem_addr(rs.getString("mem_addr"));
+					memTenVO.setMem_status(rs.getByte("mem_status"));
+					memTenVO.setMem_idcard_f(rs.getBytes("mem_idcard_f"));
+					memTenVO.setMem_idcard_r(rs.getBytes("mem_idcard_r"));
+					memTenVO.setMem_id_status(rs.getByte("mem_id_status"));
+					memTenVO.setMem_suspend(rs.getString("mem_suspend"));
+					memTenVO.setMem_refuse(rs.getString("mem_refuse"));
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return memTenVO;
+		}
+		
+		
+		public void updatePwd(String mem_email, String mem_password) {
+			
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(UPDATE_PWD_BY_EMAIL);
+
+				pstmt.setString(1, mem_password);
+				pstmt.setString(2, mem_email);
+				
+				pstmt.executeUpdate();
+
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. " + se.getMessage());
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			
+		}
+		
+		
+		public void updateMemStatus(String mem_username, Byte mem_status) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(UPDATE_MEMSTATUS);
+
+				pstmt.setByte(1, mem_status);
+				pstmt.setString(2, mem_username);
+				
+				pstmt.executeUpdate();
+
+				// Handle any SQL errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			
 		}
 }

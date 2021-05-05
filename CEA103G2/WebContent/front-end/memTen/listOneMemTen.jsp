@@ -3,19 +3,19 @@
 <%@ page import="com.memTen.model.*"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
-<%
-	MemTenVO memTenVO = (MemTenVO) request.getAttribute("memTenVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
+<%	
+	MemTenVO memTenVO = (MemTenVO)session.getAttribute("MemTenVO"); 
 %>
+
 
 <html>
 <head>
+<title>會員資料 - listOneMemTen.jsp</title>
 
 <!-- Required source start -->
 	<!-- jquery 這行有需要的人再加 -->
 	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <!-- Required source end -->
-
-<title>會員資料 - listOneMemTen.jsp</title>
 
 <style>
   table#table-1 {
@@ -86,32 +86,33 @@
 		<td><%=memTenVO.getMem_no()%></td>
 		<td><%=memTenVO.getMem_username()%></td>
 		<td><%=memTenVO.getMem_password()%></td>
-<%-- 		<td><%=memTenVO.getMem_pic()%></td> --%>
 		<td><img src="${pageContext.request.contextPath}/memTen/memPicReadServlet.do?mem_no=${memTenVO.mem_no}"  class="mem_pic"></td>
 		<td><%=memTenVO.getMem_name()%></td>
 		<td>
-			<c:choose>
-				<c:when test="${memTenVO.mem_gender == 0}">男</c:when>
-				<c:when test="${memTenVO.mem_gender == 1}">女</c:when>
-			</c:choose>
+			${MemTenVO.mem_gender == 0 ? '男':'女'}
+<%-- 			<c:choose> --%>
+<%-- 					<c:when test="${memTenVO.mem_gender == 0}">男</c:when> --%>
+<%-- 					<c:when test="${memTenVO.mem_gender == 1}">女</c:when> --%>
+<%-- 				</c:choose> --%>
 		</td>
 		<td><%=memTenVO.getMem_id()%></td>
 		<td><%=memTenVO.getMem_birthday()%></td>
 		<td><%=memTenVO.getMem_phone()%></td>
 		<td><%=memTenVO.getMem_mobile()%></td>
 		<td><%=memTenVO.getMem_email()%></td>
-		<td class="addrclean"></td>
+		<td><%=memTenVO.getMem_city()%></td>
+		<td><%=memTenVO.getMem_dist()%></td>
+		<td><%=memTenVO.getMem_addr()%></td>
 		<td><%=memTenVO.getMem_idcard_f()%></td>
 		<td><%=memTenVO.getMem_idcard_r()%></td>
 	</tr>
 </table>
-
+${MemTenVO.mem_addr}
 <script>
-	$(window).load(function(){
-		$(".addrclean").html("${addrclean}");
-	})
+// 	$(window).load(function(){
+// 		alert("${addrclean}");
+// 	})
 </script> 
-
 
 </body>
 </html>
