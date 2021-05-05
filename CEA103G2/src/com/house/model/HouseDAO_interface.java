@@ -24,5 +24,9 @@ public interface HouseDAO_interface {
 //	以下: 一(物件)對多(物件照片)===============================================================    
     //物件編號 去拉出所有屬於這物件的照片
 	public Set<HouPhoVO> getHouPhoByHouse(Integer houseno);
-	public List<HouseVO> getAllByState(Integer state, Integer status);
+	//平台管理員
+	public List<HouseVO> getAllByState(Byte state, Byte status);//違反MVC之後改
+	
+	public void updateHouseContent(HouseVO houseVO);
+	public void updateHouseState(HouseVO houseVO);
 }
