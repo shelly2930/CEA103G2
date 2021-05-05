@@ -29,7 +29,7 @@
 <!-- <!=========================jquery===================== -->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzn3b0I0DFbDc6D5zc3DEtuI5kaYxAB4k&callback=initMap&libraries=&v=weekly" async></script>
-<%@include file="/front-end/header.jsp"%>
+<%@include file="/front-end/header.file"%>
 <!-- =================¦a¹Ï===================================== -->
 <style>
 table#table-2 {

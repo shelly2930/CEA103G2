@@ -9,7 +9,7 @@
 
 <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <!-- =================================下面是導覽列==================================================== --> 
-<%@include file="/front-end/header.jsp"%>
+<%@include file="/front-end/header.file"%>
 <!-- =================================上面是導覽列==================================================== --> 
 <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <style>
