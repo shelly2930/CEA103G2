@@ -7,9 +7,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
+import com.memTen.jedis.JedisHandler;
 import com.memTen.model.*;
 
-import jedis.JedisHandler;
 @MultipartConfig
 public class MemTenServlet extends HttpServlet {
 
@@ -48,19 +48,19 @@ public class MemTenServlet extends HttpServlet {
 				// 各種登入失敗
 				if (memTenVO == null) {
 					errorMsgs.put("mem_username", "查無此帳號");
-					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/login.jsp");
 					failureView.forward(req, res);
 				} else if (memTenVO.getMem_status() == 0) {
 					errorMsgs.put("mem_username", "您的帳號尚未驗證");
-					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/unverify.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/unverify.jsp");
 					failureView.forward(req, res);
 				} else if (memTenVO.getMem_status() == 2) {
 					errorMsgs.put("mem_username", "您的帳號已停權");
-					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/login.jsp");
 					failureView.forward(req, res);
 				} else if(!(mem_password.equals(memTenVO.getMem_password()))) {
 					errorMsgs.put("mem_password", "密碼錯誤");
-					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/login.jsp");
 					failureView.forward(req, res);
 				} else { // 帳密正確
 					HttpSession session = req.getSession();
@@ -84,7 +84,7 @@ public class MemTenServlet extends HttpServlet {
 			/*************************** 其他可能的錯誤處理 *************************************/	
 			} catch (Exception e) {
 				errorMsgs.put("Exception", e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/login.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/login.jsp");
 				failureView.forward(req, res);
 			}
 			
@@ -138,13 +138,13 @@ public class MemTenServlet extends HttpServlet {
 				// 密碼變更為臨時密碼temPwd
 				memTenSvc.updatePwd(mem_email, temPwd);
 				
-				RequestDispatcher SuccessView = req.getRequestDispatcher("/unprotected/forgetPwd_email_send.jsp");
+				RequestDispatcher SuccessView = req.getRequestDispatcher("/unprotected/memTen/forgetPwd_email_send.jsp");
 				SuccessView.forward(req, res);
 				return;
 			
 			} else {
 				errorMsgs.add("信箱不存在");
-				RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/forgetPwd.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/forgetPwd.jsp");
 				failureView.forward(req, res);
 				return;
 			}
@@ -185,7 +185,7 @@ public class MemTenServlet extends HttpServlet {
 				
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				req.setAttribute("mem_username", mem_username);
-				String url = "/unprotected/unverify.jsp";
+				String url = "/unprotected/memTen/unverify.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
 				
@@ -382,9 +382,9 @@ public class MemTenServlet extends HttpServlet {
 					errorMsgs.add("會員信箱格式不符");
 	            }
 				
-				String mem_city = req.getParameter(("mem_city").trim());
+				String mem_city = req.getParameter(("county").trim());
 				
-				String mem_dist = req.getParameter(("mem_dist").trim());
+				String mem_dist = req.getParameter(("district").trim());
 				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 				
@@ -540,9 +540,9 @@ public class MemTenServlet extends HttpServlet {
 					errorMsgs.add("會員信箱格式不符");
 	            }
 				
-				String mem_city = req.getParameter(("mem_city").trim());
+				String mem_city = req.getParameter(("county").trim());
 				
-				String mem_dist = req.getParameter(("mem_dist").trim());
+				String mem_dist = req.getParameter(("district").trim());
 				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 
@@ -565,7 +565,7 @@ public class MemTenServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memTenVO", memTenVO); // 含有輸入格式錯誤的memTenVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/unprotected/addMemTen.jsp");
+							.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -595,7 +595,7 @@ public class MemTenServlet extends HttpServlet {
 				mms.sendMail(to, subject, messageText);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/unprotected/unverify.jsp"; // 轉到註冊成功頁面?
+				String url = "/unprotected/memTen/unverify.jsp"; // 轉到註冊成功頁面?
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);				
 				
@@ -603,7 +603,7 @@ public class MemTenServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/unprotected/addMemTen.jsp");
+						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -630,7 +630,7 @@ public class MemTenServlet extends HttpServlet {
 				errorMsgs.add("驗證有誤，請重新申請");
 			}
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-			String url = "/unprotected/verify.jsp";
+			String url = "/unprotected/memTen/verify.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 			successView.forward(req, res);
 		}

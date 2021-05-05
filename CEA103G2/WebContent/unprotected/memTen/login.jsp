@@ -54,7 +54,7 @@ p.errorMsgs {
 						<div class="text w-100">
 							<h2>Welcome to HowTrue</h2>
 							<p>還不是會員?</p>
-							<a href="<%=request.getContextPath()%>/unprotected/addMemTen.jsp" class="btn btn-white btn-outline-white">註冊帳號</a>
+							<a href="<%=request.getContextPath()%>/unprotected/memTen/addMemTen.jsp" class="btn btn-white btn-outline-white">註冊帳號</a>
 						</div>
 			      	</div>
 					<div class="login-wrap p-4 p-lg-5">
@@ -86,7 +86,7 @@ p.errorMsgs {
 <!-- 								</label> -->
 								</div>
 								<div class="w-50 text-md-right">
-									<a href="<%=request.getContextPath()%>/unprotected/forgetPwd.jsp">忘記密碼</a>
+									<a href="<%=request.getContextPath()%>/unprotected/memTen/forgetPwd.jsp">忘記密碼</a>
 								</div>
 		           			</div>
 		          		</form>

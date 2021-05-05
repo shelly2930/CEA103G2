@@ -78,6 +78,8 @@
 		<th>連絡電話</th>
 		<th>行動電話</th>
 		<th>電子信箱</th>
+		<th>縣市</th>
+		<th>鄉鎮市區</th>
 		<th>地址</th>
 		<th>身分證正面</th>
 		<th>身分證背面</th>		
@@ -100,17 +102,15 @@
 		<td><%=memTenVO.getMem_phone()%></td>
 		<td><%=memTenVO.getMem_mobile()%></td>
 		<td><%=memTenVO.getMem_email()%></td>
-		<td class="addrclean"></td>
+		<td><%=memTenVO.getMem_city()%></td>
+		<td><%=memTenVO.getMem_dist()%></td>
+		<td><%=memTenVO.getMem_addr()%></td>
 		<td><%=memTenVO.getMem_idcard_f()%></td>
 		<td><%=memTenVO.getMem_idcard_r()%></td>
 	</tr>
 </table>
 
-<script>
-	$(window).load(function(){
-		$(".addrclean").html("${addrclean}");
-	})
-</script> 
+
 
 
 </body>

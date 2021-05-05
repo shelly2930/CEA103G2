@@ -40,10 +40,10 @@
 			
 			<br>
 				<button id="successVerify" class="btn btn-lg btn-primary btn-block btn-signin" 
-					onclick="location='<%=request.getContextPath()%>/unprotected/login.jsp'">返回登入頁
+					onclick="location='<%=request.getContextPath()%>/unprotected/memTen/login.jsp'">返回登入頁
 				</button>
 				<button id="failureVerify" class="btn btn-lg btn-primary btn-block btn-signin" 
-					onclick="location='<%=request.getContextPath()%>/unprotected/unverified.jsp?memEmail=${param.memEmail}'">重寄驗證信
+					onclick="location='<%=request.getContextPath()%>/unprotected/memTen/unverified.jsp?memEmail=${param.memEmail}'">重寄驗證信
 				</button>
 				
 

@@ -26,7 +26,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 		
 		private static final String INSERT_STMT = "INSERT INTO MEMBER_TENANT (mem_username, mem_password, mem_pic,"
 									+ " mem_name, mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email,"
-									+ " mem_city, mem_dist, mem_addr VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+									+ " mem_city, mem_dist, mem_addr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		private static final String GET_ALL_STMT = "SELECT * FROM MEMBER_TENANT ORDER BY mem_no";
 		private static final String GET_ONE_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_no = ?";
 		private static final String DELETE = "DELETE FROM MEMBER_TENANT WHERE mem_no = ?";

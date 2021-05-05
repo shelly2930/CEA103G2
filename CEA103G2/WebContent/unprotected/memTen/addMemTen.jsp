@@ -57,11 +57,6 @@
 
 <%-- <%@include file="/front-end/header.file"%> --%>
 
-<!-- 地址連動選單 -->
-<script>
-  new TwCitySelector();
-</script>
-
 
 <table id="table-1">
 	<tr><td>
@@ -134,14 +129,14 @@
 	<tr>
 		<td>電子信箱:</td>
 		<td><input type="TEXT" name="mem_email" size="45"
-			 value="<%= (memTenVO==null)? "peterwu1@gmail.com" : memTenVO.getMem_email()%>" /></td>
+			 value="<%= (memTenVO==null)? "shelly2930@gmail.com" : memTenVO.getMem_email()%>" /></td>
 	</tr>
 	<tr>
 		<td>地址:</td>
 		<td>
-			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode></div>
-			<input type="TEXT" name="addr" size="45"
-			 value="<%= (memTenVO==null)? "台北市中山區民生東路三段67號" : memTenVO.getMem_addr()%>" />
+			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="台北市"
+     			data-district-value="中山區"></div>
+			<input type="TEXT" name="mem_addr" size="45" value="民生東路三段67號"/>
 		</td>
 	</tr>
 	
@@ -183,6 +178,12 @@ window.onload = init;
 </script>
 
 </body>
+
+
+<!-- 地址連動選單 -->
+<script>
+  new TwCitySelector();
+</script>
 
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->

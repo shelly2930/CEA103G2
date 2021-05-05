@@ -18,13 +18,11 @@
 		           <input type="hidden" name="action" value="logout">
 		           </form>
 		           <input type="button" value="查看會員資料" onclick="location.href='<%=request.getContextPath()%>/front-end/memTen/listOneMemTen.jsp'">
-					<a href="<%=request.getContextPath()%>/front-end/memTen/listOneMemTen.jsp">@@@</a>
 			 </td>
 		</tr>
 	</table>
 	<b> <br>
 	<br>                以下留空....
 	</b>
-	${MemTenVO.mem_name}
 </body>
 </html>

@@ -46,7 +46,8 @@
 <!--     <dispatcher>ASYNC</dispatcher> -->
 <!--   </filter-mapping> -->
  <!--   ↑濾器↑   -->
-  
+
+<!--   ↓蔡佳↓   -->  
   <servlet>
     <servlet-name>MemTenServlet</servlet-name>
     <servlet-class>com.memTen.controller.MemTenServlet</servlet-class>
@@ -71,6 +72,7 @@
     <servlet-name>BillServlet</servlet-name>
     <url-pattern>/bill/bill.do</url-pattern>
   </servlet-mapping>
+<!--   ↑蔡佳↑   -->
   
 <!--   ↓智鈞↓   -->
   <servlet>

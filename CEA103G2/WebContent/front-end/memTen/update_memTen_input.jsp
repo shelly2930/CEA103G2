@@ -136,8 +136,9 @@
 	<tr>
 		<td>地址:</td>
 		<td>
-			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode></div>
-			<input type="TEXT" name="addr" size="45" value="<%= (memTenVO==null)? "" : memTenVO.getMem_addr()%>"/>
+			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="${memTenVO.mem_city}"
+     			data-district-value="${memTenVO.mem_dist}"></div>
+			<input type="TEXT" name="mem_addr" size="45" value="${memTenVO.mem_addr}"/>
 		</td>
 	</tr>
 
@@ -152,11 +153,11 @@
 
 <!-- 地址選單返回值 -->
 <script>
-	$(window).load(function(){
-		$("option[value='${county}']").prop("selected",true);
-		$("select[name='district']").children().html("${dist}");
-// 		$("[name='addr']").val("${addr}");
-	})
+// 	$(window).load(function(){
+// 		$("option[value='${county}']").prop("selected",true);
+// 		$("select[name='district']").children().html("${dist}");
+// // 		$("[name='addr']").val("${addr}");
+// 	})
 </script> 	
 
 
