@@ -141,5 +141,64 @@
     <url-pattern>/furPho/furPho.do</url-pattern>
   </servlet-mapping>
 <!--   ↑怡蓁↑   -->
+
+<!--   ↓敬達↓   -->
+	<servlet>
+		<servlet-name>houPho</servlet-name>
+		<servlet-class>com.houPho.controller.HouPhoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>houPho</servlet-name>
+		<url-pattern>/houPho/houPho.do</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>houPhoImg</servlet-name>
+		<servlet-class>com.houPho.controller.HouPhoImgServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>houPhoImg</servlet-name>
+		<url-pattern>/houPhoImg/houPhoImg.do</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>house</servlet-name>
+		<servlet-class>com.house.controller.HouseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>house</servlet-name>
+		<url-pattern>/house/house.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>houseImg</servlet-name>
+		<servlet-class>com.house.controller.HouseImgServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>houseImg</servlet-name>
+		<url-pattern>/house/houseImg.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>houseAdm</servlet-name>
+		<servlet-class>com.house.controller.HouseAdmServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>houseAdm</servlet-name>
+		<url-pattern>/house/houseAdm.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>rooVieApp</servlet-name>
+		<servlet-class>com.rooVieApp.controller.RooVieAppServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rooVieApp</servlet-name>
+		<url-pattern>/rooVieApp/rooVieApp.do</url-pattern>
+	</servlet-mapping>
+<!--   ↑敬達↑   -->
+
   
 </web-app>
