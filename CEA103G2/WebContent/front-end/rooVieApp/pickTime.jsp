@@ -46,15 +46,44 @@ th {
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2> 預 約 看 房 </h2>
-                            <p>H o m e <span>-</span> V i e w i n g</p>
+                            <h2> 預 約 看 房   Welcome</h2>
+                            <h3> &nbsp;&nbsp;&nbsp; ${MemTenVO.mem_name} 你好 !</h3>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H o m e <span>-</span> V i e w i n g</p>
+                            <p>會員: ${MemTenVO.mem_no} <span>-</span>  選取你要預約的時間</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-<!-- ======圖片 -->
+<!-- ======員工控制 -->
+ <section class="confirmation_part" >
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-4">
+                	<label>現在起幾小時內不可預約
+                    <input type="text" id="" style="display:inline-block;width:30%;">
+                    </label>
+                </div>
+                <div class="col-lg-8">
+                	<label><span>員工上班時段</span>:
+                    <input type="number" name="gotowork" min='0' max='23' value="0" style="display:inline-block;width:20%;"><span>至</span>
+                    <input type="number" name="gooffwork" min='0' max='23' value="23" style="display:inline-block;width:20%;">
+                    
+                    <script>
+                    $("input[name='gotowork']").mouseup(function(e){
+                    	$("input[name='gotowork']").attr('value',$(this).val());
+                    })
+                    $("input[name='gooffwork']").click(function(){
+                    	$(this).attr('min',$("input[name='gotowork']").attr("value"));
+                   	})
+                    </script>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+    
 <!-- /****** CONTAINER *****/     -->
  	<section class="confirmation_part padding_top" style="padding-top:0px">
 		<div class="container">
@@ -605,7 +634,6 @@ th {
 				</form>
 <!-- /****** CONTAINER *****/     -->	                       
 		<script>
-		alert(new Date("2021-5-23").getDate());
 //日曆生成
 			$(function(){
 				let choose = new Date();
@@ -704,20 +732,45 @@ th {
 			let prevTime = 0;
 			let interval = 1;
 //設定距離 現在多少小時才可以預約
-			let freeTimeToSee = 5;
+			let freeTimeToSee = 10;
 			let currentHours = new Date().getHours();
+			//用於包裹，判斷不能選的時段
+			let unchoosetime = 0;
+			let isUpdate = false;
 			function spanTimetitle(prevTime,interval,pickdate){
 				$("span[name='timeTitle']").each(function(index){
 					let nextTime = prevTime+interval;
 					$(this).text(prevTime+":00-"+nextTime+":00");
 					let rva_order_time =pickdate+" "+prevTime+":00:00";
-					let compareHours1 =pickdate+" "+index+":00:00";
-					let compareHours = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate()+" "+(new Date().getHours()+freeTimeToSee)+":00:00";
-					console.log("SSS"+(Date.parse(compareHours1).valueOf()<Date.parse(compareHours).valueOf()));
-					if(Date.parse(compareHours1).valueOf() < Date.parse(compareHours).valueOf()){
+					//以下設定現在(freeTimeToSee)之內的時段 不可預約
+					let comparePickTime =pickdate+" "+index+":00:00";
+					let nowHour = new Date().getHours()+freeTimeToSee+1;
+					let nowDate = new Date().getDate();
+					let nowMonth = (new Date().getMonth()+1); 
+					let nowYear = new Date().getFullYear();
+					let nowTotalDay = judgeDay(nowYear,nowMonth);
+					if(nowHour>=24){
+						nowDate++;
+						nowHour-=24;
+					}
+					if(nowDate>nowTotalDay){
+						nowMonth++;
+						nowDate-=nowTotalDay;
+					}
+					if(nowMonth>=12){
+						nowDate++;
+						nowMonth-=12;
+					}
+					let compareNowTime = nowYear+"-"+nowMonth+"-"+nowDate+" "+nowHour+":00:00";
+					if(index==1){
+						isUpdate = false;
+					}
+					
+					if(Date.parse(comparePickTime).valueOf() < Date.parse(compareNowTime).valueOf()){
 						$("input[name='picktime']").eq(index).prop("disabled",true);
+						unchoosetime = index;
 						console.log($("input[name='picktime']").eq(index).prop("checked"));
-						
+						isUpdate =true;
 					}
 					$("input[name='picktime']").eq(index).next().remove();
 					$("input[name='picktime']").eq(index).attr('value',rva_order_time);
@@ -725,13 +778,14 @@ th {
 					prevTime+=interval;
 				})
 			}
-//以下websocket			
-			let MyPoint = "/pickTime/${member}";//給WS.java接收用
+//以下websocket
+			let member = ${MemTenVO.mem_no}
+			let MyPoint = "/pickTime/"+member;//給WS.java接收用
 			let host = window.location.host;
 			let path = window.location.pathname;
 			let webCtx = path.substring(0, path.indexOf('/', 1));
 			let endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
-			let self = '${member}';
+			let self = member;
 			let webSocket;
 			let countChecked = 0 ; //計算已預約時段
 			let fullCheck = 24; //設定 24的時段 滿時段，跳出通知
@@ -741,7 +795,7 @@ th {
 				
 				webSocket.onopen = function(event) {
 					console.log("Connect Success!");
-					$("#member").after("<p>${member}</p>");//連線成功 登入名稱
+					$("#member").after("<p>"+member+"</p>");//連線成功 登入名稱
 					addListener();
 				};
 				
@@ -766,12 +820,16 @@ th {
 							let timepick = jsonObject.timepick;
 							let date = jsonObject.date;//取出被選的了
 							let datepick = jsonObject.datepick;
+							if(isUpdate==true && time<=unchoosetime){
+								continue;
+							}
+							
 							//先篩選日期  
 							if(self !== jsonObject.sender && timepick==="1" && $("input[name='picktime']").next().attr('id')===date){
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
 										$(this).prop("checked",true);
-										$(this).next().text(jsonObject.sender+"已預約");
+										$(this).next().text("會員"+jsonObject.sender+" 已預約");
 										countChecked++;
 										$(this).prop("disabled",true);
 									}
@@ -789,7 +847,7 @@ th {
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
 										$(this).prop("checked",true);
-										$(this).next().text(jsonObject.sender+"已預約");
+										$(this).next().text("會員"+jsonObject.sender+" 已預約");
 										countChecked++;
 									}
 								})
@@ -813,7 +871,7 @@ th {
 							$("input[name='picktime']").each(function(){
 								if($(this).attr("id")===time){
 									$(this).prop("checked",true);
-									$(this).next().text(jsonObj.sender+"已預約");
+									$(this).next().text("會員"+jsonObj.sender+" 已預約");
 									countChecked++;
 								}
 							})
@@ -837,7 +895,7 @@ th {
 							$("input[name='picktime']").each(function(){
 								if($(this).attr("id")===time){
 									$(this).prop("checked",true);
-									$(this).next().text(jsonObj.sender+"已預約");
+									$(this).next().text("會員"+jsonObj.sender+" 已預約");
 									$(this).prop("disabled",true);
 								}
 							})
@@ -904,13 +962,17 @@ th {
 			}
 			
 			$("button[name='pickdate']").click(function(){
-				$("#showdate").html("<span>"+$(this).attr('id')+" 的時段 </span>")
+				$()
 				
+				$("#showdate").html("<span>"+$(this).attr('id')+" 的時段 </span>")
+				$("#exampleModalLabel").html("訂單需處理，請預約 \"現在起 "+freeTimeToSee+"小時 \"之後的時段");
 				$("input[name='picktime']").each(function(){
 					$(this).prop('checked',false);
 					$(this).prop('disabled',false);
 				})
 				spanTimetitle(prevTime,interval,$(this).attr('id'));
+				alert(isUpdate);
+				
 				addListener();
 				countChecked=0;
 				$("#Modal").modal('show');
