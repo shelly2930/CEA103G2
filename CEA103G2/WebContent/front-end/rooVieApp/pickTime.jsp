@@ -9,7 +9,7 @@
 
 <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <!-- =================================下面是導覽列==================================================== --> 
-<%@include file="/front-end/header.file"%>
+<%@include file="/front-end/header.jsp"%>
 <!-- =================================上面是導覽列==================================================== --> 
 <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <style>
@@ -703,15 +703,21 @@ th {
 //時段選擇生成
 			let prevTime = 0;
 			let interval = 1;
+//設定距離 現在多少小時才可以預約
+			let freeTimeToSee = 5;
 			let currentHours = new Date().getHours();
 			function spanTimetitle(prevTime,interval,pickdate){
 				$("span[name='timeTitle']").each(function(index){
 					let nextTime = prevTime+interval;
 					$(this).text(prevTime+":00-"+nextTime+":00");
 					let rva_order_time =pickdate+" "+prevTime+":00:00";
-					let compareHours = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate()+" "+(new Date().getHours()+7)+":00:00";
-					if(Date.parse(rva_order_time).valueOf()<Date.parse(compareHours).valueOf()){
-						//尚未完成
+					let compareHours1 =pickdate+" "+index+":00:00";
+					let compareHours = new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate()+" "+(new Date().getHours()+freeTimeToSee)+":00:00";
+					console.log("SSS"+(Date.parse(compareHours1).valueOf()<Date.parse(compareHours).valueOf()));
+					if(Date.parse(compareHours1).valueOf() < Date.parse(compareHours).valueOf()){
+						$("input[name='picktime']").eq(index).prop("disabled",true);
+						console.log($("input[name='picktime']").eq(index).prop("checked"));
+						
 					}
 					$("input[name='picktime']").eq(index).next().remove();
 					$("input[name='picktime']").eq(index).attr('value',rva_order_time);
@@ -899,11 +905,12 @@ th {
 			
 			$("button[name='pickdate']").click(function(){
 				$("#showdate").html("<span>"+$(this).attr('id')+" 的時段 </span>")
-				spanTimetitle(prevTime,interval,$(this).attr('id'));
+				
 				$("input[name='picktime']").each(function(){
 					$(this).prop('checked',false);
 					$(this).prop('disabled',false);
 				})
+				spanTimetitle(prevTime,interval,$(this).attr('id'));
 				addListener();
 				countChecked=0;
 				$("#Modal").modal('show');
