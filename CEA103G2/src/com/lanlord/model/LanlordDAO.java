@@ -1,5 +1,10 @@
 package com.lanlord.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.Context;
@@ -7,10 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.memTen.model.MemTenDAO_interface;
-import com.memTen.model.MemTenVO;
 
-public class LanlordDAO implements MemTenDAO_interface {
+public class LanlordDAO implements LanlordDAO_interface {
 
 	private static DataSource ds = null;
 	static {
@@ -22,67 +25,278 @@ public class LanlordDAO implements MemTenDAO_interface {
 		}
 	}
 	
-	private static final String INSERT_STMT = "INSERT INTO LANLORD (lld_no, mem_no, lld_apptime, lld_bank,"
-				+ " lld_account, lld_acc_pic, lld_status, lld_id_isvrfed, lld_id_disapprove, lld_suspend)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO LANLORD (mem_no, lld_apptime, lld_bank,"
+				+ " lld_account, lld_acc_pic) VALUES (?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM LANLORD ORDER BY lli_no";
 	private static final String GET_ONE_STMT = "SELECT * FROM LANLORD WHERE lli_no=?";
 	private static final String UPDATE = "UPDATE LANLORD SET mem_no= ?, lld_apptime=?, lld_bank=?, lld_account=?,"
 				+ " lld_acc_pic=?, lld_status=?, lld_id_isvrfed=?, lld_id_disapprove=?, lld_suspend=? WHERE lli_no =?";
+	private static final String FIND_BY_MEMTEN = "SELECT * FROM LANLORD WHERE mem_no=?";
 	
-	
 	@Override
-	public void insert(MemTenVO memTenVO) {
-		// TODO Auto-generated method stub
+	public void insert(LanlordVO lanlordVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT_STMT);
+
+			pstmt.setInt(1, lanlordVO.getMem_no());
+			pstmt.setDate(2, lanlordVO.getLld_apptime());
+			pstmt.setString(3, lanlordVO.getLld_bank());
+			pstmt.setString(4, lanlordVO.getLld_account());
+			pstmt.setBytes(5, lanlordVO.getLld_acc_pic());
+			
+			pstmt.executeUpdate();
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+	@Override
+	public void update(LanlordVO lanlordVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE);
+
+			pstmt.setInt(1, lanlordVO.getMem_no());
+			pstmt.setDate(2, lanlordVO.getLld_apptime());
+			pstmt.setString(3, lanlordVO.getLld_bank());
+			pstmt.setString(4, lanlordVO.getLld_account());
+			pstmt.setBytes(5, lanlordVO.getLld_acc_pic());
+			pstmt.setByte(6, lanlordVO.getLld_status());
+			pstmt.setDate(7, lanlordVO.getLld_id_isvrfed());
+			pstmt.setString(8, lanlordVO.getLld_id_disapprove());
+			pstmt.setString(9, lanlordVO.getLld_suspend());
+			pstmt.setInt(10, lanlordVO.getLld_no());
+			
+			pstmt.executeUpdate();
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
 		
 	}
-
 	@Override
-	public void update(MemTenVO memTenVO) {
-		// TODO Auto-generated method stub
-		
-	}
+	public LanlordVO findByPrimaryKey(Integer lld_no) {
+		LanlordVO lanlordVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+
+			pstmt.setInt(1, lld_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				lanlordVO = new LanlordVO();
+				lanlordVO.setLld_no(rs.getInt("lld_no"));
+				lanlordVO.setMem_no(rs.getInt("mem_no"));
+				lanlordVO.setLld_apptime(rs.getDate("lld_apptime"));
+				lanlordVO.setLld_bank(rs.getString("lld_bank"));
+				lanlordVO.setLld_account(rs.getString("lld_account"));
+				lanlordVO.setLld_acc_pic(rs.getBytes("lld_acc_pic"));
+				lanlordVO.setLld_status(rs.getByte("lld_status"));
+				lanlordVO.setLld_id_isvrfed(rs.getDate("lld_id_isvrfed"));
+				lanlordVO.setLld_id_disapprove(rs.getString("lld_id_disapprove"));
+				lanlordVO.setLld_suspend(rs.getString("lld_suspend"));
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return lanlordVO;
+	}
 	@Override
-	public void delete(Integer mem_no) {
-		// TODO Auto-generated method stub
-		
-	}
+	public List<LanlordVO> getAll() {
+		List<LanlordVO> list = new ArrayList<LanlordVO>();
+		LanlordVO lanlordVO = null;
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// empVO ¤]ºÙ¬° Domain objects
+				lanlordVO = new LanlordVO();
+				lanlordVO.setLld_no(rs.getInt("lld_no"));
+				lanlordVO.setMem_no(rs.getInt("mem_no"));
+				lanlordVO.setLld_apptime(rs.getDate("lld_apptime"));
+				lanlordVO.setLld_bank(rs.getString("lld_bank"));
+				lanlordVO.setLld_account(rs.getString("lld_account"));
+				lanlordVO.setLld_acc_pic(rs.getBytes("lld_acc_pic"));
+				lanlordVO.setLld_status(rs.getByte("lld_status"));
+				lanlordVO.setLld_id_isvrfed(rs.getDate("lld_id_isvrfed"));
+				lanlordVO.setLld_id_disapprove(rs.getString("lld_id_disapprove"));
+				lanlordVO.setLld_suspend(rs.getString("lld_suspend"));
+				list.add(lanlordVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 	@Override
-	public MemTenVO findByPrimaryKey(Integer mem_no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public LanlordVO findByMemTen(Integer mem_no) {
+		LanlordVO lanlordVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-	@Override
-	public List<MemTenVO> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		try {
 
-	@Override
-	public MemTenVO loginCheck(String mem_username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_MEMTEN);
 
-	@Override
-	public void updateMemStatus(String mem_username, Byte mem_status) {
-		// TODO Auto-generated method stub
-		
-	}
+			pstmt.setInt(1, mem_no);
 
-	@Override
-	public MemTenVO findByEmail(String mem_email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			rs = pstmt.executeQuery();
 
-	@Override
-	public void updatePwd(String mem_email, String mem_password) {
-		// TODO Auto-generated method stub
-		
-	}
+			while (rs.next()) {
+				lanlordVO = new LanlordVO();
+				lanlordVO.setLld_no(rs.getInt("lld_no"));
+				lanlordVO.setMem_no(rs.getInt("mem_no"));
+				lanlordVO.setLld_apptime(rs.getDate("lld_apptime"));
+				lanlordVO.setLld_bank(rs.getString("lld_bank"));
+				lanlordVO.setLld_account(rs.getString("lld_account"));
+				lanlordVO.setLld_acc_pic(rs.getBytes("lld_acc_pic"));
+				lanlordVO.setLld_status(rs.getByte("lld_status"));
+				lanlordVO.setLld_id_isvrfed(rs.getDate("lld_id_isvrfed"));
+				lanlordVO.setLld_id_disapprove(rs.getString("lld_id_disapprove"));
+				lanlordVO.setLld_suspend(rs.getString("lld_suspend"));
+			}
 
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return lanlordVO;
+	}
 }
