@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +39,8 @@ public class EmployeeServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html; charset=UTF-8");
 		String action = req.getParameter("action");
+		HttpSession session = req.getSession();
+//		ServletContext context = getServletContext();
 
 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
 
@@ -352,7 +356,7 @@ public class EmployeeServlet extends HttpServlet {
 				EmployeeService employeeSvc = new EmployeeService();
 				employeeVO = employeeSvc.updateByEmp(emp_no, emp_name, emp_password, emp_gender, emp_id, emp_birthday, emp_phone, emp_mobile, emp_addr, emp_email, emp_bank, emp_account, emp_pic);
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("employeeVO", employeeVO); // 資料庫update成功後,正確的的empVO物件,存入req
+				session.setAttribute("employeeVO", employeeVO); // 資料庫update成功後,正確的的empVO物件,存入req
 				String url = "/back-end/employee/listOneEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
@@ -551,11 +555,11 @@ public class EmployeeServlet extends HttpServlet {
 		if("login".equals(action)) {
 			Map<String,String> messages = new HashMap<String,String>();
 			req.setAttribute("messages", messages);
-			HttpSession session = req.getSession();
 			
 			try {
 				String emp_username = req.getParameter("emp_username").trim();
 				String emp_password = req.getParameter("emp_password").trim();
+				String[] rememberMe = req.getParameterValues("rememberMe");
 				List<EmployeeVO> list = new EmployeeService().getAll();
 				for(EmployeeVO employeeVO : list) {
 					if(employeeVO.getEmp_username().equals(emp_username)) {
@@ -569,18 +573,37 @@ public class EmployeeServlet extends HttpServlet {
 								Integer fun_no = staRigVO.getFun_no();
 								list_Fun_no.add(fun_no);
 							}
+								
+							if(rememberMe != null) {
+								Cookie cookie = new Cookie("emp_username", emp_username);
+								cookie.setMaxAge(60);
+								cookie.setPath("/");
+								res.addCookie(cookie);
+								cookie = new Cookie("emp_no", employeeVO.getEmp_no().toString());
+								cookie.setMaxAge(60);
+								cookie.setPath("/");
+								res.addCookie(cookie);
+//								cookie = new Cookie("JSESSIONID", session.getId());
+//								cookie.setMaxAge(60);
+//								cookie.setPath("/");
+//								res.addCookie(cookie);
+							}
+							
 							session.setAttribute("list_Fun_no", list_Fun_no);
+//							context.setAttribute(emp_username, "login");
 							
 							String location = (String)session.getAttribute("location");
 							session.removeAttribute("location");
 							if(location == null) {
 								res.sendRedirect(req.getContextPath() + "/back-end/indexBack.jsp");
 							}
-							else
+							else {
 								res.sendRedirect(location);
+							}
 							return;
 						} else {
 							messages.put("emp_username", emp_username);
+							messages.put("rememberMe", (rememberMe == null)? null : rememberMe[0]);
 							messages.put("failure", "密碼錯誤");
 							RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 							failureView.forward(req, res);
@@ -589,6 +612,8 @@ public class EmployeeServlet extends HttpServlet {
 					}
 				}
 				messages.put("emp_username", emp_username);
+				messages.put("rememberMe", (rememberMe == null)? null : rememberMe[0]);
+				
 				messages.put("failure", "查無此帳號");
 				RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 				failureView.forward(req, res);
@@ -597,6 +622,23 @@ public class EmployeeServlet extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 				failureView.forward(req, res);
 			}
+		}
+		
+		if("logout".equals(action)) {
+			session.invalidate();
+			Cookie[] cookieList = req.getCookies();
+			if(cookieList != null){
+				for(Cookie cookie : cookieList) {
+					if(cookie.getName().equals("emp_no")){
+						cookie.setMaxAge(0);
+						cookie.setPath("/");
+						res.addCookie(cookie);
+					}
+				}
+			}
+			
+			RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
+			failureView.forward(req, res);
 		}
 		
 		if("sendEmail".equals(action)) {
@@ -611,7 +653,7 @@ public class EmployeeServlet extends HttpServlet {
 			}else {
 				MailService mailService = new MailService();
 				String emp_username = req.getParameter("emp_username");
-				String emp_password = req.getParameter("emp_password");
+				String emp_password = new EmployeeService().getOneEmp(new Integer(req.getParameter("emp_no"))).getEmp_password();
 				String subject = "HowTrue好厝  - 新進員工登入通知";
 				String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password;
 				mailService.sendMail(emp_email, subject, messageText);

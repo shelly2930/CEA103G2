@@ -157,7 +157,6 @@
 
 						<input type="hidden" name="action" value="updateBySup">
 						<input type="hidden" name="emp_no" value="${employeeVO.emp_no}">
-						<input type="hidden" id="emp_password" value="${employeeVO.emp_password}">
 					</form>
 
 				</div>

@@ -1,4 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page import="javax.servlet.http.Cookie"%>
+
+<%
+	String emp_username = null;
+	Cookie[] cookieList = request.getCookies();
+	if(cookieList != null){
+		for(int i = 0; i < cookieList.length; i++) {
+			Cookie cookie = cookieList[i];
+			System.out.println("CookieList[" + i + "] : " + cookie.getName() + ", " + cookie.getValue() + ", " + cookie.getMaxAge());
+			if(cookie.getName().equals("emp_username")){
+				emp_username = cookie.getValue();
+			}
+		}
+	}
+	pageContext.setAttribute("emp_username",emp_username);
+	System.out.println(session.getId());
+%>
+
 <!doctype html>
 <html lang="zh-tw">
 <head>
@@ -44,6 +62,7 @@
 		
 		<div class="form-label-group">
 			<input type="text" id="inputEmail" class="form-control" name="emp_username" value="${messages.emp_username}"
+<%-- 			<input type="text" id="inputEmail" class="form-control" name="emp_username" value="${emp_username}" --%>
 				placeholder="Email address" required autofocus> <label
 				for="inputEmail">Username</label>
 		</div>
@@ -54,7 +73,7 @@
 		</div>
 
 		<div class="checkbox mb-3">
-			<label> <input type="checkbox" value="remember-me">
+			<label> <input type="checkbox" name="rememberMe" value="rememberMe" ${(messages.rememberMe eq null)? "" : "checked"}>
 				Remember me
 			</label>
 		</div>
@@ -64,5 +83,18 @@
 		<p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
 		<input type="hidden" name="action" value="login">
 	</form>
+	
+	<script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+	
+	<script>
+// 	function init() {
+		if(${empty messages.emp_username} && ${emp_username != null}) {
+			$("#inputEmail").val("${emp_username}");
+			$("[name='rememberMe']").prop("checked", true);
+		}
+// 	}
+	
+// 	window.onload = init;
+	</script>
 </body>
 </html>

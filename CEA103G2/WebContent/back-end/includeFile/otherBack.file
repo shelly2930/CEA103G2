@@ -18,7 +18,10 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/CEA103G2/loginBack.jsp">Logout</a>
+                    <form method="post" action="<%=request.getContextPath()%>/employee/employee.do">
+                    	<button class="btn btn-primary" type="submit">Logout</button>
+                    	<input type="hidden" name="action" value="logout">
+					</form>
                 </div>
             </div>
         </div>
