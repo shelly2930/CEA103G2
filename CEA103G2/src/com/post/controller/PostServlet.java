@@ -24,8 +24,36 @@ public class PostServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		String status = req.getParameter("status");
-		
-		
+
+		// 後台點擊公告標題查看內文
+		if ("getOneBackPost".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				String post_no = req.getParameter("post_no");
+
+				/*************************** 2.開始查詢資料 ****************************************/
+				PostService postSvc = new PostService();
+				PostVO postVO = postSvc.getOnePostShow(new Integer(post_no));
+				req.setAttribute("postVO", postVO);
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				String url = "/back-end/post/listOnePost.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/post/listAllPost.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
 		// 我想要跳到listOneContent
 		if ("GoToOneContent".equals(action)) { // 來自listAllEmp.jsp的請求
 
@@ -287,6 +315,7 @@ public class PostServlet extends HttpServlet {
 
 			req.setAttribute("list", list);
 			String url = "/back-end/post/listAllPost.jsp";
+//			String url = "/back-end/post/TestPost.jsp";
 			System.out.println("HI COMING");
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 轉交listAllEmp.jsp
 			successView.forward(req, res);
@@ -309,7 +338,6 @@ public class PostServlet extends HttpServlet {
 			successView.forward(req, res);
 
 		}
-		
 
 	}
 }

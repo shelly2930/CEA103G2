@@ -1,96 +1,111 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="BIG5"%>
 <%@ page import="com.post.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
+<!DOCTYPE html>
+<html lang="en">
 
-<%
-	PostVO postVO = (PostVO) request.getAttribute("postVO");
-%>
-
-<html>
 <head>
-<title>個別公告 - listOnePost.jsp</title>
 
-<style>
-table#table-1 {
-	background-color: #CCCCFF;
-	border: 2px solid black;
-	text-align: center;
-}
+<meta charset="BIG5">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 
-table#table-1 h4 {
-	color: red;
-	display: block;
-	margin-bottom: 1px;
-}
+<title>後台空頁</title>
 
-h4 {
-	color: blue;
-	display: inline;
-}
-</style>
+<!-- Custom fonts for this template-->
+<link
+	href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
 
-<style>
-table {
-	width: 600px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-table, th, td {
-	border: 1px solid #CCCCFF;
-}
-
-th, td {
-	padding: 5px;
-	text-align: center;
-	width: 50px;
-}
-</style>
+<!-- Custom styles for this template-->
+<link
+	href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css"
+	rel="stylesheet">
 
 </head>
-<body bgcolor='white'>
 
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>員工資料 - ListOnePost.jsp</h3>
-				<h4>
-					<a
-						href="<%=request.getContextPath()%>/back-end/post/select_page.jsp"><img
-						src="<%=request.getContextPath()%>/back-end/post/images/house.jpg"
-						width="100" height="32" border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+<body id="page-top">
 
-	<table>
-		<tr>
-			<th>公告編號</th>
-			<th>公告日期</th>
-			<th>公告標題</th>
-			<th>公告內文</th>
-			<th>公告狀態</th>
-		</tr>
-		<tr>
-			<td><%=postVO.getPost_no()%></td>
-			<td><fmt:formatDate value="${postVO.post_time}"
-					pattern="yyyy-MM-dd HH:mm:ss" /></td>
-			<td><%=postVO.getPost_title()%></td>
-			<td><%=postVO.getPost_content()%></td>
-			<td>			
-			<c:choose>
-				<c:when test="${postVO.post_status==0}">下架</c:when>
-				<c:when test="${postVO.post_status==1}">上架</c:when>
-				<c:when test="${postVO.post_status==2}">錯誤</c:when>
-			</c:choose>
-			</td> 
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-		</tr>
-	</table>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
+				<div class="container-fluid">
+					<%
+						PostVO postVO = (PostVO) request.getAttribute("postVO");
+					%>
+
+					<!-- Basic Card Example -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary"><%=postVO.getPost_title()%></h6>
+						</div>
+						<div class="card-body">
+							<div>公告時間:
+								<fmt:formatDate value="${postVO.post_time}"
+									pattern="yyyy-MM-dd HH:mm:ss" />
+								&nbsp;
+							</div>
+							<strong><%=postVO.getPost_content()%></strong>
+						</div>
+					</div>
+
+
+
+				</div>
+				<!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
+
+			</div>
+			<!-- End of Main Content -->
+
+
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+
+	<!-- Bootstrap core JavaScript-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
+
+	<!-- Page level plugins -->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
+
+	<!-- Page level custom scripts -->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
 
 </body>
+
 </html>

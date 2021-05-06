@@ -587,7 +587,7 @@ public class HouseDAO implements HouseDAO_interface {
 		}
 //平台管理員 負責案件 
 		@Override
-		public List<HouseVO> getAllByState(Integer state,Integer status) {
+		public List<HouseVO> getAllByState(Byte state,Byte status) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -624,6 +624,55 @@ public class HouseDAO implements HouseDAO_interface {
 					}
 				}
 			return list;
+		}
+		@Override
+		public void updateHouseContent(HouseVO houseVO) {
+			Connection con= null;
+			PreparedStatement ps= null;
+			try {
+				con = ds.getConnection();
+				ps = con.prepareStatement("UPDATE HOUSE SET HOS_NAME=?, HOS_INFO=? WHERE "+ PK+"= ? ");
+				ps.setString(1,houseVO.getHos_name());
+				ps.setString(2,houseVO.getHos_info());
+				ps.setInt(3,houseVO.getHos_no());
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				throw new RuntimeException(e.getMessage());
+			}finally {
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+		}
+		@Override
+		public void updateHouseState(HouseVO houseVO) {
+			Connection con= null;
+			PreparedStatement ps= null;
+			try {
+				con = ds.getConnection();
+				ps = con.prepareStatement("UPDATE HOUSE SET HOS_STATE=?, HOS_STATUS=?,HOS_DATE=? WHERE "+ PK+"= ? ");
+				ps.setByte(1,houseVO.getHos_state());
+				ps.setByte(2,houseVO.getHos_status());
+				ps.setTimestamp(3, houseVO.getHos_date());
+				ps.setInt(4,houseVO.getHos_no());
+				
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				throw new RuntimeException(e.getMessage());
+			}finally {
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			
 		}
 				
 

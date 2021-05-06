@@ -1,0 +1,34 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+
+  <%if (rowsPerPage<rowNumber) {%>
+    <%if(pageIndex>=rowsPerPage){%>
+        <a class="btn btn-secondary btn-sm active" style="height:30px" href="<%=request.getContextPath()%>/house/house.do?whichPage=1&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery">至第一頁</a>&nbsp;
+        <a class="btn btn-secondary btn-sm active" style="height:30px" href="<%=request.getContextPath()%>/house/house.do?whichPage=<%=whichPage-1%>&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery">上一頁</a>
+    <%}%>
+  
+    <%if(pageIndex<pageIndexArray[pageNumber-1]){%>
+        <a class="btn btn-secondary btn-sm active" style="height:30px" href="<%=request.getContextPath()%>/house/house.do?whichPage=<%=whichPage+1%>&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery">下一頁</a>&nbsp;
+        <a class="btn btn-secondary btn-sm active" style="height:30px" href="<%=request.getContextPath()%>/house/house.do?whichPage=<%=pageNumber%>&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery">至最後一頁</a>&nbsp;
+    <%}%>
+  <%}%>  
+<%if (pageNumber>0){%>
+  	<b><font color=red>第<%=whichPage%>/<%=pageNumber%>頁</font></b>
+<%}%>
+
+<b> ●符 合 查 詢 條 件 如 下 所 示: 共<font color=red><%=rowNumber%></font><span> 筆 &nbsp; </b>
+<br>
+<br>
+
+  <%if ( pageNumber > 1) {%>
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/house/house.do">   
+    
+       <select size="1" name="whichPage">
+         <%for (int i=1; i<=pageNumber; i++){%>
+            <option value="<%=i%>">跳至第<%=i%>頁
+         <%}%> 
+       </select>
+
+       <input type="submit" class="btn btn-outline-dark btn-sm " style="height:30px " value="確定" >
+       <input type="hidden" name="action" value="listHouse_AllOrQuery">  
+    </FORM>
+  <%}%>

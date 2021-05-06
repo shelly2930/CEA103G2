@@ -9,6 +9,12 @@
 
 <html>
 <head>
+
+<!-- Required source start -->
+	<!-- jquery 這行有需要的人再加 -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<!-- Required source end -->
+
 <title>會員資料 - listOneMemTen.jsp</title>
 
 <style>
@@ -72,6 +78,8 @@
 		<th>連絡電話</th>
 		<th>行動電話</th>
 		<th>電子信箱</th>
+		<th>縣市</th>
+		<th>鄉鎮市區</th>
 		<th>地址</th>
 		<th>身分證正面</th>
 		<th>身分證背面</th>		
@@ -94,11 +102,16 @@
 		<td><%=memTenVO.getMem_phone()%></td>
 		<td><%=memTenVO.getMem_mobile()%></td>
 		<td><%=memTenVO.getMem_email()%></td>
+		<td><%=memTenVO.getMem_city()%></td>
+		<td><%=memTenVO.getMem_dist()%></td>
 		<td><%=memTenVO.getMem_addr()%></td>
 		<td><%=memTenVO.getMem_idcard_f()%></td>
 		<td><%=memTenVO.getMem_idcard_r()%></td>
 	</tr>
 </table>
+
+
+
 
 </body>
 </html>

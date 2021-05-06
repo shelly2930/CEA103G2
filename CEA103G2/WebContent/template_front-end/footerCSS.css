@@ -1,6 +1,21 @@
 /* footer CSS start */
 .footer_part {
-  	padding: 70px 0px 25px !important;
+  	padding: 25px 0px 15px !important;
+}
+@media (max-width: 576px) {
+  .footer_part {
+    padding: 25px 0px 15px !important;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .footer_part {
+    padding: 25px 0px 15px !important;
+  }
+}5
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .footer_part {
+    padding: 25px 0px 15px !important;
+  }
 }
 .footer_part .copyright_part {
 	padding: 0px !important;

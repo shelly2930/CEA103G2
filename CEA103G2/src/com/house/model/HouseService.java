@@ -127,17 +127,36 @@ public class HouseService {
 	public List<HouseVO> getAll_Back(Map<String, String[]> map) {
 		return dao.getAll_Back(map);
 	}
-	
-	//平台管理員專用 (0,2)表示完成案件 等待上架 (1)上架中 (2)下架可重新上架(3)下架 ，廢棄
-	public List<HouseVO> getAllByState(Integer state,Integer status) {
+	//平台管理員 管理文案與照片
+	//平台管理員用 (0,2)表示完成案件 等待上架[上架按鈕] (1,2)上架中[下架按鈕] (2,2)下架可重新上架[上架按鈕](3,2)下架 ，廢棄[僅供查看]
+	//主管用  list 全部(0,2) 退回->改進度為(0,1)、可以重新指派 ，重新指派員工(指派改為平台管理員)表示通過案件       
+	public List<HouseVO> getAllByState(Byte state,Byte status) {
 		return dao.getAllByState(state,status);
 	}
+	
+	public void updateHouseContent(String hos_name,String hos_info, Integer houseno) {
+		HouseVO houseVO = new HouseVO();
+		houseVO.setHos_no(houseno);
+		houseVO.setHos_name(hos_name);
+		houseVO.setHos_info(hos_info);
+		dao.updateHouseContent(houseVO);
+	}
+	public void updateHouseState(Byte hos_state,Byte hos_status,java.sql.Timestamp hos_date, Integer houseno) {
+		HouseVO houseVO = new HouseVO();
+		houseVO.setHos_no(houseno);
+		houseVO.setHos_state(hos_state);
+		houseVO.setHos_status(hos_status);
+		houseVO.setHos_date(hos_date);
+		dao.updateHouseState(houseVO);
+	}
+	
 	
 //	以下: 一(物件)對多(物件照片)===============================================================    
     //物件編號 去拉出所有屬於這物件的照片
 	public Set<HouPhoVO> getHouPhoByHouse(Integer houseno) {
 		return dao.getHouPhoByHouse(houseno);
 	}
+	
 
 }
 

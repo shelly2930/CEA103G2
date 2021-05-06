@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
@@ -47,8 +47,8 @@
 	</ul>
 </c:if>
 
-<ul>
-  <li><a href='<%=request.getContextPath() %>/back-end/post/listAllPost.jsp'>List</a> all Posts.  <br><br></li>
+<ul>    
+  <li><a href='<%=request.getContextPath()%>/post/post.do?action=listAll&status=0'>List</a> all Posts.  <br><br></li>
   
   
   <li>
@@ -66,7 +66,7 @@
      <FORM METHOD="post" ACTION="<%=request.getContextPath() %>/post/post.do" >
        <b>選擇公告標題:</b>
        <select size="1" name="post_no">
-         <c:forEach var="postVO" items="${postSvc.all}" > 
+         <c:forEach var="postVO" items="${postSvc.allDesc}" > 
           <option value="${postVO.post_no}">${postVO.post_title}
          </c:forEach>   
        </select>

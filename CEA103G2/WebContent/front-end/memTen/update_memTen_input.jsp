@@ -9,6 +9,13 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<!-- Required source start -->
+	<!-- jquery 這行有需要的人再加 -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<!-- Required source end -->
+
+<script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
+
 <title>員工資料修改 - update_memTen_input.jsp</title>
 
 <style>
@@ -49,6 +56,11 @@
 
 </head>
 <body bgcolor='white'>
+
+<!-- 地址連動選單 -->
+<script>
+	new TwCitySelector();	
+</script>
 
 <table id="table-1">
 	<tr><td>
@@ -123,26 +135,30 @@
 	</tr>
 	<tr>
 		<td>地址:</td>
-		<td><input type="TEXT" name="mem_addr" size="45"	value="<%=memTenVO.getMem_addr()%>" /></td>
+		<td>
+			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="${memTenVO.mem_city}"
+     			data-district-value="${memTenVO.mem_dist}"></div>
+			<input type="TEXT" name="mem_addr" size="45" value="${memTenVO.mem_addr}"/>
+		</td>
 	</tr>
-	
 
-<%-- 	<jsp:useBean id="deptSvc" scope="page" class="com.dept.model.DeptService" /> --%>
-<!-- 	<tr> -->
-<!-- 		<td>部門:<font color=red><b>*</b></font></td> -->
-<!-- 		<td><select size="1" name="deptno"> -->
-<%-- 			<c:forEach var="deptVO" items="${deptSvc.all}"> --%>
-<%-- 				<option value="${deptVO.deptno}" ${(memTenVO.deptno==deptVO.deptno)?'selected':'' } >${deptVO.dname} --%>
-<%-- 			</c:forEach> --%>
-<!-- 		</select></td> -->
-<!-- 	</tr> -->
-<!-- line100 (memTenVO.deptno==deptVO.deptno)?'selected':'' 修改時預設不會動的項目要加這行 -->
+
 </table>
 <br>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="mem_no" value="<%=memTenVO.getMem_no()%>">
 <input type="submit" value="送出修改"></FORM>
+
 </body>
+
+<!-- 地址選單返回值 -->
+<script>
+// 	$(window).load(function(){
+// 		$("option[value='${county}']").prop("selected",true);
+// 		$("select[name='district']").children().html("${dist}");
+// // 		$("[name='addr']").val("${addr}");
+// 	})
+</script> 	
 
 
 
@@ -226,4 +242,6 @@
         //      }});
         
 </script>
+
+
 </html>

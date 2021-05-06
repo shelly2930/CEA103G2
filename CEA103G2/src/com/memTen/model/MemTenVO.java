@@ -14,6 +14,8 @@ public class MemTenVO implements java.io.Serializable {
 	private String mem_phone;
 	private String mem_mobile;
 	private String mem_email;
+	private String mem_city;
+	private String mem_dist;
 	private String mem_addr;
 	private Byte mem_status;
 	private byte[] mem_idcard_f;
@@ -87,6 +89,18 @@ public class MemTenVO implements java.io.Serializable {
 	}
 	public void setMem_email(String mem_email) {
 		this.mem_email = mem_email;
+	}
+	public String getMem_city() {
+		return mem_city;
+	}
+	public void setMem_city(String mem_city) {
+		this.mem_city = mem_city;
+	}
+	public String getMem_dist() {
+		return mem_dist;
+	}
+	public void setMem_dist(String mem_dist) {
+		this.mem_dist = mem_dist;
 	}
 	public String getMem_addr() {
 		return mem_addr;

@@ -62,6 +62,7 @@ public class HouseImgServlet extends HttpServlet {
 				if(img.length == 0 || img == null) {
 					File file = new File(req.getServletContext().getRealPath("/")+"errorImg/error.png");
 					InputStream is = new FileInputStream(file);
+					System.out.println(file);
 					byte[] b = new byte[is.available()];
 					is.read(b);
 					output.write(b);
@@ -98,6 +99,7 @@ public class HouseImgServlet extends HttpServlet {
 				byte[] img = houseVO.getHos_loc_pic();
 				if(img.length == 0 || img == null) {
 					File file = new File(req.getServletContext().getRealPath("/")+"errorImg/error.png");
+					System.out.println(file);
 					InputStream is = new FileInputStream(file);
 					byte[] b = new byte[is.available()];
 					is.read(b);

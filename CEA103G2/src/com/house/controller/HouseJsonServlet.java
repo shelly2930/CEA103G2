@@ -17,18 +17,20 @@ import com.house.model.HouseVO;
 @WebServlet("/HouseJsonServlet")
 public class HouseJsonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HouseService svc = new HouseService();
-		Integer houseno =new Integer(request.getParameter("houseno"));
-		HouseVO housevo = svc.getOneHouse(houseno);
-		String str = new Gson().toJson(housevo);
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().print(str);
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		doPost(req,res);
 	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String action = req.getParameter("action");
+		if("getOneHouse".equals(action)) {
+			Integer houseno = new Integer(req.getParameter("houseno"));
+			HouseService svc = new HouseService();
+			HouseVO housevo = svc.getOneHouse(houseno);
+			String str = new Gson().toJson(housevo);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
+		}
 	}
 
 }

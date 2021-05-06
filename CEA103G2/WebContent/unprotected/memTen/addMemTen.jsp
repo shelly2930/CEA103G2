@@ -9,6 +9,11 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+
+<script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
+
+
 <title>會員資料新增 - addMemTen.jsp</title>
 
 <style>
@@ -50,6 +55,9 @@
 </head>
 <body bgcolor='white'>
 
+<%-- <%@include file="/front-end/header.file"%> --%>
+
+
 <table id="table-1">
 	<tr><td>
 		 <h3>會員資料新增 - addMemTen.jsp</h3></td><td>
@@ -69,7 +77,7 @@
 	</ul>
 </c:if>
 
-<FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" name="form1">
+<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath()%>/memTen/memTen.do" name="form1">
 <table>
 	<tr>
 		<td>帳號:</td>
@@ -121,12 +129,15 @@
 	<tr>
 		<td>電子信箱:</td>
 		<td><input type="TEXT" name="mem_email" size="45"
-			 value="<%= (memTenVO==null)? "peterwu1@gmail.com" : memTenVO.getMem_email()%>" /></td>
+			 value="<%= (memTenVO==null)? "shelly2930@gmail.com" : memTenVO.getMem_email()%>" /></td>
 	</tr>
 	<tr>
 		<td>地址:</td>
-		<td><input type="TEXT" name="mem_addr" size="45"
-			 value="<%= (memTenVO==null)? "台北市中山區民生東路三段67號" : memTenVO.getMem_addr()%>" /></td>
+		<td>
+			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="台北市"
+     			data-district-value="中山區"></div>
+			<input type="TEXT" name="mem_addr" size="45" value="民生東路三段67號"/>
+		</td>
 	</tr>
 	
 
@@ -143,35 +154,20 @@ function init() {
     let preview = document.getElementById("preview");
 
     myFile.addEventListener('change', function(e) {
-        // 取得檔案物件的兩種方式
-        // 1. 直接從myFile物件上取得檔案物件 (因為非同步，一樣，多個classname註冊時會有問題)
-        // 2. 從event物件中取得他的soure target，也就是myFile物件，再取得檔案物件 
-        // 檔案的基本資訊，包括：檔案的名稱、大小與文件型態
         let files = e.target.files;
-        // 判斷files物件是否存在
         if (files !== null) {
-            // 取出files物件的第一個
             let file = files[0];
-            // 判斷file.type的型別是否包含'image'
             if (file.type.indexOf('image') > -1) {
-                // new a FileReader
-                let reader = new FileReader();
-                // 在FileReader物件上註冊load事件 - 載入檔案的意思
+            	let reader = new FileReader();
                 reader.addEventListener('load', function(e) {
-                    // 取得結果 提示：從e.target.result取得讀取到結果
                     let result = e.target.result;
-                    // console.log(result) 確認讀取到結果
-                    // 新增img元素
                     let img = document.createElement('img');
-                    // 賦予src屬性
                     img.src = result;
-                    // 放到div裡面
                     preview.append(img);
+                    $("img:first").remove(); // 預覽只會保留最新上傳的
                 });
-                // 使用FileReader物件上的 readAsDataURL(file) 的方法，傳入要讀取的檔案，並開始進行讀取
-                reader.readAsDataURL(file); // trigger!!!!
+                reader.readAsDataURL(file);
             } else {
-                // 彈出警告視窗 alert('請上傳圖片！');
                 alert('請上傳圖片！');
             }
         }
@@ -182,6 +178,12 @@ window.onload = init;
 </script>
 
 </body>
+
+
+<!-- 地址連動選單 -->
+<script>
+  new TwCitySelector();
+</script>
 
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
@@ -273,4 +275,13 @@ window.onload = init;
         //      }});
         
 </script>
+
+<!-- Required source start -->
+	<!-- jquery 這行有需要的人再加 -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<!-- Required source end -->
+
+<!-- 要放在最下面 -->
+<%-- <%@include file="/front-end/footer.file"%> --%>
+
 </html>

@@ -11,6 +11,7 @@
 
 <html>
 <head>
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 <%@include file="/front-end/header.file"%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/template_front-end/css/all.css">
@@ -35,7 +36,15 @@ td#time {
 	text-align: right
 }
 </style>
-
+<script>
+    $(document).ready(function(){
+        if(${param.status}==0){
+            $("#desc").hide();
+        }else{
+            $("#asc").hide();
+        }
+    });
+</script>
 
 </head>
 <body>
@@ -100,15 +109,7 @@ td#time {
 			</div>
 		</div>
 	</section>
-	<script>
-    $(function(){
-        if(${param.status}==0){
-            $("#desc").hide();
-        }else{
-            $("#asc").hide();
-        }
-    })
-</script>
+
 	<%@ include file="/front-end/footer.file"%>
 	<!--================ confirmation part end =================-->
 </body>

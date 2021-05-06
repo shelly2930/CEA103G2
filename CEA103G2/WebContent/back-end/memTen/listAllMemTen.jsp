@@ -13,6 +13,12 @@
 
 <html>
 <head>
+
+<!-- Required source start -->
+	<!-- jquery 這行有需要的人再加 -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<!-- Required source end -->
+
 <title>所有每月房客帳單資料 - listAllBill.jsp</title>
 
 <style>
@@ -86,6 +92,8 @@
 		<th>連絡電話</th>
 		<th>行動電話</th>
 		<th>電子信箱</th>
+		<th>縣市</th>
+		<th>鄉鎮市區</th>
 		<th>地址</th>
 		<th>帳號啟用狀態</th>
 		<th>身分證正面</th>
@@ -116,7 +124,9 @@
 			<td><fmt:formatDate value="${memTenVO.mem_birthday}" pattern="yyyy-MM-dd"/></td> 
 			<td>${memTenVO.mem_phone}</td>
 			<td>${memTenVO.mem_mobile}</td>
-			<td>${memTenVO.mem_email}</td>			
+			<td>${memTenVO.mem_email}</td>
+			<td>${memTenVO.mem_city}</td>
+			<td>${memTenVO.mem_dist}</td>			
 			<td>${memTenVO.mem_addr}</td>
 			<td>
 				<c:choose>
@@ -153,6 +163,14 @@
 		</tr>
 	</c:forEach>
 </table>
+
+<script>
+// 	$(window).load(function(){
+// 		alert()
+// // 		$(".addrclean").html("${addrclean}");
+// 	})
+</script>
+
 <%@ include file="page2.file" %>
 
 </body>

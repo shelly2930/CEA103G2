@@ -12,8 +12,7 @@ public class MemTenService {
 	
 	public MemTenVO addMemTen(String mem_username, String mem_password, byte[] mem_pic, String mem_name,
 			Byte mem_gender, String mem_id, Date mem_birthday, String mem_phone, String mem_mobile,
-			String mem_email, String mem_addr, Byte mem_status, Byte mem_id_status, String mem_suspend, 
-			String mem_refuse) {
+			String mem_email, String mem_city, String mem_dist, String mem_addr) {
 		
 		MemTenVO memTenVO = new MemTenVO();
 				
@@ -27,13 +26,9 @@ public class MemTenService {
 		memTenVO.setMem_phone(mem_phone);
 		memTenVO.setMem_mobile(mem_mobile);
 		memTenVO.setMem_email(mem_email);
+		memTenVO.setMem_city(mem_city);
+		memTenVO.setMem_dist(mem_dist);
 		memTenVO.setMem_addr(mem_addr);
-		memTenVO.setMem_status(mem_status);
-//		memTenVO.setMem_idcard_f(mem_idcard_f);
-//		memTenVO.setMem_idcard_r(mem_idcard_r);
-		memTenVO.setMem_id_status(mem_id_status);
-		memTenVO.setMem_suspend(mem_suspend);
-		memTenVO.setMem_refuse(mem_refuse);		
 		dao.insert(memTenVO);
 
 		return memTenVO;
@@ -41,7 +36,7 @@ public class MemTenService {
 	
 	public MemTenVO updateMemTen(Integer mem_no, String mem_username, String mem_password, byte[] mem_pic, String mem_name,
 			Byte mem_gender, String mem_id, Date mem_birthday, String mem_phone, String mem_mobile,
-			String mem_email, String mem_addr) {
+			String mem_email, String mem_city, String mem_dist, String mem_addr) {
 		
 		MemTenVO memTenVO = new MemTenVO();
 		
@@ -56,6 +51,8 @@ public class MemTenService {
 		memTenVO.setMem_phone(mem_phone);
 		memTenVO.setMem_mobile(mem_mobile);
 		memTenVO.setMem_email(mem_email);
+		memTenVO.setMem_city(mem_city);
+		memTenVO.setMem_dist(mem_dist);
 		memTenVO.setMem_addr(mem_addr);
 //		memTenVO.setMem_status(mem_status);
 //		memTenVO.setMem_idcard_f(mem_idcard_f);
@@ -80,7 +77,19 @@ public class MemTenService {
 		return dao.getAll();
 	}
 	
-	public MemTenVO validate(String mem_username){
-		return dao.validate(mem_username);
+	public MemTenVO loginCheck(String mem_username) {
+		return dao.loginCheck(mem_username);
+	}
+	
+	public void updateMemStatus(String mem_username, Byte mem_status) {
+		dao.updateMemStatus(mem_username, mem_status);
+	}
+	
+	public MemTenVO findByEmail(String mem_email) {
+		return dao.findByEmail(mem_email);
+	}
+	
+	public void updatePwd(String mem_email, String mem_password) {
+		dao.updatePwd(mem_email, mem_password);
 	}
 }

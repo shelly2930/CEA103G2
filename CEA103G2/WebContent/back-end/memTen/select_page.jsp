@@ -91,7 +91,7 @@
 </ul>
 
 
-<h3><a href='addMemTen.jsp'>註冊會員</a></h3>
+<h3><a href='<%=request.getContextPath()%>/unprotected/addMemTen.jsp'>註冊會員</a></h3>
 
 </body>
 </html>
