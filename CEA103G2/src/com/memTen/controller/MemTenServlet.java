@@ -7,8 +7,10 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
+import com.lanlord.model.LanlordService;
 import com.memTen.jedis.JedisHandler;
 import com.memTen.model.*;
+import com.lanlord.model.*;
 
 @MultipartConfig
 public class MemTenServlet extends HttpServlet {
@@ -64,7 +66,16 @@ public class MemTenServlet extends HttpServlet {
 					failureView.forward(req, res);
 				} else { // 帳密正確
 					HttpSession session = req.getSession();
+			
 					session.setAttribute("MemTenVO", memTenVO);
+					
+					// 房東
+					LanlordService lanlordSvc = new LanlordService();
+					LanlordVO lanlordSession = lanlordSvc.getOneLanlordByMemTen(memTenVO.getMem_no());
+					// 用會員編號檢查是否有房東編號
+					if(lanlordSession != null) {
+						session.setAttribute("lanlordSession", lanlordSession);
+					}
 					
 					try {                                                        
 				         String location = (String) session.getAttribute("location");
