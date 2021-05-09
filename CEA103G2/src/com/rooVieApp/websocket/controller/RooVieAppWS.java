@@ -24,7 +24,7 @@ import com.rooVieApp.websocket.jedis.HandlePickTime;
 import com.rooVieApp.websocket.model.PickTime;
 import com.rooVieApp.websocket.model.State;
 
-@ServerEndpoint("/pickTime/{member}")
+@ServerEndpoint("/pickTime/{member}/{houseno}")
 public class RooVieAppWS {
 	//類似多執行緒，每條連線近來，你都裝進去maps  
 	//所以該maps裡面裝有，包含自己的所有連線名稱
@@ -33,12 +33,11 @@ public class RooVieAppWS {
 	Gson gson = new Gson();
 
 	@OnOpen
-	public void onOpen(@PathParam("member") String member, Session userSession) throws IOException {
+	public void onOpen(@PathParam("member") String member,@PathParam("houseno") String houseno, Session userSession) throws IOException {
 		/* save the new user in the map */
 		sessionsMap.put(member, userSession);//放入這條連線的使用者名稱
 		//包含該條連線 的所有使用者名稱
 		Set<String> others = sessionsMap.keySet();
-		
 		//包裹一類(包裹一類任務是丟出去，目前只丟一種包裹) 名稱:stateMessage  訊息 State(狀態、自己使用者、其他所有使用者)(String、String、Set<String>)
 		State stateMessage = new State("open", member, others);
 		

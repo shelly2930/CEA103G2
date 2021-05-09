@@ -11,7 +11,7 @@ public class PickTime {
 		this.type = type;
 		this.sender = sender;
 		this.identity = identity;
-		this.setMessage(message);
+		this.message = message;
 	}
 	public String getType() {
 		return type;

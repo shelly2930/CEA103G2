@@ -1,6 +1,9 @@
 package com.house.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +30,15 @@ public class HouseJsonServlet extends HttpServlet {
 			HouseService svc = new HouseService();
 			HouseVO housevo = svc.getOneHouse(houseno);
 			String str = new Gson().toJson(housevo);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
+		}
+		if("getAllHouseOnLine".equals(action)) {
+			HouseService svc = new HouseService();
+			List<HouseVO> list = new ArrayList<HouseVO>(); 
+			list =	svc.getAll();
+			String str = new Gson().toJson(list);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);

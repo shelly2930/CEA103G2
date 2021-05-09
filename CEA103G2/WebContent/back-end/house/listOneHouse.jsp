@@ -219,14 +219,10 @@
 				url:"<%=request.getContextPath()%>/HouseJsonServlet",
 				type:"post",
 				data:{
-					action:'getOneHouse',
-					houseno:'2',
+					action:'getAllHouseOnLine',
 				},
 				success:function(jsonStr){
-					console.log(jsonStr.hos_name);
-					for(let i =0;i<house_key.length;i++){
-						$("#showOneHouse tr:last-child").after('<tr><th>'+house_key[i]+'</th><th>'+jsonStr[house_value[i]]+'</th></tr>');
-					}
+					console.log(jsonStr[1].hos_no);
 				}
 				});
 		})

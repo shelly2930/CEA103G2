@@ -12,8 +12,8 @@ public class RooVieAppService {
 		dao = new RooVieAppDAO();
 	}
 //當servlet想要針對emp表格新增一筆資料，就需要呼叫以下方法，並傳對應欄位參數
-	public RooVieAppVO addRooVieApp(Integer mem_no,Integer hos_no,Integer emp_no, java.sql.Date rva_app_time,
-			java.sql.Date rva_order_time,java.sql.Date rva_end_time, Byte rva_status) {
+	public RooVieAppVO addRooVieApp(Integer mem_no,Integer hos_no,Integer emp_no, java.sql.Timestamp rva_app_time,
+			java.sql.Timestamp rva_order_time,java.sql.Timestamp rva_end_time, Byte rva_status) {
 //傳進來的參數，先包裝成VO，how to do?
 //先建立vo物件，在針對所有屬性，進行set
 		RooVieAppVO rooVieAppVO = new RooVieAppVO();
@@ -29,8 +29,8 @@ public class RooVieAppService {
 		return rooVieAppVO;
 	}
 
-	public RooVieAppVO updateRooVieApp(Integer rva_no, Integer mem_no,Integer hos_no,Integer emp_no, java.sql.Date rva_app_time,
-			java.sql.Date rva_order_time,java.sql.Date rva_end_time, Byte rva_status) {
+	public RooVieAppVO updateRooVieApp(Integer rva_no, Integer mem_no,Integer hos_no,Integer emp_no, java.sql.Timestamp rva_app_time,
+			java.sql.Timestamp rva_order_time,java.sql.Timestamp rva_end_time, Byte rva_status) {
 
 	
 		RooVieAppVO rooVieAppVO = new RooVieAppVO();
@@ -57,5 +57,25 @@ public class RooVieAppService {
 
 	public List<RooVieAppVO> getAll() {
 		return dao.getAll();
+	}
+	public void addpicktime(Integer mem_no,Integer hos_no,java.sql.Timestamp rva_order_time,Byte rva_status) {
+		RooVieAppVO rooVieAppVO = new RooVieAppVO();
+		rooVieAppVO.setMem_no(mem_no);
+		rooVieAppVO.setHos_no(hos_no);
+		rooVieAppVO.setRva_order_time(rva_order_time);
+		rooVieAppVO.setRva_status(rva_status);
+		dao.addpicktime(rooVieAppVO);
+	}
+	public void cancelpicktime(Integer mem_no,Integer hos_no,java.sql.Timestamp rva_order_time) {
+		RooVieAppVO rooVieAppVO = new RooVieAppVO();
+		rooVieAppVO.setMem_no(mem_no);
+		rooVieAppVO.setHos_no(hos_no);
+		rooVieAppVO.setRva_order_time(rva_order_time);
+		dao.cancelpicktime(rooVieAppVO);
+	}
+	public List<RooVieAppVO> listallpickTime(Integer hos_no){
+		RooVieAppVO rooVieAppVO = new RooVieAppVO();
+		rooVieAppVO.setHos_no(hos_no);
+		return dao.listallpickTime(rooVieAppVO);
 	}
 }

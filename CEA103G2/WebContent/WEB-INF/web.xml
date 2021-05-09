@@ -32,19 +32,19 @@
 <!--     <dispatcher>ASYNC</dispatcher> -->
 <!--   </filter-mapping> -->
   
-<!--   <filter> -->
-<!--     <filter-name>LoginFilterBack</filter-name> -->
-<!--     <filter-class>filter.LoginFilterBack</filter-class> -->
-<!--   </filter> -->
-<!--   <filter-mapping> -->
-<!--     <filter-name>LoginFilterBack</filter-name> -->
-<!--     <url-pattern>/back-end/*</url-pattern> -->
-<!--     <dispatcher>REQUEST</dispatcher> -->
-<!--     <dispatcher>FORWARD</dispatcher> -->
-<!--     <dispatcher>INCLUDE</dispatcher> -->
-<!--     <dispatcher>ERROR</dispatcher> -->
-<!--     <dispatcher>ASYNC</dispatcher> -->
-<!--   </filter-mapping> -->
+    <filter>
+   	  <filter-name>LoginFilterBack</filter-name>
+   	  <filter-class>filter.LoginFilterBack</filter-class>
+  	</filter>
+  	<filter-mapping>
+    <filter-name>LoginFilterBack</filter-name>
+    <url-pattern>/back-end/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
  <!--   ↑濾器↑   -->
 
 <!--   ↓蔡佳↓   -->  
