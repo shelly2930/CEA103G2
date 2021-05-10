@@ -132,7 +132,6 @@ public class RooVieAppServlet extends HttpServlet {
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(control_JSON);
 		}
-//事發現場///////////////////////////////////////////
 		if("addPickTime".equals(action)){
 			System.out.println("進入Servlet");
 			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
@@ -141,14 +140,11 @@ public class RooVieAppServlet extends HttpServlet {
 			
 			java.sql.Timestamp rva_order_time =new Timestamp(System.currentTimeMillis());
 			rva_order_time = Timestamp.valueOf(req.getParameter("rva_order_time"));
-//			rva_order_time =java.sql.Timestamp.valueOf(req.getParameter("rva_order_time"));
-			//成立訂單為狀態為0
 			Byte rva_status =new Byte("0");
 			RooVieAppService rvaSvc = new RooVieAppService();
 			rvaSvc.addpicktime(mem_no, hos_no, rva_order_time, rva_status);
 			return;
 		}
-//事發現場///////////////////////////////////////////		
 		if("cancelPickTime".equals(action)){
 			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
 			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));

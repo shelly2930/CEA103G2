@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.employee.model.EmployeeService;
+import com.employee.model.EmployeeVO;
 import com.google.gson.Gson;
 import com.house.model.HouseService;
 import com.house.model.HouseVO;
@@ -39,6 +41,24 @@ public class HouseJsonServlet extends HttpServlet {
 			List<HouseVO> list = new ArrayList<HouseVO>(); 
 			list =	svc.getAll();
 			String str = new Gson().toJson(list);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
+		}
+		if("getAllEmp".equals(action)) {
+			EmployeeService svc = new EmployeeService();
+			List<EmployeeVO> list = new ArrayList<EmployeeVO>(); 
+			list =	svc.getAll();
+			String str = new Gson().toJson(list);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
+		}
+		if("getEmpName".equals(action)){
+			EmployeeService svc = new EmployeeService();
+			Integer empno = Integer.parseInt(req.getParameter("empno"));
+			EmployeeVO empvo = svc.getOneEmp(empno);
+			String str = new Gson().toJson(empvo);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);

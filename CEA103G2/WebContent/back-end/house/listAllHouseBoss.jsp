@@ -69,43 +69,25 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4"><p>施工頁面  1.還不能重新指派 2.多頁還能 同時指派3.還要多兩按鈕，分為已指派或未指派
+                    <h1 class="h3 mb-2 text-gray-800">代管申請-員工指派</h1>
+                    <p class="mb-4"><p>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">員工指派</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                             
-                            	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/house/house.do" style="margin-bottom: 0px;">
+                            	
                             	<%@ include file="pages/page1.file"%>	
                             	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             				<div id="freeEmp">
 										<!-- 	之後可以用js老師作業的隨機顏色耶XD -->
-												<button class="emp btn btn-info" style="background-color:#6E6EFF" type="button">
-													<p style="color:#0000AD">敬達</p>
-													<input type="number" name="emp_no" 	value="10" style="width:50px">
-												</button>
-												<button class="emp btn btn-info" style="background-color:#00EBEB" type="button">
-													<p style="color:#0000AD">東緯</p>
-													<input type="number" name="emp_no" 	value="20" style="width:50px">
-												</button>
-												<button class="emp btn btn-info" style="background-color:#FF96FF" type="button">
-													<p style="color:#0000AD">智鈞</p>
-													<input type="number" name="emp_no" 	value="30" style="width:50px">
-												</button>
-												<button class="emp btn btn-info" style="background-color:#8CFF8C" type="button">
-													<p style="color:#0000AD">怡蓁</p>
-													<input type="number" name="emp_no" 	value="40" style="width:50px">
-												</button>
-												<button class="emp btn btn-info" style="background-color:#FF7878" type="button">
-													<p style="color:#0000AD">蔡佳</p>
-													<input type="number" name="emp_no" 	value="50" style="width:50px">
-												</button>
+												
 											</div>
                             	</table>
+                            	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/house/house.do" style="margin-bottom: 0px;">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
@@ -131,7 +113,7 @@
 				    						</div>
 				    						</td>
                                             <td>${houseVO.hos_no}</td>
-											<td>${houseVO.emp_no}</td>
+											<td><div class='empno'>${houseVO.emp_no}</div></td>
 											<td>${houseVO.lld_no}</td>
                                             <td>${houseVO.hos_rent}</td>
 											<td>${houseVO.hos_expense}</td>
@@ -141,13 +123,15 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>
-                                <input type="submit" class="btn btn-primary" style="background-color:#9999FF" value="指派員工">
+                                <hr>
+                                <input type="submit" class="btn btn-primary btn-sm" style="background-color:#9999FF" value="指派員工">
 								<input type="hidden" name="whichPage"	value="<%=whichPage%>">
 								<input type="hidden" name="listSize"	value="${listSize}">
 								<input type="hidden" name="comeBack"	    value="listAllHouse_Backend">
 								<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
 								<input type="hidden" name="action"	    value="change_Emp">
                                 </FORM>
+                                 <hr>	
                                 <%@ include file="pages/page2.file"%>
                             </div>
                         </div>
@@ -182,11 +166,47 @@
 <!--     Page level custom scripts -->
 	
 	<script>
+			$.ajax({
+				url:"<%=request.getContextPath()%>/HouseJsonServlet",
+				type:'post',
+				data:{
+					action:'getAllEmp',
+				},
+				async: false,
+				success:function(str){
+					for(let obj of str){
+						console.log(obj.emp_name+obj.emp_no	);
+						let empString = "<button class='emp btn btn-info btn-sm'>"+obj.emp_no+" "+obj.emp_name+"";
+						empString+="<input type='hidden' name='emp_no' value='"+obj.emp_no+"'></button>&nbsp; ";
+						$("#freeEmp").append(empString);
+					}
+				}
+				
+			})
+			
+			$(".empno").each(function(index){
+				let i = index;
+				let empno = $(this).html();
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouseJsonServlet",
+					type:'post',
+					data:{
+						action:'getEmpName',
+						empno:$(this).html(),
+					},
+					success:function(str){
+						$(".empno").eq(i).html(str.emp_name);
+					}
+						
+				})
+			})
+			
+			
 			$(document).ready(function(){
 				let hoseno =  ${empty houseno_list ? '[]' : houseno_list};
 				for(let i of hoseno){
 					$("#"+i).css({
-						"backgroundColor":"##BABABA",
+						"backgroundColor":"#E8C9FF",
 						"color":"#0000B2"
 						});
 				}
@@ -200,6 +220,7 @@
 			        drop: function(ev, vi) {
  			        	console.log($(vi.draggable).html());//這是抓到 員工
  						console.log($(this).parents("tr").attr("id"));//抓到元素編號
+ 						$(this).empty();
 			            var item = $(vi.draggable).clone();
 			            $(this).append(item);
 			            $(document.createElement('input')).attr({
@@ -207,6 +228,7 @@
 			            	'name':'houseno',
 			            	'value':$(this).parents("tr").attr("id")
 			            }) .appendTo(this);
+			           
 			        }
 			    })
 			})
