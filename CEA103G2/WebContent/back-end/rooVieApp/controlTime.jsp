@@ -20,7 +20,9 @@
 
     <!-- Custom styles for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
 
+	</style>
 </head>
 
 <body id="page-top" onload="connect();" onunload="disconnect();">
@@ -35,68 +37,66 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content">
+            	<div id="content">
 
 				<!-- Topbar -->
                 <%@ include file="/back-end/includeFile/topbarBack.file" %>
 				
+				
+				
+				
+				
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 
-                <div class="card shadow mb-4">
-                      <div class="card-header py-3">
-                          <h6 id='total_roovieapp_title' class="m-0 font-weight-bold text-primary">所有物件預約時間設定</h6>
-                      </div>
-                      <div id='total_roovieapp_content' class="card-body">
-                     </div>
-               	</div>
-                
-                <div class="card shadow mb-4">
-                      <div class="card-header py-3">
-                          <h6 id='roovieapp_title' class="m-0 font-weight-bold text-primary">該物件預約狀況</h6>
-                      </div>
-                      <div id='roovieapp_content' class="card-body">
-                     </div>
-               	</div>
-                
-                
-                <div class="card shadow mb-4">
-                      <div class="card-header py-3">
-                          <h6 id='roovieapp_title' class="m-0 font-weight-bold text-primary">設定 預約時間</h6>
-                      </div>
-                      <div id='roovieapp_content' class="card-body">
-                          
-		                <div class="col-lg-12">
-		                	<label><sapn>現在起幾小時內不可預約(針對物件)</sapn>	
-		                    <input type="number" name="freeTimeToSee" min='0' max='23'  style="display:inline-block;width:30%;">
-		                    </label>
-		                </div>
-		                <div class="col-lg-8">
-		                	<label><span>員工上班時段</span>:
-		                    <input type="number" name="gotowork" min='0' max='23' value="0" style="display:inline-block;width:20%;"><span>至</span>
-		                    <input type="number" name="gooffwork" min='0' max='23' value="23" style="display:inline-block;width:20%;">
-		                    </label>
-		                </div>
-		                <div class="col-lg-12">
-		                	<label>不可預約的日期
-		                    <input type="date" name="freedate" value=""  style="display:inline-block;">
-		                    <input type="date" name="freedate" value=""  style="display:inline-block;">
-		                    <input type="date" name="freedate" value=""  style="display:inline-block;">
-		                    <input type="date" name="freedate" value=""  style="display:inline-block;">
-		                    <input type="date" name="freedate" value=""  style="display:inline-block;">
-		                    <input type="date" name="freedate" value=""  style="display:inline-block;">
-		                    </label>
-		                </div>
-
-                     </div>
-               	</div>
-                
-                
-                
+                	<div class='row'>
+	                	<div class='col-12'>
+			                 <div class="card shadow mb-3" style="margin:auto; width: 50rem;">
+				                 <div class="card-header py-3">
+				                     <h6 id='total_roovieapp_title' class="m-0 font-weight-bold text-primary">所有物件預約時間設定</h6>
+				                 </div>
+				                 <div id='total_roovieapp_content' class="card-body">
+				                 </div>
+				            </div>
+			            </div>
+		            </div>
+		            <hr>
+		            <div class='row'>
+			                <div class="card-columns card-deck" style="margin:auto;">
+				                <div class="card shadow mb-2">
+				                      <div class="card-header py-2">
+				                          <h6 id='roovieapp_title' class="m-0 font-weight-bold text-primary">物件預約狀況</h6>
+				                      </div>
+				                      <div id='roovieapp_content' class="card-body">
+				                     </div>
+				               	</div>
+		                
+				                <div class="card shadow mb-2">
+				                      <div class="card-header py-2">
+				                          <h6 id='roovieapp_title2' class="m-0 font-weight-bold text-primary">設定 預約時間</h6>
+				                      </div>
+				                      <div id='roovieapp_content' class="card-body">
+				                          
+						                <div class="col-lg-12">
+						                	<label><sapn>現在起幾小時內不可預約(針對物件)</sapn>	
+						                    <input type="number" name="freeTimeToSee" min='0' max='23'  style="display:inline-block;width:30%;">
+						                    </label>
+						                </div>
+						                <div class="col-lg-8">
+						                	<label><span>員工上班時段</span>:
+						                    <input type="number" name="gotowork" min='0' max='23' value="0" style="display:inline-block;width:20%;"><span>至</span>
+						                    <input type="number" name="gooffwork" min='0' max='23' value="23" style="display:inline-block;width:20%;">
+						                    </label>
+						                </div>
+				                </div>
+			           	</div>
+			       </div>
+                </div>
+                 <hr>
 		<div class="container">
 	            <div class="row">
 					<div class="col-lg-12">
                         <div class="order_details_iner">
-                            <h3>預約的日期</h3>
+                            <h3>預約日期 </h3>
                             <table  class="table table-borderless">
                                 <thead>
                                		 <tr class="table-primary">
@@ -668,11 +668,9 @@
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
 	<script>
 	
-// 	//找到上一個網頁傳的querystring 目前只帶houseno 若要增加請處理
+////找到上一個網頁傳的querystring 目前只帶houseno 若要增加請處理
 	let queryString=location.search;
 	let firstequalindex = queryString.indexOf("=");
 	let houseno = queryString.substring(queryString.indexOf("=")+1);
@@ -704,7 +702,8 @@
 	    		obj.gooffwork= gooffwork;
 	    		//set
 	    		let freedate = jsonobj.freedate;
-	    		$("#roovieapp_title").text("目前 物件編號: "+houseno+" 預約情況");
+	    		$("#roovieapp_title").text("物件編號: "+houseno+" 預約設定");
+	    		$("#roovieapp_title2").text("物件編號: "+houseno+" 預約設定");
 	    		let text = "<p> 負責員工 : "+empno+"</p>"+
 	    		"<p> 目前設定現在時間 : "+freeTimeToSee+" 小時以後不可以預約</p>"+
 	    		"<p> 員工上班時間 : "+gotowork+" 時 - "+gooffwork+" 時</p>";
@@ -723,43 +722,101 @@
 	}
 	
 //查詢所有物件初始設定時間
-	$.ajax({
-    	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-    	type:"post",
-    	data:{
-    		action:"listInitControlTime",
-    	},
-    	success:function(jsonobj){
-    		let empno = jsonobj.sneder;
-    		if(empno==undefined){
-    			empno='未設定'
-    		}
-    		let freeTimeToSee = jsonobj.freeTimeToSee;
-    		let gotowork = jsonobj.gotowork;
-    		let gooffwork = jsonobj.gooffwork;
-    		//set
-    		let freedate = jsonobj.freedate;
-    		$("#total_roovieapp_title").text("所有物件初始設定");
-    		$("<p> 負責員工 : "+empno+"</p>").appendTo("#total_roovieapp_content");
-    		$("<p> 目前設定現在時間 : "+freeTimeToSee+" 小時以後不可以預約</p>").appendTo("#total_roovieapp_content");
-    		$("<p> 員工上班時間 : "+gotowork+" 時 - "+gooffwork+" 時</p>").appendTo("#total_roovieapp_content");
-    		
-    	}
-    });
-//給所有物件初始值
-// 	$.ajax({
-<%--     	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do", --%>
-//     	type:"post",
-//     	data:{
-//     		action:"saveInitControlTime",
-//     		freeTimeToSee :'5',
-// 			gotowork : '6',
-// 			gooffwork : '23',
-//     	},
-//     	success:function(jsonobj){
-//     		alert("SUCCESS");
-//     	}
-//     });
+	let initobj = getlistinitcontroltime();
+	function getlistinitcontroltime(){
+		let obj1 = {};
+		$.ajax({
+	    	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+	    	type:"post",
+	    	data:{
+	    		action:"listInitControlTime",
+	    	},
+	    	async: false,
+	    	success:function(jsonobj){
+	    		obj1.freeTimeToSee = jsonobj.freeTimeToSee;
+	    		obj1.gotowork = jsonobj.gotowork;
+	    		obj1.gooffwork = jsonobj.gooffwork;
+	    		//set
+	    		obj1.freedate = jsonobj.freedate;
+	    		$("#total_roovieapp_title").html("所有物件初始設定");
+	    		let tempString = "<p> 目前設定現在時間 : "+obj1.freeTimeToSee+"小時以後不可以預約&nbsp;";
+	    		tempString+="<button id='setdown' class='btn btn-info btn-sm'>DOWN</button>&nbsp;";
+	    		tempString+="<button id='setup' class='btn btn-info btn-sm'>UP</button>&nbsp;</p>";
+	    		tempString+="<p> 員工上班時間 : "+obj1.gotowork+"&nbsp;"; 
+	    		tempString+="<button class='btn btn-info btn-sm' id='setgtdown'>DOWN</button>&nbsp;";
+	    		tempString+="<button class='btn btn-info btn-sm'id='setgtup'>UP</button>&nbsp;";
+	    		tempString+="時 - "+obj1.gooffwork+" 時&nbsp;";
+	    		tempString+="<button class='btn btn-info btn-sm'id='setgfdown'>DOWN</button>&nbsp;";
+	    		tempString+="<button class='btn btn-info btn-sm'id='setgfup'>UP</button>&nbsp;";
+	    		tempString+="</p>";
+
+
+	    		$("#total_roovieapp_content").html(tempString);
+	    		
+	    		$("#setup").click(function(){
+	    			initobj.freeTimeToSee++;
+	    			setinitcontroltime(initobj);
+	    			getlistinitcontroltime();
+	    		})
+	    		
+	    		$("#setdown").click(function(){
+	    			if(initobj.freeTimeToSee>0){
+	    				initobj.freeTimeToSee--;
+	    			}
+	    			setinitcontroltime(initobj);
+	    			getlistinitcontroltime();
+				})
+				$('#setgtup').click(function(){
+					if(initobj.gotowork<initobj.gooffwork){
+						initobj.gotowork++;
+					}
+					setinitcontroltime(initobj);
+	    			getlistinitcontroltime();
+				})
+				$('#setgtdown').click(function(){
+					if(initobj.gotowork>0){
+						initobj.gotowork--;
+					}
+					setinitcontroltime(initobj);
+	    			getlistinitcontroltime();
+				})
+				$('#setgfup').click(function(){
+					if(initobj.gooffwork<23){
+						initobj.gooffwork++;
+					}
+					setinitcontroltime(initobj);
+	    			getlistinitcontroltime();
+				})
+				$('#setgfdown').click(function(){
+					if(initobj.gotowork<initobj.gooffwork){
+						initobj.gooffwork--;
+					}
+					setinitcontroltime(initobj);
+	    			getlistinitcontroltime();
+				})
+	    	}
+	    });
+		return obj1;
+	}
+	
+	
+//給所有物件初始值 不要給identity參數
+	function setinitcontroltime(initobj){
+		$.ajax({
+	    	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+	    	type:"post",
+	    	data:{
+	    		action:"saveInitControlTime",
+	    		freeTimeToSee :initobj.freeTimeToSee,
+				gotowork : initobj.gotowork,
+				gooffwork : initobj.gooffwork,
+	    	},
+	    	success:function(jsonobj){
+	    		console.log("SUCCESS");
+	    	}
+	    });
+	}
+	
 	
 	
 	
@@ -881,8 +938,8 @@
 			
 			$("#month").html("<span>"+currentYear+"年"+currentMonth+"月</span>")
 			for(let i = 1;i<=currentTotalDay;i++){
-				let pickdate = currentYear+"-"+currentMonth+"-"+i;
-				let compare = currentYear+"-"+currentMonth+"-"+(i+1);
+				let pickdate = currentYear+"-"+currentMonth+"-"+(i);
+				let compare = currentYear+"-"+currentMonth+"-"+(i);
 				if(Date.parse(compare).valueOf() < Date.parse(new Date()).valueOf()){
 					$("button[name='pickdate']").eq(currentMonthFirstDay).prop('disabled',true);
 				}
@@ -905,8 +962,8 @@
 			
 			$("#month").html("<span>"+currentYear+"年"+currentMonth+"月</span>")
 			for(let i = 1;i<=currentTotalDay;i++){
-				let pickdate = currentYear+"-"+currentMonth+"-"+i;
-				let compare = currentYear+"-"+currentMonth+"-"+(i+1);
+				let pickdate = currentYear+"-"+currentMonth+"-"+(i);
+				let compare = currentYear+"-"+currentMonth+"-"+(i);
 				if(Date.parse(compare).valueOf() < Date.parse(new Date()).valueOf()){
 					$("button[name='pickdate']").eq(currentMonthFirstDay).prop('disabled',true);
 				}
@@ -919,7 +976,7 @@
 		//初始
 		$("#month").html("<span>"+currentYear+"年"+currentMonth+"月</span>")
 		for(let i = 1;i<=currentTotalDay;i++){
-			let pickdate = currentYear+"-"+currentMonth+"-"+i;
+			let pickdate = currentYear+"-"+currentMonth+"-"+(i);
 			let compare = currentYear+"-"+currentMonth+"-"+(i+1);
 			$("button[name='pickdate']").eq(currentMonthFirstDay).css('display','block');
 			if(Date.parse(compare).valueOf() < Date.parse(new Date()).valueOf()){
@@ -953,9 +1010,6 @@
 	
 	let interval = 1;
 //設定距離 現在多少小時才可以預約
-// 	let freeTimeToSee =  obj.freeTimeToSee;
-// 	let gotowork = obj.gotowork;
-// 	let gooffwork  =obj.gooffwork;
 	
 	let currentHours = new Date().getHours();
 	//用於包裹，判斷不能選的時段
@@ -1003,7 +1057,7 @@
 			}
 			$("input[name='picktime']").eq(index).next().remove();
 			$("input[name='picktime']").eq(index).attr('value',rva_order_time);
-			$("input[name='picktime']").eq(index).attr('id',prevTime).after("<span id='"+pickdate+"'>"+prevTime+"</span>");
+			$("input[name='picktime']").eq(index).attr('id',prevTime).after("<span id='"+pickdate+"'></span>");
 			prevTime+=interval;
 		})
 	}
@@ -1065,7 +1119,6 @@
 								}else{
 									$(this).next().text(jsonObject.sender+" 已預約");
 								}
-								countChecked++;
 								$(this).prop("disabled",true);
 							}
 						})//不是自己取消
@@ -1073,7 +1126,6 @@
 						$("input[name='picktime']").each(function(){
 							if($(this).attr("id")===time){
 								$(this).prop("checked",false);
-								countChecked--;
 								$(this).next().text("");
 								$(this).prop("disabled",false);
 							}
@@ -1083,14 +1135,12 @@
 							if($(this).attr("id")===time){
 								$(this).prop("checked",true);
 								$(this).next().text(jsonObject.sender+" 已設定不能預約");
-								countChecked++;
 							}
 						})
 					}else if(self === jsonObject.sender && timepick==="0" && $("input[name='picktime']").next().attr('id')===date){
 						$("input[name='picktime']").each(function(){
 							if($(this).attr("id")===time){
 								$(this).prop("checked",false);
-								countChecked--;
 								$(this).next().text("");
 							}
 						})
@@ -1107,7 +1157,6 @@
 						if($(this).attr("id")===time){
 							$(this).prop("checked",true);
 							$(this).next().text(jsonObj.sender+" 已設定不能預約");
-							countChecked++;
 						}
 					})
 				}else if(timepick==="0" && $("input[name='picktime']").next().attr('id')===date){
@@ -1115,7 +1164,6 @@
 						if($(this).attr("id")===time){
 							$(this).prop("checked",false);
 							$(this).next().text("");
-							countChecked--;
 						}
 					})
 				}
@@ -1148,10 +1196,9 @@
 					})
 				}
 			}else if ("close" === jsonObj.type) {
-				alert("BYE");
+				console.log("中斷連線")
 			}else if ("control" === jsonObj.type){
 				 obj = getlistcontroltime(houseno);
-					console.log("ASADSADASD"+obj.freeTimeToSee+"! "+obj.gotowork+"!! "+obj.gooffwork);
 				 $("input[name='picktime']").each(function(index){
 					 	if(index<obj.gotowork){
 							$("input[name='picktime']").eq(index).prop("disabled",true);
@@ -1164,8 +1211,6 @@
 						}
 				})
 			}
-			
-			console.log("countChecked"+countChecked);
 			if(countChecked==fullCheck){
 				alert("該天預約滿囉");
 			}
@@ -1200,7 +1245,7 @@
 			webSocket.send(JSON.stringify(jsonObj));
 	})
 	
-// 	我要拿到歷史資料阿
+// 	我要拿到歷史資料
 	// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
 	function addListener() {
 			let jsonObj = {
@@ -1228,9 +1273,6 @@
 	}
 	
 	$("button[name='pickdate']").click(function(){
-// 		console.log("AAAAAA"+freeTimeToSee);
-// 		console.log("AAAAAA"+gotowork);
-// 		console.log("AAAAAA"+gooffwork);
 		$("#showdate").html("<span>"+$(this).attr('id')+" 的時段 </span>")
 		$("#exampleModalLabel").html("訂單需處理，請預約 \"現在起 "+obj.freeTimeToSee+"小時 \"之後的時段");
 		$("input[name='picktime']").each(function(){
@@ -1238,52 +1280,14 @@
 			$(this).prop('disabled',false);
 		})
 		spanTimetitle(prevTime,interval,$(this).attr('id'),obj.freeTimeToSee);
-		
-		alert(isUpdate);
 		addListener();
 		countChecked=0;
 		$("#Modal").modal('show');
 	})
-	
 		//預約 時段 成功
 		$("input[name='picktime']").change(function(){
 			let rva_order_time = $(this).val();
 			let mem_no = self.substring(self.indexOf("號")+1);
-			alert("A"+$(this).val());
-			alert("SSV"+($(this).prop('checked')===true));
-			alert("SSSS"+houseno);
-			alert("dd"+self.substring(self.indexOf("號")+1));
-//				$("input[type='submit']").click();
-			//員工這裡點下去 不用新增 但取消要
-			if($(this).prop('checked')===true){
-				$.ajax({
-					url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-					type:'post',
-					data:{
-						action:'addPickTime',
-						mem_no:mem_no,
-						hos_no:houseno,
-						rva_order_time:rva_order_time,
-					},
-					success:function(){
-						console.log("預約成功")
-					}
-				})
-			}else{
-				$.ajax({
-					url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-					type:'post',
-					data:{
-						action:'cancelPickTime',
-						mem_no:mem_no,
-						hos_no:houseno,
-						rva_order_time:rva_order_time,
-					},
-					success:function(){
-						console.log("取消預約")
-					}
-				})
-			}
 		})
 
 	

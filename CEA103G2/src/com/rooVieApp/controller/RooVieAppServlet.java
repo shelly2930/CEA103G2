@@ -139,14 +139,12 @@ public class RooVieAppServlet extends HttpServlet {
 			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
 			
 			
-			System.out.println("TiME"+req.getParameter("rva_order_time"));
 			java.sql.Timestamp rva_order_time =new Timestamp(System.currentTimeMillis());
 			rva_order_time = Timestamp.valueOf(req.getParameter("rva_order_time"));
 //			rva_order_time =java.sql.Timestamp.valueOf(req.getParameter("rva_order_time"));
 			//成立訂單為狀態為0
 			Byte rva_status =new Byte("0");
 			RooVieAppService rvaSvc = new RooVieAppService();
-			System.out.println("B"+rva_order_time);
 			rvaSvc.addpicktime(mem_no, hos_no, rva_order_time, rva_status);
 			return;
 		}

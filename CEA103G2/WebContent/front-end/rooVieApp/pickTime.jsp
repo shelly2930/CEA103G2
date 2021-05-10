@@ -11,32 +11,16 @@
 <!-- =================================下面是導覽列==================================================== --> 
 <%@include file="/front-end/header.file"%>
 <!-- =================================上面是導覽列==================================================== --> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <style>
-.table{
-/* 	border:1px solid #000;  */
-  font-family: 微軟正黑體; 
-  font-size:16px; 
-/*   width:200px; */
-  border:1px solid #000;
-/*   text-align:center; */
-  border-collapse:collapse;
-  
+
+.breadcrumb_bg {
+    background-image: url(<%=request.getContextPath()%>/front-end/rooVieApp/images/hand01.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.table-borderless tbody+tbody, .table-borderless td, .table-borderless th, .table-borderless thead th {
-    border:1px solid blue;
-}
-tr { 
-  padding:10px;
-  border:1px solid blue;
-  color:#fff;
-  
-} 
-th { 
-  border:1px solid red;
-  padding:5px;
-  
-} 
 </style>
 <body onload="connect();" onunload="disconnect();">
 <!-- ======圖片 -->
@@ -48,8 +32,8 @@ th {
                         <div class="breadcrumb_iner_item">
                             <h2> 預 約 看 房   Welcome</h2>
                             <h3> &nbsp;&nbsp;&nbsp; ${MemTenVO.mem_name} 你好 !</h3>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H o m e <span>-</span> V i e w i n g</p>
-                            <p>會員: ${MemTenVO.mem_no} <span>-</span>  選取你要預約的時間</p>
+                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H o m e <span>-</span> V i e w i n g</h5>
+                            <h5>會員: ${MemTenVO.mem_no} <span>-</span>  選取你要預約的時間</h5>
                         </div>
                     </div>
                 </div>
@@ -64,14 +48,14 @@ th {
 					<div class="col-lg-12">
                         <div class="order_details_iner">
                             <h3>選取你要預約的日期</h3>
-                            <table  class="table table-borderless">
+                            <table  class="table table-striped table-bordered">
                                 <thead>
-                               		 <tr class="table-primary">
+                               		 <tr class="table-info">
                                		 	<th id="prev" class="text-center">&lt;&lt;</th>
                                         <th id="month" scope="col" colspan="5" class="text-center">月份</th>
                                         <th id="next" class="text-center">&gt;&gt;</th>
                                     </tr>
-                                    <tr class="table-primary">
+                                    <tr class="table-info">
                                         <th class="text-center">星期日</th>
                                         <th class="text-center">星期一</th>
                                         <th class="text-center">星期二</th>
@@ -337,7 +321,7 @@ th {
 					                        <div class="order_details_iner" style="margin-top:0px">
 					                            <table  class="table table-borderless">
 					                                <thead>
-					                                    <tr class="table-primary">
+					                                    <tr class="table-info">
 					                                        <th class="text-center" id="showdate"><span>時段</span></th>
 					                                        <th class="text-center"><span>預約</span></th>
 					                                    </tr>
@@ -601,6 +585,7 @@ th {
 				
 <!-- /****** CONTAINER *****/     -->	                       
 		<script>
+		
 		//找到上一個網頁傳的querystring 目前只帶houseno 若要增加請處理
 		let queryString=location.search;
 		let firstequalindex = queryString.indexOf("=");
@@ -651,21 +636,21 @@ th {
 		
 		
 //日曆生成
-			$(function(){
-				let choose = new Date();
-// 				今年
-				let currentYear = choose.getFullYear();
-// 				這個月
-				let currentMonth = choose.getMonth()+1;
-// 				今日
-				let currentDate = choose.getDate();
-// 				這個月第一天
-				let currentMonthFirstDay = new Date(""+currentYear+"-"+currentMonth+"-1").getDay();//0對應到星期日 其餘1對禮拜一
-// 				今年這個月有幾天
-				let currentTotalDay = judgeDay(currentYear,currentMonth);
-// 				count用途
-				let week = 0;
-				$("#prev").click(function(){
+		
+			let choose = new Date();
+// 			今年
+			let currentYear = choose.getFullYear();
+// 			這個月
+			let currentMonth = choose.getMonth()+1;
+// 			今日
+			let currentDate = choose.getDate();
+// 			這個月第一天
+			let currentMonthFirstDay = new Date(""+currentYear+"-"+currentMonth+"-1").getDay();//0對應到星期日 其餘1對禮拜一
+// 			今年這個月有幾天
+			let currentTotalDay = judgeDay(currentYear,currentMonth);
+// 			count用途
+			let week = 0;
+			$("#prev").click(function(){
 					freshPickDateTB();
 					if(currentMonth==1){
 						currentYear--;
@@ -687,8 +672,8 @@ th {
 						$("button[name='pickdate']").eq(currentMonthFirstDay).attr('id',pickdate).prepend("<span>"+currentMonth+" / "+i+"</span>");
 						currentMonthFirstDay = currentMonthFirstDay+1;
 					}
-				})
-				$("#next").click(function(){
+			})
+			$("#next").click(function(){
 					freshPickDateTB();
 					
 					if(currentMonth==12){
@@ -711,10 +696,10 @@ th {
 						$("button[name='pickdate']").eq(currentMonthFirstDay).attr('id',pickdate).prepend("<span>"+currentMonth+" / "+i+"</span>");
 						currentMonthFirstDay = currentMonthFirstDay+1;
 					}
-				})
+			})
 				//初始
-				$("#month").html("<span>"+currentYear+"年"+currentMonth+"月</span>")
-				for(let i = 1;i<=currentTotalDay;i++){
+			$("#month").html("<span>"+currentYear+"年"+currentMonth+"月</span>")
+			for(let i = 1;i<=currentTotalDay;i++){
 					let pickdate = currentYear+"-"+currentMonth+"-"+i;
 					let compare = currentYear+"-"+currentMonth+"-"+(i+1);
 					$("button[name='pickdate']").eq(currentMonthFirstDay).css('display','block');
@@ -723,8 +708,7 @@ th {
 					}
 					$("button[name='pickdate']").eq(currentMonthFirstDay).attr('id',pickdate).prepend("<span>"+currentMonth+" / "+i+"</span>");
 					currentMonthFirstDay = currentMonthFirstDay+1;
-				}
-			})
+			}
 // 			刷新日曆
 			function freshPickDateTB(){
 				$("button[name='pickdate']").each(function(){
@@ -795,10 +779,13 @@ th {
 					}
 					$("input[name='picktime']").eq(index).next().remove();
 					$("input[name='picktime']").eq(index).attr('value',rva_order_time);
-					$("input[name='picktime']").eq(index).attr('id',prevTime).after("<span id='"+pickdate+"'>"+prevTime+"</span>");
+					$("input[name='picktime']").eq(index).attr('id',prevTime).after("<span id='"+pickdate+"'></span>");
 					prevTime+=interval;
 				})
 			}
+			
+			
+			
 //以下websocket
 
 
@@ -812,12 +799,9 @@ th {
 			let webSocket;
 			let countChecked = 0 ; //計算已預約時段
 			let fullCheck = 24; //設定 24的時段 滿時段，跳出通知
-			alert(endPointURL);
 			function connect() {
-				
 				// create a websocket
 				webSocket = new WebSocket(endPointURL);
-				
 				webSocket.onopen = function(event) {
 					console.log("Connect Success!");
 					$("#member").after("<p>"+member+"</p>");//連線成功 登入名稱
@@ -839,7 +823,6 @@ th {
 						
 						// 這行的jsonObj.message是從redis撈出跟好友的歷史訊息，再parse成JSON格式處理
 						var messages = JSON.parse(jsonObj.message);
-						console.log("SSSS111");
 						for (var i = 0; i < messages.length; i++) {
 							let jsonObject = JSON.parse(messages[i]);
 							let time = jsonObject.time;//取出被選的時間了
@@ -849,28 +832,23 @@ th {
 							if(isUpdate==true && time<=unchoosetime){
 								continue;
 							}
-							console.log("SSSS");
 							//先篩選日期  
 							if(self !== jsonObject.sender && timepick==="1" && $("input[name='picktime']").next().attr('id')===date){
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
-										console.log("SSSSSC");
 										$(this).prop("checked",true);
 										if(jsonObject.sender.indexOf("員工")==0){
 											$(this).next().text("尚未開放預約");
 										}else{
 											$(this).next().text(jsonObject.sender+" 已預約");
 										}
-										countChecked++;
 										$(this).prop("disabled",true);
 									}
 								})
 							}else if(self !== jsonObject.sender && timepick==="0" && $("input[name='picktime']").next().attr('id')===date){
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
-										console.log("SSSSSB");
 										$(this).prop("checked",false);
-										countChecked--;
 										$(this).next().text("");
 										$(this).prop("disabled",false);
 									}
@@ -879,9 +857,7 @@ th {
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
 										$(this).prop("checked",true);
-										console.log("SSSSSD");
 										$(this).next().text(jsonObject.sender+" 已預約");
-										countChecked++;
 									}
 								})
 							}else if(self === jsonObject.sender && timepick==="0" && $("input[name='picktime']").next().attr('id')===date){
@@ -889,7 +865,6 @@ th {
 									if($(this).attr("id")===time){
 										console.log("SSSSSF");
 										$(this).prop("checked",false);
-										countChecked--;
 										$(this).next().text("");
 									}
 								})
@@ -950,7 +925,6 @@ th {
 						alert("BYE");
 					}else if ("control" === jsonObj.type){
 						 obj = getlistcontroltime(houseno);
-							console.log("ASADSADASD"+obj.freeTimeToSee+"! "+obj.gotowork+"!! "+obj.gooffwork);
 						 $("input[name='picktime']").each(function(index){
 							 	if(index<obj.gotowork){
 									$("input[name='picktime']").eq(index).prop("disabled",true);
@@ -964,9 +938,6 @@ th {
 						})
 					}
 					
-					
-					
-					console.log("countChecked"+countChecked);
 					if(countChecked==fullCheck){
 						alert("該天預約滿囉");
 					}
@@ -1026,20 +997,81 @@ th {
 				})
 				spanTimetitle(prevTime,interval,$(this).attr('id'),obj.freeTimeToSee);
 				
-				alert(isUpdate);
 			
 				addListener();
 				countChecked=0;
 				$("#Modal").modal('show');
 			})
-// 			$(window).load(function(){
-// 				//預約 時段 成功
-// 				$("input[name='picktime']").change(function(){
-// 					$("input[name='rva_order_time']").val($("input[name='picktime']").attr("value"));
-// 					$("input[name='isPick']").val($("input[name='picktime']").prop("checked"));
-// // 					$("input[type='submit']").click();
-// 				})
-// 			})
+			
+			$("input[name='picktime']").change(function(){
+			let rva_order_time = $(this).val();
+			let mem_no = self.substring(self.indexOf("號")+1);
+			let confirmpicktime =new Date(rva_order_time).getFullYear()+"年"+(new Date(rva_order_time).getMonth()+1)+"月"+new Date(rva_order_time).getDate()+"日";
+			confirmpicktime+=new Date(rva_order_time).getHours()+"時";	
+			//員工這裡點下去 不用新增 但取消要(暫時)
+			if($(this).prop('checked')===true){
+				Swal.fire({
+					  title: '確定預約這時間?',
+					  text: confirmpicktime,
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#6495ed',
+					  cancelButtonColor: '#fa8072',
+					  confirmButtonText: '確定',
+					  cancelButtonText:'取消',
+					  confirmButtonClass:'btn-sm',
+					  cancelButtonClass:'btn btn-info btn-sm',
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						$.ajax({
+							url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+							type:'post',
+							data:{
+								action:'addPickTime',
+								mem_no:mem_no,
+								hos_no:houseno,
+								rva_order_time:rva_order_time,
+							},
+							success:function(){
+								console.log("預約成功")
+							}
+						})
+					    Swal.fire({
+					    	icon:'success',
+					    	title:'預約成功'
+					    })
+					  }else{
+						 $(this).prop('checked',false);
+						 $(this).next().text("");
+						 Swal.fire({
+						    	icon:'error',
+						    	title:'已取消預約'
+						  })
+					  }
+				})
+
+			}else{
+				$.ajax({
+					url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+					type:'post',
+					data:{
+						action:'cancelPickTime',
+						mem_no:mem_no,
+						hos_no:houseno,
+						rva_order_time:rva_order_time,
+					},
+					success:function(){
+						console.log("取消預約");
+						Swal.fire({
+					    	icon:'error',
+					    	confirmButtonColor:'red',
+					    	title:'已取消預約'
+					  })
+					}
+				})
+			}
+		})
+
 			
 		</script>
 </body>
