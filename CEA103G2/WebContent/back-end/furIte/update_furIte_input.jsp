@@ -200,6 +200,13 @@ window.addEventListener("load",function (){
 		<td><input type="TEXT" name="fnt_views" size="45"
 			 value="<%=(furIteVO==null)? "" :furIteVO.getFnt_views()%>" /></td>
 	</tr>	
+	<tr>
+		<th>刊登狀態:</th>
+		<td>
+		<input type="radio" name="fnt_post_status" value="0"  ${(furIteVO.fnt_post_status==0)? 'checked':''}>已下架
+		<input type="radio" name="fnt_post_status" value="1"  ${(furIteVO.fnt_post_status==1)? 'checked':''}>已上架
+		</td>
+	</tr>
 	
 </table>
 

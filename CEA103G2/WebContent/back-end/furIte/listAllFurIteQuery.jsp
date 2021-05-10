@@ -5,18 +5,12 @@
 
 待處理圖片預覽問題
 家具大類及規格複合查詢 上架及下架鈕搜尋超連結內容
-
 <% 	  
 		List<FurIteVO> list =new ArrayList<FurIteVO>();
-		if(request.getParameter("fnt_ctgr_no")==null){
-				FurIteService furIteSvc = new FurIteService();
-			    list= furIteSvc.getAll();
-			    pageContext.setAttribute("list",list);
-		}else {
-			FurIteService furIteSvc = new FurIteService(); 
-			Integer fnt_ctgr_no = new Integer(request.getParameter("fnt_ctgr_no"));
-			 list = furIteSvc.getOneFurCat_Item(fnt_ctgr_no); 
-			pageContext.setAttribute("list",list);
+		if(request.getAttribute("keywordList")!=null){
+			 list=(ArrayList<FurIteVO>) request.getAttribute("keywordList");	
+			 pageContext.setAttribute("list",list);	
+		
 		}
 %>
 
@@ -193,16 +187,19 @@ window.addEventListener("load",function (){
     <a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIteQuery.jsp">
     <input type="button" value="下架品項" id="getOffItemButton"></a>
 </div>
-
 <div id="keywordSearArea">
+
+	
+
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furIte/furIte.do"" name="form1">
         <b>輸入關鍵字:</b>
         <input type="text" name="keyword"  style="width:130px; height:30px;" >
        <input type="submit" value="查詢"  id="keywordSearch">
-<%--  待處理分頁問題       <input type="hidden" name="whichPage" value="<%=whichPage%>"> --%>
+<!-- 待處理分頁問題 -->
+<%--         <input type="hidden" name="whichPage" value="<%=whichPage%>"> --%>
         <input type="hidden" name="action" value="keywordSearch">
         </FORM>
-</div>   
+</div>  
 
 <div id="multiArea">
 	 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furIte/furIte.do" name="form1">
@@ -224,7 +221,6 @@ window.addEventListener("load",function (){
 	 </FORM>
 </div>
 <br>
-<br>
 
 <table>
 <!-- 	設計游標選到名稱時  可自行連結到各品項清單頁面-->
@@ -245,7 +241,8 @@ window.addEventListener("load",function (){
 	</tr>
 <br>
 <br>
-	<%@ include file="page1_furIte.file"%>	
+<br>
+	<%@ include file="page1_furIte.file"%>	    
 <%-- <c:forEach var="furIteVO" items="${list}" > --%>
 <c:forEach var="furIteVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr>

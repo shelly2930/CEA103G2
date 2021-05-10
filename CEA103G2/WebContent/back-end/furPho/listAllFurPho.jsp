@@ -112,7 +112,7 @@ th, td {
 			<th>§R°£</th>
 		</tr>
 
-				<%@ include file="page1.file"%>
+				<%@ include file="page1_furPho.file"%>
 		<c:forEach var="furPhoVO" items="${list}"  begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 <%-- ­¶­±®³±¼		begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 			<tr>
@@ -162,7 +162,7 @@ th, td {
 			</tr>
 		</c:forEach>
 	</table>
-	<%@ include file="page2.file"%>
+	<%@ include file="page2_furPho.file"%>
 
 </body>
 </html>
