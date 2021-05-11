@@ -2,6 +2,8 @@ package com.repAppPho.model;
 
 import java.util.List;
 
+import com.repAppDet.model.RepAppDetVO;
+
 public class RepAppPhoService {
 	private RepAppPhoDAO repAppPhoDAO;
 	
@@ -9,10 +11,12 @@ public class RepAppPhoService {
 		repAppPhoDAO = new RepAppPhoDAO();
 	}
 	
-	public RepAppPhoVO addRepAppPho(Integer ra_no, byte[] rap_photo) {
+	public RepAppPhoVO addRepAppPho(Integer rad_no, byte[] rap_photo) {
 		RepAppPhoVO repAppPhoVO = new RepAppPhoVO();
 		
-		repAppPhoVO.setRa_no(ra_no);
+		RepAppDetVO repAppDetVO= new RepAppDetVO();
+		repAppDetVO.setRad_no(rad_no);
+		repAppPhoVO.setRepAppDetVO(repAppDetVO);
 		repAppPhoVO.setRap_photo(rap_photo);
 		repAppPhoDAO.insert(repAppPhoVO);
 		
@@ -37,7 +41,7 @@ public class RepAppPhoService {
 		return repAppPhoDAO.getByPK(rap_no);
 	}
 	
-	public List<RepAppPhoVO> getGroupRepAppPho(Integer ra_no) {
-		return repAppPhoDAO.getByFK(ra_no);
+	public List<RepAppPhoVO> getGroupRepAppPho(Integer rad_no) {
+		return repAppPhoDAO.getByFK(rad_no);
 	}
 }

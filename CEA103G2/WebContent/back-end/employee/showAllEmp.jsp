@@ -89,19 +89,19 @@
 											<th>員工代號</th>
 											<th>姓名</th>
 											<th>性別</th>
-											<th>行動電話</th>
 											<th>職位</th>
-											<th>薪資</th>
-											<th>獎金</th>
-											<th>到職日</th>
-											<th>修改</th>
-											<th>刪除</th>
+											<th>行動電話</th>
+<!-- 											<th>薪資</th> -->
+<!-- 											<th>獎金</th> -->
+<!-- 											<th>到職日</th> -->
+<!-- 											<th>修改</th> -->
+<!-- 											<th>查看</th> -->
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach var="employeeVO" items="${list}">
 
-											<tr>
+											<tr name="${employeeVO.emp_no}">
 												<td>${employeeVO.emp_no}</td>
 												<td>${employeeVO.emp_username}</td>
 												<td>${employeeVO.emp_name}</td>
@@ -116,29 +116,29 @@
 														<td>女</td>
 													</c:when>
 												</c:choose>
-												<td>${employeeVO.emp_mobile}</td>
 												<td>${employeeVO.emp_job}</td>
-												<td>${employeeVO.emp_sal}</td>
-												<td>${employeeVO.emp_bonus}</td>
-												<td>${employeeVO.emp_hiredate}</td>
+												<td>${employeeVO.emp_mobile}</td>
+<%-- 												<td>${employeeVO.emp_sal}</td> --%>
+<%-- 												<td>${employeeVO.emp_bonus}</td> --%>
+<%-- 												<td>${employeeVO.emp_hiredate}</td> --%>
 												<%-- 			<td><fmt:formatDate value="${employeeVO.hiredate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> 可更改時間顯示樣式 --%>
 
-												<td align="center">
+<!-- 												<td align="center"> -->
+<!-- 													<FORM METHOD="post" -->
+<%-- 														ACTION="<%=request.getContextPath()%>/employee/employee.do" --%>
+<!-- 														style="margin-bottom: 0px;"> -->
+<!-- 														<button type="submit" class="btn btn-outline-info">修改</button> -->
+<%-- 														<input type="hidden" name="emp_no" value="${employeeVO.emp_no}"> --%>
+<!-- 														<input type="hidden" name="action" value="getOne_For_Update"> -->
+<!-- 													</FORM> -->
+<!-- 												</td> -->
+												<td align="center" style="display:none;">
 													<FORM METHOD="post"
 														ACTION="<%=request.getContextPath()%>/employee/employee.do"
 														style="margin-bottom: 0px;">
-														<button type="submit" class="btn btn-outline-info">修改</button>
+														<button type="submit" class="btn btn-outline-danger">查看</button>
 														<input type="hidden" name="emp_no" value="${employeeVO.emp_no}">
-														<input type="hidden" name="action" value="getOne_For_Update">
-													</FORM>
-												</td>
-												<td align="center">
-													<FORM METHOD="post"
-														ACTION="<%=request.getContextPath()%>/employee/employee.do"
-														style="margin-bottom: 0px;">
-														<button type="submit" class="btn btn-outline-danger">刪除</button>
-														<input type="hidden" name="emp_no" value="${employeeVO.emp_no}">
-														<input type="hidden" name="action" value="delete">
+														<input type="hidden" name="action" value="getOne_For_Display">
 													</FORM>
 												</td>
 											</tr>
@@ -187,6 +187,16 @@
     <!-- Page level custom scripts -->
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
 
+	<script>
+		$("tr").click(function(){
+			$(this).find("form").submit();
+		});
+		$("tr").hover(function(){
+			$(this).css("background-color", "lightgray");
+		},function(){
+			$(this).css("background-color", "");
+		});
+	</script>
 </body>
 
 </html>

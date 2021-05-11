@@ -31,6 +31,11 @@
 		color: #1cc88a;
 /* 		line-height: 36px; */
 	}
+	@media (min-width: 768px) {
+		.col-form-label{
+	 		text-align: right;
+		}
+	}
 </style>
 </head>
 
@@ -57,83 +62,83 @@
 					<form method="post" action="<%=request.getContextPath()%>/employee/employee.do">
 
 						<div class="form-group row">
-							<label for="emp_username" class="col-md-2 col-form-label">員工代號</label>
-							<div class="col-md-5">
+							<label for="emp_username" class="col-md-4 col-form-label">員工代號</label>
+							<div class="col-md-4">
 								<input type="text" class="form-control" id="emp_username" name="emp_username" value="${employeeVO.emp_username}"  readonly>
 							</div>
+							<div class="col-md-4"></div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_email" class="col-md-2 col-form-label">電子信箱</label>
-							<div class="input-group col-md-5">
+							<label for="emp_email" class="col-md-4 col-form-label">電子信箱</label>
+							<div class="input-group col-md-4">
 							  	<input type="text" class="form-control" id="emp_email" name="emp_email" value="${employeeVO.emp_email}">
 							  	<div class="input-group-append">
 							    		<button class="btn btn-secondary" type="button" id="sendEmail">重新發送登入通知</button>
 							  	</div>
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_email == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_email == null) ? "" : "border-left-warning"}">
 								<small id="emp_email-errorMsg">${errorMsgs.emp_email}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_job" class="col-md-2 col-form-label">職位</label>
-							<div class="col-md-5">
+							<label for="emp_job" class="col-md-4 col-form-label">職位</label>
+							<div class="col-md-4">
 								<select class="form-control" id="emp_job" name="emp_job">
-									<option value="" ${(employeeVO.emp_job eq "") ? "selected" : ""}>請選擇</option>
 									<option value="一般員工" ${(employeeVO.emp_job eq "一般員工") ? "selected" : ""}>一般員工</option>
 									<option value="平台管理員" ${(employeeVO.emp_job eq "平台管理員") ? "selected" : ""}>平台管理員</option>
 									<option value="主管" ${(employeeVO.emp_job eq "主管") ? "selected" : ""}>主管</option>
 								</select>
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_job == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_job == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_job}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_sal" class="col-md-2 col-form-label">薪資</label>
-							<div class="col-md-5">
+							<label for="emp_sal" class="col-md-4 col-form-label">薪資</label>
+							<div class="col-md-4">
 								<input type="text" class="form-control" id="emp_sal" name="emp_sal" value="${employeeVO.emp_sal}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_sal == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_sal == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_sal}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_bonus" class="col-md-2 col-form-label">獎金</label>
-							<div class="col-md-5">
+							<label for="emp_bonus" class="col-md-4 col-form-label">獎金</label>
+							<div class="col-md-4">
 								<input type="text" class="form-control" id="emp_bonus" name="emp_bonus" value="${employeeVO.emp_bonus}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_bonus == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_bonus == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_bonus}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_hiredate" class="col-md-2 col-form-label">到職日</label>
-							<div class="col-md-5">
+							<label for="emp_hiredate" class="col-md-4 col-form-label">到職日</label>
+							<div class="col-md-4">
 								<input type="date" class="form-control" id="emp_hiredate" name="emp_hiredate" value="${employeeVO.emp_hiredate}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_hiredate == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_hiredate == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_hiredate}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_quitdate" class="col-md-2 col-form-label">離職日</label>
-							<div class="col-md-5">
+							<label for="emp_quitdate" class="col-md-4 col-form-label">離職日</label>
+							<div class="col-md-4">
 								<input type="date" class="form-control" id="emp_quitdate" name="emp_quitdate" value="${employeeVO.emp_quitdate}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_quitdate == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_quitdate == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_quitdate}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-						    <div class="col-md-2">權限</div>
-						    <div class="col-md-10">
+						    <div class="col-md-4 col-form-label">權限</div>
+						    <div class="col-md-8">
 								<jsp:useBean id="StaFunService" scope="page" class="com.staFun.model.StaFunService" />
 						    	<c:forEach var="StaFunVO" items="${StaFunService.allStaFun}" >
 						    		<div class="form-check">
@@ -146,7 +151,7 @@
 						    </div>
 						</div>
 						
-						<div class="form-group row mt-5 ml-3">
+						<div class="form-group row justify-content-center mt-3">
 							<button id="sub" type="submit" class="btn btn-success btn-icon-split">
 	                            <span class="icon text-white-50">
 	                                <i class="fas fa-check"></i>

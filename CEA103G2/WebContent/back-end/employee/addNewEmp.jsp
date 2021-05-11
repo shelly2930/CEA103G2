@@ -31,6 +31,11 @@
 		color: #1cc88a;
 /* 		line-height: 36px; */
 	}
+	@media (min-width: 768px) {
+		.col-form-label{
+	 		text-align: right;
+		}
+	}
 </style>
 </head>
 
@@ -57,28 +62,28 @@
 					<form method="post" action="<%=request.getContextPath()%>/employee/employee.do">
 
 						<div class="form-group row">
-							<label for="emp_username" class="col-md-2 col-form-label">員工代號</label>
-							<div class="col-md-5">
+							<label for="emp_username" class="col-md-4 col-form-label">員工代號</label>
+							<div class="col-md-4">
 								<input type="text" class="form-control" id="emp_username" name="emp_username" value="${param.emp_username}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_username == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_username == null) ? "" : "border-left-warning"}">
 								<small id="emp_username-errorMsg">${errorMsgs.emp_username}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_email" class="col-md-2 col-form-label">電子信箱</label>
-							<div class="col-md-5">
+							<label for="emp_email" class="col-md-4 col-form-label">電子信箱</label>
+							<div class="col-md-4">
 								<input type="text" class="form-control" id="emp_email" name="emp_email" value="${param.emp_email}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_email == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_email == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_email}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_job" class="col-md-2 col-form-label">職位</label>
-							<div class="col-md-5">
+							<label for="emp_job" class="col-md-4 col-form-label">職位</label>
+							<div class="col-md-4">
 								<select class="form-control" id="emp_job" name="emp_job">
 									<option value="" ${(param.emp_job eq "") ? "selected" : ""}>請選擇</option>
 									<option value="一般員工" ${(param.emp_job eq "一般員工") ? "selected" : ""}>一般員工</option>
@@ -86,34 +91,34 @@
 									<option value="主管" ${(param.emp_job eq "主管") ? "selected" : ""}>主管</option>
 								</select>
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_job == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_job == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_job}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_sal" class="col-md-2 col-form-label">薪資</label>
-							<div class="col-md-5">
+							<label for="emp_sal" class="col-md-4 col-form-label">薪資</label>
+							<div class="col-md-4">
 								<input type="text" class="form-control" id="emp_sal" name="emp_sal" value="${param.emp_sal}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_sal == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_sal == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_sal}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-							<label for="emp_hiredate" class="col-md-2 col-form-label">到職日</label>
-							<div class="col-md-5">
-								<input type="date" class="form-control" id="emp_hiredate" name="emp_hiredate" value="${param.emp_hiredate}">
+							<label for="emp_hiredate" class="col-md-4 col-form-label">到職日</label>
+							<div class="col-md-4">
+								<input type="date" class="form-control" id="emp_hiredate" name="emp_hiredate" value="${requestScope.employeeVO.emp_hiredate}">
 							</div>
-							<div class="col-md-5 errorMsgs ${(errorMsgs.emp_hiredate == null) ? "" : "border-left-warning"}">
+							<div class="col-md-4 errorMsgs ${(errorMsgs.emp_hiredate == null) ? "" : "border-left-warning"}">
 								<small>${errorMsgs.emp_hiredate}</small>
 							</div>
 						</div>
 						
 						<div class="form-group row">
-						    <div class="col-md-2">權限</div>
-						    <div class="col-md-10">
+						    <div class="col-md-4 col-form-label">權限</div>
+						    <div class="col-md-8">
 								<jsp:useBean id="StaFunService" scope="page" class="com.staFun.model.StaFunService" />
 						    	<c:forEach var="StaFunVO" items="${StaFunService.allStaFun}" >
 						    		<div class="form-check">
@@ -126,7 +131,7 @@
 						    </div>
 						</div>
 						
-						<div class="form-group row mt-5 ml-3">
+						<div class="form-group row justify-content-center mt-3">
 							<button id="sub" type="submit" class="btn btn-success btn-icon-split">
 	                            <span class="icon text-white-50">
 	                                <i class="fas fa-check"></i>

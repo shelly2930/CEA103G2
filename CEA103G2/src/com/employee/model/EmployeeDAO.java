@@ -34,7 +34,7 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 	private static final String UPDATE_BY_SUP = 
 		"UPDATE EMPLOYEE SET EMP_JOB = ?, EMP_HIREDATE = ?, EMP_QUITDATE = ?, EMP_EMAIL = ?, EMP_SAL = ?, EMP_BONUS = ? WHERE EMP_NO = ?";
 	private static final String UPDATE_BY_EMP = 
-		"UPDATE EMPLOYEE SET EMP_NAME = ?, EMP_PASSWORD = ?, EMP_GENDER = ?, EMP_ID = ?, EMP_BIRTHDAY = ?, EMP_PHONE = ?, EMP_MOBILE = ?, EMP_ADDR = ?, EMP_EMAIL = ?, EMP_BANK = ?, EMP_ACCOUNT = ?, EMP_PIC = ? WHERE EMP_NO = ?";
+		"UPDATE EMPLOYEE SET EMP_NAME = ?, EMP_GENDER = ?, EMP_ID = ?, EMP_BIRTHDAY = ?, EMP_PHONE = ?, EMP_MOBILE = ?, EMP_ADDR = ?, EMP_EMAIL = ?, EMP_BANK = ?, EMP_ACCOUNT = ?, EMP_PIC = ? WHERE EMP_NO = ?";
 	private static final String DELETE = 
 		"DELETE FROM EMPLOYEE WHERE EMP_NO = ?";
 	private static final String GET_BY_PK = 
@@ -43,6 +43,8 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 		"SELECT * FROM EMPLOYEE ORDER BY EMP_NO";
 	private static final String DOES_IT_EXIST = 
 		"SELECT * FROM EMPLOYEE WHERE EMP_USERNAME = ?";
+	private static final String UPDATE_PASSWORD = 
+		"UPDATE EMPLOYEE SET EMP_PASSWORD = ? WHERE EMP_NO = ?";
 
 	@Override
 	public void insert(EmployeeVO employeeVO, List<Integer> list_Fun_no) {
@@ -210,18 +212,17 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 			pstmt = con.prepareStatement(UPDATE_BY_EMP);
 
 			pstmt.setString(1, employeeVO.getEmp_name());
-			pstmt.setString(2, employeeVO.getEmp_password());
-			pstmt.setByte(3, employeeVO.getEmp_gender());
-			pstmt.setString(4, employeeVO.getEmp_id());
-			pstmt.setDate(5, employeeVO.getEmp_birthday());
-			pstmt.setString(6, employeeVO.getEmp_phone());
-			pstmt.setString(7, employeeVO.getEmp_mobile());
-			pstmt.setString(8, employeeVO.getEmp_addr());
-			pstmt.setString(9, employeeVO.getEmp_email());
-			pstmt.setString(10, employeeVO.getEmp_bank());
-			pstmt.setString(11, employeeVO.getEmp_account());
-			pstmt.setBytes(12, employeeVO.getEmp_pic());
-			pstmt.setInt(13, employeeVO.getEmp_no());
+			pstmt.setByte(2, employeeVO.getEmp_gender());
+			pstmt.setString(3, employeeVO.getEmp_id());
+			pstmt.setDate(4, employeeVO.getEmp_birthday());
+			pstmt.setString(5, employeeVO.getEmp_phone());
+			pstmt.setString(6, employeeVO.getEmp_mobile());
+			pstmt.setString(7, employeeVO.getEmp_addr());
+			pstmt.setString(8, employeeVO.getEmp_email());
+			pstmt.setString(9, employeeVO.getEmp_bank());
+			pstmt.setString(10, employeeVO.getEmp_account());
+			pstmt.setBytes(11, employeeVO.getEmp_pic());
+			pstmt.setInt(12, employeeVO.getEmp_no());
 			pstmt.executeUpdate();
 			// Handle any driver errors
 		} catch (SQLException se) {
@@ -456,6 +457,38 @@ public class EmployeeDAO implements EmployeeDAO_interface {
 					se.printStackTrace(System.err);
 				}
 			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+	
+	public void updatePassword(EmployeeVO employeeVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_PASSWORD);
+
+			pstmt.setString(1, employeeVO.getEmp_password());
+			pstmt.setInt(2, employeeVO.getEmp_no());
+			pstmt.executeUpdate();
+			
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured." + se.getMessage());
+		} finally {
 			if (pstmt != null) {
 				try {
 					pstmt.close();

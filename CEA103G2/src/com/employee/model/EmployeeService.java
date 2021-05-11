@@ -41,12 +41,11 @@ public class EmployeeService {
 		return employeeVO;
 	}
 	
-	public EmployeeVO updateByEmp(Integer emp_no, String emp_name, String emp_password, Byte emp_gender, String emp_id, Date emp_birthday, String emp_phone, String emp_mobile, String emp_addr, String emp_email, String emp_bank, String emp_account, byte[] emp_pic) {
+	public EmployeeVO updateByEmp(Integer emp_no, String emp_name, Byte emp_gender, String emp_id, Date emp_birthday, String emp_phone, String emp_mobile, String emp_addr, String emp_email, String emp_bank, String emp_account, byte[] emp_pic) {
 		
 		EmployeeVO employeeVO = new EmployeeVO();
 		employeeVO.setEmp_no(emp_no);
 		employeeVO.setEmp_name(emp_name);
-		employeeVO.setEmp_password(emp_password);
 		employeeVO.setEmp_gender(emp_gender);
 		employeeVO.setEmp_id(emp_id);
 		employeeVO.setEmp_birthday(emp_birthday);
@@ -79,12 +78,14 @@ public class EmployeeService {
 		return employeeDAO.doesItExist(emp_username);
 	}
 	
-	public static void main(String[] args) {
-		EmployeeService EmployeeService = new EmployeeService();
-		List<Integer> list = new ArrayList<Integer>();
-		list.add(2);
-		list.add(5);
-		list.add(7);
-		EmployeeService.addEmp("¶—¡Û", "EMPPP11", "123321", java.sql.Date.valueOf("2001-01-15"), "123@ggg", 399, list);
+	public EmployeeVO updatePassword(Integer emp_no, String emp_password) {
+		
+		EmployeeVO employeeVO = new EmployeeVO();
+		employeeVO.setEmp_no(emp_no);
+		employeeVO.setEmp_password(emp_password);
+		employeeDAO.updatePassword(employeeVO);
+		
+		employeeVO = employeeDAO.getByPK(emp_no);
+		return employeeVO;
 	}
 }

@@ -12,5 +12,6 @@ public interface EmployeeDAO_interface {
 	public EmployeeVO getByPK(Integer emp_no);
 	public List<EmployeeVO> getAll();
 	public boolean doesItExist(String emp_username);
+	public void updatePassword(EmployeeVO employeeVO);
 //  public List<EmployeeVO> getAll(Map<String, String[]> map); 
 }

@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.employee.model.EmployeeDAO;
 import com.employee.model.EmployeeService;
 import com.employee.model.EmployeeVO;
@@ -90,7 +93,7 @@ public class EmployeeServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("employeeVO", employeeVO); // 資料庫取出的empVO物件,存入req
-				String url = "/back-end/employee/listOneEmp.jsp";
+				String url = "/back-end/employee/showOneEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -135,7 +138,7 @@ public class EmployeeServlet extends HttpServlet {
 		}
 		
 		if ("updateBySup".equals(action)) { // 來自update_emp_input.jsp的請求
-
+			
 			Map<String,String> errorMsgs = new HashMap<String,String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -153,7 +156,7 @@ public class EmployeeServlet extends HttpServlet {
 				try {
 					emp_hiredate = java.sql.Date.valueOf(req.getParameter("emp_hiredate").trim());
 				} catch (IllegalArgumentException e) {
-//					hiredate=new java.sql.Date(System.currentTimeMillis());
+//					emp_hiredate = new java.sql.Date(System.currentTimeMillis());
 					errorMsgs.put("emp_hiredate", "請勿空白");
 				}
 				
@@ -241,7 +244,7 @@ public class EmployeeServlet extends HttpServlet {
 		}
 
 		if ("updateByEmp".equals(action)) { // 來自update_emp_input.jsp的請求
-
+			
 			Map<String,String> errorMsgs = new HashMap<String,String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -250,19 +253,13 @@ public class EmployeeServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				Integer emp_no = new Integer(req.getParameter("emp_no").trim());
-
+				
 				String emp_name = req.getParameter("emp_name").trim();
 				String emp_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 				if (emp_name == null || emp_name.length() == 0) {
-					// 可空白
+					errorMsgs.put("emp_name", "請勿空白");
 				} else if (!emp_name.matches(emp_nameReg)) { // 以下練習正則(規)表示式(regular-expression)
 					errorMsgs.put("emp_name", "只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
-				}
-
-				String emp_password = req.getParameter("emp_password").trim();
-				String emp_passwordReg = "^(\\w*[a-zA-Z]+\\w*\\d+\\w*)|(\\w*\\d+\\w*[a-zA-Z]+\\w*)$";
-				if(!emp_password.matches(emp_passwordReg) || emp_password.length() < 6) {
-					errorMsgs.put("emp_password", "只能是英文字母、數字和_ , 且長度必須大於6並包含一個英文字母及一個數字");
 				}
 				
 				Byte emp_gender = new Byte(req.getParameter("emp_gender"));
@@ -271,7 +268,7 @@ public class EmployeeServlet extends HttpServlet {
 				String emp_idReg = "^[A-Z][12][\\d]{8}$";
 				String str = "0123456789ABCDEFGHJKLMNPQRSTUVXYWZIO";
 				if(emp_id.length() == 0) {
-					// 身分證字號可為空白
+					errorMsgs.put("emp_id", "請勿空白");
 				} else if(emp_id.matches(emp_idReg)) {
 					int sum = 0;
 					for(int i = 0; i < (emp_id.length()-1); i++) {
@@ -282,7 +279,7 @@ public class EmployeeServlet extends HttpServlet {
 							sum += charValue * (9 - i);
 					}
 					if(Character.getNumericValue(emp_id.charAt(9)) != (10 - (sum % 10)) % 10) {
-						errorMsgs.put("emp_id", "假身分證!!!");
+						errorMsgs.put("emp_id", "非真實身分證");
 					}
 				} else {
 					errorMsgs.put("emp_id", "格式錯誤");
@@ -300,7 +297,7 @@ public class EmployeeServlet extends HttpServlet {
 				String emp_mobile = req.getParameter("emp_mobile").trim();
 				String emp_mobileReg = "^09[\\d]{8}$";
 				if(emp_mobile.length() == 0) {
-					// 行動電話可為空白
+					errorMsgs.put("emp_mobile", "請勿空白");
 				} else if(!emp_mobile.matches(emp_mobileReg)) {
 					errorMsgs.put("emp_mobile", "只能是09開頭的10位號碼");
 				}
@@ -309,13 +306,19 @@ public class EmployeeServlet extends HttpServlet {
 
 				String emp_email = req.getParameter("emp_email").trim();
 				String emp_emailReg = "^.+@{1}.+$";
-				if(!emp_email.matches(emp_emailReg)) {
+				if(emp_email == null || emp_email.length() == 0) {
+					errorMsgs.put("emp_email", "請勿空白");
+				}else if(!emp_email.matches(emp_emailReg)) {
 					errorMsgs.put("emp_email", "格式不正確 , 必須包含\"@\"符號且前後不得為空白");
 				}
 				
 				String emp_bank = req.getParameter("emp_bank").trim();
+				if(emp_bank == null || emp_bank.length() == 0)
+					errorMsgs.put("emp_bank", "請勿空白");
 				
 				String emp_account = req.getParameter("emp_account").trim();
+				if(emp_account == null || emp_account.length() == 0)
+					errorMsgs.put("emp_account", "請勿空白");
 				
 				Part part = req.getPart("emp_pic");
 				InputStream in = part.getInputStream();
@@ -328,11 +331,9 @@ public class EmployeeServlet extends HttpServlet {
 				}
 				in.close();
 				
-				
 				EmployeeVO employeeVO = new EmployeeVO();
 				employeeVO.setEmp_no(emp_no);
 				employeeVO.setEmp_name(emp_name);
-				employeeVO.setEmp_password(emp_password);
 				employeeVO.setEmp_gender(emp_gender);
 				employeeVO.setEmp_id(emp_id);
 				employeeVO.setEmp_birthday(emp_birthday);
@@ -343,28 +344,28 @@ public class EmployeeServlet extends HttpServlet {
 				employeeVO.setEmp_bank(emp_bank);
 				employeeVO.setEmp_account(emp_account);
 				employeeVO.setEmp_pic(emp_pic);
-
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("employeeVO", employeeVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/updateByEmp.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/showOneEmp.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
 
 				/*************************** 2.開始修改資料 *****************************************/
 				EmployeeService employeeSvc = new EmployeeService();
-				employeeVO = employeeSvc.updateByEmp(emp_no, emp_name, emp_password, emp_gender, emp_id, emp_birthday, emp_phone, emp_mobile, emp_addr, emp_email, emp_bank, emp_account, emp_pic);
+				employeeVO = employeeSvc.updateByEmp(emp_no, emp_name, emp_gender, emp_id, emp_birthday, emp_phone, emp_mobile, emp_addr, emp_email, emp_bank, emp_account, emp_pic);
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				session.setAttribute("employeeVO", employeeVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/back-end/employee/listOneEmp.jsp";
+				String url = "/back-end/employee/showOneEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.put("Exception", "修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/updateByEmp.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/employee/showOneEmp.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -583,14 +584,13 @@ public class EmployeeServlet extends HttpServlet {
 								cookie.setMaxAge(60);
 								cookie.setPath("/");
 								res.addCookie(cookie);
-//								cookie = new Cookie("JSESSIONID", session.getId());
-//								cookie.setMaxAge(60);
-//								cookie.setPath("/");
-//								res.addCookie(cookie);
+								cookie = new Cookie("JSESSIONID", session.getId());
+								cookie.setMaxAge(60);
+								cookie.setPath("/");
+								res.addCookie(cookie);
 							}
 							
 							session.setAttribute("list_Fun_no", list_Fun_no);
-//							context.setAttribute(emp_username, "login");
 							
 							String location = (String)session.getAttribute("location");
 							session.removeAttribute("location");
@@ -658,6 +658,50 @@ public class EmployeeServlet extends HttpServlet {
 				String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password;
 				mailService.sendMail(emp_email, subject, messageText);
 				out.print("發送成功");
+			}
+		}
+		
+		if("updatePassword".equals(action)) {
+			
+			PrintWriter out = res.getWriter();
+			JSONObject errorMsgs = new JSONObject();
+			EmployeeService employeeService = new EmployeeService();
+			
+			Integer emp_no = new Integer(req.getParameter("emp_no"));
+			String emp_password = employeeService.getOneEmp(emp_no).getEmp_password();
+			String oldPassword = req.getParameter("oldPassword").trim();
+			String newPassword = req.getParameter("newPassword").trim();
+			String newPasswordCheck = req.getParameter("newPasswordCheck").trim();
+			String emp_passwordReg = "^(\\w*[a-zA-Z]+\\w*\\d+\\w*)|(\\w*\\d+\\w*[a-zA-Z]+\\w*)$";
+			
+			try {
+				if(oldPassword.length() == 0)
+					errorMsgs.put("oldPassword", "請勿空白");
+				else if(!oldPassword.equals(emp_password))
+					errorMsgs.put("oldPassword", "舊密碼錯誤");
+				
+				if(newPassword.length() == 0)
+					errorMsgs.put("newPassword", "請勿空白");
+				else if(newPassword.equals(emp_password))
+					errorMsgs.put("newPassword", "與舊密碼相同");
+				else if(!newPassword.matches(emp_passwordReg) || newPassword.length() < 6)
+					errorMsgs.put("newPassword", "只能是英文字母、數字和_ , 且長度必須大於6並包含一個英文字母及一個數字");
+				
+				if(newPasswordCheck.length() == 0)
+					errorMsgs.put("newPasswordCheck", "請勿空白");
+				else if(!newPasswordCheck.equals(newPassword))
+					errorMsgs.put("newPasswordCheck", "與新密碼不符");
+				
+				if(errorMsgs.length() != 0) {
+					out.print(errorMsgs);
+				}else {
+					errorMsgs.put("success", "success");
+					out.print(errorMsgs);
+					employeeService.updatePassword(emp_no, newPassword);
+				}
+					
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
 		

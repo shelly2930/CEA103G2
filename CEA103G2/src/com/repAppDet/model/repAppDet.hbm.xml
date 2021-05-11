@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.repAppDet.model.RepAppDetVO" table="REPAIR_APPLICATION_DETAILS" >
+        
+        <id name="rad_no" column="rad_no">
+            <generator class="identity" />
+        </id>
+        
+        <property name="rad_order_time" column="rad_order_time" />
+        <property name="rad_dmg_dsc" column="rad_dmg_dsc" />
+        <property name="rad_status" column="rad_status" />
+        <property name="rad_expz" column="rad_expz" />
+        <property name="rad_tr_dmg" column="rad_tr_dmg" />
+        
+        <many-to-one name="repAppVO" class="com.repApp.model.RepAppVO" lazy="false">
+            <column name="ra_no" />
+        </many-to-one>
+        
+    </class>
+</hibernate-mapping>
+
