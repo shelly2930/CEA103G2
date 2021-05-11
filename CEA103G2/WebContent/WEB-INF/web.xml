@@ -23,7 +23,6 @@
 <!--   </filter> -->
 <!--   <filter-mapping> -->
 <!--     <filter-name>LoginFilter</filter-name> -->
-<!--     <url-pattern>/front-end/memTen/login_success.jsp/</url-pattern> -->
 <!--     <url-pattern>/front-end/*</url-pattern> -->
 <!--     <dispatcher>REQUEST</dispatcher> -->
 <!--     <dispatcher>FORWARD</dispatcher> -->
@@ -32,19 +31,19 @@
 <!--     <dispatcher>ASYNC</dispatcher> -->
 <!--   </filter-mapping> -->
   
-<!--   <filter> -->
-<!--     <filter-name>LoginFilterBack</filter-name> -->
-<!--     <filter-class>filter.LoginFilterBack</filter-class> -->
-<!--   </filter> -->
-<!--   <filter-mapping> -->
-<!--     <filter-name>LoginFilterBack</filter-name> -->
-<!--     <url-pattern>/back-end/*</url-pattern> -->
-<!--     <dispatcher>REQUEST</dispatcher> -->
-<!--     <dispatcher>FORWARD</dispatcher> -->
-<!--     <dispatcher>INCLUDE</dispatcher> -->
-<!--     <dispatcher>ERROR</dispatcher> -->
-<!--     <dispatcher>ASYNC</dispatcher> -->
-<!--   </filter-mapping> -->
+    <filter>
+   	  <filter-name>LoginFilterBack</filter-name>
+   	  <filter-class>filter.LoginFilterBack</filter-class>
+  	</filter>
+  	<filter-mapping>
+    <filter-name>LoginFilterBack</filter-name>
+    <url-pattern>/back-end/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
  <!--   ↑濾器↑   -->
 
 <!--   ↓蔡佳↓   -->  
@@ -72,6 +71,15 @@
     <servlet-name>BillServlet</servlet-name>
     <url-pattern>/bill/bill.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>LanlordServlet</servlet-name>
+    <servlet-class>com.lanlord.controller.LanlordServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LanlordServlet</servlet-name>
+    <url-pattern>/lanlord/lanlord.do</url-pattern>
+  </servlet-mapping>
+
 <!--   ↑蔡佳↑   -->
   
 <!--   ↓智鈞↓   -->
@@ -100,6 +108,7 @@
 
 
 <!--   ↓怡蓁↓   -->
+
     <servlet>
     <servlet-name>FurCatServlet</servlet-name>
     <servlet-class>com.furCat.controller.FurCatServlet</servlet-class>
@@ -140,6 +149,32 @@
     <servlet-name>FurPhoServlet</servlet-name>
     <url-pattern>/furPho/furPho.do</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>RenFurAppServlet</servlet-name>
+    <servlet-class>com.renFurApp.controller.RenFurAppServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RenFurAppServlet</servlet-name>
+    <url-pattern>/renFurApp/renFurApp.do</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>RenFurDetServlet</servlet-name>
+    <servlet-class>com.renFurDet.controller.RenFurDetServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RenFurDetServlet</servlet-name>
+    <url-pattern>/renFurDet/renFurDet.do</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>FurColServlet</servlet-name>
+    <servlet-class>com.furCol.controller.FurColServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurColServlet</servlet-name>
+    <url-pattern>/furCol/furCol.do</url-pattern>
+  </servlet-mapping>
+    
+  
 <!--   ↑怡蓁↑   -->
 
 <!--   ↓敬達↓   -->

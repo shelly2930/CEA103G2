@@ -42,11 +42,11 @@ public class FurColService {
 		dao.delete(rfa_no, fnt_id);
 	}
 	
-	//查一個明細
-	public FurColVO getOneFurCol(Integer rfa_no,Integer fnt_id) {
-		return dao.findByPrimaryKey(rfa_no, fnt_id);
+	//查一個會員的某個收藏
+	public FurColVO getOneFurCol(Integer mem_no,Integer fnt_it_no) {
+		return dao.findByPrimaryKey(mem_no, fnt_it_no);
 	}
-	//查一整張單的所有明細
+	//查一個會員的收藏
 	public List<FurColVO> getOneMemCol(Integer mem_no){
 		return dao.getFurColsByMem_no(mem_no);
 	}

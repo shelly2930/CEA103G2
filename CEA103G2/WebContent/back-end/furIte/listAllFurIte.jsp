@@ -3,10 +3,11 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.furIte.model.*"%>
 
-家具大類及規格複合查詢
+待處理圖片預覽問題
+家具大類及規格複合查詢 上架及下架鈕搜尋超連結內容
 
 <% 	  
-		List<FurIteVO> list =null;
+		List<FurIteVO> list =new ArrayList<FurIteVO>();
 		if(request.getParameter("fnt_ctgr_no")==null){
 				FurIteService furIteSvc = new FurIteService();
 			    list= furIteSvc.getAll();
@@ -18,7 +19,7 @@
 			pageContext.setAttribute("list",list);
 		}
 %>
-${param.fnt_ctgr_no}----
+
 <jsp:useBean id="furCatSvc" scope="page" class="com.furCat.model.FurCatService" />
 <jsp:useBean id="furPhoSvc" scope="page" class="com.furPho.model.FurPhoService" />
 
@@ -68,12 +69,23 @@ ${param.fnt_ctgr_no}----
   }
    #addButton{
             border: 0;
+             margin-left: 10px;
             background-color: #628AC0;
             color: #fff;
             border-radius: 10px;
             height: 30px;
             width: 120px;
             font-size: 20px;
+            text-align: center;
+        }
+ #getOnItemButton,#getOffItemButton{
+            border: 0;
+            background-color: #628AC0;
+            color: #fff;
+            border-radius: 10px;
+            height: 30px;
+            width: 90px;
+            font-size: 18px;
             text-align: center;
         }
    #keywordSearch, #multiSearch,#getAllButton{
@@ -86,16 +98,16 @@ ${param.fnt_ctgr_no}----
             font-size: 20px;
             text-align: center;
    }
-   #addArea, #searchArea, #multiArea{
+   #searchArea,#multiArea,#keywordSearArea{
 			float:left;
-  			 margin: 5px 10px;
-/*    			 border:1px solid green; */
+  			 margin-left: 5px;
+  			 margin-right:15px;
+  			 margin-top:5px;
+  			 margin-buttom:0px;
+  			 
+/* border:1px solid green;  */
    }
-   #showResult{
-			
-  			 margin:10px 0px;
-/*    			 border:1px solid green; */
-   }
+
 /*    #multiArea{ */
 /* display: inline;  */
 /*   			 padding:20px; */
@@ -147,10 +159,10 @@ function showFurItes(data){
 	    	txt+="<option value=\"none\">此類別尚無家具品項</option>";
 	    
 	    }else{
-	         for(i in fnt_data){
-	        	 var cut = fnt_data[i].indexOf('-');
-	         	 txt+="<option value="+fnt_data[i].slice(0,cut)+">"+fnt_data[i].slice(cut+1)+"</option>";
-	         }    
+	    	for(i in fnt_data){
+	          	 var cut = fnt_data[i].indexOf('-');
+	           	 txt+="<option value="+fnt_data[i].slice(0,cut)+">"+fnt_data[i].slice(cut+1)+"</option>";
+	           }
 	    }
 	    $("#furIteSelect").append(txt); 
 	}
@@ -170,19 +182,28 @@ window.addEventListener("load",function (){
 </table>
  
 <div id="addArea">
-<a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIte.jsp">
-    <input type="button" value="全部" id="getAllButton"></a>
-<a href="<%=request.getContextPath()%>/back-end/furIte/addFurIte.jsp?fnt_it_no=${fnt_it_no}">
+<a href="<%=request.getContextPath()%>/back-end/furIte/addFurIte.jsp">
     <input type="button" value="新增資料" id="addButton"></a>
 </div>
 <div id="searchArea">
+<a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIte.jsp">
+    <input type="button" value="全部" id="getAllButton"></a>
+    <a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIteQuery.jsp">
+    <input type="button" value="上架品項" id="getOnItemButton"></a>
+    <a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIteQuery.jsp">
+    <input type="button" value="下架品項" id="getOffItemButton"></a>
+</div>
+
+<div id="keywordSearArea">
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furIte/furIte.do"" name="form1">
         <b>輸入關鍵字:</b>
         <input type="text" name="keyword"  style="width:130px; height:30px;" >
        <input type="submit" value="查詢"  id="keywordSearch">
+<%--  待處理分頁問題       <input type="hidden" name="whichPage" value="<%=whichPage%>"> --%>
         <input type="hidden" name="action" value="keywordSearch">
         </FORM>
-</div>  
+</div>   
+
 <div id="multiArea">
 	 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furIte/furIte.do" name="form1">
 	   <select size="1" name="fnt_ctgr_no"  id="furCatSelect" style="width:80px; height:30px;">
@@ -203,14 +224,12 @@ window.addEventListener("load",function (){
 	 </FORM>
 </div>
 <br>
-<div id="showResult">
 <br>
 
-<br>
 <table>
 <!-- 	設計游標選到名稱時  可自行連結到各品項清單頁面-->
 	<tr>
-		<th>家具品項<br>編號</th>
+		<th>品項<br>編號</th>
 		<th>品項名稱</th>
 		<th>家具圖片</th>
 		<th>可租<br>數量</th>
@@ -220,11 +239,13 @@ window.addEventListener("load",function (){
 		<th>出租<br>價格</th>
 		<th>規格</th>
 		<th>瀏覽<br>次數</th>
+		<th>刊登<br>狀態</th>
 		<th>編輯</th>
 		<th>刪除</th>
 	</tr>
-<!-- 	//here -->
-	<%@ include file="page1.file"%>		    
+<br>
+<br>
+	<%@ include file="page1_furIte.file"%>	
 <%-- <c:forEach var="furIteVO" items="${list}" > --%>
 <c:forEach var="furIteVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr>
@@ -243,7 +264,11 @@ window.addEventListener("load",function (){
 			<td>${furIteVO.fnt_total}</td>
 			<td>${furIteVO.fnt_price}</td>
 			<td>${furIteVO.fnt_standard}</td>
-			<td>${furIteVO.fnt_views}</td>			
+			<td>${furIteVO.fnt_views}</td>	
+			<td><c:choose>
+						<c:when test="${furIteVO.fnt_post_status==0}"> 已下架</c:when>
+						<c:otherwise> 已上架</c:otherwise>
+					</c:choose></td>	
  		<td> 
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furIte/furIte.do" style="margin-bottom: 0px;">
 		     <input type="submit" value="編輯">
@@ -264,7 +289,7 @@ window.addEventListener("load",function (){
 	</c:forEach>
 </table>
 <!-- 待處理分頁問題 -->
- <%@ include file="page2.file" %>
+ <%@ include file="page2_furIte.file" %>
  </div>
 </body>
 </html>
