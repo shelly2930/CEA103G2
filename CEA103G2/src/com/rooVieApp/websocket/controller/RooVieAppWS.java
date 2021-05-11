@@ -65,6 +65,8 @@ public class RooVieAppWS {
 //		拿到的JOSN，取出我要的
 		String sender = picktime.getSender();
 		String identity = picktime.getIdentity();
+		
+		
 //		包裹type為歷史 表示這包裹，我要處理!!![這裡表示想要取得舊資料]
 		if ("history".equals(picktime.getType())) {
 //			取出歷史訊息

@@ -176,13 +176,7 @@
 				
 				<!--　　　↑↑↑↑↑↑↑↑↑↑彈出窗↑↑↑↑↑↑↑↑↑↑　　　-->
 					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#a">
-					  SHOW 物件
-					</button>
-					<!-- Button trigger modal -->
-					<a href="" data-toggle="modal" data-target="#a">
-					  SHOW 物件
-					</a>
+					
 					<!-- Modal -->
 					<div class="modal fade" id="a" tabindex="-1" role="dialog" aria-labelledby="#b" aria-hidden="true">
 					  <div class="modal-dialog modal-dialog-centered" role="document">

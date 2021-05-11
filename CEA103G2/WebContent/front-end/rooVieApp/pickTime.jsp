@@ -807,7 +807,6 @@
 					$("#member").after("<p>"+member+"</p>");//連線成功 登入名稱
 					addListener();
 				};
-				console.log("SSSS");
 				webSocket.onmessage = function(event) {
 //		 			四種狀態type 登入、歷史資訊、聊天時、關閉時候
 //		 			登入要更新好友列表
@@ -922,7 +921,7 @@
 							})
 						}
 					}else if ("close" === jsonObj.type) {
-						alert("BYE");
+						console.log("BYE");
 					}else if ("control" === jsonObj.type){
 						 obj = getlistcontroltime(houseno);
 						 $("input[name='picktime']").each(function(index){
