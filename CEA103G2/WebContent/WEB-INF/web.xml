@@ -23,7 +23,6 @@
 <!--   </filter> -->
 <!--   <filter-mapping> -->
 <!--     <filter-name>LoginFilter</filter-name> -->
-<!--     <url-pattern>/front-end/memTen/login_success.jsp/</url-pattern> -->
 <!--     <url-pattern>/front-end/*</url-pattern> -->
 <!--     <dispatcher>REQUEST</dispatcher> -->
 <!--     <dispatcher>FORWARD</dispatcher> -->
@@ -72,6 +71,15 @@
     <servlet-name>BillServlet</servlet-name>
     <url-pattern>/bill/bill.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>LanlordServlet</servlet-name>
+    <servlet-class>com.lanlord.controller.LanlordServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LanlordServlet</servlet-name>
+    <url-pattern>/lanlord/lanlord.do</url-pattern>
+  </servlet-mapping>
+
 <!--   ↑蔡佳↑   -->
   
 <!--   ↓智鈞↓   -->
