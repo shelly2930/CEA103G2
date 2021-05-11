@@ -19,4 +19,8 @@ public interface FurIteDAO_interface {
 	public List<FurIteVO> getOneFurCat_Item(Integer fnt_ctgr_no);
 	//找最後一筆品項編號給新增照片用
 	public Integer GetLastFnt_it_no();
+	
+	//關鍵字查詢
+	public List<FurIteVO> getOneFurIteByKW(String keyword);
+	
 	}

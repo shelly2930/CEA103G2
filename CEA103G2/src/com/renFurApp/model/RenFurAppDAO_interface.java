@@ -12,4 +12,8 @@ public interface RenFurAppDAO_interface {
    // public Set<RenFurDetVO> getRenFurDetByRfa_no(Integer rfa_no);
     //查詢某員工負責之申請單 回傳多張申請單(一對多)(回傳 Set) 寫法待確認
    // public Set<MenTenVO> getRfasByMem_no(Integer mem_no);
+	
+	//查申請單的租借狀態用
+	public Byte getRenFurAppStatus(Integer rfa_no);
+	public Integer getRentCon(Integer rfa_no);
 }

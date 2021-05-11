@@ -28,6 +28,50 @@ public class FurIteServlet extends HttpServlet {
 	    res.setContentType("text/html; charset=Big5");
 
 		String action = req.getParameter("action");
+//關鍵字模糊查詢
+		 if ("keywordSearch".equals(action)) { // 來自listAllFurIte.jsp的請求
+			 System.out.println("Enter Servlet");
+				List<String> errorMsgs = new LinkedList<String>();
+				req.setAttribute("errorMsgs", errorMsgs);
+				
+				try {
+					/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+					String keyword = req.getParameter("keyword");
+					System.out.println(keyword);
+					if (keyword == null || (keyword.trim()).length() == 0) {
+						errorMsgs.add("請輸入搜尋關鍵字");
+					}
+					// Send the use back to the form, if there were errors
+					if (!errorMsgs.isEmpty()) {
+						RequestDispatcher failureView = req
+								.getRequestDispatcher("/listAllFurIte.jsp");
+						failureView.forward(req, res);
+						return;//程式中斷
+					}
+				
+				     
+							/***************************2.開始查詢資料****************************************/
+					FurIteService furIteSvc = new FurIteService();
+					List <FurIteVO> list=furIteSvc.getOneFurIteByKW(keyword);
+									
+					/***************************3.查詢完成,準備轉交(Send the Success view)************/
+					req.setAttribute("keywordList", list);         // 資料庫取出的empVO物件,存入req
+					String url = "/back-end/furIte/listAllFurIteQuery.jsp";
+					System.out.println("已設定屬性值 準備轉交");
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+					successView.forward(req, res);
+
+					/***************************其他可能的錯誤處理**********************************/
+				} catch (Exception e) {
+					errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/back-end/furIte/listAllFurIte.jsp");
+					failureView.forward(req, res);
+				}
+			}
+		 
+		
+		
 		//點擊家具品項名稱跳轉至所選品項清單
 		if ("getOne_furLis".equals(action)) {
 
@@ -171,6 +215,16 @@ public class FurIteServlet extends HttpServlet {
 						fnt_views = 0;
 						errorMsgs.add("瀏覽次數請填數字.");
 					}
+					
+					//刊登狀態
+					Byte fnt_post_status=null;
+					try {
+						fnt_post_status = new Byte(req.getParameter("fnt_post_status").trim());
+					} catch (Exception e) {
+						fnt_post_status='0';
+						errorMsgs.add("請選擇家具刊登狀態");
+					}
+					
 					FurIteVO furIteVO = new FurIteVO();
 					furIteVO.setFnt_ctgr_no(fnt_ctgr_no);
 					furIteVO.setFnt_name(fnt_name);
@@ -185,6 +239,7 @@ public class FurIteServlet extends HttpServlet {
 					furIteVO.setFnt_standard(fnt_standard);
 					furIteVO.setFnt_info(fnt_info);
 					furIteVO.setFnt_views(fnt_views);
+					furIteVO.setFnt_post_status(fnt_post_status);
 		
 					
 					// Send the use back to the form, if there were errors
@@ -200,7 +255,7 @@ public class FurIteServlet extends HttpServlet {
 					FurIteService furIteSvc = new FurIteService();
 					furIteVO = furIteSvc.addFurIte(fnt_ctgr_no,fnt_name, fnt_unrent, fnt_repair,
 							fnt_total, fnt_price, fnt_length, fnt_width, fnt_height,
-							fnt_weight, fnt_standard, fnt_info, fnt_views);
+							fnt_weight, fnt_standard, fnt_info, fnt_views,fnt_post_status);
 
 //	找新增的品項編號給新增圖片用
 					Integer fnt_it_no=furIteSvc.GetLastFnt_it_no();
@@ -366,6 +421,15 @@ public class FurIteServlet extends HttpServlet {
 						fnt_views = 0;
 						errorMsgs.add("瀏覽次數請填數字.");
 					}
+					
+					//刊登狀態
+					Byte fnt_post_status=null;
+					try {
+						fnt_post_status = new Byte(req.getParameter("fnt_post_status").trim());
+					} catch (Exception e) {
+						fnt_post_status='0';
+						errorMsgs.add("請選擇家具刊登狀態");
+					}
 					FurIteVO furIteVO = new FurIteVO();
 					furIteVO.setFnt_it_no(fnt_it_no);
 					furIteVO.setFnt_ctgr_no(fnt_ctgr_no);
@@ -381,6 +445,7 @@ public class FurIteServlet extends HttpServlet {
 					furIteVO.setFnt_standard(fnt_standard);
 					furIteVO.setFnt_info(fnt_info);
 					furIteVO.setFnt_views(fnt_views);
+					furIteVO.setFnt_post_status(fnt_post_status);
 					
 					// Send the use back to the form, if there were errors
 					if (!errorMsgs.isEmpty()) {
@@ -395,7 +460,7 @@ public class FurIteServlet extends HttpServlet {
 					FurIteService furIteSvc = new FurIteService();
 					furIteVO = furIteSvc.updateFurIte(fnt_it_no,fnt_ctgr_no,fnt_name, fnt_unrent, fnt_repair,
 							fnt_total, fnt_price, fnt_length, fnt_width, fnt_height,
-							fnt_weight, fnt_standard, fnt_info, fnt_views);
+							fnt_weight, fnt_standard, fnt_info, fnt_views,fnt_post_status);
 					/***************************3.新增完成,準備轉交(Send the Success view)***********/
 					String url = "/back-end/furIte/listAllFurIte.jsp";
 					req.setAttribute("furIteVO", furIteVO);  
@@ -466,6 +531,7 @@ public class FurIteServlet extends HttpServlet {
 		            out.print(all_fnt_name_Str);
 				}
 			}
-				
+						
+			
 	}
 }

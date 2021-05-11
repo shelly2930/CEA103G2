@@ -67,7 +67,6 @@ public class FurPhoServlet extends HttpServlet {
 					Collection<Part> parts = req.getParts(); 
 					FurPhoService furPhoSvc = new FurPhoService();
 					for (Part part : parts) {
-						System.out.println("讀照片");
 						String filename = getFileNameFromPart(part);
 						//有照片名稱才讀
 						if (filename!= null && part.getContentType()!=null) {

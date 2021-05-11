@@ -16,7 +16,7 @@ public class FurIteVO implements java.io.Serializable {
 	private String fnt_standard;
 	private String fnt_info;
 	private Integer fnt_views;
-	
+	private Byte fnt_post_status;
 	
 	public Integer getFnt_it_no() {
 		return fnt_it_no;
@@ -101,6 +101,12 @@ public class FurIteVO implements java.io.Serializable {
 	}
 	public void setFnt_views(Integer fnt_views) {
 		this.fnt_views = fnt_views;
+	}
+	public Byte getFnt_post_status() {
+		return fnt_post_status;
+	}
+	public void setFnt_post_status(Byte fnt_post_status) {
+		this.fnt_post_status = fnt_post_status;
 	}
 	
 

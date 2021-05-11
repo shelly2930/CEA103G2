@@ -109,7 +109,7 @@
 		<th>­×§ï</th>
 		<th>§R°£</th>
 	</tr>
-	<%@ include file="page1.file" %> 
+	<%@ include file="page1_furCat.file" %> 
 	<c:forEach var="furCatVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		
 		<tr>
@@ -134,7 +134,7 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="page2.file" %>
+<%@ include file="page2_furCat.file" %>
 
 </body>
 </html>

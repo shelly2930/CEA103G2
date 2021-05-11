@@ -20,7 +20,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>家具資料新增 - addFurCat.jsp</title>
+<title>家具資料修改 - update_furLis_input.jsp</title>
 
 <style>
   table#table-1 {
@@ -76,7 +76,7 @@
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furLis/furLis.do" name="form1">
 <table>
 	<tr>
-		<th>家具序號:</th>
+		<th>家具編號:</th>
 		<td><%=furLisVO.getFnt_id()%></td>
 	</tr>
 	<tr>
@@ -120,6 +120,8 @@
 <input type="submit" value="送出修改"  id="update">
 <input type="hidden" name="fnt_id" value="<%=furLisVO.getFnt_id()%>">
 <input type="hidden" name="fnt_it_no" value="<%=furLisVO.getFnt_it_no()%>">
+<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
+<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp-->
 <input type="hidden" name="action"  value="update">
 </FORM>
 </body>

@@ -26,19 +26,19 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 	private static final String PK2="fnt_id";
 	
 	private static final String INSERT_STMT = 
-		"INSERT INTO"+TABLE+INSERT_ITEM + " VALUES (?, ?, ?, ?, ?, ?)";
+		"INSERT INTO "+TABLE+INSERT_ITEM + " VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL = 
-		"SELECT * FROM"+TABLE+ "order by "+PK1;
+		"SELECT * FROM "+TABLE+ " order by "+PK1;
 	private static final String GET_ONE_BY_PK1_PK2 = 
 		"SELECT * FROM "+TABLE+"  where "+PK1+"= ? and "+PK2+"=?";
 	private static final String GET_ONE_BY_PK1 = 
 			"SELECT * FROM "+TABLE+"  where "+PK1+"= ?";
 	private static final String DELETE_ONE_BY_PK1_AND_PK2 = 
-		"DELETE FROM"+TABLE+"where "+PK1+"= ? and "+PK2+"=?";
+		"DELETE FROM "+TABLE+" where "+PK1+"= ? and "+PK2+"=?";
 	 private static final String DELETE_LIST_BY_PK1 = 
-		"DELETE FROM " + TABLE + " where +" + PK1 + "= ?";
+		"DELETE FROM " + TABLE + " where " + PK1 + "= ?";
 	private static final String UPDATE = 
-		"UPDATE"+TABLE+" set "+UPDATE_ITEM+" where "+PK1+"= ? and "+PK2+"=?";
+		"UPDATE "+TABLE+" set "+UPDATE_ITEM+" where "+PK1+"= ? and "+PK2+"=?";
 
 	@Override
 	public void insert(RenFurDetVO renFurDetVO) {

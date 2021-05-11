@@ -128,6 +128,10 @@
 		<th>ÂsÄý¦¸¼Æ:</th>
 		<td>${furIteVO.fnt_views}</td>
 	</tr>	
+	<tr>
+		<th>¥Zµnª¬ºA:</th>
+		<td>${furIteVO.fnt_post_status}</td>
+	</tr>	
 	
 </table>
  

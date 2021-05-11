@@ -1,7 +1,5 @@
 package com.house.model;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,10 +13,8 @@ import java.util.Set;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import com.addFur.model.AddFurVO;
 import com.houPho.model.HouPhoVO;
 
 import jdbcUtil_CompositeQuery_advance.CQ_advance_house;

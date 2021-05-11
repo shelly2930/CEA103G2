@@ -14,7 +14,7 @@ public class FurIteService {
 
 	public FurIteVO addFurIte(Integer fnt_ctgr_no, String fnt_name, Integer fnt_unrent, Integer fnt_repair,
 			Integer fnt_total, Integer fnt_price, Double fnt_length, Double fnt_width, Double fnt_height,
-			Double fnt_weight, String fnt_standard, String fnt_info, Integer fnt_views) {
+			Double fnt_weight, String fnt_standard, String fnt_info, Integer fnt_views, Byte fnt_post_status) {
 
 		FurIteVO furIteVO = new FurIteVO();
 		furIteVO.setFnt_ctgr_no(fnt_ctgr_no);
@@ -30,6 +30,7 @@ public class FurIteService {
 		furIteVO.setFnt_standard(fnt_standard);
 		furIteVO.setFnt_info(fnt_info);
 		furIteVO.setFnt_views(fnt_views);
+		furIteVO.setFnt_post_status(fnt_post_status);
 
 		dao.insert(furIteVO);
 
@@ -38,7 +39,7 @@ public class FurIteService {
 
 	public FurIteVO updateFurIte(Integer fnt_it_no, Integer fnt_ctgr_no, String fnt_name, Integer fnt_unrent, Integer fnt_repair,
 			Integer fnt_total, Integer fnt_price, Double fnt_length, Double fnt_width, Double fnt_height,
-			Double fnt_weight, String fnt_standard, String fnt_info, Integer fnt_views) {
+			Double fnt_weight, String fnt_standard, String fnt_info, Integer fnt_views,Byte fnt_post_status) {
 
 		FurIteVO furIteVO = new FurIteVO();
 		furIteVO.setFnt_it_no(fnt_it_no);
@@ -55,6 +56,8 @@ public class FurIteService {
 		furIteVO.setFnt_standard(fnt_standard);
 		furIteVO.setFnt_info(fnt_info);
 		furIteVO.setFnt_views(fnt_views);
+		furIteVO.setFnt_post_status(fnt_post_status);
+		
 		dao.update(furIteVO);
 
 		return furIteVO;
@@ -82,6 +85,10 @@ public class FurIteService {
 	
 	public List<FurIteVO> getFurItesByFurCat(Integer fnt_ctgr_no){
 		return dao.getFurItesByFurCat(fnt_ctgr_no);
+	}
+	//√ˆ¡‰¶r¨d∏ﬂ
+	public List<FurIteVO> getOneFurIteByKW(String keyword){
+		return dao.getOneFurIteByKW(keyword);
 	}
 	
 	public String selectByPrimaryKey(Integer fnt_ctgr_no) {

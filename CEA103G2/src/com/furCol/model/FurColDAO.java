@@ -26,15 +26,15 @@ public class FurColDAO implements FurColDAO_interface {
 	private static final String PK2="fnt_it_no";
 	
 	private static final String INSERT_STMT = 
-		"INSERT INTO"+TABLE+INSERT_ITEM + " VALUES (?, ?, ?, ?)";
+		"INSERT INTO "+TABLE+INSERT_ITEM + " VALUES (?, ?, ?, ?)";
 	private static final String GET_ALL = 
-		"SELECT * FROM"+TABLE+ "order by "+PK1;
+		"SELECT * FROM "+TABLE+ " order by "+PK1;
 	private static final String GET_ONE_BY_PK1_PK2 = 
 		"SELECT * FROM "+TABLE+"  where "+PK1+"= ? and "+PK2+"=?";
 	private static final String GET_ONE_BY_PK1 = 
 			"SELECT * FROM "+TABLE+"  where "+PK1+"= ?";
 	private static final String DELETE_ONE_BY_PK1_AND_PK2 = 
-		"DELETE FROM"+TABLE+"where "+PK1+"= ? and "+PK2+"=?";
+		"DELETE FROM "+TABLE+" where "+PK1+"= ? and "+PK2+"=?";
 	private static final String UPDATE = 
 		"UPDATE"+TABLE+" set "+UPDATE_ITEM+" where "+PK1+"= ? and "+PK2+"=?";
 
@@ -162,7 +162,7 @@ public class FurColDAO implements FurColDAO_interface {
 
 	//找那一個會員的一個收藏
 	@Override
-	public FurColVO findByPrimaryKey(Integer mem_no,Integer fnt_it_id) {
+	public FurColVO findByPrimaryKey(Integer mem_no,Integer fnt_it_no) {
 
 		FurColVO furColVO = null;
 		Connection con = null;
@@ -175,7 +175,7 @@ public class FurColDAO implements FurColDAO_interface {
 			pstmt = con.prepareStatement(GET_ONE_BY_PK1_PK2);
 
 			pstmt.setInt(1, mem_no);
-			pstmt.setInt(2,fnt_it_id);
+			pstmt.setInt(2,fnt_it_no);
 
 			rs = pstmt.executeQuery();
 

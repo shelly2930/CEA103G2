@@ -120,6 +120,7 @@ public class FurLisServlet extends HttpServlet {
 				List<String> errorMsgs = new LinkedList<String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 				
+				String requestURL = req.getParameter("requestURL"); 
 				try {
 					/***************************1.接收請求參數****************************************/
 					Integer fnt_id = new Integer(req.getParameter("fnt_id"));
@@ -138,7 +139,7 @@ public class FurLisServlet extends HttpServlet {
 				} catch (Exception e) {
 					errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/furLis/listAllFurLis.jsp");
+							.getRequestDispatcher(requestURL);
 					failureView.forward(req, res);
 				}
 			}
@@ -149,7 +150,7 @@ public class FurLisServlet extends HttpServlet {
 				
 				List<String> errorMsgs = new LinkedList<String>();
 				req.setAttribute("errorMsgs", errorMsgs);
-
+				String requestURL = req.getParameter("requestURL"); 
 				try {
 					/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 
@@ -209,7 +210,7 @@ public class FurLisServlet extends HttpServlet {
 					FurLisService furLisSvc = new FurLisService();
 					furLisVO = furLisSvc.updateFurLis(fnt_id,fnt_it_no, fnt_acq_date,fnt_status, fnt_rent_status,fnt_unusable_date);
 					/***************************3.新增完成,準備轉交(Send the Success view)***********/
-					String url = "/back-end/furLis/listAllFurLis.jsp";
+					String url = requestURL;
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 
 					successView.forward(req, res);				
 					

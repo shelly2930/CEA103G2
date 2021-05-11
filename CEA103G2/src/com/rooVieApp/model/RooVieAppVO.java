@@ -5,9 +5,9 @@ public class RooVieAppVO implements java.io.Serializable{
 	private Integer mem_no;
 	private Integer hos_no;
 	private Integer emp_no;
-	private java.sql.Date rva_app_time;
-	private java.sql.Date rva_order_time;
-	private java.sql.Date rva_end_time;
+	private java.sql.Timestamp rva_app_time;
+	private java.sql.Timestamp rva_order_time;
+	private java.sql.Timestamp rva_end_time;
 	private Byte rva_status;
 	public Integer getRva_no() {
 		return rva_no;
@@ -33,22 +33,22 @@ public class RooVieAppVO implements java.io.Serializable{
 	public void setEmp_no(Integer emp_no) {
 		this.emp_no = emp_no;
 	}
-	public java.sql.Date getRva_app_time() {
+	public java.sql.Timestamp getRva_app_time() {
 		return rva_app_time;
 	}
-	public void setRva_app_time(java.sql.Date rva_app_time) {
+	public void setRva_app_time(java.sql.Timestamp rva_app_time) {
 		this.rva_app_time = rva_app_time;
 	}
-	public java.sql.Date getRva_order_time() {
+	public java.sql.Timestamp getRva_order_time() {
 		return rva_order_time;
 	}
-	public void setRva_order_time(java.sql.Date rva_order_time) {
+	public void setRva_order_time(java.sql.Timestamp rva_order_time) {
 		this.rva_order_time = rva_order_time;
 	}
-	public java.sql.Date getRva_end_time() {
+	public java.sql.Timestamp getRva_end_time() {
 		return rva_end_time;
 	}
-	public void setRva_end_time(java.sql.Date rva_end_time) {
+	public void setRva_end_time(java.sql.Timestamp rva_end_time) {
 		this.rva_end_time = rva_end_time;
 	}
 	public Byte getRva_status() {

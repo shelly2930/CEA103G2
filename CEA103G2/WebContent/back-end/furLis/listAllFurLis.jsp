@@ -5,7 +5,7 @@
 <%@ page import="com.furIte.model.*"%>
 <%@ page import="com.furCat.model.*"%>
 
-待處理家具大類 、品項、狀態及規格複合查詢
+待處理家具大類 、品項、狀態及規格複合查詢(處理複合查詢的list值)
 
 <%
 	List<FurLisVO> list = null;
@@ -21,10 +21,8 @@
 	}
 %>
 
-<jsp:useBean id="furCatDAO" scope="page"
-	class="com.furCat.model.FurCatDAO" />
-<jsp:useBean id="furIteDAO" scope="page"
-	class="com.furIte.model.FurIteDAO" />
+<jsp:useBean id="furCatDAO" scope="page" 	class="com.furCat.model.FurCatDAO" />
+<jsp:useBean id="furIteDAO" scope="page" 	class="com.furIte.model.FurIteDAO" />
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -112,7 +110,6 @@ a:hover {
 /*   			 border:1px solid blue; */
 /*    } */
 </style>
-
 <!-- 處理下拉式選單連動取值 -->
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
 <script type="text/javascript">
@@ -168,7 +165,6 @@ function showFurItes(data){
 window.addEventListener("load",function (){
  document.getElementById("furCatSelect").onchange=getFurCat;}, false);
 </script>
-
 </head>
 <body bgcolor='white'>
 
@@ -203,7 +199,7 @@ window.addEventListener("load",function (){
 		<FORM METHOD="post"
 			ACTION="<%=request.getContextPath()%>/furLis/furLis.do" name="form1">
 
-			<select size="1" name="fnt_ctgr_no"  id="furCatSelect" 
+			<select size="1" name="fnt_ctgr_no" id="furCatSelect"
 				style="width: 80px; height: 30px;">
 				<option>家具類別</option>
 				<c:forEach var="furCatVO" items="${furCatDAO.all}">
@@ -211,7 +207,7 @@ window.addEventListener("load",function (){
 				</c:forEach>
 			</select>
 			<%--        <jsp:useBean id="furIteSvc2" scope="page" class="com.furIte.model.FurIteService" /> --%>
-			<select size="1" name="fnt_it_no" style="width: 150px; height: 30px;" id="furIteSelect">
+			<select size="1" name="fnt_it_no" style="width: 150px; height: 30px;"  id="furIteSelect">
 				<option>家具品項</option>
 				<c:forEach var="furIteVO" items="${furIteDAO.all}">
 					<option value="${furIteVO.fnt_it_no}">${furIteVO.fnt_name}</option>
@@ -232,11 +228,11 @@ window.addEventListener("load",function (){
 		</FORM>
 	</div>
 	<div id="showResult"></div>
-	<%@ include file="page1.file"%>
+	<%@ include file="page1_furLis.file"%>
 	<table>
 		<!-- 	設計游標選到名稱時  可自行連結到各品項清單頁面-->
 		<tr>
-			<th>家具<br>序號</th>
+			<th>家具<br>編號</th>
 			<th>類別名稱</th>
 			<th>品項名稱</th>
 			<th>規格</th>
@@ -310,6 +306,7 @@ window.addEventListener("load",function (){
 		</c:forEach>
 	</table>
 
-	<%@ include file="page2.file"%>
+	<!-- 待處理分頁問題 -->
+	<%@ include file="page2_furLis.file"%>
 </body>
 </html>

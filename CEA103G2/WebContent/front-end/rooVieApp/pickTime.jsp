@@ -11,32 +11,16 @@
 <!-- =================================下面是導覽列==================================================== --> 
 <%@include file="/front-end/header.file"%>
 <!-- =================================上面是導覽列==================================================== --> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <style>
-.table{
-/* 	border:1px solid #000;  */
-  font-family: 微軟正黑體; 
-  font-size:16px; 
-/*   width:200px; */
-  border:1px solid #000;
-/*   text-align:center; */
-  border-collapse:collapse;
-  
+
+.breadcrumb_bg {
+    background-image: url(<%=request.getContextPath()%>/front-end/rooVieApp/images/hand01.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.table-borderless tbody+tbody, .table-borderless td, .table-borderless th, .table-borderless thead th {
-    border:1px solid blue;
-}
-tr { 
-  padding:10px;
-  border:1px solid blue;
-  color:#fff;
-  
-} 
-th { 
-  border:1px solid red;
-  padding:5px;
-  
-} 
 </style>
 <body onload="connect();" onunload="disconnect();">
 <!-- ======圖片 -->
@@ -48,37 +32,10 @@ th {
                         <div class="breadcrumb_iner_item">
                             <h2> 預 約 看 房   Welcome</h2>
                             <h3> &nbsp;&nbsp;&nbsp; ${MemTenVO.mem_name} 你好 !</h3>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H o m e <span>-</span> V i e w i n g</p>
-                            <p>會員: ${MemTenVO.mem_no} <span>-</span>  選取你要預約的時間</p>
+                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H o m e <span>-</span> V i e w i n g</h5>
+                            <h5>會員: ${MemTenVO.mem_no} <span>-</span>  選取你要預約的時間</h5>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-<!-- ======員工控制 -->
- <section class="confirmation_part" >
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-4">
-                	<label>現在起幾小時內不可預約
-                    <input type="text" id="" style="display:inline-block;width:30%;">
-                    </label>
-                </div>
-                <div class="col-lg-8">
-                	<label><span>員工上班時段</span>:
-                    <input type="number" name="gotowork" min='0' max='23' value="0" style="display:inline-block;width:20%;"><span>至</span>
-                    <input type="number" name="gooffwork" min='0' max='23' value="23" style="display:inline-block;width:20%;">
-                    
-                    <script>
-                    $("input[name='gotowork']").mouseup(function(e){
-                    	$("input[name='gotowork']").attr('value',$(this).val());
-                    })
-                    $("input[name='gooffwork']").click(function(){
-                    	$(this).attr('min',$("input[name='gotowork']").attr("value"));
-                   	})
-                    </script>
-                    </label>
                 </div>
             </div>
         </div>
@@ -91,14 +48,14 @@ th {
 					<div class="col-lg-12">
                         <div class="order_details_iner">
                             <h3>選取你要預約的日期</h3>
-                            <table  class="table table-borderless">
+                            <table  class="table table-striped table-bordered">
                                 <thead>
-                               		 <tr class="table-primary">
+                               		 <tr class="table-info">
                                		 	<th id="prev" class="text-center">&lt;&lt;</th>
                                         <th id="month" scope="col" colspan="5" class="text-center">月份</th>
                                         <th id="next" class="text-center">&gt;&gt;</th>
                                     </tr>
-                                    <tr class="table-primary">
+                                    <tr class="table-info">
                                         <th class="text-center">星期日</th>
                                         <th class="text-center">星期一</th>
                                         <th class="text-center">星期二</th>
@@ -364,7 +321,7 @@ th {
 					                        <div class="order_details_iner" style="margin-top:0px">
 					                            <table  class="table table-borderless">
 					                                <thead>
-					                                    <tr class="table-primary">
+					                                    <tr class="table-info">
 					                                        <th class="text-center" id="showdate"><span>時段</span></th>
 					                                        <th class="text-center"><span>預約</span></th>
 					                                    </tr>
@@ -625,31 +582,75 @@ th {
 				    </div>
 				  </div>
 				</div>
-				<form action="<%=request.getContextPath()%>/rooVieApp/rooVieApp.do" method="post">
-					<input type="text" name=rva_order_time value="">
-					<input type="text" name="isPick" value="">
-					<input type="text" name="mem_no" value="2">
-					<input type="text" name="hos_no" value="2">
-					<input type="submit">
-				</form>
+				
 <!-- /****** CONTAINER *****/     -->	                       
 		<script>
+		
+		//找到上一個網頁傳的querystring 目前只帶houseno 若要增加請處理
+		let queryString=location.search;
+		let firstequalindex = queryString.indexOf("=");
+		let houseno = queryString.substring(queryString.indexOf("=")+1);
+		//查詢這物件目前設定時間 //**
+		let obj = getlistcontroltime(houseno);
+		function getlistcontroltime(houseno){
+			let obj = {};
+			$.ajax({
+		    	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+		    	type:"post",
+		    	data:{
+		    		action:"listControlTime",
+		    		identity:""+houseno,
+		    	},
+		    	async: false,//廢棄?
+		    	success:function(jsonobj){
+		    		let empno = jsonobj.sneder;
+		    		if(empno==undefined){
+		    			empno='未設定'
+		    		}
+		    		obj.empno = empno;
+		    		let freeTimeToSee = jsonobj.freeTimeToSee;
+		    		obj.freeTimeToSee=freeTimeToSee;
+		    		let gotowork = jsonobj.gotowork;
+		    		obj.gotowork = gotowork;
+		    		let gooffwork = jsonobj.gooffwork;
+		    		obj.gooffwork= gooffwork;
+		    		//set
+		    		let freedate = jsonobj.freedate;
+		    		$("#roovieapp_title").text("目前 物件編號: "+houseno+" 預約情況");
+		    		let text = "<p> 負責員工 : "+empno+"</p>"+
+		    		"<p> 目前設定現在時間 : "+freeTimeToSee+" 小時以後不可以預約</p>"+
+		    		"<p> 員工上班時間 : "+gotowork+" 時 - "+gooffwork+" 時</p>";
+		    		for(let x in freedate){
+		    			if(freedate[x]!==""){
+		    				text+="<p>已經預約時間 :"+freedate[x]+"</p>";
+		    			}
+		    		}
+		    		$("#roovieapp_content").html(text);
+		    		$("input[name='freeTimeToSee']").attr('value',freeTimeToSee);
+		    		$("input[name='gotowork']").attr('value',gotowork);
+		    		$("input[name='gooffwork']").attr('value',gooffwork);
+		    	}
+		    });
+			return obj;
+		}		
+		
+		
 //日曆生成
-			$(function(){
-				let choose = new Date();
-// 				今年
-				let currentYear = choose.getFullYear();
-// 				這個月
-				let currentMonth = choose.getMonth()+1;
-// 				今日
-				let currentDate = choose.getDate();
-// 				這個月第一天
-				let currentMonthFirstDay = new Date(""+currentYear+"-"+currentMonth+"-1").getDay();//0對應到星期日 其餘1對禮拜一
-// 				今年這個月有幾天
-				let currentTotalDay = judgeDay(currentYear,currentMonth);
-// 				count用途
-				let week = 0;
-				$("#prev").click(function(){
+		
+			let choose = new Date();
+// 			今年
+			let currentYear = choose.getFullYear();
+// 			這個月
+			let currentMonth = choose.getMonth()+1;
+// 			今日
+			let currentDate = choose.getDate();
+// 			這個月第一天
+			let currentMonthFirstDay = new Date(""+currentYear+"-"+currentMonth+"-1").getDay();//0對應到星期日 其餘1對禮拜一
+// 			今年這個月有幾天
+			let currentTotalDay = judgeDay(currentYear,currentMonth);
+// 			count用途
+			let week = 0;
+			$("#prev").click(function(){
 					freshPickDateTB();
 					if(currentMonth==1){
 						currentYear--;
@@ -671,8 +672,8 @@ th {
 						$("button[name='pickdate']").eq(currentMonthFirstDay).attr('id',pickdate).prepend("<span>"+currentMonth+" / "+i+"</span>");
 						currentMonthFirstDay = currentMonthFirstDay+1;
 					}
-				})
-				$("#next").click(function(){
+			})
+			$("#next").click(function(){
 					freshPickDateTB();
 					
 					if(currentMonth==12){
@@ -695,10 +696,10 @@ th {
 						$("button[name='pickdate']").eq(currentMonthFirstDay).attr('id',pickdate).prepend("<span>"+currentMonth+" / "+i+"</span>");
 						currentMonthFirstDay = currentMonthFirstDay+1;
 					}
-				})
+			})
 				//初始
-				$("#month").html("<span>"+currentYear+"年"+currentMonth+"月</span>")
-				for(let i = 1;i<=currentTotalDay;i++){
+			$("#month").html("<span>"+currentYear+"年"+currentMonth+"月</span>")
+			for(let i = 1;i<=currentTotalDay;i++){
 					let pickdate = currentYear+"-"+currentMonth+"-"+i;
 					let compare = currentYear+"-"+currentMonth+"-"+(i+1);
 					$("button[name='pickdate']").eq(currentMonthFirstDay).css('display','block');
@@ -707,8 +708,7 @@ th {
 					}
 					$("button[name='pickdate']").eq(currentMonthFirstDay).attr('id',pickdate).prepend("<span>"+currentMonth+" / "+i+"</span>");
 					currentMonthFirstDay = currentMonthFirstDay+1;
-				}
-			})
+			}
 // 			刷新日曆
 			function freshPickDateTB(){
 				$("button[name='pickdate']").each(function(){
@@ -732,55 +732,65 @@ th {
 			let prevTime = 0;
 			let interval = 1;
 //設定距離 現在多少小時才可以預約
-			let freeTimeToSee = 10;
+//$("#freeTimeToSee").val();
 			let currentHours = new Date().getHours();
 			//用於包裹，判斷不能選的時段
 			let unchoosetime = 0;
 			let isUpdate = false;
-			function spanTimetitle(prevTime,interval,pickdate){
+			function spanTimetitle(prevTime,interval,pickdate,freeTimeToSee){
 				$("span[name='timeTitle']").each(function(index){
 					let nextTime = prevTime+interval;
 					$(this).text(prevTime+":00-"+nextTime+":00");
 					let rva_order_time =pickdate+" "+prevTime+":00:00";
 					//以下設定現在(freeTimeToSee)之內的時段 不可預約
 					let comparePickTime =pickdate+" "+index+":00:00";
-					let nowHour = new Date().getHours()+freeTimeToSee+1;
+					let nowHour = new Date().getHours()+parseInt(freeTimeToSee)+1;
 					let nowDate = new Date().getDate();
 					let nowMonth = (new Date().getMonth()+1); 
 					let nowYear = new Date().getFullYear();
 					let nowTotalDay = judgeDay(nowYear,nowMonth);
 					if(nowHour>=24){
 						nowDate++;
-						nowHour-=24;
+						nowHour%=24;
 					}
 					if(nowDate>nowTotalDay){
 						nowMonth++;
-						nowDate-=nowTotalDay;
+						nowDate%=nowTotalDay;
 					}
 					if(nowMonth>=12){
 						nowDate++;
 						nowMonth-=12;
 					}
+					
 					let compareNowTime = nowYear+"-"+nowMonth+"-"+nowDate+" "+nowHour+":00:00";
 					if(index==1){
 						isUpdate = false;
 					}
-					
+					if(index<=obj.gotowork){
+						$("input[name='picktime']").eq(index).prop("disabled",true);
+					}
+					if(obj.gooffwork<=index){
+						$("input[name='picktime']").eq(index).prop("disabled",true);
+					}
 					if(Date.parse(comparePickTime).valueOf() < Date.parse(compareNowTime).valueOf()){
 						$("input[name='picktime']").eq(index).prop("disabled",true);
 						unchoosetime = index;
-						console.log($("input[name='picktime']").eq(index).prop("checked"));
 						isUpdate =true;
 					}
 					$("input[name='picktime']").eq(index).next().remove();
 					$("input[name='picktime']").eq(index).attr('value',rva_order_time);
-					$("input[name='picktime']").eq(index).attr('id',prevTime).after("<span id='"+pickdate+"'>"+prevTime+"</span>")
+					$("input[name='picktime']").eq(index).attr('id',prevTime).after("<span id='"+pickdate+"'></span>");
 					prevTime+=interval;
 				})
 			}
+			
+			
+			
 //以下websocket
-			let member = ${MemTenVO.mem_no}
-			let MyPoint = "/pickTime/"+member;//給WS.java接收用
+
+
+			let member = "會員編號"+${MemTenVO.mem_no}
+			let MyPoint = "/pickTime/"+member+"/"+houseno;//給WS.java接收用
 			let host = window.location.host;
 			let path = window.location.pathname;
 			let webCtx = path.substring(0, path.indexOf('/', 1));
@@ -792,13 +802,12 @@ th {
 			function connect() {
 				// create a websocket
 				webSocket = new WebSocket(endPointURL);
-				
 				webSocket.onopen = function(event) {
 					console.log("Connect Success!");
 					$("#member").after("<p>"+member+"</p>");//連線成功 登入名稱
 					addListener();
 				};
-				
+				console.log("SSSS");
 				webSocket.onmessage = function(event) {
 //		 			四種狀態type 登入、歷史資訊、聊天時、關閉時候
 //		 			登入要更新好友列表
@@ -811,9 +820,9 @@ th {
 //		 				一有新連線，就更新歷史資料
 						addListener();
 					} else if ("history" === jsonObj.type && (self !== jsonObj.sender)) {
+						
 						// 這行的jsonObj.message是從redis撈出跟好友的歷史訊息，再parse成JSON格式處理
 						var messages = JSON.parse(jsonObj.message);
-						
 						for (var i = 0; i < messages.length; i++) {
 							let jsonObject = JSON.parse(messages[i]);
 							let time = jsonObject.time;//取出被選的時間了
@@ -823,14 +832,16 @@ th {
 							if(isUpdate==true && time<=unchoosetime){
 								continue;
 							}
-							
 							//先篩選日期  
 							if(self !== jsonObject.sender && timepick==="1" && $("input[name='picktime']").next().attr('id')===date){
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
 										$(this).prop("checked",true);
-										$(this).next().text("會員"+jsonObject.sender+" 已預約");
-										countChecked++;
+										if(jsonObject.sender.indexOf("員工")==0){
+											$(this).next().text("尚未開放預約");
+										}else{
+											$(this).next().text(jsonObject.sender+" 已預約");
+										}
 										$(this).prop("disabled",true);
 									}
 								})
@@ -838,7 +849,6 @@ th {
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
 										$(this).prop("checked",false);
-										countChecked--;
 										$(this).next().text("");
 										$(this).prop("disabled",false);
 									}
@@ -847,21 +857,20 @@ th {
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
 										$(this).prop("checked",true);
-										$(this).next().text("會員"+jsonObject.sender+" 已預約");
-										countChecked++;
+										$(this).next().text(jsonObject.sender+" 已預約");
 									}
 								})
 							}else if(self === jsonObject.sender && timepick==="0" && $("input[name='picktime']").next().attr('id')===date){
 								$("input[name='picktime']").each(function(){
 									if($(this).attr("id")===time){
+										console.log("SSSSSF");
 										$(this).prop("checked",false);
-										countChecked--;
 										$(this).next().text("");
 									}
 								})
 							}
 						}
-					}else if("chat" === jsonObj.type && self === jsonObj.sender) {//必為存被選時間的包裹
+					}else if("chat" === jsonObj.type && self === jsonObj.sender && houseno==jsonObj.identity) {//必為存被選時間的包裹
 						let time = jsonObj.time;//取出被選的時間了
 						let timepick = jsonObj.timepick;
 						let date = jsonObj.date;//取出被選的時間了
@@ -871,7 +880,7 @@ th {
 							$("input[name='picktime']").each(function(){
 								if($(this).attr("id")===time){
 									$(this).prop("checked",true);
-									$(this).next().text("會員"+jsonObj.sender+" 已預約");
+									$(this).next().text(jsonObj.sender+" 已預約");
 									countChecked++;
 								}
 							})
@@ -884,7 +893,7 @@ th {
 								}
 							})
 						}
-					}else if ("chat" === jsonObj.type && self !== jsonObj.sender) {//必為存被選時間的包裹
+					}else if ("chat" === jsonObj.type && self !== jsonObj.sender && houseno==jsonObj.identity) {//必為存被選時間的包裹
 						// 這行的jsonObj.message是從redis撈出跟好友的歷史訊息，再parse成JSON格式處理
 						let time = jsonObj.time;//取出被選的時間了
 						let timepick = jsonObj.timepick;
@@ -895,7 +904,11 @@ th {
 							$("input[name='picktime']").each(function(){
 								if($(this).attr("id")===time){
 									$(this).prop("checked",true);
-									$(this).next().text("會員"+jsonObj.sender+" 已預約");
+									if(jsonObj.sender.indexOf("員工")==0){
+										$(this).next().text("尚未開放預約");
+									}else{
+										$(this).next().text(jsonObj.sender+" 已預約");
+									}
 									$(this).prop("disabled",true);
 								}
 							})
@@ -910,8 +923,21 @@ th {
 						}
 					}else if ("close" === jsonObj.type) {
 						alert("BYE");
+					}else if ("control" === jsonObj.type){
+						 obj = getlistcontroltime(houseno);
+						 $("input[name='picktime']").each(function(index){
+							 	if(index<obj.gotowork){
+									$("input[name='picktime']").eq(index).prop("disabled",true);
+								}
+								if(obj.gooffwork<index){
+									$("input[name='picktime']").eq(index).prop("disabled",true);
+								}
+								if(obj.gotowork<=index && obj.gooffwork>=index){
+									$("input[name='picktime']").eq(index).prop("disabled",false);
+								}
+						})
 					}
-					console.log("countChecked"+countChecked);
+					
 					if(countChecked==fullCheck){
 						alert("該天預約滿囉");
 					}
@@ -937,7 +963,7 @@ th {
 					var jsonObj = {
 							"type" : "chat",
 							"sender" : self,
-							"identity" : "1",
+							"identity" : houseno,
 							"date" :date,
 							"datepick" :"",
 							"time" :time,
@@ -952,7 +978,7 @@ th {
 					let jsonObj = {
 							"type" : "history",
 							"sender" : "",
-							"identity" : "1",
+							"identity" : houseno,
 							"message" : "",
 						};
 					webSocket.send(JSON.stringify(jsonObj));
@@ -962,29 +988,90 @@ th {
 			}
 			
 			$("button[name='pickdate']").click(function(){
-				$()
 				
 				$("#showdate").html("<span>"+$(this).attr('id')+" 的時段 </span>")
-				$("#exampleModalLabel").html("訂單需處理，請預約 \"現在起 "+freeTimeToSee+"小時 \"之後的時段");
+				$("#exampleModalLabel").html("訂單需處理，請預約 \"現在起 "+obj.freeTimeToSee+"小時 \"之後的時段");
 				$("input[name='picktime']").each(function(){
 					$(this).prop('checked',false);
 					$(this).prop('disabled',false);
 				})
-				spanTimetitle(prevTime,interval,$(this).attr('id'));
-				alert(isUpdate);
+				spanTimetitle(prevTime,interval,$(this).attr('id'),obj.freeTimeToSee);
 				
+			
 				addListener();
 				countChecked=0;
 				$("#Modal").modal('show');
 			})
-			$(window).load(function(){
-				//預約 時段 成功
-				$("input[name='picktime']").change(function(){
-					$("input[name='rva_order_time']").val($("input[name='picktime']").attr("value"));
-					$("input[name='isPick']").val($("input[name='picktime']").prop("checked"));
-// 					$("input[type='submit']").click();
+			
+			$("input[name='picktime']").change(function(){
+			let rva_order_time = $(this).val();
+			let mem_no = self.substring(self.indexOf("號")+1);
+			let confirmpicktime =new Date(rva_order_time).getFullYear()+"年"+(new Date(rva_order_time).getMonth()+1)+"月"+new Date(rva_order_time).getDate()+"日";
+			confirmpicktime+=new Date(rva_order_time).getHours()+"時";	
+			//員工這裡點下去 不用新增 但取消要(暫時)
+			if($(this).prop('checked')===true){
+				Swal.fire({
+					  title: '確定預約這時間?',
+					  text: confirmpicktime,
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#6495ed',
+					  cancelButtonColor: '#fa8072',
+					  confirmButtonText: '確定',
+					  cancelButtonText:'取消',
+					  confirmButtonClass:'btn-sm',
+					  cancelButtonClass:'btn btn-info btn-sm',
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						$.ajax({
+							url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+							type:'post',
+							data:{
+								action:'addPickTime',
+								mem_no:mem_no,
+								hos_no:houseno,
+								rva_order_time:rva_order_time,
+							},
+							success:function(){
+								console.log("預約成功")
+							}
+						})
+					    Swal.fire({
+					    	icon:'success',
+					    	title:'預約成功'
+					    })
+					  }else{
+						 $(this).prop('checked',false);
+						 $(this).next().text("");
+						 Swal.fire({
+						    	icon:'error',
+						    	title:'已取消預約'
+						  })
+					  }
 				})
-			})
+
+			}else{
+				$.ajax({
+					url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+					type:'post',
+					data:{
+						action:'cancelPickTime',
+						mem_no:mem_no,
+						hos_no:houseno,
+						rva_order_time:rva_order_time,
+					},
+					success:function(){
+						console.log("取消預約");
+						Swal.fire({
+					    	icon:'error',
+					    	confirmButtonColor:'red',
+					    	title:'已取消預約'
+					  })
+					}
+				})
+			}
+		})
+
 			
 		</script>
 </body>
