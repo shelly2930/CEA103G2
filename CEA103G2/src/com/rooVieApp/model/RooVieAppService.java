@@ -1,8 +1,10 @@
 package com.rooVieApp.model;
 
 import java.util.List;
+import java.util.Map;
 
-
+import com.google.gson.Gson;
+import java.sql.Timestamp;
 public class RooVieAppService {
 //	宣告DAO介面，存放DAO實體
 //	為什麼要用介面宣告，為了好維護，哪天DAO如果需要更換，可以直接重寫DAO而這裡就直接更換實體部分即可
@@ -77,5 +79,12 @@ public class RooVieAppService {
 		RooVieAppVO rooVieAppVO = new RooVieAppVO();
 		rooVieAppVO.setHos_no(hos_no);
 		return dao.listallpickTime(rooVieAppVO);
+	}
+	
+	public List<RooVieAppVO> listNewPickTime(){
+		return dao.listNewPickTime();
+	}
+	public Map<Integer,Timestamp> listNewRooVieApp(){
+		return dao.listNewRooVieApp();
 	}
 }

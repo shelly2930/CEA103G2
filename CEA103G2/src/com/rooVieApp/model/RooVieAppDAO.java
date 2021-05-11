@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -56,6 +59,8 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 	private static final String ADDPICKTIME = "INSERT INTO "+TABLE+"(MEM_NO, HOS_NO,RVA_ORDER_TIME,RVA_STATUS) VALUES (?, ?, ?, ?)";
 	private static final String CANCELPICKTIME = "DELETE FROM "+TABLE+" WHERE MEM_NO=? and HOS_NO=? and RVA_ORDER_TIME =?";
 	private static final String LISTALLPICKTIME = "SELECT " + TOTAL_COL + " FROM " + TABLE + " WHERE HOS_NO=? order by RVA_APP_TIME";
+	private static final String LISTNEWPICKTIME  = "SELECT * FROM room_viewing_application WHERE TIMEDIFF(RVA_APP_TIME,NOW()) < 0";
+	private static final String LISTNEWROOVIEAPP = "SELECT  HOS_NO,MAX(RVA_ORDER_TIME) FROM ROOM_VIEWING_APPLICATION GROUP BY HOS_NO HAVING DATEDIFF(MAX(RVA_ORDER_TIME),NOW()) > 0";
 	@Override
 	public void insert(RooVieAppVO rooVieAppVO) {
 		Connection con = null;
@@ -442,6 +447,113 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<RooVieAppVO> listNewPickTime() {
+		List<RooVieAppVO> list = new ArrayList<RooVieAppVO>();
+		RooVieAppVO roovieappVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(LISTNEWPICKTIME);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roovieappVO = new RooVieAppVO();
+				roovieappVO.setRva_no(rs.getInt("rva_no"));
+				roovieappVO.setMem_no(rs.getInt("mem_no"));
+				roovieappVO.setHos_no(rs.getInt("hos_no"));
+				roovieappVO.setEmp_no(rs.getInt("emp_no"));
+				roovieappVO.setRva_app_time(rs.getTimestamp("rva_app_time"));
+				roovieappVO.setRva_order_time(rs.getTimestamp("rva_order_time"));
+				roovieappVO.setRva_end_time(rs.getTimestamp("rva_end_time"));
+				roovieappVO.setRva_status(rs.getByte("rva_status"));
+				list.add(roovieappVO); // Store the row in the list
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public Map<Integer, Timestamp> listNewRooVieApp() {
+		Map<Integer,Timestamp> map = new LinkedHashMap<Integer,Timestamp>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(LISTNEWROOVIEAPP);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				map.put(rs.getInt(1), rs.getTimestamp(2));
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return map;
 	}
 
 }

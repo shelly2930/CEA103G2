@@ -64,11 +64,11 @@
                 		<div class="card-header py-3">
                 			<h2 class="text-gray">照片管理</h2>
                 		</div>
-                		<div class="card-body">
+                		<div class="card-body showerror">
                 
 							<form method="post" action="<%=request.getContextPath()%>/houPho/houPho.do">
 							<!-- 輪播 -->							
-							<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" w>
+							<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 							  <div class="carousel-inner">
 							  
 							  	<c:forEach var="HouPhoVO" items="${listHouPho_ByHouseNo}" varStatus="amount">
@@ -79,7 +79,9 @@
 								         <label for="${HouPhoVO.hos_pic_no}"><h1>照片編號${HouPhoVO.hos_pic_no}</h1></label>	
 								    </div>			    
 							    </div>
-							    
+							    <div class="carousel-item">
+							    <img src='<%=request.getContextPath()%>/errorImg/error.png'  class='d-block'>
+							    </div>
 							    </c:forEach>
 							    
 							    
@@ -135,7 +137,6 @@
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					        <button type="button" class="btn btn-primary">Save changes</button>
 					      </div>
 					    </div>
 					  </div>
@@ -143,6 +144,12 @@
 			<!--　　　↑↑↑↑↑↑↑↑↑↑彈出窗↑↑↑↑↑↑↑↑↑↑　　　-->
 			<script>
 				$(function(){
+					if($(".carousel-item").length==0){
+// 						let Str = "<div class='carousel-inner'><div class='carousel-item' active>";
+<%-- 						Str +="<img src=\'<%=request.getContextPath()%>/errorImg/error.png\'  class=\'d-block\'></div></div>"; --%>
+						$("#carouselExampleControls").hide();	
+						$(".showerror").prepend("<img src=\'<%=request.getContextPath()%>/errorImg/error.png\'  class=\'d-block\' style='height:300px;margin:0 auto;'>")
+					}
 					if(${not empty ErrorMessage}){
 						$('#Modal').modal({
 							  show: true

@@ -1,10 +1,11 @@
 package com.rooVieApp.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.rooVieApp.model.RooVieAppService;
+import com.rooVieApp.model.RooVieAppVO;
 import com.rooVieApp.websocket.jedis.HandlePickTime;
 import com.rooVieApp.websocket.model.ControlTimeVO;
 
@@ -152,6 +154,22 @@ public class RooVieAppServlet extends HttpServlet {
 			rva_order_time = java.sql.Timestamp.valueOf(req.getParameter("rva_order_time"));
 			RooVieAppService rvaSvc = new RooVieAppService();
 			rvaSvc.cancelpicktime(mem_no, hos_no, rva_order_time);
+			return;
+		}
+		if("listNewRooVieApp".equals(action)){
+			RooVieAppService rvaSvc = new RooVieAppService();
+			Map<Integer,Timestamp> map = new LinkedHashMap<Integer,Timestamp>();
+			map = rvaSvc.listNewRooVieApp(); 
+			
+			
+			
+			
+			
+			
+			String str = new Gson().toJson(map);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
 			return;
 		}
 	}
