@@ -42,7 +42,7 @@ public class FurIteDAO implements FurIteDAO_interface {
 	
 	private static final String UPDATE = 
 		"UPDATE FURNITURE_ITEM set fnt_ctgr_no= ?,fnt_name= ?,fnt_unrent= ?,fnt_repair= ?,fnt_total= ?,fnt_price= ?," + 
-		"fnt_length= ?,fnt_width= ?,fnt_height= ?,fnt_weight= ?,fnt_standard= ?,fnt_info= ?,fnt_views= ? fnt_post_status=? where fnt_it_no = ?";
+		"fnt_length= ?,fnt_width= ?,fnt_height= ?,fnt_weight= ?,fnt_standard= ?,fnt_info= ?,fnt_views= ?, fnt_post_status=? where fnt_it_no = ?";
 	//取最後一筆品項編號作法
 	private static final String GET_LAST_ITE_NO = 
 			"SELECT fnt_it_no FROM FURNITURE_ITEM order by fnt_it_no desc limit 0,1";
@@ -862,7 +862,6 @@ public class FurIteDAO implements FurIteDAO_interface {
 	 public List<FurIteVO> getOneFurIteByKWtoFE(String keyword){
 			List<FurIteVO> list = new ArrayList<FurIteVO>();
 			FurIteVO furIteVO = null;
-			System.out.println("進DAO, keyword值為"+keyword);
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;

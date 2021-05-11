@@ -26,8 +26,8 @@ public class FurIteServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 	    res.setContentType("text/html; charset=Big5");
-
 		String action = req.getParameter("action");
+		
 		
 		//<前台用>首頁進租家具瀏覽頁面 所呈現之家具(留意上下架狀態)
 	 if ("listGetOnFurIteByCat".equals(action)) { // 來自前台瀏覽家具listAllFur.jsp的請求
@@ -80,15 +80,13 @@ public class FurIteServlet extends HttpServlet {
 		 
 
 //<前台用>已上架商品之關鍵字模糊查詢 keywordSearchFromFN
-		 if (" keywordSearchFromFE".equals(action)) { // 來自瀏覽家具頁面listAllFur.jsp的請求
-			 System.out.println("Enter Servlet");
+		 if ("keywordSearchFromFE".equals(action)) { // 來自瀏覽家具頁面listAllFur.jsp的請求
 				List<String> errorMsgs = new LinkedList<String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 				
 				try {
 					/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 					String keyword = req.getParameter("keyword");
-					System.out.println("搜尋關鍵字為: "+keyword);
 					if (keyword == null || (keyword.trim()).length() == 0) {
 						errorMsgs.add("請輸入搜尋關鍵字");
 					}
@@ -413,12 +411,12 @@ public class FurIteServlet extends HttpServlet {
 					
 					//家具品項名稱					
 					String fnt_name = req.getParameter("fnt_name");
-					String fnt_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,20}$";
+					String fnt_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_ )]{2,20}$";
 					if (fnt_name == null || fnt_name.trim().length() == 0) {
 						fnt_name ="";
-						errorMsgs.add("家具類別名稱: 請勿空白");
+						errorMsgs.add("家具品項名稱: 請勿空白");
 					} else if(!fnt_name.trim().matches(fnt_nameReg)) { 
-						errorMsgs.add("家具類別名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到20之間");
+						errorMsgs.add("家具品項名稱: 只能是中、英文字母、數字和_ , 且長度必需在2到20之間");
 		            }
 					
 					//可租數量

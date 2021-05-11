@@ -44,6 +44,24 @@
 <!-- include導覽列 -->
 <%@include file="/front-end/header.file"%>	
 
+<!-- breadcrumb start-->
+<!--     <section class="breadcrumb breadcrumb_bg"> -->
+<!--         <div class="container"> -->
+<!--             <div class="row justify-content-center"> -->
+<!--                 <div class="col-lg-8"> -->
+<!--                     <div class="breadcrumb_iner"> -->
+<!--                         <div class="breadcrumb_iner_item"> -->
+<!--                             <h2>Shop Category</h2> -->
+<!--                             <p>Home <span>-</span> Shop Category</p> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </section> -->
+    <!-- breadcrumb start-->
+
+<!-- 左側欄 家具分類 -->
   <section class="cat_product_area section_padding">
         <div class="container">
             <div class="row">
@@ -139,7 +157,9 @@
              <c:forEach var="furIteVO" items="${list}" >
                         <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
+                               <a href="<%=request.getContextPath()%>/furIte/furIte.do?fnt_it_no=${furIteVO.fnt_it_no}&action=getOneFurIteToFE" >
                                 <img src="<%=request.getContextPath()%>/furPho/furPhoShow.do?fnt_pic_no=${furPhoSvc.getThisIteFurPho(furIteVO.fnt_it_no).fnt_pic_no}"  width="222" height="240">
+                                </a>
                                 <div class="single_product_text">
 <!--                               以下  h4超連結待改成各家具頁面介紹超連結 -->
                                     <h4>${furIteVO.fnt_name}</h4>

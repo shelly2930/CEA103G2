@@ -25,7 +25,6 @@
 
 
 <!-- JS ajax -->
-<!-- 處理下拉式選單連動取值 -->
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
 <script type="text/javascript">
 
