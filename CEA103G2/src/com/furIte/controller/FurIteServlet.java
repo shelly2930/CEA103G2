@@ -28,8 +28,59 @@ public class FurIteServlet extends HttpServlet {
 	    res.setContentType("text/html; charset=Big5");
 
 		String action = req.getParameter("action");
-//關鍵字模糊查詢
-		 if ("keywordSearch".equals(action)) { // 來自listAllFurIte.jsp的請求
+		
+		//<前台用>首頁進租家具瀏覽頁面 所呈現之家具(留意上下架狀態)
+	 if ("listGetOnFurIteByCat".equals(action)) { // 來自前台瀏覽家具listAllFur.jsp的請求
+		
+		try {
+			Integer fnt_ctgr_no = new Integer(req.getParameter("fnt_ctgr_no").trim());
+		   /***************************1.開始查詢所以上架家具資料****************************************/
+			FurIteService furIteSvc = new FurIteService();
+			List <FurIteVO> list=furIteSvc.getGetOnFurIteByCat(fnt_ctgr_no);
+							
+			/***************************3.查詢完成,準備轉交(Send the Success view)************/
+			req.setAttribute("showQueryList", list);         // 資料庫取出的empVO物件,存入req
+			req.setAttribute("fnt_ctgr_no", fnt_ctgr_no);         // 資料庫取出的empVO物件,存入req
+			String url = "/unprotected/furniture/listAllFur.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+
+			/***************************其他可能的錯誤處理**********************************/
+		} catch (Exception e) {
+//			errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+			RequestDispatcher failureView = req
+					.getRequestDispatcher("/index.jsp");
+			failureView.forward(req, res);
+		}
+	}
+		
+		//<前台用>首頁進租家具瀏覽頁面 所呈現之家具(留意上下架狀態)
+		 if ("listAllGetOnFurIte".equals(action)) { // 來自前台瀏覽家具listAllFur.jsp的請求
+				
+				try {
+			     
+				   /***************************1.開始查詢所有上架家具資料****************************************/
+					FurIteService furIteSvc = new FurIteService();
+					List <FurIteVO> list=furIteSvc.getAllGetOnFurIte();
+									
+					/***************************2.查詢完成,準備轉交(Send the Success view)************/
+					req.setAttribute("showQueryList", list);         // 資料庫取出的empVO物件,存入req
+					String url = "/unprotected/furniture/listAllFur.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);
+					successView.forward(req, res);
+
+					/***************************其他可能的錯誤處理**********************************/
+				} catch (Exception e) {
+//					errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/index.jsp");
+					failureView.forward(req, res);
+				}
+			}
+		 
+
+//<前台用>已上架商品之關鍵字模糊查詢 keywordSearchFromFN
+		 if (" keywordSearchFromFE".equals(action)) { // 來自瀏覽家具頁面listAllFur.jsp的請求
 			 System.out.println("Enter Servlet");
 				List<String> errorMsgs = new LinkedList<String>();
 				req.setAttribute("errorMsgs", errorMsgs);
@@ -37,7 +88,47 @@ public class FurIteServlet extends HttpServlet {
 				try {
 					/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 					String keyword = req.getParameter("keyword");
-					System.out.println(keyword);
+					System.out.println("搜尋關鍵字為: "+keyword);
+					if (keyword == null || (keyword.trim()).length() == 0) {
+						errorMsgs.add("請輸入搜尋關鍵字");
+					}
+					// Send the use back to the form, if there were errors
+					if (!errorMsgs.isEmpty()) {
+						RequestDispatcher failureView = req
+								.getRequestDispatcher("/unprotected/furniture/listAllFur.jsp");
+						failureView.forward(req, res);
+						return;//程式中斷
+					}
+				     
+							/***************************2.開始查詢資料****************************************/
+					FurIteService furIteSvc = new FurIteService();
+					List <FurIteVO> list=furIteSvc.getOneFurIteByKWtoFE(keyword);
+									
+					/***************************3.查詢完成,準備轉交(Send the Success view)************/
+					req.setAttribute("showQueryList", list);         // 資料庫取出的empVO物件,存入req
+					String url = "/unprotected/furniture/listAllFur.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+					successView.forward(req, res);
+
+					/***************************其他可能的錯誤處理**********************************/
+				} catch (Exception e) {
+					errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/index.jsp");
+					failureView.forward(req, res);
+				}
+			}
+		 
+		 
+		
+		//關鍵字模糊查詢
+		 if ("keywordSearch".equals(action)) { // 來自listAllFurIte.jsp的請求
+				List<String> errorMsgs = new LinkedList<String>();
+				req.setAttribute("errorMsgs", errorMsgs);
+				
+				try {
+					/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+					String keyword = req.getParameter("keyword");
 					if (keyword == null || (keyword.trim()).length() == 0) {
 						errorMsgs.add("請輸入搜尋關鍵字");
 					}
@@ -57,7 +148,6 @@ public class FurIteServlet extends HttpServlet {
 					/***************************3.查詢完成,準備轉交(Send the Success view)************/
 					req.setAttribute("keywordList", list);         // 資料庫取出的empVO物件,存入req
 					String url = "/back-end/furIte/listAllFurIteQuery.jsp";
-					System.out.println("已設定屬性值 準備轉交");
 					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
 					successView.forward(req, res);
 

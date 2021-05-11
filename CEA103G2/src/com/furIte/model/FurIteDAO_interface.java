@@ -20,7 +20,14 @@ public interface FurIteDAO_interface {
 	//找最後一筆品項編號給新增照片用
 	public Integer GetLastFnt_it_no();
 	
+	//<前台用>查所有上架商品
+	 public List<FurIteVO> getAllGetOnFurIte();
+	//<前台用>依家具分類查所有上架商品
+	 public List<FurIteVO> getGetOnFurIteByCat(Integer fnt_ctgr_no);
+	
 	//關鍵字查詢
 	public List<FurIteVO> getOneFurIteByKW(String keyword);
 	
+	//前台模糊查詢
+	public List<FurIteVO> getOneFurIteByKWtoFE(String keyword);
 	}

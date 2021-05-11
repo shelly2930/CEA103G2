@@ -86,6 +86,20 @@ public class FurIteService {
 	public List<FurIteVO> getFurItesByFurCat(Integer fnt_ctgr_no){
 		return dao.getFurItesByFurCat(fnt_ctgr_no);
 	}
+	//所有上架商品
+	public List<FurIteVO> getAllGetOnFurIte() {
+		return dao.getAllGetOnFurIte();
+	}
+	
+	public List<FurIteVO> getGetOnFurIteByCat(Integer fnt_ctgr_no){
+		return dao.getGetOnFurIteByCat(fnt_ctgr_no);
+	}
+	//前台模糊查詢
+	public List<FurIteVO> getOneFurIteByKWtoFE(String keyword){
+		return dao.getOneFurIteByKWtoFE(keyword);
+	}
+	
+	
 	//關鍵字查詢
 	public List<FurIteVO> getOneFurIteByKW(String keyword){
 		return dao.getOneFurIteByKW(keyword);
