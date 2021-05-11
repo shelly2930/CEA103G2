@@ -52,6 +52,12 @@ public class FurIteDAO implements FurIteDAO_interface {
 	private static final String GET_Fnt_Name_STMT = "SELECT fnt_name FROM FURNITURE_ITEM  order by fnt_it_no";
 	//查某家具類別的所有品項
 	private static final String GET_ONE_FUR_CAT_ITEM_STMT="SELECT * FROM FURNITURE_ITEM where fnt_ctgr_no= ? order by fnt_it_no";
+//<前台用>查所有上架品項
+	private static final String GET_ALL_GETON_ITEM_STMT = 
+			"SELECT * FROM FURNITURE_ITEM where fnt_post_status=1 order by fnt_it_no";
+//<前台用>依家具分類查上架品項
+	private static final String GET_GETON_ITEM_ByCATNO_STMT= 
+			"SELECT * FROM FURNITURE_ITEM where fnt_post_status=1 and fnt_ctgr_no=? order by fnt_it_no";
 	//關鍵字查詢
 //	private static final String GET_FurItes_ByKW_STMT="SELECT * FROM FURNITURE_ITEM where fnt_name=? or fnt_standard=? or fnt_info=? order by fnt_it_no";
 	
@@ -722,7 +728,207 @@ public class FurIteDAO implements FurIteDAO_interface {
 		}
 		return list;
 	}
+//<前台用> 查所有上架家具
+	 public List<FurIteVO> getAllGetOnFurIte(){
+			List<FurIteVO> list = new ArrayList<FurIteVO>();
+			FurIteVO furIteVO = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(GET_ALL_GETON_ITEM_STMT);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					furIteVO = new FurIteVO();
+					furIteVO.setFnt_it_no(rs.getInt("fnt_it_no"));
+					furIteVO.setFnt_ctgr_no(rs.getInt("fnt_ctgr_no"));
+					furIteVO.setFnt_name(rs.getString("fnt_name"));
+					furIteVO.setFnt_unrent(rs.getInt("fnt_unrent"));
+					furIteVO.setFnt_repair(rs.getInt("fnt_repair"));
+					furIteVO.setFnt_total(rs.getInt("fnt_total"));
+					furIteVO.setFnt_price(rs.getInt("fnt_price"));
+					furIteVO.setFnt_length(rs.getDouble("fnt_length"));
+					furIteVO.setFnt_width(rs.getDouble("fnt_width"));
+					furIteVO.setFnt_height(rs.getDouble("fnt_height"));
+					furIteVO.setFnt_weight(rs.getDouble("fnt_weight"));
+					furIteVO.setFnt_standard(rs.getString("fnt_standard"));
+					furIteVO.setFnt_info(rs.getString("fnt_info"));
+					furIteVO.setFnt_views(rs.getInt("fnt_views"));
+					furIteVO.setFnt_post_status(rs.getByte("fnt_post_status"));
+					list.add(furIteVO); // Store the row in the list
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return list;
+		}
+		
+//<前台用>依家具分類查上架品項並列出
+	 public List<FurIteVO> getGetOnFurIteByCat(Integer fnt_ctgr_no) {
+			List<FurIteVO> list = new ArrayList<FurIteVO>();
+			FurIteVO furIteVO = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(GET_GETON_ITEM_ByCATNO_STMT);
+				pstmt.setInt(1, fnt_ctgr_no);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					furIteVO = new FurIteVO();
+					furIteVO.setFnt_it_no(rs.getInt("fnt_it_no"));
+					furIteVO.setFnt_ctgr_no(rs.getInt("fnt_ctgr_no"));
+					furIteVO.setFnt_name(rs.getString("fnt_name"));
+					furIteVO.setFnt_unrent(rs.getInt("fnt_unrent"));
+					furIteVO.setFnt_repair(rs.getInt("fnt_repair"));
+					furIteVO.setFnt_total(rs.getInt("fnt_total"));
+					furIteVO.setFnt_price(rs.getInt("fnt_price"));
+					furIteVO.setFnt_length(rs.getDouble("fnt_length"));
+					furIteVO.setFnt_width(rs.getDouble("fnt_width"));
+					furIteVO.setFnt_height(rs.getDouble("fnt_height"));
+					furIteVO.setFnt_weight(rs.getDouble("fnt_weight"));
+					furIteVO.setFnt_standard(rs.getString("fnt_standard"));
+					furIteVO.setFnt_info(rs.getString("fnt_info"));
+					furIteVO.setFnt_views(rs.getInt("fnt_views"));
+					furIteVO.setFnt_post_status(rs.getByte("fnt_post_status"));
+					list.add(furIteVO); // Store the row in the list
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return list;
+		}
+		
+	 //前台模糊查詢
+	 @Override
+	 public List<FurIteVO> getOneFurIteByKWtoFE(String keyword){
+			List<FurIteVO> list = new ArrayList<FurIteVO>();
+			FurIteVO furIteVO = null;
+			System.out.println("進DAO, keyword值為"+keyword);
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+
+				con = ds.getConnection();
+//				pstmt = con.prepareStatement(GET_FurItes_ByKW_STMT);
+				String GET_FurItes_ByKWtoFE_STMT="SELECT * FROM FURNITURE_ITEM where fnt_post_status=1 and (fnt_name like '%"+keyword+
+						"%' or fnt_standard like '%"+keyword+"%' or fnt_info like '%"+keyword+"%') order by fnt_it_no";
+
+				pstmt = con.prepareStatement(GET_FurItes_ByKWtoFE_STMT);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					furIteVO = new FurIteVO();
+					furIteVO.setFnt_it_no(rs.getInt("fnt_it_no"));
+					furIteVO.setFnt_ctgr_no(rs.getInt("fnt_ctgr_no"));
+					furIteVO.setFnt_name(rs.getString("fnt_name"));
+					furIteVO.setFnt_unrent(rs.getInt("fnt_unrent"));
+					furIteVO.setFnt_repair(rs.getInt("fnt_repair"));
+					furIteVO.setFnt_total(rs.getInt("fnt_total"));
+					furIteVO.setFnt_price(rs.getInt("fnt_price"));
+					furIteVO.setFnt_length(rs.getDouble("fnt_length"));
+					furIteVO.setFnt_width(rs.getDouble("fnt_width"));
+					furIteVO.setFnt_height(rs.getDouble("fnt_height"));
+					furIteVO.setFnt_weight(rs.getDouble("fnt_weight"));
+					furIteVO.setFnt_standard(rs.getString("fnt_standard"));
+					furIteVO.setFnt_info(rs.getString("fnt_info"));
+					furIteVO.setFnt_views(rs.getInt("fnt_views"));
+					furIteVO.setFnt_post_status(rs.getByte("fnt_post_status"));
+					list.add(furIteVO); // Store the row in the list
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return list;
+		}
+	 
+	 
+	
 	//關鍵字查詢
 	@Override
 	public List<FurIteVO> getOneFurIteByKW(String keyword) {
@@ -744,14 +950,11 @@ public class FurIteDAO implements FurIteDAO_interface {
 //			pstmt.setString(2,"like '%"+keyword+"%'");
 //			pstmt.setString(3,"like '%"+keyword+"%'");
 			rs = pstmt.executeQuery();
-			System.out.println("取值前");
 			while (rs.next()) {
-				System.out.println("取值中");
 				furIteVO = new FurIteVO();
 				furIteVO.setFnt_it_no(rs.getInt("fnt_it_no"));
 				furIteVO.setFnt_ctgr_no(rs.getInt("fnt_ctgr_no"));
 				furIteVO.setFnt_name(rs.getString("fnt_name"));
-				System.out.println(rs.getString("fnt_name"));
 				furIteVO.setFnt_unrent(rs.getInt("fnt_unrent"));
 				furIteVO.setFnt_repair(rs.getInt("fnt_repair"));
 				furIteVO.setFnt_total(rs.getInt("fnt_total"));
@@ -795,7 +998,6 @@ public class FurIteDAO implements FurIteDAO_interface {
 				}
 			}
 		}
-		System.out.println("進DB取後回傳list");
 		return list;
 	}
 	
