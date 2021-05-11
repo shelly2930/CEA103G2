@@ -1,16 +1,16 @@
 package com.lanlord.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class LanlordVO implements java.io.Serializable {
 	private Integer lld_no;
 	private Integer mem_no;
-	private Date lld_apptime;
+	private Timestamp lld_apptime;
 	private String lld_bank;
 	private String lld_account;
 	private byte[] lld_acc_pic;
 	private Byte lld_status;
-	private Date lld_id_isvrfed;
+	private Timestamp lld_id_isvrfed;
 	private String lld_id_disapprove;
 	private String lld_suspend;
 	
@@ -26,10 +26,10 @@ public class LanlordVO implements java.io.Serializable {
 	public void setMem_no(Integer mem_no) {
 		this.mem_no = mem_no;
 	}
-	public Date getLld_apptime() {
+	public Timestamp getLld_apptime() {
 		return lld_apptime;
 	}
-	public void setLld_apptime(Date lld_apptime) {
+	public void setLld_apptime(Timestamp lld_apptime) {
 		this.lld_apptime = lld_apptime;
 	}
 	public String getLld_bank() {
@@ -56,10 +56,10 @@ public class LanlordVO implements java.io.Serializable {
 	public void setLld_status(Byte lld_status) {
 		this.lld_status = lld_status;
 	}
-	public Date getLld_id_isvrfed() {
+	public Timestamp getLld_id_isvrfed() {
 		return lld_id_isvrfed;
 	}
-	public void setLld_id_isvrfed(Date lld_id_isvrfed) {
+	public void setLld_id_isvrfed(Timestamp lld_id_isvrfed) {
 		this.lld_id_isvrfed = lld_id_isvrfed;
 	}
 	public String getLld_id_disapprove() {

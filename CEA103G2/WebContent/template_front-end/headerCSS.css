@@ -1,17 +1,27 @@
+
+
 /*navbar CSS*/
 .main_menu  {
 position: fixed;
 background-color: white;
 /* border: 1px solid red; */
+/* height: 70px; */
+}
+.main_menu .navbar {
+    padding: 0px;
+/*     height: 70px; */
+}
+#navbarSupportedContent {
+/* 	height: 70px; */
 }
 .main_menu .main-menu-item ul li .nav-link {
 color: #000;
-font-size: 18px;
+font-size: 20px;
 padding: 36px 23px;
-font-family: "Poppins", sans-serif;
+font-family: 'Josefin Sans', 'Noto Sans TC';
 text-transform: capitalize;
 line-height: 12px;
-font-weight: 400;
+font-weight: 500;
 }
 .main_menu .main-menu-item ul li .nav-link:hover {
 color: #61D2B4;
@@ -33,4 +43,47 @@ font-size: 20px;
 }
 .fa-bell::before {
 font-size: 20px;
+}
+a {
+	color: black;
+	font-size: 16px;
+}
+a:hover {
+	color: #61D2B4;
+}
+.dropdown-toggle::after {
+    display: none;
+}
+.main_menu a i {
+    color: 	#A9A9A9;
+    position: relative;
+    z-index: 1;
+    font-size: 15px;
+    margin: 0px; !important
+}
+.dropdown .dropdown-menu {
+  transition: all 0.5s;
+  overflow: hidden;
+  transform-origin: top center;
+  transform: scale(1, 0);
+  display: block;
+  border: 0px solid transparent;
+  background-color: #fff;
+}
+.dropdown .dropdown-menu .dropdown-item {
+  font-size: 14px;
+  padding: 8px 20px !important;
+  color: black !important;
+  background-color: #fff;
+  text-transform: capitalize;
+}
+/*ÁÊª«¨®*/
+.main_menu .cart i {
+    color: 	#A9A9A9;
+    position: relative;
+    z-index: 1;
+    font-size: 15px;
+}
+.main_menu .cart i:after {
+	background-color: #61D2B4;
 }

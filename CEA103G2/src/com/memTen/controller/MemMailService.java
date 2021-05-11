@@ -55,36 +55,4 @@ public class MemMailService {
 			e.printStackTrace();
 		}
 	}
-
-//	public String getMessageText(String memName, String link) {
-//			
-//			String message = memName + "您好!\n" + "您的驗證網址為:" + link ;
-//	
-//			return message;
-//			
-//		}
-//	public String getMessageText2(String memName, String link) {
-//		
-//		String message = memName + "您好!\n" + "您的密碼修改網址為:" + link ;
-//	
-//		return message;
-//		
-//	}
-	
-	
-
-//	public static void main(String args[]) {
-//
-//		String to = "shelly2930@gmail.com";
-//
-//		String subject = "密碼通知";
-//
-//		String ch_name = "peter1";
-//		String passRandom = "111";
-//		String messageText = "Hello! " + ch_name + " 請謹記此密碼: " + passRandom + "\n" + " (已經啟用)";
-//
-//		MailService mailService = new MailService();
-//		mailService.sendMail(to, subject, messageText);
-//
-//	}
 }
