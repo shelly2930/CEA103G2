@@ -12,6 +12,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import com.furCat.model.FurCatService;
 import com.furIte.model.*;
+import com.furPho.model.FurPhoService;
 import com.furPho.model.FurPhoVO;
 
 public class FurIteServlet extends HttpServlet {
@@ -386,6 +387,36 @@ public class FurIteServlet extends HttpServlet {
 					errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/back-end/furIte/listAllFurIte.jsp");
+					failureView.forward(req, res);
+				}
+			}
+		 
+		//來自前台家具圖點入家具介紹
+		 if ("getOneFurIteToFE".equals(action)) { // 來自listAllFurIte.jsp的請求
+
+				List<String> errorMsgs = new LinkedList<String>();
+				req.setAttribute("errorMsgs", errorMsgs);
+				try {
+					/***************************1.接收請求參數****************************************/
+					Integer fnt_it_no = new Integer(req.getParameter("fnt_it_no"));
+					/***************************2.開始查詢資料****************************************/
+					FurIteService furIteSvc = new FurIteService();
+					FurIteVO furIteVO = furIteSvc.showOneFurIteToFE(fnt_it_no);
+					FurPhoService furPhoSvc=new FurPhoService();
+					List<FurPhoVO> furPhoList=furPhoSvc.getOneFntItePics(fnt_it_no);
+									
+					/***************************3.查詢完成,準備轉交(Send the Success view)************/
+					req.setAttribute("furPhoList", furPhoList);         // 資料庫取出的empVO物件,存入req
+					req.setAttribute("furIteVO", furIteVO);         // 資料庫取出的empVO物件,存入req
+					String url = "/unprotected/furniture/listOneFurIteToFE.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交至介紹頁面
+					successView.forward(req, res);
+
+					/***************************其他可能的錯誤處理**********************************/
+				} catch (Exception e) {
+					errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/unprotected/furniture/listAllFur.jsp");
 					failureView.forward(req, res);
 				}
 			}
