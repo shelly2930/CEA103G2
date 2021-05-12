@@ -105,6 +105,9 @@ img.lld_acc_pic {
 												<td><fmt:formatDate value="${lanlordVO.lld_id_isvrfed}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 												<td><buttom class="btn-sm btn btn-info" onclick="showModal${lanlordVO.lld_no}()" value="">審核</button></td>
 												<!--  Modal  -->
+												
+												
+												
 												<td class="modal" tabindex="-1" role="dialog" id="Modal${lanlordVO.lld_no}">
 												     <div class="modal-dialog" role="document"> 
 												        <div class="modal-content">
@@ -113,13 +116,15 @@ img.lld_acc_pic {
 												                <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button> 
 												            </div>
 												            
+												            <form method="post" action="<%=request.getContextPath()%>/lanlord/lanlord.do">
 												            <div class="modal-body">
+															
 															<!-- authOneLanlord裡的內容 -->
 															<div class="table-responsive">
 																<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 																		<tr>
 																			<th>房東編號</th>
-																			<td>${lanlordVO.lld_no}</td>
+																			<td><input type="text" name="lld_no" value="${lanlordVO.lld_no}"></td>
 																		</tr>
 																		<tr>
 																			<th>會員編號</th>
@@ -159,7 +164,7 @@ img.lld_acc_pic {
 																		<tr>
 																			<th>未通過原因</th>
 																			<td>
-																				<input type="text" name="lld_id_disapprove" value="${lanlordVO.lld_id_disapprove}">
+																				<input type="text" name="lld_id_disapprove" value="${lanlordVO.lld_id_disapprove}">${errorMsgs.failure}
 																			</td>
 																		</tr>
 																</table>
@@ -168,9 +173,15 @@ img.lld_acc_pic {
 										            		<!-- authOneLanlord裡的內容 -->
 										            		
 												            <div class="modal-footer">
-												                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=fail&lld_status=2">不通過</a>
-											                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=pass&lld_status=1">通過</a>
+<!-- 												                <input type="hidden" name="pass" value="pass"> -->
+																<input type="submit" value="通過" name="pass">
+												                
+<!-- 												                <input type="hidden" name="fail" value="fail"> -->
+																<input type="submit" value="不通過" name="fail">
+<%-- 												                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=fail&lld_status=2">不通過</a> --%>
+<%-- 											                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=pass&lld_status=1">通過</a> --%>
 												            </div>
+												            </form>
 												       </div>
 												</td>
 												<script>

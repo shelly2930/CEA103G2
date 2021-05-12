@@ -377,14 +377,11 @@ public class LanlordDAO implements LanlordDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_LLDSTATUS);
-
 			pstmt.setByte(1, lanlordVO.getLld_status());
 			pstmt.setTimestamp(2, lanlordVO.getLld_id_isvrfed());
 			pstmt.setString(3, lanlordVO.getLld_id_disapprove());
 			pstmt.setInt(4, lanlordVO.getLld_no());
-			
 			pstmt.executeUpdate();
-			
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "

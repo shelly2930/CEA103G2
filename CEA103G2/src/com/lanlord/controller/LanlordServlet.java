@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -340,61 +342,49 @@ public class LanlordServlet extends HttpServlet {
 			}
 		}
 		
-		if ("pass".equals(action) || "fail".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-//			String requestURL = req.getParameter("requestURL");
+		String pass = req.getParameter("pass");
+		String fail = req.getParameter("fail");
+		if ("通過".equals(pass) || "不通過".equals(fail)) {
 			
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				Integer lld_no = new Integer(req.getParameter("lld_no"));
 				
+				LanlordService lanlordSvc = new LanlordService();
+				LanlordVO lanlordVO = lanlordSvc.getOneLanlord(lld_no);
+				
 				Byte lld_status = null;
-//				lld_status = Byte.valueOf(req.getParameter("lld_status"));
 				
 				Timestamp lld_id_isvrfed = null;
 				
 				String lld_id_disapprove = null;
-//				String lld_id_disapprove = req.getParameter("lld_id_disapprove").trim();
 				
-				if("pass".equals(action)) {
-					lld_status = new Byte("1");
+				if("通過".equals(pass)) {
+					lld_status = 1;
 					lld_id_isvrfed = new java.sql.Timestamp(System.currentTimeMillis());
-				} else if("fail".equals(action)) {
-					lld_status = new Byte("2");
+				}
+				if("不通過".equals(fail)) {
+					lld_status = 2;
+					lld_id_disapprove = req.getParameter("lld_id_disapprove").trim();
+					lld_id_isvrfed = null;
 				}
 				
-				LanlordVO lanlordVO = new LanlordVO();
-				lanlordVO.setLld_no(lld_no);
-				lanlordVO.setLld_status(lld_status);
-				lanlordVO.setLld_id_isvrfed(lld_id_isvrfed);
-				lanlordVO.setLld_id_disapprove(lld_id_disapprove);
-				
 				/***************************2.開始修改資料*****************************************/
-				LanlordService lanlordSvc = new LanlordService();
 				lanlordVO = lanlordSvc.updatelldstatus(lld_no, lld_status, lld_id_isvrfed, lld_id_disapprove);
-				System.out.println("AAAAAAAAAAA");
+				req.setAttribute("lanlordVO", lanlordVO);
 				
 				List<LanlordVO> list = new ArrayList<LanlordVO>();
 				list = lanlordSvc.findByLldstatus(lld_status);
 				req.setAttribute("list",list);
 				
-				// session?
-//				HttpSession session = req.getSession();
-//				session.setAttribute("lanlordSession", lanlordVO);
-				
-//				req.setAttribute("lanlordVO", lanlordVO);
 				String url = "/back-end/lanlord/findByLldStatus.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
-				System.out.println("ccccccccccc");
 				
 				/***************************其他可能的錯誤處理*************************************/	
 			} catch (Exception e) {
-				errorMsgs.add("修改資料取出時失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back-end/lanlord/authOneLanlord.jsp");
+						.getRequestDispatcher("/back-end/lanlord/findByLldStatus.jsp");
 				failureView.forward(req, res);
 			}
 		}

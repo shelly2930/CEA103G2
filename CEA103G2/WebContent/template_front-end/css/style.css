@@ -48,6 +48,7 @@ input:focus {
   .section_padding {
     padding: 100px 0px;
   }
+
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -7775,5 +7776,7 @@ h6 {
     justify-content: flex-start !important;
   }
 }
+
+
 
 /*# sourceMappingURL=style.css.map */

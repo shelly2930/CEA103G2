@@ -69,8 +69,7 @@ public class LanlordService {
 		lanlordVO.setLld_status(lld_status);
 		lanlordVO.setLld_id_isvrfed(lld_id_isvrfed);
 		lanlordVO.setLld_id_disapprove(lld_id_disapprove);	
-		dao.update(lanlordVO);
-		
+		dao.updatelldstatus(lanlordVO);
 		return lanlordVO;
 	}
 }
