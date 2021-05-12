@@ -310,18 +310,11 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 				
 					//員工選單
 					Integer emp_no=null;
-					Integer no_emp=0;
 					try {
 						emp_no = new Integer(req.getParameter("emp_no").trim());
-						System.out.println(emp_no+"型別: "+emp_no.getClass());
-if(emp_no==no_emp) {
-System.out.println("有進到員工0判斷");
-errorMsgs.add("請選擇指派員工");
-						}
 					} catch (Exception e) {
 						errorMsgs.add("請選擇指派員工");
 					}
-				
 				
 					RenFurAppVO renFurAppVO = new RenFurAppVO();
 					renFurAppVO.setRfa_no(rfa_no);

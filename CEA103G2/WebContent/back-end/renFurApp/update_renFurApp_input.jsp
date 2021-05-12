@@ -18,7 +18,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <title>租家具申請單修改 -update_renFurApp_input.jsp</title>
-
+<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <style>
   table#table-1 {
 	background-color: #CCCCFF;
@@ -178,14 +178,21 @@
 	
 </table>
 <br>
-${param.action}===============rrrrrr 
 <input type="hidden" name="action"  value="update">
 <input type="submit" value="送出修改"  id="update">
 <input type="hidden" name="rfa_no" value="<%=renFurAppVO.getRfa_no()%>">
 <input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
 <input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp-->
 
-
+<script>
+	$("input[type='submit']").click(function(e){
+		if($("select").val()==0){
+			alert("尚未指派負責員工 !!!");
+		}
+		e.preventDefault(); //阻止下個動作
+	})
+	
+</script>
 <!-- 在此引入明細內頁 -->
 <%-- <%if (request.getAttribute("listDets_ByRenFurApp")!=null){%> --%>
 <%--        <jsp:include page="listDets_ByRenFurApp_edit.jsp" /> --%>

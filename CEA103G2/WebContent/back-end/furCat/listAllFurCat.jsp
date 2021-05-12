@@ -85,14 +85,7 @@
 </table>
 
 <%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
+
 <a href="<%=request.getContextPath()%>/back-end/furCat/listAllFurCat.jsp">
 			<input type="button" value="全部" id="getAllButton"></a>
 			<a href="<%=request.getContextPath()%>/back-end/furCat/addFurCat.jsp">
