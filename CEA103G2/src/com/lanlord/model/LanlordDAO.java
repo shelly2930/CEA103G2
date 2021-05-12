@@ -34,8 +34,8 @@ public class LanlordDAO implements LanlordDAO_interface {
 	private static final String FIND_BY_MEMTEN = "SELECT * FROM LANLORD WHERE mem_no=?";
 	private static final String FIND_BY_LLDSTATUS = "SELECT * FROM LANLORD WHERE lld_status=?";
 	private static final String FIND_BY_LLDSTATUS2 = "SELECT lld_no, mem_no, lld_status, lld_apptime, lld_id_isvrfed FROM LANLORD WHERE lld_status=?";
-	private static final String UPDATE_LLDSTATUS = "UPDATE LANLORD SET lld_status=?, lld_id_isvrfed=?,"
-				+ " lld_id_disapprove=?, lld_suspend=? WHERE lld_no =?";
+	private static final String UPDATE_LLDSTATUS = "UPDATE LANLORD SET lld_status=?, lld_id_isvrfed=?, "
+				+ "lld_id_disapprove=? WHERE lld_no =?";
 	
 	
 	@Override
@@ -381,8 +381,7 @@ public class LanlordDAO implements LanlordDAO_interface {
 			pstmt.setByte(1, lanlordVO.getLld_status());
 			pstmt.setTimestamp(2, lanlordVO.getLld_id_isvrfed());
 			pstmt.setString(3, lanlordVO.getLld_id_disapprove());
-			pstmt.setString(4, lanlordVO.getLld_suspend());
-			pstmt.setInt(5, lanlordVO.getLld_no());
+			pstmt.setInt(4, lanlordVO.getLld_no());
 			
 			pstmt.executeUpdate();
 			

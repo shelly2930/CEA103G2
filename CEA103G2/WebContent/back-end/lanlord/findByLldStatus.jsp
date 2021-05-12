@@ -27,6 +27,13 @@
 
 	<!-- Custom styles for this page -->
 	<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<style>
+img.lld_acc_pic {
+  	height: 200px;
+  	width: auto;
+  }
+</style>
 	
 </head>
 
@@ -83,7 +90,6 @@
 									</thead>
 									<tbody>
 										<c:forEach var="lanlordVO" items="${list}">
-
 											<tr>
 												<td>${lanlordVO.lld_no}</td>
 												<td>${lanlordVO.mem_no}</td>
@@ -97,27 +103,81 @@
 													</c:choose>
 												</td>
 												<td><fmt:formatDate value="${lanlordVO.lld_id_isvrfed}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-												<td align="center">
-													<button type="submit" class="btn btn-outline-info" data-toggle="modal" data-target="#lanlordModal">審核</button>
+												<td><buttom class="btn-sm btn btn-info" onclick="showModal${lanlordVO.lld_no}()" value="">審核</button></td>
+												<!--  Modal  -->
+												<td class="modal" tabindex="-1" role="dialog" id="Modal${lanlordVO.lld_no}">
+												     <div class="modal-dialog" role="document"> 
+												        <div class="modal-content">
+												            <div class="modal-header">
+												                <h5 class="modal-title">審核</h5>
+												                <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button> 
+												            </div>
+												            
+												            <div class="modal-body">
+															<!-- authOneLanlord裡的內容 -->
+															<div class="table-responsive">
+																<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+																		<tr>
+																			<th>房東編號</th>
+																			<td>${lanlordVO.lld_no}</td>
+																		</tr>
+																		<tr>
+																			<th>會員編號</th>
+																			<td>${lanlordVO.mem_no}</td>
+																		</tr>
+																		<tr>
+																			<th>申請時間</th>
+																			<td><fmt:formatDate value="${lanlordVO.lld_apptime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+																		</tr>
+																		<tr>
+																			<th>銀行代碼</th>
+																			<td>${lanlordVO.lld_bank}</td>
+																		</tr>
+																		<tr>
+																			<th>匯款帳號</th>
+																			<td>${lanlordVO.lld_account}</td>
+																		</tr>
+																		<tr>
+																			<th>帳戶證明</th>
+																			<td><img src="${pageContext.request.contextPath}/LanlordPicReadServlet?lld_no=${lanlordVO.lld_no}"  class="lld_acc_pic"></td>
+																		</tr>
+																		<tr>
+																			<th>審核狀態</th>
+																			<td>
+																				<c:choose>
+																					<c:when test="${lanlordVO.lld_status == 0}">未審核</c:when>
+																					<c:when test="${lanlordVO.lld_status == 1}">審核通過</c:when>
+																					<c:when test="${lanlordVO.lld_status == 2}">審核不通過</c:when>
+																					<c:when test="${lanlordVO.lld_status == 3}">停權</c:when>
+																				</c:choose>
+																			</td>
+																		</tr>
+																		<tr>
+																			<th>通過時間</th>
+																			<td><fmt:formatDate value="${lanlordVO.lld_id_isvrfed}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+																		</tr>
+																		<tr>
+																			<th>未通過原因</th>
+																			<td>
+																				<input type="text" name="lld_id_disapprove" value="${lanlordVO.lld_id_disapprove}">
+																			</td>
+																		</tr>
+																</table>
+															</div>
+										            		</div>
+										            		<!-- authOneLanlord裡的內容 -->
+										            		
+												            <div class="modal-footer">
+												                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=fail&lld_status=2">不通過</a>
+											                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=pass&lld_status=1">通過</a>
+												            </div>
+												       </div>
 												</td>
-<%-- 												<td align="center"  ${empty list || list.get(0).lld_status == 1 ? "style='display:none'" : ""}> --%>
-<!-- 													<FORM METHOD="post" -->
-<%-- 														ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do?action=updateStatus&lld_status=1" --%>
-<!-- 														style="margin-bottom: 0px;"> -->
-<!-- 														<button type="submit" class="btn btn-outline-info">通過</button> -->
-<%-- 														<input type="hidden" name="lld_no" value="${lanlordVO.lld_no}"> --%>
-<!-- 														<input type="hidden" name="action" value="updateStatus"> -->
-<!-- 													</FORM> -->
-<!-- 												</td> -->
-<%-- 												<td align="center"  ${empty list || list.get(0).lld_status == 2 ? "style='display:none'" : ""}> --%>
-<!-- 													<FORM METHOD="post" -->
-<%-- 														ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do?action=updateStatus&lld_status=2" --%>
-<!-- 														style="margin-bottom: 0px;"> -->
-<!-- 														<button type="submit" class="btn btn-outline-info">不通過</button> -->
-<%-- 														<input type="hidden" name="lld_no" value="${lanlordVO.lld_no}"> --%>
-<!-- 														<input type="hidden" name="action" value="updateStatus"> -->
-<!-- 													</FORM> -->
-<!-- 												</td> -->
+												<script>
+													function showModal${lanlordVO.lld_no}() {
+														$('#Modal${lanlordVO.lld_no}').modal('show'); 
+													}
+												</script>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -133,46 +193,12 @@
             </div>
             <!-- End of Main Content -->
 
-<!--  Modal-->
-    <div class="modal fade" id="lanlordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">房東申請詳情</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                	<jsp:include page="authOneLanlord.jsp"/>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-secondary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=updateStatus&lld_status=2">不通過</a>
-                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=updateStatus&lld_status=1">通過</a>
-                </div>
-            </div>
-        </div>
-    </div>
-<!--  Modal-->
+<br>本網頁的路徑:<br><b>
+   <font color=blue>request.getServletPath():</font> <%=request.getServletPath()%><br>
+   <font color=blue>request.getRequestURI(): </font> <%=request.getRequestURI()%> </b>
 
-<script>
-// $("a[data-toggle='modal']").click(function(){
-// 	$.ajax({
-<%-- 		url:"<%=request.getContextPath()%>/HouseJsonServlet", --%>
-// 		type:"post",
-// 		data:{
-// 			action:'getOneHouse',
-// 			houseno:$(this).parent().parent().attr('id'),
-// 		},
-// 		success:function(jsonStr){
-// 			for(let i =0;i<house_key.length;i++){
-// 				$("#showOneHouse tr:last-child").after('<tr><th>'+house_key[i]+'</th><th>'+jsonStr[house_value[i]]+'</th></tr>');
-// 			}
-// 		}
-// 		});
-// })
-</script>
+
+
 
             <!-- Footer -->
             <%@ include file="/back-end/includeFile/footerBack.file" %>

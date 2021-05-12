@@ -32,6 +32,13 @@
 
 	<!-- Custom styles for this page -->
 	<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<style>
+img.lld_acc_pic {
+  	height: 200px;
+  	width: auto;
+  }
+</style>
 	
 </head>
 
@@ -87,7 +94,7 @@
 												<td><fmt:formatDate value="${lanlordVO.lld_apptime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 												<td>${lanlordVO.lld_bank}</td>
 												<td>${lanlordVO.lld_account}</td>
-												<td>${lanlordVO.lld_acc_pic}</td>
+												<td><img src="${pageContext.request.contextPath}/LanlordPicReadServlet?lld_no=${lanlordVO.lld_no}"  class="lld_acc_pic"></td>
 												<td>
 													<c:choose>
 														<c:when test="${lanlordVO.lld_status == 0}">¥¼¼f®Ö</c:when>

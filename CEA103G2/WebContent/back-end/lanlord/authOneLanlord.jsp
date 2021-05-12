@@ -60,7 +60,7 @@ img.lld_acc_pic {
 					<!-- DataTales Example -->
 					<div class="table-responsive">
 						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-							<c:forEach var="lanlordVO" items="${list}">
+<%-- 							<c:forEach var="lanlordVO" items="${list}"> --%>
 								<tr>
 									<th>©ÐªF½s¸¹</th>
 									<td>${lanlordVO.lld_no}</td>
@@ -106,7 +106,7 @@ img.lld_acc_pic {
 										<input type="text" name="lld_id_disapprove" value="${lanlordVO.lld_id_disapprove}">
 									</td>
 								</tr>
-							</c:forEach>
+<%-- 							</c:forEach> --%>
 						</table>
 					</div>
                 </div>
