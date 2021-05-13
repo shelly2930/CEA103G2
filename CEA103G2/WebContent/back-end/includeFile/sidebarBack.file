@@ -74,7 +74,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Furniture Management:</h6>
                         <a class="collapse-item" href="login.html">租家具申請</a>
-                        <a class="collapse-item" href="register.html">家具類別</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furCat/listAllFurCat.jsp">家具類別</a>
                         <a class="collapse-item" href="register.html">家具品項</a>
                         <a class="collapse-item" href="register.html">家具清單</a>
                     </div>
