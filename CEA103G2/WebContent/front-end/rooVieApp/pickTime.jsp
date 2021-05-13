@@ -22,7 +22,7 @@
     background-size: cover;
 }
 </style>
-<body onload="connect();" onunload="disconnect();">
+<body onload="connect();connectNotice();" onunload="disconnect();disconnectNotice();">
 <!-- ======圖片 -->
    <section class="breadcrumb breadcrumb_bg" >
         <div class="container">
@@ -795,6 +795,7 @@
 			let path = window.location.pathname;
 			let webCtx = path.substring(0, path.indexOf('/', 1));
 			let endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+			console.log(endPointURL);
 			let self = member;
 			let webSocket;
 			let countChecked = 0 ; //計算已預約時段
@@ -1016,7 +1017,7 @@
 					  showCancelButton: true,
 					  confirmButtonColor: '#6495ed',
 					  cancelButtonColor: '#fa8072',
-					  confirmButtonText: '確定',
+					  confirmButtonText: '確定預約',
 					  cancelButtonText:'取消',
 					  confirmButtonClass:'btn-sm',
 					  cancelButtonClass:'btn btn-info btn-sm',
@@ -1032,7 +1033,15 @@
 								rva_order_time:rva_order_time,
 							},
 							success:function(){
-								console.log("預約成功")
+								console.log("預約成功");
+								//送出通知
+								let sendobj = {
+									"houseno":houseno, 
+									"picktime":confirmpicktime,
+									"checked":"true",
+								}
+								
+								picktimeSuccess(JSON.stringify(sendobj));
 							}
 						})
 					    Swal.fire({
@@ -1060,6 +1069,14 @@
 						rva_order_time:rva_order_time,
 					},
 					success:function(){
+						//送出通知
+						let sendobj = {
+							"houseno":houseno, 
+							"picktime":confirmpicktime,
+							"checked":"false",
+						}
+						picktimeSuccess(JSON.stringify(sendobj));
+						
 						console.log("取消預約");
 						Swal.fire({
 					    	icon:'error',
@@ -1070,9 +1087,51 @@
 				})
 			}
 		})
-
+		
+	$("button[class='swal2-confirm btn-sm swal2-styled']").click(function(){
+		console.log("I GET");
+	})
+	//通知
+	let webSocket_notice;	
+	let MyPoint_notice = "/test/${MemTenVO.mem_no}/0";
+	let endPointURL1 = "ws://" + window.location.host + webCtx + MyPoint_notice;
+	function connectNotice() {
+		webSocket_notice = new WebSocket(endPointURL1);
+		webSocket_notice.onopen = function(event) {
+			console.log("Connect Success!");
+		};
+		webSocket_notice.onmessage = function(event) {
+		let initobj = {
+			type:'open',
+			identity:'0',
+			username:'${MemTenVO.mem_no}',
+			currentTime:new Date(),
+			message:'',
+		}
+		webSocket_notice.send(JSON.stringify(initobj));
+		$("#test").click(function(){
+			picktimeSuccess("D");
 			
-		</script>
+		})
+		};
+		webSocket_notice.onclose = function(event) {
+			console.log("Disconnected!");
+		};
+	}
+	function disconnectNotice() {
+		webSocket_notice.close();
+	}
+	function picktimeSuccess(message){
+		let obj = {
+				type:'send',
+				identity:'0',
+				username:'${MemTenVO.mem_no}',
+				currentTime:new Date(),
+				message:message,
+		}
+		webSocket_notice.send(JSON.stringify(obj));
+	}
+	</script>
 </body>
 <%@include file="/front-end/footer.file"%>
 </html>

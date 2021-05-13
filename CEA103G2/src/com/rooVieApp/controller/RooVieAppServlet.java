@@ -160,13 +160,17 @@ public class RooVieAppServlet extends HttpServlet {
 			RooVieAppService rvaSvc = new RooVieAppService();
 			Map<Integer,Timestamp> map = new LinkedHashMap<Integer,Timestamp>();
 			map = rvaSvc.listNewRooVieApp(); 
-			
-			
-			
-			
-			
-			
 			String str = new Gson().toJson(map);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
+			return;
+		}
+		if("listallpickTime".equals(action)){
+			RooVieAppService rvaSvc = new RooVieAppService();
+//			Integer houseno = Integer.parseInt(req.getParameter("houseno"));
+			List<RooVieAppVO> list = rvaSvc.listallpickTime(1);
+			String str = new Gson().toJson(list);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);

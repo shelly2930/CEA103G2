@@ -20,7 +20,8 @@
 
     <!-- Custom styles for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
-
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
 </head>
 
 <body id="page-top">
@@ -43,36 +44,31 @@
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
 
-                    	                <div class="container-fluid">
+                    <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800">查看最新預約情況</h1>
+                    <p class="mb-4">新案件<a target="_blank" href="https://datatables.net"></a>.</p>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">點選物件編號 可以查看物件預約情況</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            				<div id="freeEmp">
+										<!-- 	之後可以用js老師作業的隨機顏色耶XD -->
+												
+											</div>
+                            	</table>
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>指派員工</th>
                                             <th>物件編號</th>
                                             <th>最新預約時間</th>
-                                            <th>查看預約情況</th>
                                         </tr>
                                     </thead>
                                     <tbody id="showData">
-                                        <tr>
-                                            <td>Zorita Serrano</td>
-                                            <td>Software Engineer</td>
-                                            <td>San Francisco</td>
-                                            <td>56</td>
-                                            <td>2012/06/01</td>
-                                            <td>$115,000</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -98,7 +94,7 @@
     <%@ include file="/back-end/includeFile/otherBack.file" %>
     
     <!-- Bootstrap core JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+    
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -115,9 +111,6 @@
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
 	<script>
           
-          $("button").click(function(){
-          alert("SHOW");
-          })
           
           $.ajax({
         	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
@@ -126,15 +119,65 @@
         		  action:'listNewRooVieApp',
         	  },
         	  success:function(list){
-        		 alert(typeof(list));
-        		 
 					for(let key in list){
-						console.log(key+"sss"+list[key]);
+						let str = '<tr>';
+						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' id=\"'+key+'\">'+"control "+key+'</button>'+'</th>';
+		        		str+='<th>'+dateformat(list[key])+'</th>';
+		        		str+='</tr>';
+		        		$("#showData").append(str);
 					}
-        		  
+					$(".controltime").click(function(){
+						document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+$(this).attr("id");
+					})
         	  }
           })
-          
+          function dateformat(str){
+        	 let year = new Date(str).getFullYear();
+        	 let month = new Date(str).getMonth()+1;
+        	 let date = new Date(str).getDate();
+        	 let hour = new Date(str).getHours();
+        	 let isAm = "上午";
+        	 if((Math.floor(hour/12)==1)){
+        		 isAm = "下午";
+        	 }
+        	 let minutes = new Date(str).getMinutes();
+        	 let second = new Date(str).getSeconds();
+        	 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+//         	 +minutes+"分"+second+"秒";
+          }
+//           $.ajax({
+<%-- 				url:"<%=request.getContextPath()%>/HouseJsonServlet", --%>
+// 				type:'post',
+// 				data:{
+// 					action:'getAllEmp',
+// 				},
+// 				async: false,
+// 				success:function(str){
+// 					for(let obj of str){
+// 						console.log(obj.emp_name+obj.emp_no	);
+// 						let empString = "<button class='emp btn btn-info btn-sm'>"+obj.emp_no+" "+obj.emp_name+"";
+// 						empString+="<input type='hidden' name='emp_no' value='"+obj.emp_no+"'></button>&nbsp; ";
+// 						$("#freeEmp").append(empString);
+// 					}
+					
+// 				}
+				
+// 			})
+
+//           })
+		$.ajax({
+        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+        	  type:'post',
+        	  data:{
+        		  action:'listallpickTime',
+        	  },
+        	  success:function(list){
+				for(let key in list){
+						console.log(key);
+				}
+        	  }
+        })
+			
     </script>	
 </body>
 
