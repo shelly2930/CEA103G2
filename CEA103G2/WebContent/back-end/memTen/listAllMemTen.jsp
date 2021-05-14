@@ -14,164 +14,175 @@
 <html>
 <head>
 
-<!-- Required source start -->
-	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<title>所有每月房客帳單資料 - listAllBill.jsp</title>
+<title>會員/房客資料</title>
 
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
+<!-- Custom fonts for this template-->
+    <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
+
+	<!-- Custom styles for this page -->
+	<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 <style>
-  table {
-	width: 800px;
-	background-color: white;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  }
-  table, th, td {
-    border: 1px solid #CCCCFF;
-  }
-  th, td {
-    padding: 5px;
-    text-align: center;
-  }
-  img.mem_pic {
-  	height: 200px;
-  	width: auto;
-  }
+img.mem_pic {
+  height: 100px;
+  width: auto;
+ }
 </style>
 
 </head>
-<body>
 
-<h4>此頁練習採用 EL 的寫法取值:</h4>
-<table id="table-1">
-	<tr><td>
-		 <h3>所有每月房客帳單資料 - listAllMemTen.jsp</h3>
-		 <h4><a href="<%=request.getContextPath()%>/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
-	</td></tr>
-</table>
+<body id="page-top">
 
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
+<!-- Page Wrapper -->
+    <div id="wrapper">
 
-<table>
-	<tr>
-		<th>會員編號</th>
-		<th>帳號</th>
-		<th>密碼</th>
-		<th>照片</th>
-		<th>姓名</th>
-		<th>性別</th>
-		<th>身分證字號</th>
-		<th>出生年月日</th>
-		<th>連絡電話</th>
-		<th>行動電話</th>
-		<th>電子信箱</th>
-		<th>縣市</th>
-		<th>鄉鎮市區</th>
-		<th>地址</th>
-		<th>帳號啟用狀態</th>
-		<th>身分證正面</th>
-		<th>身分證背面</th>
-		<th>身份審核狀態</th>
-		<th>停權原因</th>
-		<th>審核未通過原因</th>	
-		<th>修改</th>
-		<th>刪除</th>
-	</tr>
-	<%@ include file="page1.file" %> 
-	<c:forEach var="memTenVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-<!-- line93、94參formatDate.jsp 自訂時間格式 -->
-		<tr>
-			<td>${memTenVO.mem_no}</td>
-			<td>${memTenVO.mem_username}</td>
-			<td>${memTenVO.mem_password}</td>			
-			<td><img src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no=${memTenVO.mem_no}" class="mem_pic"></td>
-<%-- 			<td><img src="${pageContext.request.contextPath}/memTen/memPicReadServlet.do?mem_no=${memTenVO.mem_no}"></td> --%>
-			<td>${memTenVO.mem_name}</td>
-			<td>
-				<c:choose>
-					<c:when test="${memTenVO.mem_gender == 0}">男</c:when>
-					<c:when test="${memTenVO.mem_gender == 1}">女</c:when>
-				</c:choose>
-			</td>
-			<td>${memTenVO.mem_id}</td>
-			<td><fmt:formatDate value="${memTenVO.mem_birthday}" pattern="yyyy-MM-dd"/></td> 
-			<td>${memTenVO.mem_phone}</td>
-			<td>${memTenVO.mem_mobile}</td>
-			<td>${memTenVO.mem_email}</td>
-			<td>${memTenVO.mem_city}</td>
-			<td>${memTenVO.mem_dist}</td>			
-			<td>${memTenVO.mem_addr}</td>
-			<td>
-				<c:choose>
-					<c:when test="${memTenVO.mem_status == 0}">未驗證</c:when>
-					<c:when test="${memTenVO.mem_status == 1}">已驗證</c:when>
-					<c:when test="${memTenVO.mem_status == 2}">停權</c:when>
-				</c:choose>
-			</td>
-			<td>${memTenVO.mem_idcard_f}</td>			
-			<td>${memTenVO.mem_idcard_r}</td>
-			<td>
-				<c:choose>
-					<c:when test="${memTenVO.mem_id_status == 0}">未上傳</c:when>
-					<c:when test="${memTenVO.mem_id_status == 1}">未審核</c:when>
-					<c:when test="${memTenVO.mem_id_status == 2}">通過</c:when>
-					<c:when test="${memTenVO.mem_id_status == 3}">未通過</c:when>
-				</c:choose>
-			</td>
-			<td>${memTenVO.mem_suspend}</td>
-			<td>${memTenVO.mem_refuse}</td>
-			
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
-			     <input type="hidden" name="mem_no"  value="${memTenVO.mem_no}">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="刪除">
-			     <input type="hidden" name="mem_no"  value="${memTenVO.mem_no}">
-			     <input type="hidden" name="action" value="delete"></FORM>
-			</td>
-		</tr>
-	</c:forEach>
-</table>
+        <!-- Sidebar -->
+       <%@ include file="/back-end/includeFile/sidebarBack.file" %>
 
-<script>
-// 	$(window).load(function(){
-// 		alert()
-// // 		$(".addrclean").html("${addrclean}");
-// 	})
-</script>
+         <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-<%@ include file="page2.file" %>
+            <!-- Main Content -->
+            <div id="content">
+
+				<!-- Topbar -->
+                <%@ include file="/back-end/includeFile/topbarBack.file" %>
+
+                <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
+                <div class="container-fluid">
+					
+					<!-- DataTales Example -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">會員/房客資料</h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th>會員編號</th>
+											<th>帳號</th>
+											<th>密碼</th>
+											<th>照片</th>
+											<th>姓名</th>
+											<th>性別</th>
+											<th>身分證字號</th>
+											<th>出生年月日</th>
+											<th>連絡電話</th>
+											<th>行動電話</th>
+											<th>電子信箱</th>
+											<th>縣市</th>
+											<th>鄉鎮市區</th>
+											<th>地址</th>
+											<th>帳號啟用狀態</th>
+											<th>身分證正面</th>
+											<th>身分證背面</th>
+											<th>身份審核狀態</th>
+											<th>審核未通過原因</th>	
+											<th>修改</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="memTenVO" items="${list}">
+											<tr>
+												<td>${memTenVO.mem_no}</td>
+												<td>${memTenVO.mem_username}</td>
+												<td>${memTenVO.mem_password}</td>			
+												<td><img src="${pageContext.request.contextPath}/memTen/memPicReadServlet.do?action=getmempic&mem_no=${memTenVO.mem_no}" class="mem_pic"></td>
+												<td>${memTenVO.mem_name}</td>
+												<td>
+													<c:choose>
+														<c:when test="${memTenVO.mem_gender == 0}">男</c:when>
+														<c:when test="${memTenVO.mem_gender == 1}">女</c:when>
+													</c:choose>
+												</td>
+												<td>${memTenVO.mem_id}</td>
+												<td><fmt:formatDate value="${memTenVO.mem_birthday}" pattern="yyyy-MM-dd"/></td> 
+												<td>${memTenVO.mem_phone}</td>
+												<td>${memTenVO.mem_mobile}</td>
+												<td>${memTenVO.mem_email}</td>
+												<td>${memTenVO.mem_city}</td>
+												<td>${memTenVO.mem_dist}</td>			
+												<td>${memTenVO.mem_addr}</td>
+												<td>
+													<c:choose>
+														<c:when test="${memTenVO.mem_status == 0}">未驗證</c:when>
+														<c:when test="${memTenVO.mem_status == 1}">已驗證</c:when>
+														<c:when test="${memTenVO.mem_status == 2}">停權</c:when>
+													</c:choose>
+												</td>
+												<td><img src="${pageContext.request.contextPath}/memTen/memPicReadServlet.do?action=getidcardf&mem_no=${memTenVO.mem_no}" class="mem_pic"></td>			
+												<td><img src="${pageContext.request.contextPath}/memTen/memPicReadServlet.do?action=getidcardr&mem_no=${memTenVO.mem_no}" class="mem_pic"></td>
+												<td>
+													<c:choose>
+														<c:when test="${memTenVO.mem_id_status == 0}">未上傳</c:when>
+														<c:when test="${memTenVO.mem_id_status == 1}">未審核</c:when>
+														<c:when test="${memTenVO.mem_id_status == 2}">通過</c:when>
+														<c:when test="${memTenVO.mem_id_status == 3}">未通過</c:when>
+													</c:choose>
+												</td>
+												<td>${memTenVO.mem_refuse}</td>
+												<td>
+												  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" style="margin-bottom: 0px;">
+												     <input type="submit" value="修改">
+												     <input type="hidden" name="mem_no"  value="${memTenVO.mem_no}">
+												     <input type="hidden" name="action"	value="getOne_For_Update">
+												  </FORM>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+                	
+
+                </div>
+                <!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <%@ include file="/back-end/includeFile/footerBack.file" %>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <%@ include file="/back-end/includeFile/otherBack.file" %>
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
 
 </body>
 </html>

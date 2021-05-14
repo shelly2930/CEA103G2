@@ -34,9 +34,10 @@ public class MemTenService {
 		return memTenVO;
 	}
 	
-	public MemTenVO updateMemTen(Integer mem_no, String mem_username, String mem_password, byte[] mem_pic, String mem_name,
-			Byte mem_gender, String mem_id, Date mem_birthday, String mem_phone, String mem_mobile,
-			String mem_email, String mem_city, String mem_dist, String mem_addr) {
+	public MemTenVO updateMemTen(Integer mem_no, String mem_username, String mem_password, byte[] mem_pic,
+			String mem_name, Byte mem_gender, String mem_id, Date mem_birthday, String mem_phone,
+			String mem_mobile, String mem_email, String mem_city, String mem_dist, String mem_addr,
+			byte[] mem_idcard_f, byte[] mem_idcard_r) {
 		
 		MemTenVO memTenVO = new MemTenVO();
 		
@@ -55,8 +56,8 @@ public class MemTenService {
 		memTenVO.setMem_dist(mem_dist);
 		memTenVO.setMem_addr(mem_addr);
 //		memTenVO.setMem_status(mem_status);
-//		memTenVO.setMem_idcard_f(mem_idcard_f);
-//		memTenVO.setMem_idcard_r(mem_idcard_r);
+		memTenVO.setMem_idcard_f(mem_idcard_f);
+		memTenVO.setMem_idcard_r(mem_idcard_r);
 //		memTenVO.setMem_id_status(mem_id_status);
 //		memTenVO.setMem_suspend(mem_suspend);
 //		memTenVO.setMem_refuse(mem_refuse);		
@@ -91,5 +92,24 @@ public class MemTenService {
 	
 	public void updatePwd(String mem_email, String mem_password) {
 		dao.updatePwd(mem_email, mem_password);
+	}
+	
+	public MemTenVO rentalConfirm(Integer mem_no, String mem_name, String mem_id, String mem_mobile,
+			String mem_city, String mem_dist, String mem_addr, byte[] mem_idcard_f, byte[] mem_idcard_r) {
+		
+		MemTenVO memTenVO = new MemTenVO();
+		
+		memTenVO.setMem_no(mem_no);		
+		memTenVO.setMem_name(mem_name);
+		memTenVO.setMem_id(mem_id);
+		memTenVO.setMem_mobile(mem_mobile);
+		memTenVO.setMem_city(mem_city);
+		memTenVO.setMem_dist(mem_dist);
+		memTenVO.setMem_addr(mem_addr);
+		memTenVO.setMem_idcard_f(mem_idcard_f);
+		memTenVO.setMem_idcard_r(mem_idcard_r);
+		dao.rentalConfirm(memTenVO);
+
+		return memTenVO;
 	}
 }
