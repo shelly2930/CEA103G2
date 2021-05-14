@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.repApp.model.RepAppService;
 import com.repApp.model.RepAppVO;
@@ -55,7 +56,7 @@ public class RepAppDetService {
 		return repAppDetDAO.getAll();
 	}
 	
-	public List<RepAppPhoVO> getRepAppPhos(Integer rad_no) {
+	public Set<RepAppPhoVO> getRepAppPhos(Integer rad_no) {
 		return repAppDetDAO.getPhosByPK(rad_no);
 	}
 	

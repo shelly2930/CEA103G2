@@ -3,7 +3,9 @@ package com.repAppDet.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.repApp.model.RepAppVO;
 import com.repAppPho.model.RepAppPhoVO;
@@ -16,7 +18,7 @@ public class RepAppDetVO implements Serializable {
 	private Byte rad_status;
 	private Integer rad_expz;
 	private Byte rad_tr_dmg;
-	private List<RepAppPhoVO> list_RepAppPhoVO = new ArrayList<RepAppPhoVO>();
+	private Set<RepAppPhoVO> set_RepAppPhoVO = new HashSet<RepAppPhoVO>();
 	
 	public Integer getRad_no() {
 		return rad_no;
@@ -60,11 +62,11 @@ public class RepAppDetVO implements Serializable {
 	public void setRad_tr_dmg(Byte rad_tr_dmg) {
 		this.rad_tr_dmg = rad_tr_dmg;
 	}
-	public List<RepAppPhoVO> getList_RepAppPhoVO() {
-		return list_RepAppPhoVO;
+	public Set<RepAppPhoVO> getSet_RepAppPhoVO() {
+		return set_RepAppPhoVO;
 	}
-	public void setList_RepAppPhoVO(List<RepAppPhoVO> list_RepAppPhoVO) {
-		this.list_RepAppPhoVO = list_RepAppPhoVO;
+	public void setSet_RepAppPhoVO(Set<RepAppPhoVO> set_RepAppPhoVO) {
+		this.set_RepAppPhoVO = set_RepAppPhoVO;
 	}
 	
 }

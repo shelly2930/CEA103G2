@@ -81,7 +81,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="<%=request.getContextPath()%>/back-end/repApp/addRepApp.jsp">
                     <i class="fas fa-fw fa-faucet"></i>
                     <span>­×ÂµºÞ²z</span></a>
             </li>
