@@ -60,8 +60,8 @@ public class LanlordService {
 		return dao.findByLldstatus(lld_status);
 	}
 	
-	public LanlordVO updatelldstatus(Integer lld_no, Byte lld_status, Timestamp lld_id_isvrfed, String lld_id_disapprove,
-			String lld_suspend) {
+	public LanlordVO updatelldstatus(Integer lld_no, Byte lld_status, Timestamp lld_id_isvrfed,
+			String lld_id_disapprove) {
 		
 		LanlordVO lanlordVO = new LanlordVO();
 		
@@ -69,9 +69,7 @@ public class LanlordService {
 		lanlordVO.setLld_status(lld_status);
 		lanlordVO.setLld_id_isvrfed(lld_id_isvrfed);
 		lanlordVO.setLld_id_disapprove(lld_id_disapprove);	
-		lanlordVO.setLld_suspend(lld_suspend);
-		dao.update(lanlordVO);
-		
+		dao.updatelldstatus(lanlordVO);
 		return lanlordVO;
 	}
 }

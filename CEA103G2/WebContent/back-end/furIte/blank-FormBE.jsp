@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.furCat.model.*"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>後台空頁</title>
+    <title>家具類別資料新增</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,8 +22,7 @@
 
     <!-- Custom styles for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
+
 </head>
 
 <body id="page-top">
@@ -45,37 +46,44 @@
                 <div class="container-fluid">
 
                     <div class="container-fluid">
+
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">查看最新預約情況</h1>
-                    <p class="mb-4">新案件<a target="_blank" href="https://datatables.net"></a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800">家具類別管理</h1>
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">點選物件編號 可以查看物件預約情況</h6>
+<!--                  ↓↓↓       按鈕區 搜尋列擺放位置↓↓↓↓ -->
+
+             <a href="<%=request.getContextPath()%>/back-end/furCat/addFurCat.jsp" class="btn btn-warning btn-icon-split">
+                                        <span class="text">新增資料</span>
+                                    </a>
+                                
+<!--                  ↑↑↑       按鈕區 搜尋列擺放位置↑↑↑↑ -->                                    
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            				<div id="freeEmp">
-										<!-- 	之後可以用js老師作業的隨機顏色耶XD -->
-												
-											</div>
-                            	</table>
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                   <!--                  ↓↓↓       表單擺放位置↓↓↓↓ -->
                                     <thead>
                                         <tr>
-                                            <th>物件編號</th>
-                                            <th>最新預約時間</th>
+                                   
                                         </tr>
                                     </thead>
-                                    <tbody id="showData">
+                                    
+                                    <tbody>     
+										                                    
+										                                  
+                                      <!--                  ↑↑↑       表單擺放位置↑↑↑↑ -->      
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
+
                 </div>
-					
+                <!-- /.container-fluid -->
+
                 </div>
                 <!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
 
@@ -94,7 +102,7 @@
     <%@ include file="/back-end/includeFile/otherBack.file" %>
     
     <!-- Bootstrap core JavaScript-->
-    
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -109,76 +117,7 @@
     <!-- Page level custom scripts -->
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
-	<script>
-          
-          
-          $.ajax({
-        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-        	  type:'post',
-        	  data:{
-        		  action:'listNewRooVieApp',
-        	  },
-        	  success:function(list){
-					for(let key in list){
-						let str = '<tr>';
-						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' id=\"'+key+'\">'+"control "+key+'</button>'+'</th>';
-		        		str+='<th>'+dateformat(list[key])+'</th>';
-		        		str+='</tr>';
-		        		$("#showData").append(str);
-					}
-					$(".controltime").click(function(){
-						document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+$(this).attr("id");
-					})
-        	  }
-          })
-          function dateformat(str){
-        	 let year = new Date(str).getFullYear();
-        	 let month = new Date(str).getMonth()+1;
-        	 let date = new Date(str).getDate();
-        	 let hour = new Date(str).getHours();
-        	 let isAm = "上午";
-        	 if((Math.floor(hour/12)==1)){
-        		 isAm = "下午";
-        	 }
-        	 let minutes = new Date(str).getMinutes();
-        	 let second = new Date(str).getSeconds();
-        	 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
-//         	 +minutes+"分"+second+"秒";
-          }
-//           $.ajax({
-<%-- 				url:"<%=request.getContextPath()%>/HouseJsonServlet", --%>
-// 				type:'post',
-// 				data:{
-// 					action:'getAllEmp',
-// 				},
-// 				async: false,
-// 				success:function(str){
-// 					for(let obj of str){
-// 						console.log(obj.emp_name+obj.emp_no	);
-// 						let empString = "<button class='emp btn btn-info btn-sm'>"+obj.emp_no+" "+obj.emp_name+"";
-// 						empString+="<input type='hidden' name='emp_no' value='"+obj.emp_no+"'></button>&nbsp; ";
-// 						$("#freeEmp").append(empString);
-// 					}
-					
-// 				}
-				
-// 			})
 
-//           })
-		$.ajax({
-        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-        	  type:'post',
-        	  data:{
-        		  action:'listallpickTime',
-        	  },
-        	  success:function(list){
-				for(let key in list){
-						console.log(key);
-				}
-        	  }
-        })
-			
-    </script>	
 </body>
 
 </html>

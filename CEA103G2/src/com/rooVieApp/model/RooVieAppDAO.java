@@ -60,7 +60,7 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 	private static final String CANCELPICKTIME = "DELETE FROM "+TABLE+" WHERE MEM_NO=? and HOS_NO=? and RVA_ORDER_TIME =?";
 	private static final String LISTALLPICKTIME = "SELECT " + TOTAL_COL + " FROM " + TABLE + " WHERE HOS_NO=? order by RVA_APP_TIME";
 	private static final String LISTNEWPICKTIME  = "SELECT * FROM room_viewing_application WHERE TIMEDIFF(RVA_APP_TIME,NOW()) < 0";
-	private static final String LISTNEWROOVIEAPP = "SELECT  HOS_NO,MAX(RVA_ORDER_TIME) FROM ROOM_VIEWING_APPLICATION GROUP BY HOS_NO HAVING DATEDIFF(MAX(RVA_ORDER_TIME),NOW()) > 0";
+	private static final String LISTNEWROOVIEAPP = "SELECT  HOS_NO,MAX(RVA_ORDER_TIME) FROM ROOM_VIEWING_APPLICATION GROUP BY HOS_NO HAVING DATEDIFF(MAX(RVA_ORDER_TIME),NOW()) > 0 ORDER BY MAX(RVA_ORDER_TIME)";
 	@Override
 	public void insert(RooVieAppVO rooVieAppVO) {
 		Connection con = null;

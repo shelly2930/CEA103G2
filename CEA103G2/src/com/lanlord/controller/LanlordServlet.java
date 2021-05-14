@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -309,6 +311,7 @@ public class LanlordServlet extends HttpServlet {
 			}
 		}
 		
+		// 目前沒用到
 		if ("authLanlord".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -339,74 +342,53 @@ public class LanlordServlet extends HttpServlet {
 			}
 		}
 		
-		if ("updateStatus".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-//			String requestURL = req.getParameter("requestURL");
+		String pass = req.getParameter("pass");
+		String fail = req.getParameter("fail");
+		if ("通過".equals(pass) || "不通過".equals(fail)) {
 			
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				Integer lld_no = new Integer(req.getParameter("lld_no"));
 				
+				LanlordService lanlordSvc = new LanlordService();
+				LanlordVO lanlordVO = lanlordSvc.getOneLanlord(lld_no);
+				
 				Byte lld_status = null;
-				lld_status = Byte.valueOf(req.getParameter("lld_status"));
 				
-				java.sql.Timestamp lld_id_isvrfed = new java.sql.Timestamp(System.currentTimeMillis());
+				Timestamp lld_id_isvrfed = null;
 				
-				String lld_id_disapprove = req.getParameter("lld_id_disapprove").trim();
+				String lld_id_disapprove = null;
 				
-				String lld_suspend = req.getParameter("lld_suspend").trim();
-				
-				LanlordVO lanlordVO = new LanlordVO();
-				lanlordVO.setLld_no(lld_no);
-				lanlordVO.setLld_status(lld_status);
-				lanlordVO.setLld_id_isvrfed(lld_id_isvrfed);
-				lanlordVO.setLld_id_disapprove(lld_id_disapprove);
-				lanlordVO.setLld_suspend(lld_suspend);
+				if("通過".equals(pass)) {
+					lld_status = 1;
+					lld_id_isvrfed = new java.sql.Timestamp(System.currentTimeMillis());
+				}
+				if("不通過".equals(fail)) {
+					lld_status = 2;
+					lld_id_disapprove = req.getParameter("lld_id_disapprove").trim();
+					lld_id_isvrfed = null;
+				}
 				
 				/***************************2.開始修改資料*****************************************/
-				LanlordService lanlordSvc = new LanlordService();
-				lanlordVO = lanlordSvc.updatelldstatus(lld_no, lld_status, lld_id_isvrfed, lld_id_disapprove, lld_suspend);
-				
-//				if (lld_status == 1) {
-//					lanlordSvc.updatelldstatus(lld_no, (byte) 1);
-//					System.out.println("審核通過");
-//				} else if (lld_status == 2) {
-//					lanlordSvc.updatelldstatus(lld_no, (byte) 2);
-//					System.out.println("審核不通過");
-//				} else if (lld_status == 3) {
-//					lanlordSvc.updatelldstatus(lld_no, (byte) 3); // 房東停權，目前沒功能
-//					System.out.println("房東停權");
-//				}
-				
-				// session?
-//				HttpSession session = req.getSession();
-//				session.setAttribute("lanlordSession", lanlordVO);
-				
+				lanlordVO = lanlordSvc.updatelldstatus(lld_no, lld_status, lld_id_isvrfed, lld_id_disapprove);
 				req.setAttribute("lanlordVO", lanlordVO);
+				
+				List<LanlordVO> list = new ArrayList<LanlordVO>();
+				list = lanlordSvc.findByLldstatus(lld_status);
+				req.setAttribute("list",list);
+				
 				String url = "/back-end/lanlord/findByLldStatus.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理*************************************/	
 			} catch (Exception e) {
-				errorMsgs.add("修改資料取出時失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back-end/lanlord/authOneLanlord.jsp");
+						.getRequestDispatcher("/back-end/lanlord/findByLldStatus.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
-//		if("getOneHouse".equals(action)) {
-//			Integer lld_no = new Integer(req.getParameter("lld_no"));
-//			LanlordService lanlordSvc = new LanlordService();
-//			LanlordVO lanlordVO = lanlordSvc.getOneLanlord(lld_no);
-//			String str = new Gson().toJson(lanlordVO);
-//			res.setContentType("application/json");
-//			res.setCharacterEncoding("UTF-8");
-//			res.getWriter().print(str);
-//		}
 		
 	}
 }

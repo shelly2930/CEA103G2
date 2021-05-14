@@ -21,31 +21,49 @@
     <!-- Custom styles for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
     <style>
-
+			.x{
+				width:50px;height:50px;background:blue;
+				position:absolute;
+				top:20px;
+/* 				z-index:-1; */
+				left:90%;
+			}
 	</style>
 </head>
 
-<body id="page-top" onload="connect();" onunload="disconnect();">
+<body id="page-top" onload="connect();connectNotice();" onunload="disconnect();disconnectNotice()">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
        <%@ include file="/back-end/includeFile/sidebarBack.file" %>
-
+		
          <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             	<div id="content">
-
+				
 				<!-- Topbar -->
                 <%@ include file="/back-end/includeFile/topbarBack.file" %>
 				
-				
-				
-				
-				
+<!-- 			通知 -->
+				<div aria-live="polite" aria-atomic="true" style="position: absolute; top: 70px; left: 84%;min-height: 200px;">
+				  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
+				    <div class="toast-header">
+				      <strong class="mr-auto">通 知</strong>
+				      <small>11 mins ago</small>
+				      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				        <span aria-hidden="true">&times;</span>
+				      </button>
+				    </div>
+				    <div class="toast-body">
+				      Hello, world! This is a toast message.
+				    </div>
+				  </div>
+				</div>
+<!-- 			通知 -->
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 
                 	<div class='row'>
@@ -1069,7 +1087,6 @@
 	let path = window.location.pathname;
 	let webCtx = path.substring(0, path.indexOf('/', 1));
 	let endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
-	alert(endPointURL);
 	let self = empno;
 	let webSocket;
 	let countChecked = 0 ; //計算已預約時段
@@ -1289,8 +1306,87 @@
 			let rva_order_time = $(this).val();
 			let mem_no = self.substring(self.indexOf("號")+1);
 		})
-
 	
+		
+	//通知
+	let webSocket_notice;	
+	let MyPoint_notice = "/test/${employeeVO.emp_no}/1";
+	let endPointURL1 = "ws://" + window.location.host + webCtx + MyPoint_notice;
+	function connectNotice() {
+		webSocket_notice = new WebSocket(endPointURL1);
+		webSocket_notice.onopen = function(event) {
+			console.log("Connect Success!");
+		};
+		webSocket_notice.onmessage = function(event) {
+			let initobj = {
+				type:'open',
+				identity:'1',
+				username:'${employeeVO.emp_no}',
+				currentTime:new Date(),
+				message:'',
+			}
+			webSocket_notice.send(JSON.stringify(initobj));
+			let notice = JSON.parse(event.data);
+			if(notice.type=="receive"){
+				let revJSON = JSON.parse(notice.message);
+				if(revJSON.checked=="true"){
+					$("small").text(new Date().toJSON().substring(0,10));
+					let noticeText = "剛剛<h5>會員";
+					noticeText+=notice.identity+"</h5>";
+					noticeText+="已預約<br><h6>物件編號:";
+					noticeText+=revJSON.houseno+"</h6>預約";
+					noticeText+="<br><h6>時間:";
+					noticeText+=revJSON.picktime+"</h6>";
+					$(".toast-body").html(noticeText);
+					$('.toast').toast('show',800);
+				}else{
+					$("small").text(new Date().toJSON().substring(0,10));
+					let noticeText = "剛剛<h5>會員";
+					noticeText+=notice.identity+"</h5>";
+					noticeText+="已取消<br><h6>物件編號:";
+					noticeText+=revJSON.houseno+"</h6>預約";
+					noticeText+="<br><h6>時間:";
+					noticeText+=revJSON.picktime+"</h6>";
+					$(".toast-body").html(noticeText);
+					$('.toast').toast('show',800);
+				}
+			
+// 				$(".test").html(notice.message);
+
+// 				$(".test").animate({position:'absolute', top:'0px'},1000,function(){
+// 					$(this).fadeOut(2000);
+// 				});
+// 				$(".test").fadeIn();
+// 				$(".test").css({"position":"absolute", "top":"-70px"});
+				
+			}
+			console.log(event.data);
+		};
+		webSocket_notice.onclose = function(event) {
+			console.log("Disconnected!");
+		};
+	}
+	function disconnectNotice() {
+		webSocket_notice.close();
+	}
+	function picktimeSuccess(message){
+		let obj = {
+				type:'send',
+				identity:'1',
+				username:'${employeeVO.emp_no}',
+				currentTime:new Date(),
+				message:message,
+		}
+		webSocket_notice.send(JSON.stringify(obj));
+	}
+// 	通知參考用
+	$("#S").click(function(){
+		$("small").text(new Date().getTime());
+		$(".toast-body").text("DdddddddddddddDD");
+		$('.toast').toast('show',80000);
+			
+	})
+// 	通知參考用
 </script>
 </body>
 

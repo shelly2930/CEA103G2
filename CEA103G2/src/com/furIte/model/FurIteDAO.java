@@ -378,6 +378,74 @@ public class FurIteDAO implements FurIteDAO_interface {
 	}
 
 	@Override
+	public FurIteVO showOneFurIteToFE(Integer fnt_it_no) {
+
+		FurIteVO furIteVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+
+			pstmt.setInt(1, fnt_it_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				furIteVO = new FurIteVO();
+				furIteVO.setFnt_it_no(rs.getInt("fnt_it_no"));
+				furIteVO.setFnt_ctgr_no(rs.getInt("fnt_ctgr_no"));
+				furIteVO.setFnt_name(rs.getString("fnt_name"));
+				furIteVO.setFnt_unrent(rs.getInt("fnt_unrent"));
+				furIteVO.setFnt_repair(rs.getInt("fnt_repair"));
+				furIteVO.setFnt_total(rs.getInt("fnt_total"));
+				furIteVO.setFnt_price(rs.getInt("fnt_price"));
+				furIteVO.setFnt_length(rs.getDouble("fnt_length"));
+				furIteVO.setFnt_width(rs.getDouble("fnt_width"));
+				furIteVO.setFnt_height(rs.getDouble("fnt_height"));
+				furIteVO.setFnt_weight(rs.getDouble("fnt_weight"));
+				furIteVO.setFnt_standard(rs.getString("fnt_standard"));
+//				furIteVO.setFnt_info(rs.getString("fnt_info"));
+				String fnt_info = rs.getString("fnt_info").replaceAll("\n", "<br>").replaceAll("\\s", "&nbsp");
+				furIteVO.setFnt_info(fnt_info);
+				furIteVO.setFnt_views(rs.getInt("fnt_views"));
+				furIteVO.setFnt_post_status(rs.getByte("fnt_post_status"));
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return furIteVO;
+	}
+	
+	@Override
 	public FurIteVO findByFurName(String fnt_name) {
 
 		FurIteVO furIteVO = null;

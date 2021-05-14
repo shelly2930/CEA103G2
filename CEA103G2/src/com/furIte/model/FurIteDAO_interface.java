@@ -25,6 +25,9 @@ public interface FurIteDAO_interface {
 	//<前台用>依家具分類查所有上架商品
 	 public List<FurIteVO> getGetOnFurIteByCat(Integer fnt_ctgr_no);
 	
+	 //顯示品項至前台(處理換行問題)
+    public FurIteVO showOneFurIteToFE(Integer fnt_it_no);
+	 
 	//關鍵字查詢
 	public List<FurIteVO> getOneFurIteByKW(String keyword);
 	

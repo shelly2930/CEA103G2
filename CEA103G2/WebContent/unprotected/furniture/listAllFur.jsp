@@ -96,7 +96,7 @@
                                 <div class="single_product_menu">
                                     <a href="<%=request.getContextPath()%>/furIte/furIte.do?action=listAllGetOnFurIte" class="genric-btn default"  style="font-size:16px;">所有家具 </a> 
 <!-- 待處理無法顯示之家具類別名 -->
-                                    <span style="font-size:16px;">/ <c:if test="${not empty param.fnt_ctgr_no}"> ${furCatSvc2.getOneFurCat(param.fnt_ctgr_no).fnt_ctgr_name}</c:if></span>
+                                    <span style="font-size:15px;">/ <c:if test="${not empty param.fnt_ctgr_no}"> ${furCatSvc2.getOneFurCat(param.fnt_ctgr_no).fnt_ctgr_name}</c:if></span>
                                     <%-- 錯誤表列 --%>
 									<c:if test="${not empty errorMsgs}">
 											<ul>
@@ -165,7 +165,7 @@
                                     <h4>${furIteVO.fnt_name}</h4>
                                     <h3>$${furIteVO.fnt_price} /月</h3>
 <!--                                   <以下加到購物車> -->
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                                    <a href="#" class="add_cart">+ 加入租借<i class="ti-heart"></i></a>
                                 </div>
                             </div>
                         </div>

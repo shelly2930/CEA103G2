@@ -56,7 +56,8 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Rental Management:</h6>
-                        <a class="collapse-item" href="utilities-color.html">預約看房申請</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/pickHouse.jsp">預約時間管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp.jsp">預約看房申請</a>
                         <a class="collapse-item" href="utilities-border.html">租屋前審核</a>
                         <a class="collapse-item" href="utilities-border.html">租屋合約</a>
                     </div>
@@ -73,7 +74,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Furniture Management:</h6>
                         <a class="collapse-item" href="login.html">租家具申請</a>
-                        <a class="collapse-item" href="register.html">家具類別</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furCat/listAllFurCat.jsp">家具類別</a>
                         <a class="collapse-item" href="register.html">家具品項</a>
                         <a class="collapse-item" href="register.html">家具清單</a>
                     </div>
@@ -123,7 +124,7 @@
                 <div id="collapseMember" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Member Management:</h6>
-                        <a class="collapse-item" href="register.html">房東申請</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/lanlord/findByLldStatus.jsp">房東申請</a>
                         <a class="collapse-item" href="login.html">會員/房客資料</a>
                         <a class="collapse-item" href="register.html">房東資料</a>
                     </div>

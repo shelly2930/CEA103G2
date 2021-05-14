@@ -99,6 +99,10 @@ public class FurIteService {
 		return dao.getOneFurIteByKWtoFE(keyword);
 	}
 	
+	//顯示品項至前台(處理換行問題)
+	public FurIteVO showOneFurIteToFE(Integer fnt_it_no) {
+		return dao.	showOneFurIteToFE(fnt_it_no);
+	}
 	
 	//關鍵字查詢
 	public List<FurIteVO> getOneFurIteByKW(String keyword){
