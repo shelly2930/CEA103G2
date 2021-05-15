@@ -7,14 +7,14 @@
 	if(cookieList != null){
 		for(int i = 0; i < cookieList.length; i++) {
 			Cookie cookie = cookieList[i];
-			System.out.println("CookieList[" + i + "] : " + cookie.getName() + ", " + cookie.getValue() + ", " + cookie.getMaxAge());
+// 			System.out.println("CookieList[" + i + "] : " + cookie.getName() + ", " + cookie.getValue() + ", " + cookie.getMaxAge());
 			if(cookie.getName().equals("emp_username")){
 				emp_username = cookie.getValue();
 			}
 		}
 	}
 	pageContext.setAttribute("emp_username",emp_username);
-	System.out.println(session.getId());
+// 	System.out.println(session.getId());
 %>
 
 <!doctype html>

@@ -3,11 +3,15 @@ package com.repApp.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -55,41 +59,43 @@ public class RepAppServlet extends HttpServlet {
 			try {
 				String mem_no = req.getParameter("mem_no");
 				String rtct_no = req.getParameter("rtct_no");
-				System.out.println(req.getParameter("ra_order_time"));
-				java.sql.Timestamp ra_order_time = java.sql.Timestamp.valueOf(req.getParameter("ra_order_time").trim());
 				
-				String ra_no = req.getParameter("ra_no");
+				java.time.LocalDateTime ldt = java.time.LocalDateTime.parse(req.getParameter("ra_order_time").trim());
+				java.sql.Timestamp ra_order_time = java.sql.Timestamp.valueOf(ldt);
+				
+//				Date轉Timestamp
+//				java.sql.Date date = java.sql.Date.valueOf(req.getParameter("ra_order_time").trim());
+//				java.sql.Timestamp ra_order_time = new java.sql.Timestamp(date.getTime());
+				
+//				String ra_no = req.getParameter("ra_no");
 				String rad_dmg = req.getParameter("rad_dmg");
 				String rad_dsc = req.getParameter("rad_dsc");
-				String rad_no = req.getParameter("rad_no");
+//				String rad_no = req.getParameter("rad_no");
 				Part part = req.getPart("rap_photo");
 				InputStream in = part.getInputStream();
 				byte[] rap_photo =  new byte[in.available()];
 				in.read(rap_photo);
 				in.close();
 				
-				RepAppVO repAppVO = new RepAppVO();
-				repAppVO.setRa_no(new Integer(ra_no));
-				
+				RepAppPhoVO repAppPhoVO = new RepAppPhoVO();
 				RepAppDetVO repAppDetVO= new RepAppDetVO();
-				repAppDetVO.setRepAppVO(repAppVO);
+				
+				repAppPhoVO.setRap_photo(rap_photo);
+				repAppPhoVO.setRepAppDetVO(repAppDetVO);
+				
+				Set<RepAppPhoVO> set_RepAppPhoVO = new LinkedHashSet<RepAppPhoVO>();
+				set_RepAppPhoVO.add(repAppPhoVO);
+				
 				repAppDetVO.setRad_dmg(rad_dmg);
 				repAppDetVO.setRad_dsc(rad_dsc);
-				repAppDetVO.setRad_no(new Integer(rad_no));
+				repAppDetVO.setSet_RepAppPhoVO(set_RepAppPhoVO);
 				
-				RepAppPhoVO repAppPhoVO = new RepAppPhoVO();
-				repAppPhoVO.setRepAppDetVO(repAppDetVO);
-				repAppPhoVO.setRap_photo(rap_photo);
-				
-				List<RepAppDetVO> list_RepAppDetVO = new ArrayList<RepAppDetVO>();
-				list_RepAppDetVO.add(repAppDetVO);
-				
-				List<RepAppPhoVO> list_RepAppPhoVO = new ArrayList<RepAppPhoVO>();
-				list_RepAppPhoVO.add(repAppPhoVO);
+				Set<RepAppDetVO> set_RepAppDetVO = new LinkedHashSet<RepAppDetVO>();
+				set_RepAppDetVO.add(repAppDetVO);
 				
 				
 				RepAppService repAppService = new RepAppService();
-				repAppService.addRepApp(new Integer(mem_no), new Integer(rtct_no), ra_order_time, list_RepAppDetVO, list_RepAppPhoVO);
+				repAppService.addRepApp(new Integer(mem_no), new Integer(rtct_no), ra_order_time, set_RepAppDetVO);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 //				String url = "/back-end/employee/listAllEmp.jsp";

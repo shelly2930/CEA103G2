@@ -574,6 +574,7 @@ public class EmployeeServlet extends HttpServlet {
 								Integer fun_no = staRigVO.getFun_no();
 								list_Fun_no.add(fun_no);
 							}
+							session.setAttribute("list_Fun_no", list_Fun_no);
 								
 							if(rememberMe != null) {
 								Cookie cookie = new Cookie("emp_username", emp_username);
@@ -584,21 +585,23 @@ public class EmployeeServlet extends HttpServlet {
 								cookie.setMaxAge(60);
 								cookie.setPath("/");
 								res.addCookie(cookie);
-								cookie = new Cookie("JSESSIONID", session.getId());
-								cookie.setMaxAge(60);
-								cookie.setPath("/");
-								res.addCookie(cookie);
+								
+//								下面四行就可以做到保持登入
+//								cookie = new Cookie("JSESSIONID", session.getId());
+//								cookie.setMaxAge(60);
+//								cookie.setPath("/");
+//								res.addCookie(cookie);
 							}
 							
-							session.setAttribute("list_Fun_no", list_Fun_no);
 							
 							String location = (String)session.getAttribute("location");
 							session.removeAttribute("location");
-							if(location == null) {
-								res.sendRedirect(req.getContextPath() + "/back-end/indexBack.jsp");
-							}
-							else {
+							if(employeeVO.getEmp_id() == null) {
+								res.sendRedirect(req.getContextPath() + "/back-end/employee/showOneEmp.jsp");
+							}else if(location != null) {
 								res.sendRedirect(location);
+							}else {
+								res.sendRedirect(req.getContextPath() + "/back-end/indexBack.jsp");
 							}
 							return;
 						} else {

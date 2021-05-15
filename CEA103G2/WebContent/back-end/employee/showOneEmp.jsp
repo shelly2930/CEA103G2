@@ -164,7 +164,7 @@ ${errorMsgs.Exception}
 							    </div>
 							</div>
 							
-							<c:if test="${not empty requestScope.employeeVO and sessionScope.employeeVO.emp_job eq '主管'}">
+							<c:if test="${not empty requestScope.employeeVO and sessionScope.employeeVO.emp_job eq '主管' and empty errorMsgs}">
 							<div class="form-row">
 							    <div class="form-group col-lg-6">
 							    	<label for="emp_sal">薪資</label>
@@ -202,7 +202,7 @@ ${errorMsgs.Exception}
 							
 							<div class="form-row mt-4 mb-4">
 								<div class="form-group col">
-								<c:if test="${empty requestScope.employeeVO}">
+								<c:if test="${empty requestScope.employeeVO || not empty errorMsgs}">
 									<button type="button" class="btn btn-outline-info" id="updateInfo">修改資料</button>
 									<button type="submit" class="btn btn-outline-info" id="updateSubmit" style="display:none;">送出修改</button>
 									
@@ -326,6 +326,8 @@ ${errorMsgs.Exception}
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
     
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <script>
 		let emp_pic = document.getElementsByName("emp_pic")[0];
 		let preview = document.getElementById("preview");
@@ -400,6 +402,7 @@ ${errorMsgs.Exception}
 			}
 		});
 		
+// 		取消所有input按下enter預設的submit動作
 // 		$(document).keypress(function(e){
 // 			if(e.keyCode == 13)
 // 				return false;
@@ -444,12 +447,59 @@ ${errorMsgs.Exception}
 					}
 					
 					if(data_json.success){
-						alert("更改成功");
+						Swal.fire({
+					    	icon:'success',
+					    	title:'更改成功'
+					    });
 						$("#close").click();
 					}
 				}
 			});
-		});
+		})
+// 			$.ajax({
+// 				url: "${pageContext.request.contextPath}/employee/employee.do",
+// 				type: "post",
+// 				data: {
+// 					action: "updatePassword",
+// 					emp_no: "${employeeVO.emp_no}",
+// 					oldPassword: $("#oldPassword").val(),
+// 					newPassword: $("#newPassword").val(),
+// 					newPasswordCheck: $("#newPasswordCheck").val()
+// 				},
+// 				success: function(data){
+// 					var data_json = JSON.parse(data);
+					
+// 					if(data_json.oldPassword){
+// 						$("small[name='oldPassword']").text(data_json.oldPassword);
+// 						$("small[name='oldPassword']").parent().addClass("border-left-warning");
+// 					}else{
+// 						$("small[name='oldPassword']").text("");
+// 						$("small[name='oldPassword']").parent().removeClass("border-left-warning");
+// 					}
+					
+// 					if(data_json.newPassword){
+// 						$("small[name='newPassword']").text(data_json.newPassword);
+// 						$("small[name='newPassword']").parent().addClass("border-left-warning");
+// 					}else{
+// 						$("small[name='newPassword']").text("");
+// 						$("small[name='newPassword']").parent().removeClass("border-left-warning");
+// 					}
+					
+// 					if(data_json.newPasswordCheck){
+// 						$("small[name='newPasswordCheck']").text(data_json.newPasswordCheck);
+// 						$("small[name='newPasswordCheck']").parent().addClass("border-left-warning");
+// 					}else{
+// 						$("small[name='newPasswordCheck']").text("");
+// 						$("small[name='newPasswordCheck']").parent().removeClass("border-left-warning");
+// 					}
+					
+// 					if(data_json.success){
+// 						alert("更改成功");
+// 						$("#close").click();
+// 					}
+// 				}
+// 			});
+// 		});
 		
 		// 如鍵盤按下enter鍵,送出更改密碼確認,並取消input標籤預設的submit行為
 		function updatePassword_enter(e){
@@ -461,7 +511,7 @@ ${errorMsgs.Exception}
 		
 		$("#oldPassword").keypress(updatePassword_enter);
 		$("#newPassword").keypress(updatePassword_enter);
-		$("#newPasswordCheck").keypress(updatePassword_enter);
+// 		$("#newPasswordCheck").keypress(updatePassword_enter);
 		
 		// 主管按下'修改員工資料'時改變action,讓controller執行'getOne_For_Update',而非原本的'updateByEmp'
 		$("#getOne_For_Update").click(function(){

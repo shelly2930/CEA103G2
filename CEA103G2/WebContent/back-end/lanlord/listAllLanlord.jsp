@@ -19,7 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>房東清單</title>
+    <title>房東資料</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -81,8 +81,6 @@ img.lld_acc_pic {
 											<th>身份審核狀態</th>
 											<th>審核通過時間</th>
 											<th>未通過原因</th>
-											<th>停權原因</th>
-											<th>修改</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -105,17 +103,6 @@ img.lld_acc_pic {
 												</td>
 												<td><fmt:formatDate value="${lanlordVO.lld_id_isvrfed}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 												<td>${lanlordVO.lld_id_disapprove}</td>
-												<td>${lanlordVO.lld_suspend}</td>
-
-												<td align="center">
-													<FORM METHOD="post"
-														ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do"
-														style="margin-bottom: 0px;">
-														<button type="submit" class="btn btn-outline-info">修改</button>
-														<input type="hidden" name="lld_no" value="${lanlordVO.lld_no}">
-														<input type="hidden" name="action" value="getOne_For_Update">
-													</FORM>
-												</td>
 											</tr>
 										</c:forEach>
 									</tbody>

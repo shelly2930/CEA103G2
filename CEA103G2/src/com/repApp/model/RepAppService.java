@@ -2,7 +2,9 @@ package com.repApp.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.employee.model.EmployeeVO;
 import com.memTen.model.MemTenVO;
@@ -17,17 +19,20 @@ public class RepAppService {
 		repAppDAO = new RepAppDAO();
 	}
 	
-	public RepAppVO addRepApp(Integer mem_no, Integer rtct_no, Timestamp ra_order_time, List<RepAppDetVO> list_RepAppDetVO, List<RepAppPhoVO> list_RepAppPhoVO) {
+//	public RepAppVO addRepApp(Integer mem_no, Integer rtct_no, Timestamp ra_order_time, Set<RepAppDetVO> set_RepAppDetVO, Set<RepAppPhoVO> set_RepAppPhoVO) {
+	public RepAppVO addRepApp(Integer mem_no, Integer rtct_no, Timestamp ra_order_time, Set<RepAppDetVO> set_RepAppDetVO) {
+//	public RepAppVO addRepApp(Integer mem_no, Integer rtct_no, Timestamp ra_order_time) {
 		RepAppVO repAppVO = new RepAppVO();
 		
-		MemTenVO memTenVO = new MemTenVO();
-		memTenVO.setMem_no(mem_no);
-		repAppVO.setMemTenVO(memTenVO);
-		RenConVO renConVO = new RenConVO();
-		renConVO.setRtct_no(rtct_no);
-		repAppVO.setRenConVO(renConVO);
+		repAppVO.setMem_no(mem_no);
+		repAppVO.setRtct_no(rtct_no);
 		repAppVO.setRa_order_time(ra_order_time);
-		repAppDAO.insert(repAppVO, list_RepAppDetVO, list_RepAppPhoVO);
+		for(RepAppDetVO repAppDetVO : set_RepAppDetVO) {
+			repAppDetVO.setRepAppVO(repAppVO);
+		}
+		repAppVO.setSet_RepAppDetVO(set_RepAppDetVO);
+//		repAppDAO.insert(repAppVO, list_RepAppDetVO, list_RepAppPhoVO);
+		repAppDAO.insert(repAppVO);
 		
 		return repAppVO;
 	}
@@ -36,9 +41,7 @@ public class RepAppService {
 		RepAppVO repAppVO = new RepAppVO();
 		
 		repAppVO.setRa_no(ra_no);
-		EmployeeVO employeeVO = new EmployeeVO();
-		employeeVO.setEmp_no(emp_no);
-		repAppVO.setEmployeeVO(employeeVO);
+		repAppVO.setEmp_no(emp_no);
 		repAppVO.setRa_order_time(ra_order_time);
 		repAppVO.setRa_end_time(ra_end_time);
 		repAppVO.setRa_status(ra_status);
@@ -54,7 +57,7 @@ public class RepAppService {
 		return repAppDAO.getAll();
 	}
 	
-	public List<RepAppDetVO> getRepAppDets(Integer ra_no) {
+	public Set<RepAppDetVO> getRepAppDets(Integer ra_no) {
 		return repAppDAO.getDetsByPK(ra_no);
 	}
 	

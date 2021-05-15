@@ -2,8 +2,8 @@ package com.repApp.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.employee.model.EmployeeVO;
 import com.memTen.model.MemTenVO;
@@ -12,14 +12,17 @@ import com.repAppDet.model.RepAppDetVO;
 
 public class RepAppVO implements Serializable {
 	private Integer ra_no;
-	private MemTenVO memTenVO;
-	private RenConVO renConVO;
-	private EmployeeVO employeeVO;
+//	private MemTenVO memTenVO;
+//	private RenConVO renConVO;
+//	private EmployeeVO employeeVO;
+	private Integer mem_no;
+	private Integer rtct_no;
+	private Integer emp_no;
 	private Timestamp ra_app_time;
 	private Timestamp ra_order_time;
 	private Timestamp ra_end_time;
 	private Byte ra_status;
-	private List<RepAppDetVO> list_RepAppDetVO = new ArrayList<RepAppDetVO>();
+	private Set<RepAppDetVO> set_RepAppDetVO = new HashSet<RepAppDetVO>();
 	
 	public Integer getRa_no() {
 		return ra_no;
@@ -27,23 +30,41 @@ public class RepAppVO implements Serializable {
 	public void setRa_no(Integer ra_no) {
 		this.ra_no = ra_no;
 	}
-	public MemTenVO getMemTenVO() {
-		return memTenVO;
+//	public MemTenVO getMemTenVO() {
+//		return memTenVO;
+//	}
+//	public void setMemTenVO(MemTenVO memTenVO) {
+//		this.memTenVO = memTenVO;
+//	}
+//	public RenConVO getRenConVO() {
+//		return renConVO;
+//	}
+//	public void setRenConVO(RenConVO renConVO) {
+//		this.renConVO = renConVO;
+//	}
+//	public EmployeeVO getEmployeeVO() {
+//		return employeeVO;
+//	}
+//	public void setEmployeeVO(EmployeeVO employeeVO) {
+//		this.employeeVO = employeeVO;
+//	}
+	public Integer getMem_no() {
+		return mem_no;
 	}
-	public void setMemTenVO(MemTenVO memTenVO) {
-		this.memTenVO = memTenVO;
+	public void setMem_no(Integer mem_no) {
+		this.mem_no = mem_no;
 	}
-	public RenConVO getRenConVO() {
-		return renConVO;
+	public Integer getRtct_no() {
+		return rtct_no;
 	}
-	public void setRenConVO(RenConVO renConVO) {
-		this.renConVO = renConVO;
+	public void setRtct_no(Integer rtct_no) {
+		this.rtct_no = rtct_no;
 	}
-	public EmployeeVO getEmployeeVO() {
-		return employeeVO;
+	public Integer getEmp_no() {
+		return emp_no;
 	}
-	public void setEmployeeVO(EmployeeVO employeeVO) {
-		this.employeeVO = employeeVO;
+	public void setEmp_no(Integer emp_no) {
+		this.emp_no = emp_no;
 	}
 	public Timestamp getRa_app_time() {
 		return ra_app_time;
@@ -69,11 +90,11 @@ public class RepAppVO implements Serializable {
 	public void setRa_status(Byte ra_status) {
 		this.ra_status = ra_status;
 	}
-	public List<RepAppDetVO> getList_RepAppDetVO() {
-		return list_RepAppDetVO;
+	public Set<RepAppDetVO> getSet_RepAppDetVO() {
+		return set_RepAppDetVO;
 	}
-	public void setList_RepAppDetVO(List<RepAppDetVO> list_RepAppDetVO) {
-		this.list_RepAppDetVO = list_RepAppDetVO;
+	public void setSet_RepAppDetVO(Set<RepAppDetVO> set_RepAppDetVO) {
+		this.set_RepAppDetVO = set_RepAppDetVO;
 	}
 	
 }

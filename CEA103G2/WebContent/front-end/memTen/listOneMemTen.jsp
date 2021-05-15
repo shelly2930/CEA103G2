@@ -1,11 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.memTen.model.*"%>
-
-<%	
-// 	MemTenVO memTenVO = (MemTenVO)session.getAttribute("MemTenVO"); 
-%>
-
 
 <html>
 <head>
@@ -81,13 +75,14 @@ ${reuestScope.MemTenVO.mem_name}
 		<th>鄉鎮市區</th>
 		<th>地址</th>
 		<th>身分證正面</th>
-		<th>身分證背面</th>		
+		<th>身分證背面</th>
+		<th>修改</th>		
 	</tr>
 	<tr>
 		<td>${MemTenVO.mem_no}</td>
 		<td>${MemTenVO.mem_username}</td>
 		<td>${MemTenVO.mem_password}</td>
-		<td><img src="${pageContext.request.contextPath}/memTen/memPicReadServlet.do?mem_no=${memTenVO.mem_no}"  class="mem_pic"></td>
+		<td><img src="${pageContext.request.contextPath}/memTen/memPicReadServlet.do?action=getmempic&mem_no=${memTenVO.mem_no}"  class="mem_pic"></td>
 		<td>${MemTenVO.mem_name}</td>
 		<td>
 			${MemTenVO.mem_gender == 0 ? '男':'女'}
@@ -106,8 +101,17 @@ ${reuestScope.MemTenVO.mem_name}
 		<td>${MemTenVO.mem_addr}</td>
 		<td>${MemTenVO.mem_idcard_f}</td>
 		<td>${MemTenVO.mem_idcard_r}</td>
+		<td>
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" style="margin-bottom: 0px;">
+				<input type="submit" value="我要租房">
+			    <input type="hidden" name="mem_no"  value="${MemTenVO.mem_no}">
+			    <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+		</td>
 	</tr>
+	
 </table>
+
+
 
 <script>
 // 	$(window).load(function(){

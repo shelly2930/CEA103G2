@@ -3,3 +3,6 @@
 /hibernate/
 /jdbcUtil_CompositeQuery_advance/
 /jedis/
+/hibernate.cfg.xml
+/hibernate/
+/log4j.properties

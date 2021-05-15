@@ -37,7 +37,7 @@ public class PhotoReader extends HttpServlet {
 				}
 				bin.close();
 				in.close();
-				System.out.println("有照片");
+//				System.out.println("有照片");
 			} else {
 //				res.sendError(HttpServletResponse.SC_NOT_FOUND);
 				in = getServletContext().getResourceAsStream("/template_back-end/img/images.png");
@@ -45,13 +45,13 @@ public class PhotoReader extends HttpServlet {
 				in.read(b);
 				out.write(b);
 				in.close();
-				System.out.println("沒照片");
+//				System.out.println("沒照片");
 			}
 			rs.close();
 			stmt.close();
 		} catch (Exception e) {
-			System.out.println(e);
-			System.out.println("沒員工編號的例外");
+//			System.out.println(e);
+//			System.out.println("沒員工編號的例外");
 			 
 			InputStream in = getServletContext().getResourceAsStream("/template_back-end/img/images.png");
 			byte[] b = new byte[in.available()];

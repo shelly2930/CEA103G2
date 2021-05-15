@@ -402,15 +402,27 @@ public class MemTenServlet extends HttpServlet {
 //				Byte mem_status = null;
 //				mem_status = Byte.valueOf(req.getParameter("mem_status").trim());
 				
-//				InputStream mem_idcard_fin = req.getPart("mem_idcard_f").getInputStream();
-//				byte[] mem_idcard_fBuf = new byte[mem_idcard_fin.available()];
-//				mem_idcard_fin.read(mem_idcard_fBuf);
-//				byte[] mem_idcard_fBuf = new byte[2];
+				Part idcard_fpart = req.getPart("mem_idcard_f");
+				InputStream mem_idcard_fin = idcard_fpart.getInputStream();
+				byte[] mem_idcard_fBuf = null;
+				if(mem_idcard_fin.available() == 0) {
+					mem_idcard_fBuf = new MemTenService().getOneMemTen(mem_no).getMem_idcard_f();
+			    } else {
+			    	mem_idcard_fBuf = new byte[mem_idcard_fin.available()];
+			    	mem_idcard_fin.read(mem_idcard_fBuf);
+			    }
+				mem_idcard_fin.close();
 				
-//				InputStream mem_idcard_rin = req.getPart("mem_idcard_r").getInputStream();
-//				byte[] mem_idcard_rBuf = new byte[mem_idcard_rin.available()];
-//				mem_idcard_rin.read(mem_idcard_rBuf);
-//				byte[] mem_idcard_rBuf = new byte[2];
+				Part idcard_rpart = req.getPart("mem_idcard_r");
+				InputStream mem_idcard_rin = idcard_rpart.getInputStream();
+				byte[] mem_idcard_rBuf = null;
+				if(mem_idcard_rin.available() == 0) {
+					mem_idcard_rBuf = new MemTenService().getOneMemTen(mem_no).getMem_idcard_r();
+			    } else {
+			    	mem_idcard_rBuf = new byte[mem_idcard_rin.available()];
+			    	mem_idcard_rin.read(mem_idcard_rBuf);
+			    }
+				mem_idcard_rin.close();
 				
 //				Byte mem_id_status = null;
 //				mem_id_status = Byte.valueOf(req.getParameter("mem_id_status").trim());
@@ -435,8 +447,8 @@ public class MemTenServlet extends HttpServlet {
 				memTenVO.setMem_dist(mem_dist);
 				memTenVO.setMem_addr(mem_addr);
 //				memTenVO.setMem_status(mem_status);
-//				memTenVO.setMem_idcard_f(mem_idcard_fBuf);
-//				memTenVO.setMem_idcard_r(mem_idcard_rBuf);
+				memTenVO.setMem_idcard_f(mem_idcard_fBuf);
+				memTenVO.setMem_idcard_r(mem_idcard_rBuf);
 //				memTenVO.setMem_id_status(mem_id_status);
 //				memTenVO.setMem_suspend(mem_suspend);
 //				memTenVO.setMem_refuse(mem_refuse);
@@ -454,7 +466,7 @@ public class MemTenServlet extends HttpServlet {
 				MemTenService memTenSvc = new MemTenService();
 				memTenVO = memTenSvc.updateMemTen(mem_no, mem_username, mem_password, mem_picBuf, mem_name,
 								mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email, mem_city,
-								mem_dist, mem_addr);
+								mem_dist, mem_addr, mem_idcard_fBuf, mem_idcard_rBuf);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
@@ -465,6 +477,114 @@ public class MemTenServlet extends HttpServlet {
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {	
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/memTen/update_memTen_input.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		// 租房時確認資料
+		if("rentalConfirm".equals(action)) {
+			
+			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				Integer mem_no = new Integer(req.getParameter("mem_no").trim());
+				
+				String mem_name = req.getParameter("mem_name");
+				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{1,60}$";
+				if (mem_name == null || mem_name.trim().length() == 0) {
+					errorMsgs.put("mem_name", "會員姓名: 請勿空白");
+				} else if(!mem_name.trim().matches(mem_nameReg)) { //以下練習正則(規)表示式(regular-expression)
+					errorMsgs.put("mem_name", "會員姓名: 只能是中、英文字母 , 且長度必須在1到60之間");
+	            }
+				
+				//沒寫檢查碼驗證
+				String mem_id = req.getParameter("mem_id");
+				String mem_idReg = "^[A-Za-z][12][\\d]{8}$";
+				if (mem_id == null || mem_id.trim().length() == 0) {
+					errorMsgs.put("mem_id", "會員身分證字號: 請勿空白");
+				} else if(!mem_id.trim().matches(mem_idReg)) { //以下練習正則(規)表示式(regular-expression)
+					errorMsgs.put("mem_id", "身分證字號格式錯誤！");
+	            }
+				
+				String mem_mobile = req.getParameter("mem_mobile");
+				String mem_mobileReg = "^09[0-9]{8}$";
+				if (mem_mobile == null || mem_mobile.trim().length() == 0) {
+					errorMsgs.put("mem_mobile", "會員行動電話: 請勿空白");
+				} else if(!mem_mobile.trim().matches(mem_mobileReg)) { //以下練習正則(規)表示式(regular-expression)
+					errorMsgs.put("mem_mobile", "會員行動電話格式不符");
+	            }
+
+				String mem_city = req.getParameter(("county").trim());
+				
+				String mem_dist = req.getParameter(("district").trim());
+				
+				String mem_addr = req.getParameter(("mem_addr").trim());
+				
+				Part idcard_fpart = req.getPart("mem_idcard_f");
+				System.out.println(idcard_fpart.getHeader("content-disposition"));
+				InputStream mem_idcard_fin = idcard_fpart.getInputStream();
+				byte[] mem_idcard_fBuf = null;
+				if(mem_idcard_fin.available() == 0) {
+					mem_idcard_fBuf = new MemTenService().getOneMemTen(mem_no).getMem_idcard_f();
+			    } else {
+			    	mem_idcard_fBuf = new byte[mem_idcard_fin.available()];
+			    	mem_idcard_fin.read(mem_idcard_fBuf);
+			    }
+				mem_idcard_fin.close();
+				
+				Part idcard_rpart = req.getPart("mem_idcard_r");
+				InputStream mem_idcard_rin = idcard_rpart.getInputStream();
+				byte[] mem_idcard_rBuf = null;
+				if(mem_idcard_rin.available() == 0) {
+					mem_idcard_rBuf = new MemTenService().getOneMemTen(mem_no).getMem_idcard_r();
+			    } else {
+			    	mem_idcard_rBuf = new byte[mem_idcard_rin.available()];
+			    	mem_idcard_rin.read(mem_idcard_rBuf);
+			    }
+				mem_idcard_rin.close();
+				
+				// 租房時上傳證件後,狀態改為未審核
+				Byte mem_id_status = 1;
+				
+				MemTenVO memTenVO = new MemTenVO();
+				memTenVO.setMem_no(mem_no);
+				memTenVO.setMem_name(mem_name);
+				memTenVO.setMem_id(mem_id);
+				memTenVO.setMem_mobile(mem_mobile);
+				memTenVO.setMem_city(mem_city);
+				memTenVO.setMem_dist(mem_dist);
+				memTenVO.setMem_addr(mem_addr);
+				memTenVO.setMem_idcard_f(mem_idcard_fBuf);
+				memTenVO.setMem_idcard_r(mem_idcard_rBuf);
+				memTenVO.setMem_id_status(mem_id_status);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("memTenVO", memTenVO); // 含有輸入格式錯誤的memTenVO物件,也存入req
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/memTen/rental01.jsp");
+					failureView.forward(req, res);
+					return; //程式中斷
+				}
+				
+				/***************************2.開始修改資料*****************************************/
+				MemTenService memTenSvc = new MemTenService();
+				memTenVO = memTenSvc.rentalConfirm(mem_no, mem_name, mem_id, mem_mobile, mem_city,
+								mem_dist, mem_addr, mem_idcard_fBuf, mem_idcard_rBuf);
+				
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
+				String url = "/index.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMemTen.jsp
+				successView.forward(req, res);
+
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {	
+				errorMsgs.put("error", "修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front-end/memTen/update_memTen_input.jsp");
 				failureView.forward(req, res);

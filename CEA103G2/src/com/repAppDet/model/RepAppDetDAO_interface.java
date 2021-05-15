@@ -12,5 +12,5 @@ public interface RepAppDetDAO_interface {
 	public RepAppDetVO getByPK(Integer rad_no);
 	public List<RepAppDetVO> getByFK(Integer ra_no);
 	public List<RepAppDetVO> getAll();
-	public List<RepAppPhoVO> getPhosByPK(Integer rad_no);
+	public Set<RepAppPhoVO> getPhosByPK(Integer rad_no);
 }

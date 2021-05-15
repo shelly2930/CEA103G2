@@ -26,7 +26,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 		
 		private static final String INSERT_STMT = "INSERT INTO MEMBER_TENANT (mem_username, mem_password, mem_pic,"
 									+ " mem_name, mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email,"
-									+ " mem_city, mem_dist, mem_addr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+									+ " mem_city, mem_dist, mem_addr, mem_idcard_f, mem_idcard_r) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		private static final String GET_ALL_STMT = "SELECT * FROM MEMBER_TENANT ORDER BY mem_no";
 		private static final String GET_ONE_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_no = ?";
 		private static final String DELETE = "DELETE FROM MEMBER_TENANT WHERE mem_no = ?";
@@ -37,6 +37,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String FIND_BY_EMAIL = "SELECT * FROM MEMBER_TENANT WHERE mem_email=?";
 		private static final String UPDATE_PWD_BY_EMAIL = "UPDATE MEMBER_TENANT set mem_password=? WHERE mem_email=?";
 		private static final String UPDATE_MEMSTATUS = "UPDATE MEMBER_TENANT SET mem_status=? WHERE mem_username=?";
+		private static final String RENTAL_CONFIRM = "UPDATE MEMBER_TENANT SET mem_name=?, mem_id=?, mem_mobile=?, mem_city=?, mem_dist=?,"
+									+ " mem_addr=?, mem_idcard_f=?, mem_idcard_r=? WHERE mem_no=?";
 		private static final String UPDATE_MEM_ID_STATUS = "UPDATE MEMBER_TENANT SET mem_id_status=? WHERE mem_no=?";
 	
 		@Override
@@ -151,8 +153,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 				pstmt.setString(12, memTenVO.getMem_dist());
 				pstmt.setString(13, memTenVO.getMem_addr());
 //				pstmt.setByte(12, memTenVO.getMem_status());
-//				pstmt.setBytes(13, memTenVO.getMem_idcard_f());
-//				pstmt.setBytes(14, memTenVO.getMem_idcard_r());
+				pstmt.setBytes(13, memTenVO.getMem_idcard_f());
+				pstmt.setBytes(14, memTenVO.getMem_idcard_r());
 //				pstmt.setByte(13, memTenVO.getMem_id_status());
 //				pstmt.setString(12, memTenVO.getMem_suspend());
 //				pstmt.setString(13, memTenVO.getMem_refuse());
@@ -539,4 +541,51 @@ public class MemTenDAO implements MemTenDAO_interface {
 			}
 			
 		}
+
+		@Override
+		public void rentalConfirm(MemTenVO memTenVO) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(RENTAL_CONFIRM);
+
+				pstmt.setString(1, memTenVO.getMem_name());
+				pstmt.setString(2, memTenVO.getMem_id());
+				pstmt.setString(3, memTenVO.getMem_mobile());
+				pstmt.setString(4, memTenVO.getMem_city());
+				pstmt.setString(5, memTenVO.getMem_dist());
+				pstmt.setString(6, memTenVO.getMem_addr());
+				pstmt.setBytes(7, memTenVO.getMem_idcard_f());
+				pstmt.setBytes(8, memTenVO.getMem_idcard_r());
+				pstmt.setInt(9, memTenVO.getMem_no());
+				
+				pstmt.executeUpdate();
+
+				// Handle any SQL errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+		}
+
+		
 }

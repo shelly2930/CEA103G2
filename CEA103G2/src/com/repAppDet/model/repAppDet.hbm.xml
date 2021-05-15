@@ -9,15 +9,22 @@
             <generator class="identity" />
         </id>
         
-        <property name="rad_order_time" column="rad_order_time" />
-        <property name="rad_dmg_dsc" column="rad_dmg_dsc" />
-        <property name="rad_status" column="rad_status" />
+        <property name="rad_dmg" column="rad_dmg" />
+        <property name="rad_dsc" column="rad_dsc" />
+        <property name="rad_status" column="rad_status" insert="false" />
         <property name="rad_expz" column="rad_expz" />
         <property name="rad_tr_dmg" column="rad_tr_dmg" />
         
         <many-to-one name="repAppVO" class="com.repApp.model.RepAppVO" lazy="false">
             <column name="ra_no" />
         </many-to-one>
+        
+        <set name="set_RepAppPhoVO" table="REPAIR_APPLICATION_PHOTO" lazy="false" cascade="all"  inverse="true"  order-by="rap_no asc">			
+			<key>
+				<column name="rad_no" />
+			</key>
+			<one-to-many class="com.repAppPho.model.RepAppPhoVO" />
+		</set>
         
     </class>
 </hibernate-mapping>

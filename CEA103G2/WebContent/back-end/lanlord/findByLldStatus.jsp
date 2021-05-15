@@ -29,6 +29,9 @@
 	<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 <style>
+#lld_no {
+	border:0px;	
+}
 img.lld_acc_pic {
   	height: 200px;
   	width: auto;
@@ -84,13 +87,11 @@ img.lld_acc_pic {
 											<th>審核狀態</th>
 											<th>通過時間</th>
 											<th>審核</th>
-<%-- 											<th ${empty list || list.get(0).lld_status == 1 ? "style='display:none'" : ""}>通過</th> --%>
-<%--                                             <th ${empty list || list.get(0).lld_status == 2 ? "style='display:none'" : ""}>不通過</th> --%>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="lanlordVO" items="${list}">
-											<tr>
+										<c:forEach var="lanlordVO" items="${list}" varStatus="count">
+											<tr ${(lanlordVO.lld_no==param.lld_no || lanlordVO.lld_no==lld_no) ? 'bgcolor=#eee' : '' }>
 												<td>${lanlordVO.lld_no}</td>
 												<td>${lanlordVO.mem_no}</td>
 												<td><fmt:formatDate value="${lanlordVO.lld_apptime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
@@ -124,7 +125,7 @@ img.lld_acc_pic {
 																<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 																		<tr>
 																			<th>房東編號</th>
-																			<td><input type="text" name="lld_no" value="${lanlordVO.lld_no}"></td>
+																			<td><input type="text" id="lld_no" name="lld_no" value="${lanlordVO.lld_no}"></td>
 																		</tr>
 																		<tr>
 																			<th>會員編號</th>
@@ -164,7 +165,7 @@ img.lld_acc_pic {
 																		<tr>
 																			<th>未通過原因</th>
 																			<td>
-																				<input type="text" name="lld_id_disapprove" value="${lanlordVO.lld_id_disapprove}">${errorMsgs.failure}
+																				<input type="text" id="a${count.index}" class="aim" name="lld_id_disapprove" value="${lanlordVO.lld_id_disapprove}">
 																			</td>
 																		</tr>
 																</table>
@@ -177,7 +178,7 @@ img.lld_acc_pic {
 																<input type="submit" value="通過" name="pass">
 												                
 <!-- 												                <input type="hidden" name="fail" value="fail"> -->
-																<input type="submit" value="不通過" name="fail">
+																<input type="submit" value="不通過" id="${count.index}" name="fail">
 <%-- 												                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=fail&lld_status=2">不通過</a> --%>
 <%-- 											                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/lanlord/lanlord.do?action=pass&lld_status=1">通過</a> --%>
 												            </div>
@@ -203,13 +204,6 @@ img.lld_acc_pic {
 
             </div>
             <!-- End of Main Content -->
-
-<br>本網頁的路徑:<br><b>
-   <font color=blue>request.getServletPath():</font> <%=request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%=request.getRequestURI()%> </b>
-
-
-
 
             <!-- Footer -->
             <%@ include file="/back-end/includeFile/footerBack.file" %>
@@ -238,7 +232,21 @@ img.lld_acc_pic {
 
     <!-- Page level custom scripts -->
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
-     
+    
+    <script>
+    let judge = false;
+    $(".aim").change(function(){
+		$(this).attr('value',this.value);
+	})
+    $("input[name='fail']").click(function(e){
+    	let get= "#a"+$(this).attr('id');
+		if(!$(get).val()){
+			e.preventDefault();
+			alert('請填資料');
+		}
+    })
+    
+    </script>
 </body>
 
 </html>

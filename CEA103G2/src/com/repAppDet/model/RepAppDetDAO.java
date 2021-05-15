@@ -1,6 +1,7 @@
 package com.repAppDet.model;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -82,9 +83,8 @@ public class RepAppDetDAO implements RepAppDetDAO_interface {
 		return list;
 	}
 	
-	public List<RepAppPhoVO> getPhosByPK(Integer rad_no) {
-		List<RepAppPhoVO> list_RepAppPhoVO = getByPK(rad_no).getList_RepAppPhoVO();
-		return list_RepAppPhoVO;
+	public Set<RepAppPhoVO> getPhosByPK(Integer rad_no) {
+		return getByPK(rad_no).getSet_RepAppPhoVO();
 	}
 
 }
