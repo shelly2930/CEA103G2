@@ -1,16 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
-<!DOCTYPE html>
-<html lang="en">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.lanlord.model.*"%>
-
-<%
-// 	LanlordService lanlordSvc = new LanlordService();
-// LanlordVO lanlordVO = lanlordSvc.getOneLanlord(${param.lld_no});
-// 	LanlordVO lanlordVO = (LanlordVO) request.getAttribute("lanlordVO");
-%>
-
+<html>
 <head>
 
     <meta charset="utf-8">

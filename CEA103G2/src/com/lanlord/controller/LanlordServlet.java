@@ -238,15 +238,6 @@ public class LanlordServlet extends HttpServlet {
 
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/				
 				Integer mem_no = ((MemTenVO)req.getSession().getAttribute("MemTenVO")).getMem_no();
-//				Integer mem_no=null;
-//				try {
-//					mem_no = new Integer(req.getParameter("mem_no").trim());
-//				} catch (Exception e) {
-//					errorMsgs.add("請選擇家具類別");
-//				}
-				
-//				Integer mem_no = new Integer(req.getParameter("mem_no").trim());
-//				System.out.println(mem_no);
 				
 				java.sql.Timestamp lld_apptime = new java.sql.Timestamp(System.currentTimeMillis());
 				

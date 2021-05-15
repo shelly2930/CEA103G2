@@ -60,4 +60,16 @@ public class RenConService {
 	public List<RenConVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public RenConVO addRenCon2(Integer hos_no,Integer mem_no, Integer rtct_deposit) {
+//傳進來的參數，先包裝成VO，how to do?
+//先建立vo物件，在針對所有屬性，進行set
+		RenConVO renConVO = new RenConVO();
+		renConVO.setHos_no(hos_no);
+		renConVO.setMem_no(mem_no);
+		renConVO.setRtct_deposit(rtct_deposit);
+//把參數轉成vo物件，就可以呼叫dao來對資料庫進行insert
+		dao.insert2(renConVO);
+		return renConVO;
+	} 
 }

@@ -16,7 +16,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 
-<title>會員資料修改 - update_memTen_input.jsp</title>
+<title>租屋上傳身分證 - update_memTen_input.jsp</title>
 
 <style>
   table#table-1 {

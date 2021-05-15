@@ -38,7 +38,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String UPDATE_PWD_BY_EMAIL = "UPDATE MEMBER_TENANT set mem_password=? WHERE mem_email=?";
 		private static final String UPDATE_MEMSTATUS = "UPDATE MEMBER_TENANT SET mem_status=? WHERE mem_username=?";
 		private static final String RENTAL_CONFIRM = "UPDATE MEMBER_TENANT SET mem_name=?, mem_id=?, mem_mobile=?, mem_city=?, mem_dist=?,"
-									+ " mem_addr=?, mem_idcard_f=?, mem_idcard_r=? WHERE mem_no=?";
+									+ " mem_addr=?, mem_idcard_f=?, mem_idcard_r=?, mem_id_status=? WHERE mem_no=?";
 		private static final String UPDATE_MEM_ID_STATUS = "UPDATE MEMBER_TENANT SET mem_id_status=? WHERE mem_no=?";
 	
 		@Override
@@ -560,7 +560,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 				pstmt.setString(6, memTenVO.getMem_addr());
 				pstmt.setBytes(7, memTenVO.getMem_idcard_f());
 				pstmt.setBytes(8, memTenVO.getMem_idcard_r());
-				pstmt.setInt(9, memTenVO.getMem_no());
+				pstmt.setByte(9, memTenVO.getMem_id_status());
+				pstmt.setInt(10, memTenVO.getMem_no());
 				
 				pstmt.executeUpdate();
 

@@ -114,6 +114,7 @@ h4 {
             </p>
             <div class="card_area d-flex justify-content-between align-items-center">
               <a href="${pageContext.request.contextPath}/front-end/rooVieApp/pickTime.jsp?houseno=${houseVO.hos_no}" class="btn_3">預約看房</a>
+              <a href="${pageContext.request.contextPath}/memTen/memTen.do?action=getOne_For_Rental&hos_no=${houseVO.hos_no}" class="btn_3">我要租房</a>
               <a href="#" class="like_us"><i class="ti-heart"></i>收藏</a>
             </div>
           </div>

@@ -35,7 +35,7 @@
 
 <style>
 img.lld_acc_pic {
-  	height: 200px;
+  	height: 100px;
   	width: auto;
   }
 </style>
