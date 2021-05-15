@@ -57,7 +57,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Rental Management:</h6>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/pickHouse.jsp">預約時間管理</a>
-                        <a class="collapse-item" href="#">預約看房申請</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp_EMP.jsp">預約看房申請</a>
                         <a class="collapse-item" href="utilities-border.html">租屋前審核</a>
                         <a class="collapse-item" href="utilities-border.html">租屋合約</a>
                     </div>

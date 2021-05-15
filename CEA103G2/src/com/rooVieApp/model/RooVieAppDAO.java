@@ -71,6 +71,8 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 	private static final String CHANGEEMP = "UPDATE ROOM_VIEWING_APPLICATION SET EMP_NO=?,RVA_STATUS=? WHERE RVA_NO=?;"; 
 	
 	private static final String GETEMPAPP = "SELECT * FROM room_viewing_application where emp_no=?";
+	
+	private static final String LISTTHEEMPAPP = "SELECT HOS_NO,COUNT(MEM_NO),MAX(RVA_ORDER_TIME) FROM room_viewing_application where rva_status=? and EMP_NO =? group by HOS_NO having DATEDIFF(MAX(RVA_ORDER_TIME),NOW()) > 0";
 	@Override
 	public void insert(RooVieAppVO rooVieAppVO) {
 		Connection con = null;
@@ -724,6 +726,61 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public Map<RooVieAppVO, Integer> listTheEmpApp(Byte rva_status, Integer emp_no) {
+		Map<RooVieAppVO,Integer> map = new LinkedHashMap<RooVieAppVO,Integer>();
+		RooVieAppVO roovieappVO = null;
+		Integer count = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(LISTTHEEMPAPP);
+			pstmt.setByte(1, rva_status);
+			pstmt.setInt(2, emp_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roovieappVO = new RooVieAppVO();
+				roovieappVO.setHos_no(rs.getInt("hos_no"));
+				roovieappVO.setRva_order_time(rs.getTimestamp("MAX(RVA_ORDER_TIME)"));
+				count = rs.getInt("COUNT(MEM_NO)");
+				map.put(roovieappVO,count); // Store the row in the list
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt!= null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con!= null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return map;
 	}
 
 }
