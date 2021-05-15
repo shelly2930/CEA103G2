@@ -91,6 +91,12 @@ public class FurIteService {
 		return dao.getAllGetOnFurIte();
 	}
 	
+	//所有下架商品
+	public List<FurIteVO> getAllGetOffFurIte() {
+		return dao.	getAllGetOffFurIte();
+	}
+	
+	
 	public List<FurIteVO> getGetOnFurIteByCat(Integer fnt_ctgr_no){
 		return dao.getGetOnFurIteByCat(fnt_ctgr_no);
 	}

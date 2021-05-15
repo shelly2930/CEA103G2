@@ -5,7 +5,14 @@
   List<Integer> list_Fun_no = (ArrayList<Integer>)session.getAttribute("list_Fun_no");
   if(list_Fun_no == null) list_Fun_no = new ArrayList<Integer>();
 %>
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<style>
+.siderbar-dong{
+	background-color: #273b3a;
+	background-image: linear-gradient(180deg ,#273b3a 10%, #6e707e 100%);
+	background-size: cover;
+}
+</style>
+        <ul class="navbar-nav siderbar-dong sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/back-end/indexBack.jsp">
@@ -73,10 +80,10 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Furniture Management:</h6>
-                        <a class="collapse-item" href="login.html">租家具申請</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renFurApp/listAllRenFurApp.jsp">租家具申請</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furCat/listAllFurCat.jsp">家具類別</a>
-                        <a class="collapse-item" href="register.html">家具品項</a>
-                        <a class="collapse-item" href="register.html">家具清單</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIte.jsp">家具品項</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp">家具清單</a>
                     </div>
                 </div>
             </li>

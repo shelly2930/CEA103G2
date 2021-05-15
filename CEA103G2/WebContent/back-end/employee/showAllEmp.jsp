@@ -43,6 +43,18 @@
 	href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
 
+<style>
+	table:hover{
+		cursor: pointer;
+	}
+	tr:hover{
+		background-color: #eeeeee;
+	}
+	th:hover{
+		background-color: #aaaaaa;
+	}
+</style>
+
 </head>
 
 <body id="page-top">
@@ -77,11 +89,10 @@
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">DataTables
-								Example</h6>
+							<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
 						</div>
 						<div class="card-body">
-							<div class="table-responsive">
+							<div class="table-responsive-lg">
 								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 									<thead>
 										<tr>
@@ -95,7 +106,7 @@
 <!-- 											<th>獎金</th> -->
 <!-- 											<th>到職日</th> -->
 <!-- 											<th>修改</th> -->
-<!-- 											<th>查看</th> -->
+											<th style="display:none;">查看</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -186,16 +197,26 @@
 
     <!-- Page level custom scripts -->
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 	<script>
 		$("tr").click(function(){
 			$(this).find("form").submit();
 		});
-		$("tr").hover(function(){
-			$(this).css("background-color", "lightgray");
-		},function(){
-			$(this).css("background-color", "");
-		});
+// 		$("tr").hover(function(){
+// 			$(this).css("background-color", "lightgray");
+// 		},function(){
+// 			$(this).css("background-color", "");
+// 		});
+		
+		<c:if test="${not empty requestScope.insertSuccess}">
+			Swal.fire({
+			   	icon:'success',
+			   	title:'新增成功'
+			});
+		</c:if>
+		
 	</script>
 </body>
 

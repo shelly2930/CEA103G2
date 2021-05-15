@@ -183,6 +183,8 @@
 		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
+		
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
 // 當emp_username欄位blur時及時驗證(Ajax)
@@ -248,6 +250,21 @@ $("#emp_job").change(function(){
 		$("input[name='staFun']").prop("checked", true);
 	}
 })
+
+<c:if test="${not empty errorMsgs}">
+	Swal.fire({
+    	icon:'warning',
+    	title:'資料有誤'
+    });
+</c:if>
+    	
+<c:if test="${not empty requestScope.insertSuccess}">
+	Swal.fire({
+	   	icon:'success',
+	   	title:'新增成功'
+	});
+</c:if>
+
 
 </script>
 </body>
