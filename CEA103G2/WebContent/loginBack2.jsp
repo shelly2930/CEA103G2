@@ -7,14 +7,12 @@
 	if(cookieList != null){
 		for(int i = 0; i < cookieList.length; i++) {
 			Cookie cookie = cookieList[i];
-// 			System.out.println("CookieList[" + i + "] : " + cookie.getName() + ", " + cookie.getValue() + ", " + cookie.getMaxAge());
 			if(cookie.getName().equals("emp_username")){
 				emp_username = cookie.getValue();
 			}
 		}
 	}
 	pageContext.setAttribute("emp_username",emp_username);
-// 	System.out.println(session.getId());
 %>
 
 <!doctype html>
@@ -30,9 +28,7 @@
 <title>HowTrue BackEndLogin</title>
 
 <!-- Bootstrap core CSS -->
-<link
-	href="https://bootstrap.hexschool.com/docs/4.2/dist/css/bootstrap.css"
-	rel="stylesheet">
+<link href="https://bootstrap.hexschool.com/docs/4.2/dist/css/bootstrap.css" rel="stylesheet">
 
 
 <style>

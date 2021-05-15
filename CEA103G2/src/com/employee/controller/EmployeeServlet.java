@@ -5,14 +5,11 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +21,6 @@ import javax.servlet.http.Part;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.employee.model.EmployeeDAO;
 import com.employee.model.EmployeeService;
 import com.employee.model.EmployeeVO;
 import com.staRig.model.StaRigService;
@@ -358,9 +354,11 @@ public class EmployeeServlet extends HttpServlet {
 				employeeVO = employeeSvc.updateByEmp(emp_no, emp_name, emp_gender, emp_id, emp_birthday, emp_phone, emp_mobile, emp_addr, emp_email, emp_bank, emp_account, emp_pic);
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				session.setAttribute("employeeVO", employeeVO); // 資料庫update成功後,正確的的empVO物件,存入req
+				req.setAttribute("updateSuccess", "updateSuccess");
 				String url = "/back-end/employee/showOneEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
+//				res.sendRedirect(req.getContextPath() + "/back-end/employee/showOneEmp.jsp");
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
@@ -482,10 +480,11 @@ public class EmployeeServlet extends HttpServlet {
 				employeeVO = employeeSvc.addEmp(emp_job, emp_username, emp_password, emp_hiredate, emp_email, emp_sal, list_Fun_no);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-//				String url = "/back-end/employee/listAllEmp.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交showAllEmp.jsp
-//				successView.forward(req, res);
-				res.sendRedirect(req.getContextPath() + "/back-end/employee/showAllEmp.jsp");
+				req.setAttribute("insertSuccess", "insertSuccess");
+				String url = "/back-end/employee/showAllEmp.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交showAllEmp.jsp
+				successView.forward(req, res);
+//				res.sendRedirect(req.getContextPath() + "/back-end/employee/showAllEmp.jsp");
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
@@ -617,7 +616,7 @@ public class EmployeeServlet extends HttpServlet {
 				messages.put("emp_username", emp_username);
 				messages.put("rememberMe", (rememberMe == null)? null : rememberMe[0]);
 				
-				messages.put("failure", "查無此帳號");
+				messages.put("failure", "無此員工代號");
 				RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
 				failureView.forward(req, res);
 			} catch (Exception e) {
@@ -640,8 +639,9 @@ public class EmployeeServlet extends HttpServlet {
 				}
 			}
 			
-			RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
-			failureView.forward(req, res);
+//			RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
+//			failureView.forward(req, res);
+			res.sendRedirect(req.getContextPath() + "/loginBack.jsp");
 		}
 		
 		if("sendEmail".equals(action)) {

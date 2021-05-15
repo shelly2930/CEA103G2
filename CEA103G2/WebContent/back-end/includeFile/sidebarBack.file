@@ -5,7 +5,14 @@
   List<Integer> list_Fun_no = (ArrayList<Integer>)session.getAttribute("list_Fun_no");
   if(list_Fun_no == null) list_Fun_no = new ArrayList<Integer>();
 %>
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<style>
+.siderbar-dong{
+	background-color: #273b3a;
+	background-image: linear-gradient(180deg ,#273b3a 10%, #6e707e 100%);
+	background-size: cover;
+}
+</style>
+        <ul class="navbar-nav siderbar-dong sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/back-end/indexBack.jsp">

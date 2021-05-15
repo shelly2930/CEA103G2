@@ -44,7 +44,9 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-       <%@ include file="/back-end/includeFile/sidebarBack.file" %>
+		<c:if test="${sessionScope.employeeVO.emp_id != null}">
+        <%@ include file="/back-end/includeFile/sidebarBack.file" %>
+        </c:if>
 
          <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -58,6 +60,12 @@
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
 ${errorMsgs.Exception}
+					<div class="row justify-content-center mt-5 mb-5">
+						<c:if test="${sessionScope.employeeVO.emp_id == null}">
+				        <div class="h1 border-bottom-primary">請完成基本資料填寫</div>
+				        </c:if>
+					</div>
+					
                     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/employee/employee.do" ENCTYPE="multipart/form-data">
                     <div class="row justify-content-center">
                     
@@ -360,14 +368,33 @@ ${errorMsgs.Exception}
 			$("#updateSubmit").css("display", "inline-block");
 		}
 		
-		$("#updateInfo").click(update);
+// 		$("#updateInfo").click(update);
+		$("#updateInfo").click(function() {
+			Swal.fire({
+				  title: '是否要修改基本資料?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Yes, do it!'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					 update();
+				  }
+				})
+		});
 		
 		// 按下'送出修改',controller驗證資料forword回來如有errorMsgs,則執行update函式
 		if(${not empty errorMsgs}) {update();}
 		
+		// 第一次登入
+		<c:if test="${sessionScope.employeeVO.emp_id == null}">
+        	update();
+        </c:if>
+		
 		$("#preview").click(function(){
 			$("#emp_pic").click();
-		})
+		});
 		
 		// 讓'更改密碼'視窗恢復原樣
 		function updatePassword_return(){
@@ -452,54 +479,15 @@ ${errorMsgs.Exception}
 					    	title:'更改成功'
 					    });
 						$("#close").click();
+					} else{
+						Swal.fire({
+							icon:'warning',
+					    	title:'資料有誤'
+					    });
 					}
 				}
 			});
 		})
-// 			$.ajax({
-// 				url: "${pageContext.request.contextPath}/employee/employee.do",
-// 				type: "post",
-// 				data: {
-// 					action: "updatePassword",
-// 					emp_no: "${employeeVO.emp_no}",
-// 					oldPassword: $("#oldPassword").val(),
-// 					newPassword: $("#newPassword").val(),
-// 					newPasswordCheck: $("#newPasswordCheck").val()
-// 				},
-// 				success: function(data){
-// 					var data_json = JSON.parse(data);
-					
-// 					if(data_json.oldPassword){
-// 						$("small[name='oldPassword']").text(data_json.oldPassword);
-// 						$("small[name='oldPassword']").parent().addClass("border-left-warning");
-// 					}else{
-// 						$("small[name='oldPassword']").text("");
-// 						$("small[name='oldPassword']").parent().removeClass("border-left-warning");
-// 					}
-					
-// 					if(data_json.newPassword){
-// 						$("small[name='newPassword']").text(data_json.newPassword);
-// 						$("small[name='newPassword']").parent().addClass("border-left-warning");
-// 					}else{
-// 						$("small[name='newPassword']").text("");
-// 						$("small[name='newPassword']").parent().removeClass("border-left-warning");
-// 					}
-					
-// 					if(data_json.newPasswordCheck){
-// 						$("small[name='newPasswordCheck']").text(data_json.newPasswordCheck);
-// 						$("small[name='newPasswordCheck']").parent().addClass("border-left-warning");
-// 					}else{
-// 						$("small[name='newPasswordCheck']").text("");
-// 						$("small[name='newPasswordCheck']").parent().removeClass("border-left-warning");
-// 					}
-					
-// 					if(data_json.success){
-// 						alert("更改成功");
-// 						$("#close").click();
-// 					}
-// 				}
-// 			});
-// 		});
 		
 		// 如鍵盤按下enter鍵,送出更改密碼確認,並取消input標籤預設的submit行為
 		function updatePassword_enter(e){
@@ -511,12 +499,26 @@ ${errorMsgs.Exception}
 		
 		$("#oldPassword").keypress(updatePassword_enter);
 		$("#newPassword").keypress(updatePassword_enter);
-// 		$("#newPasswordCheck").keypress(updatePassword_enter);
+		$("#newPasswordCheck").keypress(updatePassword_enter);
 		
 		// 主管按下'修改員工資料'時改變action,讓controller執行'getOne_For_Update',而非原本的'updateByEmp'
 		$("#getOne_For_Update").click(function(){
 			$("input[name='action']").val("getOne_For_Update");
 		});
+		
+		<c:if test="${not empty requestScope.employeeVO && not empty errorMsgs}">
+		Swal.fire({
+	    	icon:'warning',
+	    	title:'資料有誤'
+	    });
+    	</c:if>
+    	
+    	<c:if test="${not empty requestScope.updateSuccess}">
+		Swal.fire({
+	    	icon:'success',
+	    	title:'修改成功'
+	    });
+    	</c:if>
 		
 	</script>
 
