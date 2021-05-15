@@ -125,6 +125,14 @@
     <servlet-name>FurIteServlet</servlet-name>
     <url-pattern>/furIte/furIte.do</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>FurIteCartServlet</servlet-name>
+    <servlet-class>com.furIte.controller.FurIteCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FurIteCartServlet</servlet-name>
+    <url-pattern>/furIte/furIteCart.do</url-pattern>
+  </servlet-mapping>
    <servlet>
     <servlet-name>FurLisServlet</servlet-name>
     <servlet-class>com.furLis.controller.FurLisServlet</servlet-class>

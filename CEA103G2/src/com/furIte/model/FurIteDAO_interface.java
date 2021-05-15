@@ -22,6 +22,9 @@ public interface FurIteDAO_interface {
 	
 	//<前台用>查所有上架商品
 	 public List<FurIteVO> getAllGetOnFurIte();
+		//<前台用>查所有下架商品
+	 public List<FurIteVO> getAllGetOffFurIte();
+	 
 	//<前台用>依家具分類查所有上架商品
 	 public List<FurIteVO> getGetOnFurIteByCat(Integer fnt_ctgr_no);
 	

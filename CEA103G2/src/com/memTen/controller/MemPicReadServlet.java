@@ -21,46 +21,125 @@ public class MemPicReadServlet extends HttpServlet {
 	Connection con;
 
 	private static final String GET_ONE_PIC = "SELECT mem_pic FROM MEMBER_TENANT WHERE mem_no = ?";
+	private static final String GET_ONE_IDCARDF = "SELECT mem_idcard_f FROM MEMBER_TENANT WHERE mem_no = ?";
+	private static final String GET_ONE_IDCARDR = "SELECT mem_idcard_r FROM MEMBER_TENANT WHERE mem_no = ?";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 
 		res.setContentType("image/gif,image/png,image/jpeg");
 		ServletOutputStream out = res.getOutputStream();
+		String action = req.getParameter("action");
 
-		try {
-			PreparedStatement pstmt = con.prepareStatement(GET_ONE_PIC);
+		if("getmempic".equals(action)) {
+			try {
+				PreparedStatement pstmt = con.prepareStatement(GET_ONE_PIC);
 
-			Integer mem_no = new Integer(req.getParameter("mem_no"));
-			pstmt.setInt(1, mem_no);
+				Integer mem_no = new Integer(req.getParameter("mem_no"));
+				pstmt.setInt(1, mem_no);
 
-			ResultSet rs = pstmt.executeQuery();
+				ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
-				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("mem_pic"));
-				byte[] buf = new byte[4 * 1024]; // 4K buffer
-				int len;
-				while ((len = in.read(buf)) != -1) {
-					out.write(buf, 0, len);
+				if (rs.next()) {
+					BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("mem_pic"));
+					byte[] buf = new byte[4 * 1024]; // 4K buffer
+					int len;
+					while ((len = in.read(buf)) != -1) {
+						out.write(buf, 0, len);
+					}
+					in.close();
+				} else {
+//					res.sendError(HttpServletResponse.SC_NOT_FOUND);
+					InputStream in = getServletContext().getResourceAsStream("/images/none2.jpg");
+					byte[] b = new byte[in.available()];
+					in.read(b);
+					out.write(b);
+					in.close();
 				}
-				in.close();
-			} else {
-//				res.sendError(HttpServletResponse.SC_NOT_FOUND);
-				InputStream in = getServletContext().getResourceAsStream("/images/none2.jpg");
+				rs.close();
+				pstmt.close();
+			} catch (Exception e) {
+//				System.out.println(e);
+				InputStream in = getServletContext().getResourceAsStream("/images/null2.jpg");
 				byte[] b = new byte[in.available()];
 				in.read(b);
 				out.write(b);
 				in.close();
 			}
-			rs.close();
-			pstmt.close();
-		} catch (Exception e) {
-//			System.out.println(e);
-			InputStream in = getServletContext().getResourceAsStream("/images/null2.jpg");
-			byte[] b = new byte[in.available()];
-			in.read(b);
-			out.write(b);
-			in.close();
+		}
+		
+		if("getidcardf".equals(action)) {
+			try {
+				PreparedStatement pstmt = con.prepareStatement(GET_ONE_IDCARDF);
+
+				Integer mem_no = new Integer(req.getParameter("mem_no"));
+				pstmt.setInt(1, mem_no);
+
+				ResultSet rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("mem_idcard_f"));
+					byte[] buf = new byte[4 * 1024]; // 4K buffer
+					int len;
+					while ((len = in.read(buf)) != -1) {
+						out.write(buf, 0, len);
+					}
+					in.close();
+				} else {
+//					res.sendError(HttpServletResponse.SC_NOT_FOUND);
+					InputStream in = getServletContext().getResourceAsStream("/images/none2.jpg");
+					byte[] b = new byte[in.available()];
+					in.read(b);
+					out.write(b);
+					in.close();
+				}
+				rs.close();
+				pstmt.close();
+			} catch (Exception e) {
+//				System.out.println(e);
+				InputStream in = getServletContext().getResourceAsStream("/images/null2.jpg");
+				byte[] b = new byte[in.available()];
+				in.read(b);
+				out.write(b);
+				in.close();
+			}
+		}
+		
+		if("getidcardr".equals(action)) {
+			try {
+				PreparedStatement pstmt = con.prepareStatement(GET_ONE_IDCARDR);
+
+				Integer mem_no = new Integer(req.getParameter("mem_no"));
+				pstmt.setInt(1, mem_no);
+
+				ResultSet rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("mem_idcard_r"));
+					byte[] buf = new byte[4 * 1024]; // 4K buffer
+					int len;
+					while ((len = in.read(buf)) != -1) {
+						out.write(buf, 0, len);
+					}
+					in.close();
+				} else {
+//					res.sendError(HttpServletResponse.SC_NOT_FOUND);
+					InputStream in = getServletContext().getResourceAsStream("/images/none2.jpg");
+					byte[] b = new byte[in.available()];
+					in.read(b);
+					out.write(b);
+					in.close();
+				}
+				rs.close();
+				pstmt.close();
+			} catch (Exception e) {
+//				System.out.println(e);
+				InputStream in = getServletContext().getResourceAsStream("/images/null2.jpg");
+				byte[] b = new byte[in.available()];
+				in.read(b);
+				out.write(b);
+				in.close();
+			}
 		}
 	}
 

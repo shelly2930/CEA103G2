@@ -8,16 +8,35 @@
 
 <% 	  
 		List<FurIteVO> list =new ArrayList<FurIteVO>();
-		if(request.getParameter("fnt_ctgr_no")==null){
-				FurIteService furIteSvc = new FurIteService();
-			    list= furIteSvc.getAll();
-			    pageContext.setAttribute("list",list);
-		}else {
+		if(request.getAttribute("QueryResultList")!=null && request.getParameter("fnt_ctgr_no")==null){
+			list=(ArrayList<FurIteVO>) request.getAttribute("QueryResultList");	
+				 pageContext.setAttribute("list",list);				
+		}else if(request.getParameter("fnt_ctgr_no")==null){
+			FurIteService furIteSvc = new FurIteService();
+		    list= furIteSvc.getAll();
+		    pageContext.setAttribute("list",list);	
+		} 
+		else{
 			FurIteService furIteSvc = new FurIteService(); 
 			Integer fnt_ctgr_no = new Integer(request.getParameter("fnt_ctgr_no"));
 			 list = furIteSvc.getOneFurCat_Item(fnt_ctgr_no); 
 			pageContext.setAttribute("list",list);
 		}
+%>
+
+
+<% 	  
+// 		List<FurIteVO> list =new ArrayList<FurIteVO>();
+// 		if(request.getParameter("fnt_ctgr_no")==null){
+// 				FurIteService furIteSvc = new FurIteService();
+// 			    list= furIteSvc.getAll();
+// 			    pageContext.setAttribute("list",list);
+// 		}else {
+// 			FurIteService furIteSvc = new FurIteService(); 
+// 			Integer fnt_ctgr_no = new Integer(request.getParameter("fnt_ctgr_no"));
+// 			 list = furIteSvc.getOneFurCat_Item(fnt_ctgr_no); 
+// 			pageContext.setAttribute("list",list);
+// 		}
 %>
 
 <jsp:useBean id="furCatSvc" scope="page" class="com.furCat.model.FurCatService" />
@@ -188,9 +207,9 @@ window.addEventListener("load",function (){
 <div id="searchArea">
 <a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIte.jsp">
     <input type="button" value="全部" id="getAllButton"></a>
-    <a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIteQuery.jsp">
+    <a href="<%=request.getContextPath()%>/furIte/furIte.do?action=getOnItem&requestURL=<%=request.getServletPath()%>">
     <input type="button" value="上架品項" id="getOnItemButton"></a>
-    <a href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIteQuery.jsp">
+    <a href="<%=request.getContextPath()%>/furIte/furIte.do?action=getOffItem&requestURL=<%=request.getServletPath()%>"">
     <input type="button" value="下架品項" id="getOffItemButton"></a>
 </div>
 
@@ -245,9 +264,9 @@ window.addEventListener("load",function (){
 	</tr>
 <br>
 <br>
-	<%@ include file="page1_furIte.file"%>	
-<%-- <c:forEach var="furIteVO" items="${list}" > --%>
-<c:forEach var="furIteVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+<%-- 	<%@ include file="page1_furIte.file"%>	 --%>
+<c:forEach var="furIteVO" items="${list}" >
+<%-- <c:forEach var="furIteVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>"> --%>
 		<tr>
 			<td>${furIteVO.fnt_it_no}</td>
 			<td><a href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp?fnt_it_no=${furIteVO.fnt_it_no}">${furIteVO.fnt_name}</a></td> 
@@ -274,7 +293,7 @@ window.addEventListener("load",function (){
 		     <input type="submit" value="編輯">
 			     <input type="hidden" name="fnt_it_no"  value="${furIteVO.fnt_it_no}">
 			      <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">       
+<%-- 			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">        --%>
  			     <input type="hidden" name="action" value="getOne_For_Update"></FORM> 
 		</td> 
 		<td> 
@@ -282,14 +301,14 @@ window.addEventListener("load",function (){
 		     <input type="submit" value="刪除">
 			     <input type="hidden" name="fnt_it_no"  value="${furIteVO.fnt_it_no}">
 			      <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">       
+<%-- 			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">        --%>
  			     <input type="hidden" name="action" value="delete"></FORM> 
 			</td>
  		</tr> 
 	</c:forEach>
 </table>
 <!-- 待處理分頁問題 -->
- <%@ include file="page2_furIte.file" %>
+<%--  <%@ include file="page2_furIte.file" %> --%>
  </div>
 </body>
 </html>

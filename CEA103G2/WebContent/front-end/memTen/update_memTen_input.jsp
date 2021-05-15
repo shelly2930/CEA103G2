@@ -3,7 +3,7 @@
 <%@ page import="com.memTen.model.*"%>
 
 <%
-	MemTenVO memTenVO = (MemTenVO) request.getAttribute("memTenVO"); //EmpServlet.java (Concroller) 存入req的memTenVO物件 (包括幫忙取出的memTenVO, 也包括輸入資料錯誤時的memTenVO物件)
+// 	MemTenVO memTenVO = (MemTenVO) request.getAttribute("memTenVO"); //EmpServlet.java (Concroller) 存入req的memTenVO物件 (包括幫忙取出的memTenVO, 也包括輸入資料錯誤時的memTenVO物件)
 %>
 
 <html>
@@ -16,7 +16,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 
-<title>員工資料修改 - update_memTen_input.jsp</title>
+<title>租屋前資料修改 - update_memTen_input.jsp</title>
 
 <style>
   table#table-1 {
@@ -48,8 +48,8 @@
   th, td {
     padding: 1px;
   }
-  img.mem_pic {
-  	height: 280px;
+  img.pic {
+  	height: auto;
   	width: 200px;
   }
 </style>
@@ -85,163 +85,101 @@
 <table>
 	<tr>
 		<td>會員編號:<font color=red><b>*</b></font></td>
-		<td><%=memTenVO.getMem_no()%></td>
-	</tr>
-	<tr>
-		<td>帳號:</td>
-		<td><input type="TEXT" name="mem_username" size="45" value="<%=memTenVO.getMem_username()%>" /></td>
-	</tr>
-	<tr>
-		<td>密碼:</td>
-		<td><input type="TEXT" name="mem_password" size="45"	value="<%=memTenVO.getMem_password()%>" /></td>
-	</tr>
-	<tr>
-		<td>照片:</td>
-		<td><img src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no=${memTenVO.mem_no}" class="mem_pic">
-		<input type="file" name="mem_pic" size="45" value="<%=memTenVO.getMem_pic()%>"></td>
+		<td>${MemTenVO.mem_no}</td>
 	</tr>
 	<tr>
 		<td>姓名:</td>
-		<td><input type="TEXT" name="mem_name" size="45"	value="<%=memTenVO.getMem_name()%>" /></td>
-	</tr>
-	<tr>
-		<td>性別:</td>
-		<td>
-			<select size="1" name="mem_gender" >
-           		<option value="0" <%=memTenVO.getMem_gender() == 0 ? "selected" : ""%>>男</option>
-           		<option value="1" <%=memTenVO.getMem_gender() == 1 ? "selected" : ""%>>女</option>     
-       		</select>
-       	</td>
+		<td><input type="TEXT" name="mem_name" size="45" value="${MemTenVO.mem_name}" /></td>
 	</tr>
 	<tr>
 		<td>身分證字號:</td>
-		<td><input type="TEXT" name="mem_id" size="45"	value="<%=memTenVO.getMem_id()%>" /></td>
-	</tr>
-	<tr>
-		<td>出生年月日:</td>
-		<td><input name="mem_birthday" id="birthday_date" type="text" ></td>
-	</tr>
-	<tr>
-		<td>連絡電話:</td>
-		<td><input type="TEXT" name="mem_phone" size="45"	value="<%=memTenVO.getMem_phone()%>" /></td>
+		<td><input type="TEXT" name="mem_id" size="45"	value="${MemTenVO.mem_id}" /></td>
 	</tr>
 	<tr>
 		<td>行動電話:</td>
-		<td><input type="TEXT" name="mem_mobile" size="45"	value="<%=memTenVO.getMem_mobile()%>" /></td>
-	</tr>
-	<tr>
-		<td>電子信箱:</td>
-		<td><input type="TEXT" name="mem_email" size="45"	value="<%=memTenVO.getMem_email()%>" /></td>
+		<td><input type="TEXT" name="mem_mobile" size="45"	value="${MemTenVO.mem_mobile}" /></td>
 	</tr>
 	<tr>
 		<td>地址:</td>
 		<td>
-			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="${memTenVO.mem_city}"
-     			data-district-value="${memTenVO.mem_dist}"></div>
-			<input type="TEXT" name="mem_addr" size="45" value="${memTenVO.mem_addr}"/>
+			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="${MemTenVO.mem_city}"
+     			data-district-value="${MemTenVO.mem_dist}"></div>
+			<input type="TEXT" name="mem_addr" size="45" value="${MemTenVO.mem_addr}"/>
 		</td>
 	</tr>
+	<tr>
+		<td>身分證正面:</td>
+		<td><div id="previewf"></div><img id="imgf" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?action=getidcardf&mem_no=${memTenVO.mem_no}" class="mem_pic">
+		<input type="file" name="mem_idcard_f" id="idcardf"></td>
+	</tr>
+	<tr>
+		<td>身分證背面:</td>
+		<td><div id="previewr"></div><img id="imgr" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?action=getidcardr&.do?mem_no=${memTenVO.mem_no}" class="mem_pic">
+		<input type="file" name="mem_idcard_r" id="idcardr"></td>
+	</tr>
+	
+	
 
 
 </table>
 <br>
-<input type="hidden" name="action" value="update">
-<input type="hidden" name="mem_no" value="<%=memTenVO.getMem_no()%>">
-<input type="submit" value="送出修改"></FORM>
+<input type="hidden" name="action" value="rentalConfirm">
+<input type="hidden" name="mem_no" value="${MemTenVO.mem_no}">
+<input type="submit" value="送出申請"></FORM>
 
-</body>
 
-<!-- 地址選單返回值 -->
+<!-- 上傳圖片可預覽 -->
 <script>
-// 	$(window).load(function(){
-// 		$("option[value='${county}']").prop("selected",true);
-// 		$("select[name='district']").children().html("${dist}");
-// // 		$("[name='addr']").val("${addr}");
-// 	})
-</script> 	
+window.onload=function(){
 
+    let myFile = document.getElementById("idcardf");
+    let preview = document.getElementById("previewf");
 
+    myFile.addEventListener('change', function(e) {
+        let files = e.target.files;
+        if (files !== null) {
+            let file = files[0];
+            if (file.type.indexOf('image') > -1) {
+            	let reader = new FileReader();
+                reader.addEventListener('load', function(e) {
+                    let result = e.target.result;
+                    let img = document.getElementById('imgf');
+                    img.src = result;
+                    preview.append(img);
+                    $("imgf:first").remove(); // 預覽只會保留最新上傳的
+                });
+                reader.readAsDataURL(file);
+            } else {
+                alert('請上傳圖片！');
+            }
+        }
+    });
+    
+    let myFiler = document.getElementById("idcardr");
+    let previewr = document.getElementById("previewr");
 
-<!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
+    myFiler.addEventListener('change', function(e) {
+        let files = e.target.files;
+        if (files !== null) {
+            let file = files[0];
+            if (file.type.indexOf('image') > -1) {
+            	let reader = new FileReader();
+                reader.addEventListener('load', function(e) {
+                    let result = e.target.result;
+                    let img = document.getElementById('imgr');
+                    img.src = result;
+                    previewr.append(img);
+                    $("imgr:first").remove(); // 預覽只會保留最新上傳的
+                });
+                reader.readAsDataURL(file);
+            } else {
+                alert('請上傳圖片！');
+            }
+        }
+    });
+}
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
-
-<style>
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }
-</style>
-
-<script>
-        $.datetimepicker.setLocale('zh');
-        $('#birthday_date').datetimepicker({
-           theme: '',              //theme: 'dark',
- 	       timepicker:false,       //timepicker:true,
- 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
- 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
- 		   value: '<%=memTenVO.getMem_birthday()%>', // value:   new Date(),
-           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-           //startDate:	            '2017/07/10',  // 起始日
-           //minDate:               '-1970-01-01', // 去除今日(不含)之前
-           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
-        });
-        
-        
-   
-        // ----------------------------------------------------------以下用來排定無法選擇的日期-----------------------------------------------------------
-
-        //      1.以下為某一天之前的日期無法選擇
-        //      var somedate1 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-        
-        //      2.以下為某一天之後的日期無法選擇
-        //      var somedate2 = new Date('2017-06-15');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-
-
-        //      3.以下為兩個日期之外的日期無法選擇 (也可按需要換成其他日期)
-        //      var somedate1 = new Date('2017-06-15');
-        //      var somedate2 = new Date('2017-06-25');
-        //      $('#f_date1').datetimepicker({
-        //          beforeShowDay: function(date) {
-        //        	  if (  date.getYear() <  somedate1.getYear() || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-        //		           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate())
-        //		             ||
-        //		            date.getYear() >  somedate2.getYear() || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() >  somedate2.getMonth()) || 
-        //		           (date.getYear() == somedate2.getYear() && date.getMonth() == somedate2.getMonth() && date.getDate() > somedate2.getDate())
-        //              ) {
-        //                   return [false, ""]
-        //              }
-        //              return [true, ""];
-        //      }});
-        
 </script>
 
-
+</body> 	
 </html>
