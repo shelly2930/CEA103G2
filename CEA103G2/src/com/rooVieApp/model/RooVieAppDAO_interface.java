@@ -16,10 +16,16 @@ public interface RooVieAppDAO_interface {
     public void cancelpicktime(RooVieAppVO rooVieAppVO);
     //查看所有預約時間by物件編號
     public List<RooVieAppVO> listallpickTime(RooVieAppVO rooVieAppVO);
+    //查看所有預約時間by物件編號
+    public List<RooVieAppVO> listallpickTime_noassign(RooVieAppVO rooVieAppVO);
     //查看 新預約的時間by物件編號
     public List<RooVieAppVO> listNewPickTime();
     //查看最新預約 的物件
     public Map<Integer,Timestamp> listNewRooVieApp();
-    //萬用複合查詢(傳入參數型態Map)(回傳 List)
-//  public List<RooVieAppVO> getAll(Map<String, String[]> map); 
+    //更改員工 和指派員工
+    public void changeEmp(Integer emp_no,Byte rva_status,Integer rva_no);
+    //查看該員工所有負責預約清單
+    public List<RooVieAppVO> getEmpApp(Integer emp_no);
+    
+    
 }

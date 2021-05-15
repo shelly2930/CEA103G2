@@ -166,10 +166,37 @@ public class RooVieAppServlet extends HttpServlet {
 			res.getWriter().print(str);
 			return;
 		}
-		if("listallpickTime".equals(action)){
+		if("listallpickTime".equals(action)||"listallpickTime_noassign".equals(action)){
 			RooVieAppService rvaSvc = new RooVieAppService();
-//			Integer houseno = Integer.parseInt(req.getParameter("houseno"));
-			List<RooVieAppVO> list = rvaSvc.listallpickTime(1);
+			Integer houseno = Integer.parseInt(req.getParameter("houseno"));
+			List<RooVieAppVO> list = null;
+			if("listallpickTime".equals(action)) {
+				list = rvaSvc.listallpickTime(houseno);
+			}else {
+				list = rvaSvc.listallpickTime_noassign(houseno);
+			}
+			
+			String str = new Gson().toJson(list);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
+			return;
+		}
+		
+		if("changeEmp".equals(action)){
+			Integer emp_no = Integer.parseInt(req.getParameter("emp_no"));
+			Byte rva_status = Byte.parseByte("1");
+			Integer rva_no = Integer.parseInt(req.getParameter("rva_no"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			rvaSvc.changeEmp(emp_no, rva_status, rva_no);
+			res.getWriter().print(rva_no);
+			return;
+		}
+		
+		if("getEmpApp".equals(action)){
+			Integer emp_no = Integer.parseInt(req.getParameter("emp_no"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			List<RooVieAppVO> list = rvaSvc.getEmpApp(emp_no);
 			String str = new Gson().toJson(list);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
