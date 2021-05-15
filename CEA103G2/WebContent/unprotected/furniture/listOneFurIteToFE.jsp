@@ -23,7 +23,31 @@ FurIteVO furIteVO = (FurIteVO) request.getAttribute("furIteVO");
 <body>
 <!-- include導覽列 -->
 <%@include file="/front-end/header.file"%>	
+<link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<style>
 
+.breadcrumb_bg {
+    background-image: url(<%=request.getContextPath()%>/unprotected/furniture/images/Morandi2.jpg);
+    background-position: bottom -300px right 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+</style>
+<body onload="connect();connectNotice();" onunload="disconnect();disconnectNotice();">
+<!-- 導覽列下圖片 -->
+   <section class="breadcrumb breadcrumb_bg" >
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                        <div class="breadcrumb_iner_item">
+                            <h2>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Welcome  好厝家具專區</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
  <!--================End Home Banner Area =================-->
 
   <!--================Single Product Area =================-->
@@ -59,7 +83,7 @@ FurIteVO furIteVO = (FurIteVO) request.getAttribute("furIteVO");
             <ul class="list">
               <li>
                 
-<!--                   分類或規格 -->
+<!--             分類或規格 -->
                   <span>規格</span> : ${furIteVO.fnt_standard}</a>
               </li>
               <li>
