@@ -112,39 +112,39 @@
 	<script>
           
           
-          $.ajax({
-        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-        	  type:'post',
-        	  data:{
-        		  action:'listNewRooVieApp',
-        	  },
-        	  success:function(list){
-					for(let key in list){
-						let str = '<tr>';
-						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' id=\"'+key+'\">'+"control "+key+'</button>'+'</th>';
-		        		str+='<th>'+dateformat(list[key])+'</th>';
-		        		str+='</tr>';
-		        		$("#showData").append(str);
-					}
-					$(".controltime").click(function(){
-						document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+$(this).attr("id");
-					})
-        	  }
-          })
-          function dateformat(str){
-        	 let year = new Date(str).getFullYear();
-        	 let month = new Date(str).getMonth()+1;
-        	 let date = new Date(str).getDate();
-        	 let hour = new Date(str).getHours();
-        	 let isAm = "上午";
-        	 if((Math.floor(hour/12)==1)){
-        		 isAm = "下午";
-        	 }
-        	 let minutes = new Date(str).getMinutes();
-        	 let second = new Date(str).getSeconds();
-        	 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
-//         	 +minutes+"分"+second+"秒";
-          }
+//           $.ajax({
+<%--         	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do", --%>
+//         	  type:'post',
+//         	  data:{
+//         		  action:'listNewRooVieApp',
+//         	  },
+//         	  success:function(list){
+// 					for(let key in list){
+// 						let str = '<tr>';
+// 						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' id=\"'+key+'\">'+"control "+key+'</button>'+'</th>';
+// 		        		str+='<th>'+dateformat(list[key])+'</th>';
+// 		        		str+='</tr>';
+// 		        		$("#showData").append(str);
+// 					}
+// 					$(".controltime").click(function(){
+<%-- 						document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+$(this).attr("id"); --%>
+// 					})
+//         	  }
+//           })
+//           function dateformat(str){
+//         	 let year = new Date(str).getFullYear();
+//         	 let month = new Date(str).getMonth()+1;
+//         	 let date = new Date(str).getDate();
+//         	 let hour = new Date(str).getHours();
+//         	 let isAm = "上午";
+//         	 if((Math.floor(hour/12)==1)){
+//         		 isAm = "下午";
+//         	 }
+//         	 let minutes = new Date(str).getMinutes();
+//         	 let second = new Date(str).getSeconds();
+//         	 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+// //         	 +minutes+"分"+second+"秒";
+//           }
 //           $.ajax({
 <%-- 				url:"<%=request.getContextPath()%>/HouseJsonServlet", --%>
 // 				type:'post',
@@ -169,12 +169,18 @@
         	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
         	  type:'post',
         	  data:{
-        		  action:'listallpickTime',
+        		  action:'listTheEmpApp',
+        		  emp_no:'2',
+        		  rva_status:'1',
         	  },
-        	  success:function(list){
-				for(let key in list){
-						console.log(key);
+        	  success:function(map){
+        		  console.log('s');
+				for(let x in map){
+					console.log('物件編號'+JSON.parse(x).hos_no);
+					console.log('會員預約人數'+map[x]);
+					console.log(JSON.parse(x).rva_order_time)
 				}
+				
         	  }
         })
 			

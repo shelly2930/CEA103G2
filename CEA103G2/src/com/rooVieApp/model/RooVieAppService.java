@@ -98,4 +98,7 @@ public class RooVieAppService {
 		rooVieAppVO.setHos_no(hos_no);
 		return dao.listallpickTime_noassign(rooVieAppVO);
 	}
+	public Map<RooVieAppVO,Integer> listTheEmpApp(Byte rva_status,Integer emp_no){
+		 return dao.listTheEmpApp(rva_status,emp_no);
+	}
 }
