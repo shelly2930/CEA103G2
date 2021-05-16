@@ -21,7 +21,14 @@
 <!-- 先引用jquery(老師已經含有jquery)再引用twzipcode -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
 <!-- =================套用台灣縣市鄉鎮要使用以上=========================== -->
-
+<style>
+.breadcrumb_bg {
+    background-image:url('<%=request.getContextPath()%>/front-end/house/image/decoration.jpg') !important;
+    background-position: center;
+    background-repeat: no-repeat  !important;
+    background-size: cover;
+}
+</style>
 </head>
 
 

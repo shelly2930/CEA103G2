@@ -103,7 +103,7 @@ ${reuestScope.MemTenVO.mem_name}
 		<td>${MemTenVO.mem_idcard_r}</td>
 		<td>
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" style="margin-bottom: 0px;">
-				<input type="submit" value="我要租房">
+				<input type="submit" value="修改">
 			    <input type="hidden" name="mem_no"  value="${MemTenVO.mem_no}">
 			    <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 		</td>

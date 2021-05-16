@@ -51,8 +51,20 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">點選物件編號進行指派
-                            </h6>
+                            <ul>
+                            	<li>
+	                            	<h6 class="h6 mb-6 text-gray-800">List-查看該物件預約申請單且可重新指派
+	                            	</h6>
+                           		</li>
+                            	<li>
+	                            	<h6 class="h6 mb-6 text-gray-800">Assign-查看該物件尚未指派的預約申請單
+	                            	</h6>
+                            	</li>
+                            	<li>
+	                            	<h6 class="h6 mb-6 text-gray-800">點選員工-可查看目前員工已指派時間
+	                            	</h6>
+                            	</li>
+                            </ul>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -536,7 +548,8 @@
                                 </tfoot>
                             </table>
                             </div>
-				        
+				        	
+				        	
 				        
 				        
 				        
@@ -589,17 +602,26 @@
 	//分頁 重寫版
 	let total = 22;//之後填寫
 	let number = 4;
-	
 	let pageMap = new Map();
-	let page = Math.ceil(total/number);
 	
-	for(let i =1;i<page;i++){
-		pageMap.set(i,number*(i-1));
-	}pageMap.set(page,total);
-	let pagekey = pageMap.keys();
-	for(let x of pagekey){
-		console.log(x+pageMap.get(x))
+	function page(total,number){
+		let tempMap = new Map();
+		let page = Math.ceil(total/number);
+		
+		for(let i =1;i<page;i++){
+			tempMap.set(i,number*(i-1));
+		}
+		tempMap.set(page,total);
+		
+		let pagekey = tempMap.keys();
+		for(let x of pagekey){
+			console.log(x+tempMap.get(x))
+		}
+		return tempMap;
 	}
+	
+	console.log(pageMap);
+	
 	//分頁 重寫版
 	
 	
@@ -803,9 +825,11 @@
 						  })
 	        		  }
 	        		 $("#showthishouseapp").empty();
+	        		total = list.length;
+					pageMap = page(total,number);
 					for(let i=0;i<list.length;i++){
 						let key = list[i];
-						total = list.length;
+						
 						let str = "<tr id=\'"+key.rva_no+"\'>";
 						str+="<td class='target_single'></td>";
 						str+="<td>"+key.rva_no+"</td>";

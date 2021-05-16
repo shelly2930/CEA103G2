@@ -95,7 +95,8 @@ public class MemTenService {
 	}
 	
 	public MemTenVO rentalConfirm(Integer mem_no, String mem_name, String mem_id, String mem_mobile,
-			String mem_city, String mem_dist, String mem_addr, byte[] mem_idcard_f, byte[] mem_idcard_r) {
+			String mem_city, String mem_dist, String mem_addr, byte[] mem_idcard_f, byte[] mem_idcard_r, 
+			byte mem_id_status) {
 		
 		MemTenVO memTenVO = new MemTenVO();
 		
@@ -108,6 +109,7 @@ public class MemTenService {
 		memTenVO.setMem_addr(mem_addr);
 		memTenVO.setMem_idcard_f(mem_idcard_f);
 		memTenVO.setMem_idcard_r(mem_idcard_r);
+		memTenVO.setMem_id_status(mem_id_status);
 		dao.rentalConfirm(memTenVO);
 
 		return memTenVO;

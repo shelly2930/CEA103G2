@@ -26,12 +26,58 @@
 	
 <!-- =================套用bootstrap要使用以上=========================== -->
 <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- <!=========================jquery===================== -->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzn3b0I0DFbDc6D5zc3DEtuI5kaYxAB4k&callback=initMap&libraries=&v=weekly" async></script>
 <%@include file="/front-end/header.file"%>
 <!-- =================地圖===================================== -->
 <style>
+/* 收藏 */
+	#collection{
+		position:fixed;
+		 right:0;
+   		 top:400px;
+   		 z-index:2;
+   		 float:left; 
+	}
+	.bs-canvas-overlay {
+   		opacity: 0;
+		z-index: -1;
+	}
+	
+	.bs-canvas-overlay.show {
+   		opacity: 0.85;
+		z-index: 1100;
+	}
+	
+	.bs-canvas-overlay, .bs-canvas {
+		transition: all .4s ease-out;
+		-webkit-transition: all .4s ease-out;
+		-moz-transition: all .4s ease-out;
+		-ms-transition: all .4s ease-out;
+	}
+	
+	.bs-canvas {
+		top: 0;
+		z-index: 1110;
+		overflow-x: hidden;
+		overflow-y: auto;
+		width: 330px;		
+	}
+	
+	.bs-canvas-left {
+		left: 0;
+		margin-left: -330px;
+	}
+	
+	.bs-canvas-right {
+		right: 0;
+		margin-right: -330px;
+	}
+
+/* 收藏 */
+
 table#table-2 {
 	background-color: #CCCCFF;
 	border: 2px solid black;
@@ -71,7 +117,15 @@ h4 {
 </head>
 <body bgcolor='white'>
 
-
+<div id="bs-canvas-right" class="bs-canvas bs-canvas-right position-fixed bg-light h-100">
+	<header class="bs-canvas-header p-3 bg-info overflow-auto" style='opacity:0.5;'>
+    	<button type="button" class="bs-canvas-close float-left close" aria-label="Close" aria-expanded="false"><span aria-hidden="true" class="text-light">&times;</span></button>
+        <h4 class="d-inline-block text-light mb-0 float-right font-weight-bolder" >我的收藏</h4>
+    </header>
+    <div class="bs-canvas-content px-3 py-3" id='showcol'>
+<!--     收藏區 -->
+    </div>    
+</div>
   <!--================Single Product Area =================-->
   <div class="product_image_area section_padding">
     <div class="container">
@@ -114,7 +168,8 @@ h4 {
             </p>
             <div class="card_area d-flex justify-content-between align-items-center">
               <a href="${pageContext.request.contextPath}/front-end/rooVieApp/pickTime.jsp?houseno=${houseVO.hos_no}" class="btn_3">預約看房</a>
-              <a href="#" class="like_us"><i class="ti-heart"></i>收藏</a>
+              <a href="${pageContext.request.contextPath}/memTen/memTen.do?action=getOne_For_Rental&hos_no=${houseVO.hos_no}" class="btn_3">我要租房</a>
+              <a href="#" class="like_us btn add"><i class="far fa-heart" style='color:#FF9696;font-size:23px;margin:auto;'></i></a>
             </div>
           </div>
         </div>
@@ -343,6 +398,35 @@ h4 {
       </div>
     </div>
   </section>
+  
+  
+      <div class="modal fade" id="controltext" tabindex="2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Write notes</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="message-text" class="col-form-label">notes:</label>
+	            <textarea class="form-control" id="message-text">dssss</textarea>
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" id="sendtext" class="btn btn-primary">add notes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!--                     	收藏 -->
+	<a class="ml-3 order-xl-last btn btn-info" style='opacity:0.5;' id="collection" data-toggle="canvas" href="#bs-canvas-right" aria-expanded="false" aria-controls="bs-canvas-right" role="button"><i class="fas fa-home" ><br><hr>收藏</i></a>
+	<!--                     	以上收藏 -->
   <!--================End Product Description Area =================-->
 
   <!-- product_list part start-->
@@ -352,6 +436,262 @@ h4 {
   <!--::footer_part end::-->
 <%@ include file="/front-end/footer.file"%>
 
+<script>
+	let mem_no = ${empty MemTenVO.mem_no ?"null":MemTenVO.mem_no};
+	let housno = ${empty houseVO.hos_no ?"null" :houseVO.hos_no};
+	//收藏
+	function getCol(mem_no){
+		if(mem_no==null){
+			return;
+		}
+		let collection = new Set();
+		$.ajax({
+			url:"<%=request.getContextPath()%>/HouColServlet",
+			type:'post',
+			data:{
+				action:'getall',
+				mem_no:mem_no,
+			},
+			async: false,
+			success:function(str){
+				for(let x of str){
+					collection.add(x.hos_no);
+				}
+				$(".fa-heart").each(function(index){
+					if(collection.has(parseInt(housno))){
+						$(this).removeClass('far');
+						$(this).addClass('fas');
+					}else{
+						console.log(parseInt(housno));
+						$(this).removeClass('fas');
+						$(this).addClass('far');
+					}
+					
+				})
+			}
+		})
+		return collection;
+	}
+	
+	if(mem_no===null){
+		colarray = new Set();
+	}else{
+		colarray = getCol(mem_no);
+	}
+	
+	$('.add').click(function(e){
+		e.preventDefault();
+		if(mem_no==null){
+			Swal.fire({
+				  title: '請先登入會員',
+				  text: 'Go to the login page and sign in',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#6495ed',
+				  cancelButtonColor: '#fa8072',
+				  confirmButtonText: 'Sign in',
+				  cancelButtonText:'Cancel',
+				  confirmButtonClass:'btn-sm',
+				  cancelButtonClass:'btn btn-info btn-sm',
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $(location).prop('href', '<%=request.getContextPath()%>/unprotected/memTen/login.jsp');
+				  }
+			})
+		}else{
+			if(colarray.has(parseInt(housno))){
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouColServlet",
+					type:'post',
+					data:{
+						action:'deleteCol',
+						hos_no:housno,
+						mem_no:mem_no,
+					},
+					async: false,
+					success:function(str){
+						console.log("取消收藏");
+						colarray=getCol(mem_no);
+						reset(colarray);
+					}
+				})
+				//取消收藏
+			}else{
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouColServlet",
+					type:'post',
+					data:{
+						action:'addHouCol',
+						hos_no:housno,
+						mem_no:mem_no,
+					},
+					async: false,
+					success:function(str){
+						console.log('新增成功');
+						getCol(mem_no);
+						colarray=getCol(mem_no);
+						reset(colarray);
+					}
+				})
+				
+			}
+			
+		}
+		
+	})
+	
+	reset(colarray);
+	function reset(colarray){
+		for(let col_no of colarray){
+			$("#showcol").empty();
+			$.get({
+				url:"<%=request.getContextPath()%>/HouseJsonServlet",
+				type:"post",
+				data:{
+					action:'getOneHouse',
+					houseno:col_no,
+				},
+				success:function(jsonStr){
+					
+					let str = "<div class='card' style='width: 18rem;'>";
+					str+="<div class='list-group mb-5'>";
+					str+="<a href='<%=request.getContextPath()%>/house/house.do?houseno="+jsonStr.hos_no+"&action=listHouPho_ByHouseA'>"
+					str+="<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno='"+jsonStr.hos_no+" class='card-img-top' alt='收藏照片'>";
+					str+="</a>";
+					str+="<div class='card-body'>";
+					str+="<p class='card-text text-secondary'>租金: "+jsonStr.hos_rent+"</p>";
+					str+="<p class='card-text text-secondary'>地址: "+jsonStr.hos_address+"</p>";
+					str+="<p class='card-text showtext text-secondary' id='text"+jsonStr.hos_no+"' >備註: 尚未填寫</p>";
+					str+="</div></div>";
+					str+="<div class='card-footer' id='"+jsonStr.hos_no+"'>";
+					str+="<a href=''class='cancelcol' style='display:inline-block' ><h5><i class='fas fa-window-close text-info'>取消收藏</i></h5></a>";
+					str+="<a href=''class='addcoltext' style='display:inline-block'><h5>&nbsp; &nbsp; &nbsp; <i class='fas fa-edit text-warning'>增加備註</i></h5></a>";
+					str+="</div>";
+					str+="</div><hr>";
+					$("#showcol").append(str);
+					$.ajax({
+						url:"<%=request.getContextPath()%>/HouColServlet",
+						type:'post',
+						data:{
+							action:'getOne',
+							mem_no:mem_no,
+							hos_no:col_no,
+						},
+						async: false,
+						success:function(str){
+							if(str.hos_col_note.trim().length==0){
+							}else{
+								$("#text"+jsonStr.hos_no).html("備註: "+str.hos_col_note);
+							}
+						}
+					})
+					$(".addcoltext").click(function(e){
+//							新增備註
+						e.preventDefault();
+						$("#controltext").modal('show');
+						$("#message-text").val($("#text"+jsonStr.hos_no).html().substring(4));
+						$("#sendtext").click(function(){
+							$.ajax({
+								url:"<%=request.getContextPath()%>/HouColServlet",
+								type:'post',
+								data:{
+									action:'update',
+									hos_no:jsonStr.hos_no,
+									hos_col_note:$("#message-text").val(),
+									mem_no:mem_no,
+								},
+								async: false,
+								success:function(str){
+									console.log(str);
+									colarray=getCol(mem_no);
+									reset(colarray);
+								}
+							})
+						})
+					})
+					$(".cancelcol").click(function(e){
+						e.preventDefault();
+						$.ajax({
+							url:"<%=request.getContextPath()%>/HouColServlet",
+							type:'post',
+							data:{
+								action:'deleteCol',
+								hos_no:$(this).parent().attr('id'),
+								mem_no:mem_no,
+							},
+							async: false,
+							success:function(str){
+								console.log("取消收藏");
+								colarray=getCol(mem_no);
+								reset(colarray);
+							}
+						})
+					})
+				}
+			});
+		}
+	}
+	
+	
+	
+	
+	jQuery(document).ready(function($){
+		
+		var bsOverlay = $('.bs-canvas-overlay');
+		$('[data-toggle="canvas"]').on('click', function(){
+			if(mem_no==null){
+				
+				Swal.fire({
+					  title: '請先登入會員',
+					  text: 'Go to the login page and sign in',
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#6495ed',
+					  cancelButtonColor: '#fa8072',
+					  confirmButtonText: 'Sign in',
+					  cancelButtonText:'Cancel',
+					  confirmButtonClass:'btn-sm',
+					  cancelButtonClass:'btn btn-info btn-sm',
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  $(location).prop('href', '<%=request.getContextPath()%>/unprotected/memTen/login.jsp');
+					  }else{
+						  return false;
+					  }
+				})
+			}else{
+				reset(colarray);
+				var ctrl = $(this), 
+					elm = ctrl.is('button') ? ctrl.data('target') : ctrl.attr('href');
+				$(elm).addClass('mr-0');
+				$(elm + ' .bs-canvas-close').attr('aria-expanded', "true");
+				$('[data-target="' + elm + '"], a[href="' + elm + '"]').attr('aria-expanded', "true");
+				if(bsOverlay.length)
+					bsOverlay.addClass('show');
+				return false;
+				
+			}
+			
+		});
+		
+		$('.bs-canvas-close, .bs-canvas-overlay').on('click', function(){
+			var elm;
+			if($(this).hasClass('bs-canvas-close')) {
+				elm = $(this).closest('.bs-canvas');
+				$('[data-target="' + elm + '"], a[href="' + elm + '"]').attr('aria-expanded', "false");
+			} else {
+				elm = $('.bs-canvas')
+				$('[data-toggle="canvas"]').attr('aria-expanded', "false");	
+			}
+			elm.removeClass('mr-0');
+			$('.bs-canvas-close', elm).attr('aria-expanded', "false");
+			if(bsOverlay.length)
+				bsOverlay.removeClass('show');
+			return false;
+		});
+	});
+	
+</script>
 
 	
 </body>

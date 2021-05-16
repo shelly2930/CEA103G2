@@ -2,7 +2,6 @@ package com.rooVieApp.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,6 +200,20 @@ public class RooVieAppServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);
+			return;
+		}
+		if("listTheEmpApp".equals(action)) {
+			Integer emp_no = Integer.parseInt(req.getParameter("emp_no"));
+			Byte rva_status = Byte.parseByte(req.getParameter("rva_status"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			Map<RooVieAppVO,Integer> map = rvaSvc.listTheEmpApp(rva_status, emp_no);
+			Map<String,String> jsonmap = new LinkedHashMap<String,String>();
+			for(RooVieAppVO vo : map.keySet()) {
+				jsonmap.put(new Gson().toJson(vo),map.get(vo).toString());
+			}
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(jsonmap));
 			return;
 		}
 	}

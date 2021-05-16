@@ -56,15 +56,15 @@
                         <div class="card-body">
                             <div class="table-responsive">
                             	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            				<div id="freeEmp">
+                            			<div id="freeEmp">
 										<!-- 	之後可以用js老師作業的隨機顏色耶XD -->
-												
-											</div>
+										</div>
                             	</table>
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>物件編號</th>
+                                            <th>目前預約人數</th>
                                             <th>最新預約時間</th>
                                         </tr>
                                     </thead>
@@ -112,39 +112,26 @@
 	<script>
           
           
-          $.ajax({
-        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-        	  type:'post',
-        	  data:{
-        		  action:'listNewRooVieApp',
-        	  },
-        	  success:function(list){
-					for(let key in list){
-						let str = '<tr>';
-						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' id=\"'+key+'\">'+"control "+key+'</button>'+'</th>';
-		        		str+='<th>'+dateformat(list[key])+'</th>';
-		        		str+='</tr>';
-		        		$("#showData").append(str);
-					}
-					$(".controltime").click(function(){
-						document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+$(this).attr("id");
-					})
-        	  }
-          })
-          function dateformat(str){
-        	 let year = new Date(str).getFullYear();
-        	 let month = new Date(str).getMonth()+1;
-        	 let date = new Date(str).getDate();
-        	 let hour = new Date(str).getHours();
-        	 let isAm = "上午";
-        	 if((Math.floor(hour/12)==1)){
-        		 isAm = "下午";
-        	 }
-        	 let minutes = new Date(str).getMinutes();
-        	 let second = new Date(str).getSeconds();
-        	 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
-//         	 +minutes+"分"+second+"秒";
-          }
+//           $.ajax({
+<%--         	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do", --%>
+//         	  type:'post',
+//         	  data:{
+//         		  action:'listNewRooVieApp',
+//         	  },
+//         	  success:function(list){
+// 					for(let key in list){
+// 						let str = '<tr>';
+// 						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' id=\"'+key+'\">'+"control "+key+'</button>'+'</th>';
+// 		        		str+='<th>'+dateformat(list[key])+'</th>';
+// 		        		str+='</tr>';
+// 		        		$("#showData").append(str);
+// 					}
+// 					$(".controltime").click(function(){
+<%-- 						document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+$(this).attr("id"); --%>
+// 					})
+//         	  }
+//           })
+
 //           $.ajax({
 <%-- 				url:"<%=request.getContextPath()%>/HouseJsonServlet", --%>
 // 				type:'post',
@@ -165,18 +152,47 @@
 // 			})
 
 //           })
-		$.ajax({
-        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
-        	  type:'post',
-        	  data:{
-        		  action:'listallpickTime',
-        	  },
-        	  success:function(list){
-				for(let key in list){
-						console.log(key);
-				}
-        	  }
-        })
+		let empno = ${employeeVO.emp_no};
+		let rva_status = 1;
+		listTheEmpApp(2,1);
+		listTheEmpApp(1,1);
+		function listTheEmpApp(emp_no,rva_status){
+			$.ajax({
+	        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+	        	  type:'post',
+	        	  data:{
+	        		  action:'listTheEmpApp',
+	        		  emp_no:emp_no,
+	        		  rva_status:'1',
+	        	  },
+	        	  success:function(map){
+	        		 $("#showData").empty();
+					for(let x in map){
+						let str = '<tr>';
+						str+='<th><button class=\'btn btn-outline-secondary btn-sm housno\' id=\"'+JSON.parse(x).hos_no+'\">'+JSON.parse(x).hos_no+'</button></th>';
+		        		str+='<th>'+map[x]+'</th>';
+		        		str+='<th>'+dateformat(JSON.parse(x).rva_order_time)+'</th>';
+		        		str+='</tr>'; 
+						$("#showData").append(str);
+					}
+	        	  }
+	        })
+		}
+		
+		function dateformat(str){
+			 let year = new Date(str).getFullYear();
+			 let month = new Date(str).getMonth()+1;
+			 let date = new Date(str).getDate();
+			 let hour = new Date(str).getHours();
+			 let isAm = "上午";
+			 if((Math.floor(hour/12)==1)){
+				 isAm = "下午";
+			 }
+			 let minutes = new Date(str).getMinutes();
+			 let second = new Date(str).getSeconds();
+			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+		//	 +minutes+"分"+second+"秒";
+	 	}
 			
     </script>	
 </body>

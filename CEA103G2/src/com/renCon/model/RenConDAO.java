@@ -53,6 +53,8 @@ public class RenConDAO implements RenConDAO_interface{
 			"rtct_deposit=? ";
 
 	private static final String INSERT = "INSERT INTO " + TABLE + "(" + REDUCE_PK_COL + ") VALUES ("+QUESTIONMARKS+")";
+	// 蔡佳
+	private static final String INSERT2 = "INSERT INTO RENTAL_CONTRACT (hos_no, mem_no, rtct_deposit) VALUES (?, ?, ?)";
 //	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by " + PK;
 	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by rtct_eff_date desc";
 	private static final String GET_ONE = "SELECT " + TOTAL_COL + " FROM " + TABLE + " where " + PK + "= ?";
@@ -348,6 +350,47 @@ public class RenConDAO implements RenConDAO_interface{
 					se.printStackTrace(System.err);
 				}
 			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public void insert2(RenConVO renConVO) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT2);
+//		========VO取值並設給preparedStatement=============
+			pstmt.setInt(1,renConVO.getHos_no());
+			pstmt.setInt(2, renConVO.getMem_no());
+			pstmt.setInt(3,renConVO.getRtct_deposit());
+//	   =================送出指令========================
+			pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ e.getMessage());
+		}finally {
 			if (pstmt != null) {
 				try {
 					pstmt.close();

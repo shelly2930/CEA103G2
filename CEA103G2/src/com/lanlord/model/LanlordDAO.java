@@ -32,8 +32,7 @@ public class LanlordDAO implements LanlordDAO_interface {
 	private static final String UPDATE = "UPDATE LANLORD SET mem_no= ?, lld_bank=?, lld_account=?,"
 				+ " lld_acc_pic=?, lld_status=?, lld_id_isvrfed=?, lld_id_disapprove=?, lld_suspend=? WHERE lld_no =?";
 	private static final String FIND_BY_MEMTEN = "SELECT * FROM LANLORD WHERE mem_no=?";
-	private static final String FIND_BY_LLDSTATUS = "SELECT * FROM LANLORD WHERE lld_status=?";
-	private static final String FIND_BY_LLDSTATUS2 = "SELECT lld_no, mem_no, lld_status, lld_apptime, lld_id_isvrfed FROM LANLORD WHERE lld_status=?";
+	private static final String FIND_BY_LLDSTATUS = "SELECT * FROM LANLORD WHERE lld_status=? ORDER BY lld_apptime";
 	private static final String UPDATE_LLDSTATUS = "UPDATE LANLORD SET lld_status=?, lld_id_isvrfed=?, "
 				+ "lld_id_disapprove=? WHERE lld_no =?";
 	
