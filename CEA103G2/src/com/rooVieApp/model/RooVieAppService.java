@@ -87,7 +87,7 @@ public class RooVieAppService {
 	public Map<Integer,Timestamp> listNewRooVieApp(){
 		return dao.listNewRooVieApp();
 	}
-	public void changeEmp(Integer emp_no,Byte rva_status, Integer rva_no) {
+	public void changeEmp(Integer emp_no, Byte rva_status, Integer rva_no) {
 		dao.changeEmp(emp_no,rva_status,rva_no);
 	}
 	public List<RooVieAppVO> getEmpApp(Integer emp_no){

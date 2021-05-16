@@ -28,4 +28,6 @@ public interface RooVieAppDAO_interface {
     public List<RooVieAppVO> getEmpApp(Integer emp_no);
     
     public Map<RooVieAppVO,Integer> listTheEmpApp(Byte rva_status,Integer emp_no);
+    //查詢該物件所有預約單時間
+    public List<RooVieAppVO> listOrderTime(RooVieAppVO rooVieAppVO);
 }

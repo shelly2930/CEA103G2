@@ -21,7 +21,7 @@ public interface HouColDAO_interface {
     
 //  從(pk1)物件編號找到所有附設家具編號
 //    GET_ALL_BY_PK1
-    public List<HouColVO> getAll(Integer houColno);
+    public List<HouColVO> getAll(Integer mem_no);
     //萬用複合查詢(傳入參數型態Map)(回傳 List)
 //  public List<HouColVO> getAll(Map<String, String[]> map);  
 }

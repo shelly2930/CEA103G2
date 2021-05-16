@@ -35,7 +35,7 @@ public class HouColDAO implements HouColDAO_interface{
 	private static final String PK2 = "HOS_NO";
 	private static final String QUESTIONMARKS = qm; 
 	private static final String AIMED_AT_COL = "MEM_NO";
-	private static final String TOTAL_COL = "HOS_NO, HOS_COL_NOTE"+AIMED_AT_COL;
+	private static final String TOTAL_COL = "HOS_NO, HOS_COL_NOTE, "+AIMED_AT_COL;
 	private static final String FOR_SET = "MEM_NO=?"
 			+"HOS_NO=?"
 			+ ", ADD_FNT_NO=?";
@@ -54,9 +54,10 @@ public class HouColDAO implements HouColDAO_interface{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT);
 //		========VO取值並設給preparedStatement=============
-			pstmt.setInt(1,houColVO.getMem_no());
-			pstmt.setInt(2,houColVO.getHos_no());
-			pstmt.setString(3,houColVO.getHos_col_note());
+			
+			pstmt.setInt(1,houColVO.getHos_no());
+			pstmt.setString(2,houColVO.getHos_col_note());
+			pstmt.setInt(3,houColVO.getMem_no());
 //	   =================送出指令========================
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -165,7 +166,6 @@ public class HouColDAO implements HouColDAO_interface{
 
 			pstmt.setInt(1, houColVO.getMem_no());
 			pstmt.setInt(2, houColVO.getHos_no());
-			pstmt.setString(3, houColVO.getHos_col_note());
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
@@ -244,7 +244,7 @@ public class HouColDAO implements HouColDAO_interface{
 		return houColVO;
 	}
 	@Override
-	public List<HouColVO> getAll(Integer houColno) {
+	public List<HouColVO> getAll(Integer mem_no) {
 
 		List<HouColVO> list = new ArrayList<HouColVO>();
 		HouColVO houColVO = null;
@@ -256,7 +256,7 @@ public class HouColDAO implements HouColDAO_interface{
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_BY_PK1);
-			pstmt.setInt(1, houColno);
+			pstmt.setInt(1, mem_no);
 		
 			
 			rs = pstmt.executeQuery();

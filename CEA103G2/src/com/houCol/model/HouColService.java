@@ -31,19 +31,18 @@ public class HouColService {
 		return houColVO;
 	}
 	
-	public void deleteTotalByPk1(Integer houPhono) {
-		dao.deleteTotalByPk1(houPhono);
+	public void deleteTotalByPk1(Integer mem_no) {
+		dao.deleteTotalByPk1(mem_no);
 	}
 	
-	public List<HouColVO> getAll(Integer hos_no) {
-		return dao.getAll(hos_no);
+	public List<HouColVO> getAll(Integer mem_no) {
+		return dao.getAll(mem_no);
 	}
 	
-	public void deleteOneByPk1AndPk2(Integer mem_no,Integer hos_no,String hos_col_note) {
+	public void deleteOneByPk1AndPk2(Integer mem_no,Integer hos_no) {
 		HouColVO houColVO = new HouColVO();
 		houColVO.setMem_no(mem_no);
 		houColVO.setHos_no(hos_no);
-		houColVO.setHos_col_note(hos_col_note);
 		dao.deleteOneByPk1AndPk2(houColVO);
 	}
 	

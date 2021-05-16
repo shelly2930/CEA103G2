@@ -128,23 +128,6 @@
     <!-- Page level custom scripts -->
     <!-- Page level custom scripts -->
 	<script>
-	
-	$(document).ready(function(){
-		$.ajax({
-			url:"<%=request.getContextPath()%>/HouseJsonServlet",
-			type:"post",
-			data:{
-				action:'getAllHouseOnLine',
-			},
-			success:function(data){
-				for(let house of data){
-					let tr = $("<tr></tr>").appendTo("#showhouse");
-					tr.append("<td><button name='house' id='"+house.hos_no+"' class='btn btn-success btn-sm'>"+house.hos_no+"</button></td>").append("<td>"+house.hos_name+"</td>").append("<td>"+house.hos_address+"</td>").append("<td><button name='roovieapp' class='btn btn-primary btn-sm'>查看預約</button></td>");
-				}	
-			}
-		})
-	});
-	
 	let house_key = ['物件編號',
 		'房東編號',
 		'物件名稱',
@@ -178,37 +161,49 @@
 		'所有權狀照片',
 		'刊登狀態',
 		'未通過原因'];
-	
-	$(window).on('load',function(){
-		$("button[name='house']").click(function(){
-			$.ajax({
-				url:"<%=request.getContextPath()%>/HouseJsonServlet",
-				type:"post",
-				data:{
-					action:'getOneHouse',
-					houseno: $(this).attr("id"),
-				},
-				success:function(data){
-					let count = 0;
-					for(let x in data){
-						let tr = $("<tr></tr><hr>").appendTo("#showonehouse");
-						tr.append("<th>"+house_key[count++]+"</th>").append("<th>"+data[x]+"</th>")
-					}
+	$(document).ready(function(){
+		$.ajax({
+			url:"<%=request.getContextPath()%>/HouseJsonServlet",
+			type:"post",
+			data:{
+				action:'getAllHouseOnLine',
+			},
+			success:function(data){
+				for(let house of data){
+					let tr = $("<tr></tr>").appendTo("#showhouse");
+					tr.append("<td><button name='house' id='"+house.hos_no+"' class='btn btn-success btn-sm'>"+house.hos_no+"</button></td>").append("<td>"+house.hos_name+"</td>").append("<td>"+house.hos_address+"</td>").append("<td><button name='roovieapp' class='btn btn-primary btn-sm'>查看預約</button></td>");
+				}	
+				$("button[name='house']").click(function(){
+					$.ajax({
+						url:"<%=request.getContextPath()%>/HouseJsonServlet",
+						type:"post",
+						data:{
+							action:'getOneHouse',
+							houseno: $(this).attr("id"),
+						},
+						success:function(data){
+							let count = 0;
+							for(let x in data){
+								let tr = $("<tr></tr><hr>").appendTo("#showonehouse");
+								tr.append("<th>"+house_key[count++]+"</th>").append("<th>"+data[x]+"</th>")
+							}
+							
+							
+						}
+					})
 					
 					
-				}
-			})
-			
-			
-			$("#exampleModalLong").modal({
-				show:true,
-			});
+					$("#exampleModalLong").modal({
+						show:true,
+					});
+				})
+				$("button[name='roovieapp']").click(function(){
+					let houseno = $(this).parents("tr").find('button').attr('id');
+					document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+houseno;
+				})
+			}
 		})
-		$("button[name='roovieapp']").click(function(){
-			let houseno = $(this).parents("tr").find('button').attr('id');
-			document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+houseno;
-		})
-	})
+	});
 	</script>
 </body>
 
