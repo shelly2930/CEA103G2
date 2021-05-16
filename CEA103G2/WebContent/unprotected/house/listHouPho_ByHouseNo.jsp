@@ -399,6 +399,31 @@ h4 {
     </div>
   </section>
   
+  
+      <div class="modal fade" id="controltext" tabindex="2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Write notes</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="message-text" class="col-form-label">notes:</label>
+	            <textarea class="form-control" id="message-text">dssss</textarea>
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" id="sendtext" class="btn btn-primary">add notes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<!--                     	收藏 -->
 	<a class="ml-3 order-xl-last btn btn-info" style='opacity:0.5;' id="collection" data-toggle="canvas" href="#bs-canvas-right" aria-expanded="false" aria-controls="bs-canvas-right" role="button"><i class="fas fa-home" ><br><hr>收藏</i></a>
 	<!--                     	以上收藏 -->
@@ -534,11 +559,74 @@ h4 {
 					str+="<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno='"+jsonStr.hos_no+" class='card-img-top' alt='收藏照片'>";
 					str+="</a>";
 					str+="<div class='card-body'>";
-					str+="<p class='card-text'>標題: "+jsonStr.hos_name+"</p>";
-					str+="<p class='card-text'>租金: "+jsonStr.hos_rent+"</p>";
-					str+="<p class='card-text'>地址: "+jsonStr.hos_address+"</p>";
-					str+="</div></div></div><hr>";
+					str+="<p class='card-text text-secondary'>租金: "+jsonStr.hos_rent+"</p>";
+					str+="<p class='card-text text-secondary'>地址: "+jsonStr.hos_address+"</p>";
+					str+="<p class='card-text showtext text-secondary' id='text"+jsonStr.hos_no+"' >備註: 尚未填寫</p>";
+					str+="</div></div>";
+					str+="<div class='card-footer' id='"+jsonStr.hos_no+"'>";
+					str+="<a href=''class='cancelcol' style='display:inline-block' ><h5><i class='fas fa-window-close text-info'>取消收藏</i></h5></a>";
+					str+="<a href=''class='addcoltext' style='display:inline-block'><h5>&nbsp; &nbsp; &nbsp; <i class='fas fa-edit text-warning'>增加備註</i></h5></a>";
+					str+="</div>";
+					str+="</div><hr>";
 					$("#showcol").append(str);
+					$.ajax({
+						url:"<%=request.getContextPath()%>/HouColServlet",
+						type:'post',
+						data:{
+							action:'getOne',
+							mem_no:mem_no,
+							hos_no:col_no,
+						},
+						async: false,
+						success:function(str){
+							if(str.hos_col_note.trim().length==0){
+							}else{
+								$("#text"+jsonStr.hos_no).html("備註: "+str.hos_col_note);
+							}
+						}
+					})
+					$(".addcoltext").click(function(e){
+//							新增備註
+						e.preventDefault();
+						$("#controltext").modal('show');
+						$("#message-text").val($("#text"+jsonStr.hos_no).html().substring(4));
+						$("#sendtext").click(function(){
+							$.ajax({
+								url:"<%=request.getContextPath()%>/HouColServlet",
+								type:'post',
+								data:{
+									action:'update',
+									hos_no:jsonStr.hos_no,
+									hos_col_note:$("#message-text").val(),
+									mem_no:mem_no,
+								},
+								async: false,
+								success:function(str){
+									console.log(str);
+									colarray=getCol(mem_no);
+									reset(colarray);
+								}
+							})
+						})
+					})
+					$(".cancelcol").click(function(e){
+						e.preventDefault();
+						$.ajax({
+							url:"<%=request.getContextPath()%>/HouColServlet",
+							type:'post',
+							data:{
+								action:'deleteCol',
+								hos_no:$(this).parent().attr('id'),
+								mem_no:mem_no,
+							},
+							async: false,
+							success:function(str){
+								console.log("取消收藏");
+								colarray=getCol(mem_no);
+								reset(colarray);
+							}
+						})
+					})
 				}
 			});
 		}

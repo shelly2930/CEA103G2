@@ -14,7 +14,8 @@
 <title>瀏覽所有物件(訪客看到的頁面)</title>
 <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+<link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <!-- =========icon fontawesome -->
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <!-- ========= -->
@@ -553,9 +554,38 @@
             </div>
         </div>
     </section>
+    
+    
+    <div class="modal fade" id="controltext" tabindex="2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Write notes</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="message-text" class="col-form-label">notes:</label>
+	            <textarea class="form-control" id="message-text">dssss</textarea>
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" id="sendtext" class="btn btn-primary">add notes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    
+    
 	
 	<script>
-			//取得會員
+	
+	//取得會員
 			let mem_no = ${empty MemTenVO.mem_no ?"null":MemTenVO.mem_no};
 			
 			//分頁
@@ -603,6 +633,7 @@
 				})
 				return collection;
 			}
+			let colarray=null;
 			//會員收藏 單筆新增修改
 			if(mem_no===null){
 				colarray = new Set();
@@ -674,6 +705,10 @@
 			
 			reset(colarray);
 			function reset(colarray){
+				if(colarray.size==0){
+					$("#showcol").empty();
+					return false;
+				}
 				for(let col_no of colarray){
 					$("#showcol").empty();
 					$.get({
@@ -686,16 +721,83 @@
 						success:function(jsonStr){
 							
 							let str = "<div class='card' style='width: 18rem;'>";
+							str+="<div class='card-header'>";
+							str+="<h6 class='card-text text-secondary '>標題: "+jsonStr.hos_name+"</h6>";
+							str+="</div>";
 							str+="<div class='list-group mb-5'>";
 							str+="<a href='<%=request.getContextPath()%>/house/house.do?houseno="+jsonStr.hos_no+"&action=listHouPho_ByHouseA'>"
 							str+="<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno='"+jsonStr.hos_no+" class='card-img-top' alt='收藏照片'>";
 							str+="</a>";
 							str+="<div class='card-body'>";
-							str+="<p class='card-text'>標題: "+jsonStr.hos_name+"</p>";
-							str+="<p class='card-text'>租金: "+jsonStr.hos_rent+"</p>";
-							str+="<p class='card-text'>地址: "+jsonStr.hos_address+"</p>";
-							str+="</div></div></div><hr>";
+							
+							str+="<p class='card-text text-secondary'>租金: "+jsonStr.hos_rent+"</p>";
+							str+="<p class='card-text text-secondary'>地址: "+jsonStr.hos_address+"</p>";
+							str+="<p class='card-text showtext text-secondary' id='text"+jsonStr.hos_no+"' >備註: 尚未填寫</p>";
+							str+="</div></div>";
+							str+="<div class='card-footer' id='"+jsonStr.hos_no+"'>";
+							str+="<a href=''class='cancelcol' style='display:inline-block' ><h5><i class='fas fa-window-close text-info'>取消收藏</i></h5></a>";
+							str+="<a href=''class='addcoltext' style='display:inline-block'><h5>&nbsp; &nbsp; &nbsp; <i class='fas fa-edit text-warning'>增加備註</i></h5></a>";
+							str+="</div>";
+							str+="</div><hr>";
 							$("#showcol").append(str);
+							$.ajax({
+								url:"<%=request.getContextPath()%>/HouColServlet",
+								type:'post',
+								data:{
+									action:'getOne',
+									mem_no:mem_no,
+									hos_no:col_no,
+								},
+								async: false,
+								success:function(str){
+									if(str.hos_col_note.trim().length==0){
+									}else{
+										$("#text"+jsonStr.hos_no).html("備註: "+str.hos_col_note);
+									}
+								}
+							})
+							$(".addcoltext").click(function(e){
+// 								新增備註
+								e.preventDefault();
+								$("#controltext").modal('show');
+								$("#message-text").val($("#text"+jsonStr.hos_no).html().substring(4));
+								$("#sendtext").click(function(){
+									$.ajax({
+										url:"<%=request.getContextPath()%>/HouColServlet",
+										type:'post',
+										data:{
+											action:'update',
+											hos_no:jsonStr.hos_no,
+											hos_col_note:$("#message-text").val(),
+											mem_no:mem_no,
+										},
+										async: false,
+										success:function(str){
+											console.log(str);
+											colarray=getCol(mem_no);
+											reset(colarray);
+										}
+									})
+								})
+							})
+							$(".cancelcol").click(function(e){
+								e.preventDefault();
+								$.ajax({
+									url:"<%=request.getContextPath()%>/HouColServlet",
+									type:'post',
+									data:{
+										action:'deleteCol',
+										hos_no:$(this).parent().attr('id'),
+										mem_no:mem_no,
+									},
+									async: false,
+									success:function(str){
+										console.log("取消收藏");
+										colarray=getCol(mem_no);
+										reset(colarray);
+									}
+								})
+							})
 						}
 					});
 				}

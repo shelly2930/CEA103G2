@@ -50,6 +50,31 @@ public class HouColServlet extends HttpServlet {
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print("已刪除");
 		}
+		if("getOne".equals(action)){
+			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			HouColService svc = new HouColService();
+			if(svc.judge(mem_no, hos_no)==0) {
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().print("notfind");
+			}else {//表示有該列
+				HouColVO houcolVO = svc.findByPrimaryKey(mem_no, hos_no);
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().print(new Gson().toJson(houcolVO));
+			}
+			
+		}
+		if("update".equals(action)){
+			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			String hos_col_note = req.getParameter("hos_col_note");
+			HouColService svc = new HouColService();
+			svc.updateHouCol(mem_no, hos_no, hos_col_note);
+			
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print("修改成功");
+		}
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// TODO Auto-generated method stub

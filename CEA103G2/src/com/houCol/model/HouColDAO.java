@@ -36,16 +36,17 @@ public class HouColDAO implements HouColDAO_interface{
 	private static final String QUESTIONMARKS = qm; 
 	private static final String AIMED_AT_COL = "MEM_NO";
 	private static final String TOTAL_COL = "HOS_NO, HOS_COL_NOTE, "+AIMED_AT_COL;
-	private static final String FOR_SET = "MEM_NO=?"
-			+"HOS_NO=?"
-			+ ", ADD_FNT_NO=?";
+	private static final String FOR_SET = "HOS_COL_NOTE=?";
 
 	private static final String INSERT = "INSERT INTO " + TABLE + "(" + TOTAL_COL + ") VALUES ("+QUESTIONMARKS+")";
 	private static final String GET_ALL_BY_PK1 = "SELECT " + TOTAL_COL + " FROM " + TABLE + " where " + PK1+"= ?";
-	private static final String GET_ONE_BY_PK1_PK2 = "SELECT " + TOTAL_COL + " FROM " + TABLE + " where " + PK1 + "= ? and "+PK2+"=?";
+	private static final String GET_ONE_BY_PK1_PK2 = "SELECT * FROM HOUSE_COLLECTION where MEM_NO= ? and HOS_NO=?";
 	private static final String DELETE_TOTAL_BY_PK1 = "DELETE FROM " + TABLE + " where +" + PK1 + "= ?";
 	private static final String DELETE_ONE_BY_PK1_AND_PK2 = "DELETE FROM " + TABLE + " where +" + PK1 + "= ? and "+PK2+"=?";
 	private static final String UPDATE = "UPDATE " + TABLE + " set "+FOR_SET+" where +" + PK1 + "= ? and "+PK2+"=?";
+	
+	private static final String JUDGE = "SELECT COUNT(*) FROM house_collection where MEM_NO=? and hos_no=?";
+	
 	@Override
 	public void insert(HouColVO houColVO) {
 		Connection con = null;
@@ -91,9 +92,10 @@ public class HouColDAO implements HouColDAO_interface{
 			
 
 //		========VO取值並設給preparedStatement=============
-			pstmt.setInt(1,houColVO.getMem_no());
-			pstmt.setInt(2,houColVO.getHos_no());
-			pstmt.setString(3,houColVO.getHos_col_note());
+			pstmt.setString(1,houColVO.getHos_col_note());
+			pstmt.setInt(2,houColVO.getMem_no());
+			pstmt.setInt(3,houColVO.getHos_no());
+			
 	
 //	   =================送出指令========================
 			pstmt.executeUpdate();
@@ -204,7 +206,6 @@ public class HouColDAO implements HouColDAO_interface{
 
 			pstmt.setInt(1, houColVOParam.getMem_no());
 			pstmt.setInt(2, houColVOParam.getHos_no());
-			pstmt.setString(3, houColVOParam.getHos_col_note());
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -212,7 +213,7 @@ public class HouColDAO implements HouColDAO_interface{
 				houColVO.setMem_no(rs.getInt("mem_no"));
 				houColVO.setHos_no(rs.getInt("hos_no"));
 				houColVO.setHos_col_note(rs.getString("hos_col_note"));
-
+					System.out.println("DAO"+rs.getString("hos_col_note"));
 //				===================
 			}
 		} catch (SQLException se) {
@@ -297,5 +298,52 @@ public class HouColDAO implements HouColDAO_interface{
 		}
 		return list;
 	
+	}
+	@Override
+	public Integer judge(HouColVO houColVO) {
+		Integer judge = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(JUDGE);
+			pstmt.setInt(1, houColVO.getMem_no());
+			pstmt.setInt(2, houColVO.getHos_no());
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				judge=rs.getInt(1);
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return judge;
 	}
 }

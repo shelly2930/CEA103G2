@@ -23,5 +23,6 @@ public interface HouColDAO_interface {
 //    GET_ALL_BY_PK1
     public List<HouColVO> getAll(Integer mem_no);
     //萬用複合查詢(傳入參數型態Map)(回傳 List)
-//  public List<HouColVO> getAll(Map<String, String[]> map);  
+//  public List<HouColVO> getAll(Map<String, String[]> map); 
+    public Integer judge(HouColVO houColVO);
 }

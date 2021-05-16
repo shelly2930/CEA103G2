@@ -46,12 +46,17 @@ public class HouColService {
 		dao.deleteOneByPk1AndPk2(houColVO);
 	}
 	
-	public HouColVO findByPrimaryKey(Integer mem_no,Integer hos_no,String hos_col_note) {
+	public HouColVO findByPrimaryKey(Integer mem_no,Integer hos_no) {
 		HouColVO houColVO = new HouColVO();
 		houColVO.setMem_no(mem_no);
 		houColVO.setHos_no(hos_no);
-		houColVO.setHos_col_note(hos_col_note);
-		dao.findByPrimaryKey(houColVO);
-		return houColVO;
+		
+		return dao.findByPrimaryKey(houColVO);
+	}
+	public Integer judge(Integer mem_no,Integer hos_no) {
+		HouColVO houColVO = new HouColVO();
+		houColVO.setMem_no(mem_no);
+		houColVO.setHos_no(hos_no);
+		return dao.judge(houColVO);
 	}
 }
