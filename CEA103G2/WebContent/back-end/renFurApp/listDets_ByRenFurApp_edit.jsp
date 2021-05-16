@@ -46,18 +46,18 @@
 
 <table>
 	<tr>
-		<th>家具<br>編號</th>
+		<th>家具<br>序號</th>
 		<th>家具名稱</th>
 		<th>家具租金</th>
 		<th>出租日期</th>
 		<th>終止日期</th>
 		<th>解租日期</th>
-		<th>編輯</th>
-		<th>刪除</th>
+<!-- 		<th>編輯</th> -->
+<!-- 		<th>刪除</th> -->
 	</tr>
 	
 	<c:forEach var="renFurDetVO" items="${listDets_ByRenFurApp}">
- <jsp:useBean id="furLisSvc" scope="page" class="com.furLis.model.FurLisService" />
+  <jsp:useBean id="furLisSvc" scope="page" class="com.furLis.model.FurLisService" />
   <jsp:useBean id="furIteSvc" scope="page" class="com.furIte.model.FurIteService" />
   <jsp:useBean id="renFurDetSvc" scope="page" class="com.renFurDet.model.RenFurDetService" />
 <%-- 						<c:forEach var="renFurDetVO" items="${renFurDetSvc.all}" > --%>
@@ -72,24 +72,24 @@
 			<td><fmt:formatDate value="${renFurDetVO.rent_date}"	pattern="yyyy-MM-dd" /></td>
 			<td><fmt:formatDate value="${renFurDetVO.rent_end_date}"	pattern="yyyy-MM-dd" /></td>
 			<td><fmt:formatDate value="${renFurDetVO.rent_tmt_date}"	pattern="yyyy-MM-dd " /></td>
-			<td> 
-			         <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurDet/renFurDet.do" style="margin-bottom: 0px;">
-		             <input type="submit" value="編輯">
-			         <input type="hidden" name="rfa_no"  value="${renFurDetVO.rfa_no}">
-			         <input type="hidden" name="fnt_id"  value="${renFurDetVO.fnt_id}">
-			         <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+<!-- 			<td>  -->
+<%-- 			         <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurDet/renFurDet.do" style="margin-bottom: 0px;"> --%>
+<!-- 		             <input type="submit" value="編輯"> -->
+<%-- 			         <input type="hidden" name="rfa_no"  value="${renFurDetVO.rfa_no}"> --%>
+<%-- 			         <input type="hidden" name="fnt_id"  value="${renFurDetVO.fnt_id}"> --%>
+<%-- 			         <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
 <%-- 			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">        --%>
- 			         <input type="hidden" name="action2" value="getOne_For_Update"></FORM> 
-		   </td> 
-		   <td> 
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurDet/renFurDet.do" style="margin-bottom: 0px;">
-		          <input type="submit" value="刪除">
-			     <input type="hidden" name="rfa_no"  value="${renFurDetVO.rfa_no}">
-			      <input type="hidden" name="fnt_id"  value="${renFurDetVO.fnt_id}">
-			      <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+<!--  			         <input type="hidden" name="action2" value="getOne_For_Update"></FORM>  -->
+<!-- 		   </td>  -->
+<!-- 		   <td>  -->
+<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurDet/renFurDet.do" style="margin-bottom: 0px;"> --%>
+<!-- 		          <input type="submit" value="刪除"> -->
+<%-- 			     <input type="hidden" name="rfa_no"  value="${renFurDetVO.rfa_no}"> --%>
+<%-- 			      <input type="hidden" name="fnt_id"  value="${renFurDetVO.fnt_id}"> --%>
+<%-- 			      <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
 <%-- 			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">        --%>
- 			     <input type="hidden" name="action2" value="delete"></FORM> 
-			</td>
+<!--  			     <input type="hidden" name="action2" value="delete"></FORM>  -->
+<!-- 			</td> -->
 		</c:if>
 	</c:forEach>
 	</tr>

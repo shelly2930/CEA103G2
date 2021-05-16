@@ -23,7 +23,7 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 	private static final String TABLE="RENT_FURNITURE_APPLICATION";
 	private static final String INSERT_ITEM=" (mem_no,emp_no,rfa_order_date,rfa_total,rfa_apct_date,rfa_status)";
 //	private static final String UPDATE_ITEM="mem_no= ?,emp_no= ?,rfa_order_date= ?,rfa_total= ?,rfa_status= ?";
-	private static final String UPDATE_ITEM="emp_no= ?,rfa_order_date= ?";
+	private static final String UPDATE_ITEM="emp_no= ?,rfa_order_date= ?, rfa_status=?";
 	private static final String PK="rfa_no";
 	
 	private static final String INSERT_STMT = 
@@ -102,8 +102,8 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			pstmt.setInt(1, renFurAppVO.getEmp_no());
 			pstmt.setTimestamp(2, renFurAppVO.getRfa_order_date());
 //			pstmt.setInt(4, renFurAppVO.getRfa_total());
-//			pstmt.setByte(5, renFurAppVO.getRfa_status());
-			pstmt.setInt(3, renFurAppVO.getRfa_no());
+			pstmt.setByte(3, renFurAppVO.getRfa_status());
+			pstmt.setInt(4, renFurAppVO.getRfa_no());
 
 			pstmt.executeUpdate();
 

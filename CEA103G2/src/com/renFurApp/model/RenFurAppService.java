@@ -3,6 +3,10 @@ package com.renFurApp.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.renFurDet.model.RenFurDetDAO;
+import com.renFurDet.model.RenFurDetService;
+import com.renFurDet.model.RenFurDetVO;
+
 public class RenFurAppService {
 
 	private RenFurAppDAO_interface dao;
@@ -27,7 +31,7 @@ public class RenFurAppService {
 		return renFurAppVO;
 	}
 
-	public RenFurAppVO updateRenFurApp(Integer rfa_no, Integer emp_no, Timestamp rfa_order_date) {
+	public RenFurAppVO updateRenFurApp(Integer rfa_no, Integer emp_no, Timestamp rfa_order_date, Byte rfa_status) {
 //		public RenFurAppVO updateRenFurApp(Integer rfa_no, Integer mem_no, Integer emp_no, Timestamp rfa_order_date,
 //				Integer rfa_total, Byte rfa_status) {
 
@@ -38,7 +42,22 @@ public class RenFurAppService {
 		renFurAppVO.setRfa_order_date(rfa_order_date);
 //		renFurAppVO.setRfa_total(rfa_total);
 //		renFurAppVO.setRfa_apct_date(rfa_apct_date);
-//		renFurAppVO.setRfa_status(rfa_status);
+		
+		if(rfa_status == 2) {
+			RenFurDetDAO renFurDetDAO = new RenFurDetDAO();
+			List<RenFurDetVO> list = renFurDetDAO.getOneList(rfa_no);
+			for(RenFurDetVO renFurDetVO : list) {
+				renFurDetVO.setRent_date(new Timestamp(System.currentTimeMillis()));
+				renFurDetDAO.update(renFurDetVO);
+				System.out.println("³o!!!!!!");
+			}
+		} else {
+			if(emp_no == 0)
+				rfa_status = new Byte("0");
+			else
+				rfa_status = new Byte("1");
+		}
+		renFurAppVO.setRfa_status(rfa_status);
 
 		dao.update(renFurAppVO);
 

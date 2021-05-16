@@ -212,8 +212,6 @@ try {
  } catch (Exception e) {
 	 e.getMessage();
  }
-
-
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
