@@ -462,7 +462,6 @@ h4 {
 						$(this).removeClass('far');
 						$(this).addClass('fas');
 					}else{
-						console.log(parseInt(housno));
 						$(this).removeClass('fas');
 						$(this).addClass('far');
 					}
@@ -539,7 +538,7 @@ h4 {
 		}
 		
 	})
-	
+	let addcol_hos = null;
 	reset(colarray);
 	function reset(colarray){
 		for(let col_no of colarray){
@@ -586,28 +585,12 @@ h4 {
 						}
 					})
 					$(".addcoltext").click(function(e){
-//							新增備註
+//						新增備註
+						addcol_hos = $(this).parent().attr('id');
 						e.preventDefault();
 						$("#controltext").modal('show');
 						$("#message-text").val($("#text"+jsonStr.hos_no).html().substring(4));
-						$("#sendtext").click(function(){
-							$.ajax({
-								url:"<%=request.getContextPath()%>/HouColServlet",
-								type:'post',
-								data:{
-									action:'update',
-									hos_no:jsonStr.hos_no,
-									hos_col_note:$("#message-text").val(),
-									mem_no:mem_no,
-								},
-								async: false,
-								success:function(str){
-									console.log(str);
-									colarray=getCol(mem_no);
-									reset(colarray);
-								}
-							})
-						})
+						
 					})
 					$(".cancelcol").click(function(e){
 						e.preventDefault();
@@ -632,7 +615,26 @@ h4 {
 		}
 	}
 	
-	
+	$("#sendtext").click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		$.ajax({
+			url:"<%=request.getContextPath()%>/HouColServlet",
+			type:'post',
+			data:{
+				action:'update',
+				hos_no:addcol_hos,
+				hos_col_note:$("#message-text").val(),
+				mem_no:mem_no,
+			},
+			async: false,
+			success:function(str){
+				console.log(str);
+				colarray=getCol(mem_no);
+				reset(colarray);
+			}
+		})
+	})
 	
 	
 	jQuery(document).ready(function($){

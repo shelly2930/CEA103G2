@@ -504,7 +504,7 @@
 	<!-- 									</div> -->
 								<div class="single_product_text">
 	                                 <h5>${houseVO.hos_name}</h5>
-	                                 <h5>$${houseVO.hos_rent}.00 | <c:choose>
+	                                 <h5>$${houseVO.hos_rent} | <c:choose>
 										<c:when test="${houseVO.hos_type==0}">不限 </c:when>
 										<c:when test="${houseVO.hos_type==1}">獨立套房  </c:when>
 										<c:when test="${houseVO.hos_type==2}">分租套房</c:when>
@@ -514,7 +514,6 @@
 										<c:when test="${houseVO.hos_type==6}">其他 </c:when>
 										</c:choose> | ${houseVO.hos_squares}坪</h5>
 	                                    <h5>${houseVO.hos_address}</h5>
-	                                    <h5>$150.00</h5>
 	                                    <a href="" id='${houseVO.hos_no}' class="add">加入收藏<i class="far fa-heart" style='color:#FF9696;font-size:23px'></i></a>
 	                                </div>
 	                            </div>
@@ -622,7 +621,6 @@
 								$(this).removeClass('far');
 								$(this).addClass('fas');
 							}else{
-								console.log(parseInt($(this).parent().attr('id')));
 								$(this).removeClass('fas');
 								$(this).addClass('far');
 							}
@@ -702,15 +700,17 @@
 				console.log(typeof($(this).attr("id")))
 				
 			})
-			
+			let addcol_hos = null;
 			reset(colarray);
 			function reset(colarray){
 				if(colarray.size==0){
 					$("#showcol").empty();
 					return false;
 				}
+				$("#showcol").empty();
+				console.log(colarray.size)
 				for(let col_no of colarray){
-					$("#showcol").empty();
+					
 					$.get({
 						url:"<%=request.getContextPath()%>/HouseJsonServlet",
 						type:"post",
@@ -736,7 +736,7 @@
 							str+="</div></div>";
 							str+="<div class='card-footer' id='"+jsonStr.hos_no+"'>";
 							str+="<a href=''class='cancelcol' style='display:inline-block' ><h5><i class='fas fa-window-close text-info'>取消收藏</i></h5></a>";
-							str+="<a href=''class='addcoltext' style='display:inline-block'><h5>&nbsp; &nbsp; &nbsp; <i class='fas fa-edit text-warning'>增加備註</i></h5></a>";
+							str+="<a href=''class='addcoltext' style='display:inline-block' id='add"+jsonStr.hos_no+"'><h5>&nbsp; &nbsp; &nbsp; <i class='fas fa-edit text-warning'>增加備註</i></h5></a>";
 							str+="</div>";
 							str+="</div><hr>";
 							$("#showcol").append(str);
@@ -752,33 +752,16 @@
 								success:function(str){
 									if(str.hos_col_note.trim().length==0){
 									}else{
-										$("#text"+jsonStr.hos_no).html("備註: "+str.hos_col_note);
+										$("#text"+col_no).html("備註: "+str.hos_col_note);
 									}
 								}
 							})
-							$(".addcoltext").click(function(e){
+							$("#add"+jsonStr.hos_no).click(function(e){
+								addcol_hos = $(this).parent().attr('id');
 // 								新增備註
 								e.preventDefault();
 								$("#controltext").modal('show');
 								$("#message-text").val($("#text"+jsonStr.hos_no).html().substring(4));
-								$("#sendtext").click(function(){
-									$.ajax({
-										url:"<%=request.getContextPath()%>/HouColServlet",
-										type:'post',
-										data:{
-											action:'update',
-											hos_no:jsonStr.hos_no,
-											hos_col_note:$("#message-text").val(),
-											mem_no:mem_no,
-										},
-										async: false,
-										success:function(str){
-											console.log(str);
-											colarray=getCol(mem_no);
-											reset(colarray);
-										}
-									})
-								})
 							})
 							$(".cancelcol").click(function(e){
 								e.preventDefault();
@@ -803,7 +786,26 @@
 				}
 			}
 			
-			
+			$("#sendtext").click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouColServlet",
+					type:'post',
+					data:{
+						action:'update',
+						hos_no:addcol_hos,
+						hos_col_note:$("#message-text").val(),
+						mem_no:mem_no,
+					},
+					async: false,
+					success:function(str){
+						console.log(str);
+						colarray=getCol(mem_no);
+						reset(colarray);
+					}
+				})
+			})
 			
 			
 			jQuery(document).ready(function($){
