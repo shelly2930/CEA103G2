@@ -112,7 +112,8 @@ FurIteVO furIteVO = (FurIteVO) request.getAttribute("furIteVO");
                 <span class="number-increment"> <i class="ti-plus"></i></span>
               </div>
 <!--               加入購物車 -->
-              <a href="#" class="btn_3">+ 加入租借</a>
+              <a href="<%=request.getContextPath()%>/rentCart/rentCart.do?fnt_it_no=${furIteVO.fnt_it_no}&action=ADD&fnt_name=${furIteVO.fnt_name}&requestURL=<%=request.getServletPath()%>&fnt_price=${furIteVO.fnt_price}&quantity=1"  class="btn_3">+ 加入租借</a>
+<!-- 原始留              <a href="#" class="btn_3">+ 加入租借</a> -->
 <!--               收藏 -->
               <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
             </div>

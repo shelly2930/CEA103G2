@@ -6,6 +6,7 @@
 <%@ page import="com.furCol.model.*"%>
 <%@ page import="com.furIte.model.*"%>
 <%@ page import="com.furPho.model.*"%>
+ <jsp:useBean id="memTenSvc" scope="page" class="com.memTen.model.MemTenService" />
 
 1.待處理會員點選收藏家具圖片或家具名稱時 可連到家具的介紹頁面
 2.處理按我要租借時 可以前往購物車頁面 (無庫存時 我要租借 無法點選)
@@ -21,16 +22,9 @@
 %>
 <% 	  
 		List<FurColVO> list =null;
-// 		if(request.getParameter("fnt_ctgr_no")==null){
 			FurColService furCoISvc = new FurColService();
 			    list= furCoISvc.getAll();
 			    pageContext.setAttribute("list",list);
-// 		}else {
-// 			FurCoIService furCoISvc = new FurCoIService();
-// 			Integer fnt_ctgr_no = new Integer(request.getParameter("fnt_ctgr_no"));
-// 			 list = furIteSvc.getOneFurCat_Item(fnt_ctgr_no); 
-// 			pageContext.setAttribute("list",list);
-// 		}
 %>
 
 <jsp:useBean id="furPhoSvc" scope="page" class="com.furPho.model.FurPhoService" />
@@ -155,20 +149,25 @@
 		<th>租借</th>
 		<th>變更</th>
 	</tr>
-<!-- 	//here -->
 	<%@ include file="page1_furCol.file"%>		    
 <%-- <c:forEach var="furCoIVO" items="${list}" > --%>
 <c:forEach var="furCoIVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr>
-			<td>${furCoIVO.fnt_it_no}</td>
+			<td><c:forEach var="memTenVO"  items="${memTenSvc.all}">
+							<c:if test="${furColVO.mem_no==memTenVO.mem_no}">
+		                    ${memTenVO.mem_no}
+	                    </c:if>	</c:forEach></td>
 <!-- 			此段超連結跳轉先保留 待之後可直接點到家具品項介紹頁面用 -->
 <%-- 			<td><a href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp?fnt_it_no=${furCoIVO.fnt_it_no}">${furIteSvc.getOneFurIte(furCoIVO.fnt_it_no).fnt_name}</a></td>  --%>
 			
 			<td class="fnt_pic">
-				<img src="<%=request.getContextPath()%>/furPho/furPhoShow.do?fnt_pic_no=${furPhoSvc.getThisIteFurPho(furCoIVO.fnt_it_no).fnt_pic_no}"
-					height="100">
+<%-- ↓↓↓此段圖片超連結無法取到${furColVO.fnt_it_no}的值↓↓↓ 待找bug --%>
+<%-- 				 <a href="<%=request.getContextPath()%>/furIte/furIte.do?fnt_it_no=${furColVO.fnt_it_no}&action=getOneFurIteToFE" > --%>
+					<img src="<%=request.getContextPath()%>/furPho/furPhoShow.do?fnt_pic_no=${furPhoSvc.getThisIteFurPho(furCoIVO.fnt_it_no).fnt_pic_no}"
+						height="100">
+<!-- 				</a> -->
 			</td>
-			<td class="fnt_info">${furIteSvc.getOneFurIte(furCoIVO.fnt_it_no).fnt_name}
+			<td class="fnt_info">${furIteSvc.getOneFurIte(furCoIVO.fnt_it_no).fnt_name}	
 					<br>
 					<p>收藏時間：<fmt:formatDate value="${furCoIVO.fnt_col_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></p>
 			</td>

@@ -28,7 +28,7 @@ public class FurIteServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 	    res.setContentType("text/html; charset=Big5");
 		String action = req.getParameter("action");
-		
+	
 		
 		//<前台用>首頁進租家具瀏覽頁面 所呈現之家具(留意上下架狀態)
 	 if ("listGetOnFurIteByCat".equals(action)) { // 來自前台瀏覽家具listAllFur.jsp的請求
@@ -428,12 +428,12 @@ public class FurIteServlet extends HttpServlet {
 		 
 		//來自前台家具圖點入家具介紹
 		 if ("getOneFurIteToFE".equals(action)) { // 來自listAllFurIte.jsp的請求
-
 				List<String> errorMsgs = new LinkedList<String>();
 				req.setAttribute("errorMsgs", errorMsgs);
 				try {
 					/***************************1.接收請求參數****************************************/
 					Integer fnt_it_no = new Integer(req.getParameter("fnt_it_no"));
+					System.out.println(fnt_it_no);
 					/***************************2.開始查詢資料****************************************/
 					FurIteService furIteSvc = new FurIteService();
 					FurIteVO furIteVO = furIteSvc.showOneFurIteToFE(fnt_it_no);

@@ -161,6 +161,7 @@
 				<option value="0">©|¥¼«ü¬£</option>
 			<c:forEach var="empVO" items="${empSvc.all}">
 				<option value="${empVO.emp_no}" ${(renFurAppVO.emp_no==empVO.emp_no)? 'selected':'' } >${empVO.emp_name}
+			</option>
 			</c:forEach>
 		</select></td>
 	</tr>	

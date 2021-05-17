@@ -181,6 +181,10 @@ public class FurLisServlet extends HttpServlet {
 						fnt_rent_status='0';
 						errorMsgs.add("請選擇家具租借狀態");
 					}
+					//後端防呆 當家具狀態不為正常時 租借狀態均為未出租!
+					if(fnt_status!=0) {
+						fnt_rent_status=0;
+					}
 				//報廢日期 可為空值	
 					Timestamp fnt_unusable_date = null;
 					try {

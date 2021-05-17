@@ -1,7 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
+<%@ page import="com.rentCart.model.RentCartItem" %>
 
+   <% @SuppressWarnings("unchecked")
+   Vector<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");%>
     
 <!DOCTYPE html>
 <html>
@@ -54,13 +57,14 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Delete</th>
+                                <th scope="col">家具品項</th>
+                                <th scope="col">每月租金</th>
+                                <th scope="col">租用數量</th>
+                                <th scope="col">小計</th>
+                                <th scope="col">刪除</th>
                             </tr>
                         </thead>
+                        
                         <!-- 租借明細開始  由此開始循環 -->
                         <tr>
                             <td>

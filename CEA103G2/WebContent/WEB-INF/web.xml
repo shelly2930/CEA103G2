@@ -126,12 +126,12 @@
     <url-pattern>/furIte/furIte.do</url-pattern>
   </servlet-mapping>
     <servlet>
-    <servlet-name>FurIteCartServlet</servlet-name>
-    <servlet-class>com.furIte.controller.FurIteCartServlet</servlet-class>
+    <servlet-name>RentCartServlet</servlet-name>
+    <servlet-class>com.rentCart.controller.RentCartServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>FurIteCartServlet</servlet-name>
-    <url-pattern>/furIte/furIteCart.do</url-pattern>
+    <servlet-name>RentCartServlet</servlet-name>
+    <url-pattern>/rentCart/rentCart.do</url-pattern>
   </servlet-mapping>
    <servlet>
     <servlet-name>FurLisServlet</servlet-name>
@@ -181,7 +181,6 @@
     <servlet-name>FurColServlet</servlet-name>
     <url-pattern>/furCol/furCol.do</url-pattern>
   </servlet-mapping>
-    
   
 <!--   ↑怡蓁↑   -->
 

@@ -8,10 +8,14 @@
 <%@ page import="com.furIte.model.*"%>
 待處理租借家具明細出租價格合計(目前暫用資料庫寫定的相加值 非細項動態自動相加值)
 <% 	  
-List<RenFurAppVO> list =null;
+List<RenFurAppVO> list =new ArrayList<RenFurAppVO>();
+if(request.getAttribute("QueryResultList")!=null){
+	list=(ArrayList<RenFurAppVO>) request.getAttribute("QueryResultList");	
+		 pageContext.setAttribute("list",list);				
+}else{
 RenFurAppService renFurAppSvc = new RenFurAppService();
 list= renFurAppSvc.getAll();
-pageContext.setAttribute("list",list);
+pageContext.setAttribute("list",list);}
 
 // 指派時可能會用到類似邏輯 先留
 // 		List<RenFurAppVO> list =null;
