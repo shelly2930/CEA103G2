@@ -11,7 +11,7 @@
   .footer_part {
     padding: 25px 0px 15px !important;
   }
-}5
+}
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .footer_part {
     padding: 25px 0px 15px !important;
@@ -25,9 +25,9 @@
     text-align: center !important;
   }
 .footer_part .copyright_text p a {
-	color: #61D2B4 !important;
+	color: #ccb78f !important;
 }
 .footer_part .copyright_text p a:hover {
-  color: #61D2B4 !important;
+  color: #ccb78f !important;
 }
 /* footer CSS end */

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -250,7 +251,8 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 					String url="";
 //					先測試都到跳轉到同一畫面 最後再分哪個進查看 哪個進修改頁面
 					if("getOne_For_Update".equals(action)){
-						url = "/back-end/renFurApp/update_renFurApp_input.jsp";
+//						url = "/back-end/renFurApp/update_renFurApp_input.jsp";
+						url = "/back-end/renFurApp/up_renFurApp.jsp";
 						}
 					else {
 						url = "/back-end/renFurApp/listOne_renFurApp.jsp";
@@ -315,6 +317,9 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 					} catch (Exception e) {
 						errorMsgs.add("請選擇指派員工");
 					}
+					
+					Byte rfa_status = new Byte(req.getParameter("rfa_status"));
+					 System.out.println("rfa_status="+rfa_status);
 				
 					RenFurAppVO renFurAppVO = new RenFurAppVO();
 					renFurAppVO.setRfa_no(rfa_no);
@@ -323,7 +328,7 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 //					renFurAppVO.setRfa_apct_date(rfa_acpt_date);
 					renFurAppVO.setRfa_order_date(rfa_order_date);
 //					renFurAppVO.setRfa_total(rfa_total);
-//					renFurAppVO.setRfa_status(rfa_status);
+					renFurAppVO.setRfa_status(rfa_status);
 					
 					
 					
@@ -331,25 +336,33 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("renFurAppVO", renFurAppVO); // 含有輸入格式錯誤的furIteVO物件,也存入req
 						RequestDispatcher failureView = req
-								.getRequestDispatcher("/back-end/renFurApp/update_renFurApp_input.jsp");
+								.getRequestDispatcher("/back-end/renFurApp/up_renFurApp.jsp");
 						failureView.forward(req, res);
 						return;
 					}
 					
 					/***************************2.開始新增資料***************************************/
 					RenFurAppService renFurAppSvc = new RenFurAppService();
-					renFurAppVO = renFurAppSvc.updateRenFurApp( rfa_no,  emp_no,  rfa_order_date);
+					renFurAppVO = renFurAppSvc.updateRenFurApp( rfa_no,  emp_no,  rfa_order_date, rfa_status);
 					/***************************3.新增完成,準備轉交(Send the Success view)***********/
-					String url = "/back-end/renFurApp/listAllRenFurApp.jsp";
-					req.setAttribute("renFurAppVO", renFurAppVO);  
+					RenFurDetService renFurDetSvc = new RenFurDetService();
+					List<RenFurDetVO> list = renFurDetSvc.getOneList(rfa_no);
+					req.setAttribute("listDets_ByRenFurApp", list);
+					
+					renFurAppVO = renFurAppSvc.getOneRenFurApp(rfa_no);
+					req.setAttribute("renFurAppVO", renFurAppVO);
+					
+					req.setAttribute("updateSuccess", "updateSuccess");
+					
+					String url = "/back-end/renFurApp/up_renFurApp.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); 
-					successView.forward(req, res);				
+					successView.forward(req, res);	
 				
 					/***************************其他可能的錯誤處理**********************************/
 				} catch (Exception e) {
 					errorMsgs.add(e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/renFurApp/update_renFurApp_input.jsp");
+							.getRequestDispatcher("/back-end/renFurApp/up_renFurApp.jsp");
 					failureView.forward(req, res);
 				}
 			}
@@ -383,32 +396,21 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 //				}
 //			}		
 //		 
-////從家具類別查家具品項 
-//			if ("getFurIteSelect".equals(action)) {
-////				List<String> errorMsgs = new LinkedList<String>();
-////				req.setAttribute("errorMsgs", errorMsgs);
-//
-//				try {
-//					
-//					/*************************** 1.接收請求參數 ****************************************/
-//					Integer fnt_ctgr_no = new Integer(req.getParameter("fnt_ctgr_no"));
-//					/*************************** 2.開始查詢資料 ****************************************/
-//					FurIteService furIteSvc = new FurIteService();
-//					String  fnt_name_Str = furIteSvc.selectByPrimaryKey(fnt_ctgr_no);
-//
-//					/*************************** 3.查詢完成 ********************************************/
-//					   // 資料庫取出的家具品項名稱字串傳回前端
-//					PrintWriter out = res.getWriter();
-//		            out.print(fnt_name_Str);
-//
-//					/*************************** 其他可能的錯誤處理 ***********************************/
-//				} catch (Exception e) {
-//					FurIteService furIteSvc = new FurIteService();
-//					String  all_fnt_name_Str = furIteSvc.getAllFntName();
-//					PrintWriter out = res.getWriter();
-//		            out.print(all_fnt_name_Str);
-//				}
-//			}
-//				
+		 
+		 if("getByRfa_status".equals(action)) {
+			 Byte rfa_status = new Byte(req.getParameter("rfa_status").trim());
+			 List<RenFurAppVO> list = new RenFurAppService().getAll();
+			 List<RenFurAppVO> newList = new  ArrayList<RenFurAppVO>();
+			 for(int i = 0; i < list.size(); i++) {
+				 RenFurAppVO renFurAppVO = list.get(i);
+				 if(renFurAppVO.getRfa_status().equals(rfa_status)) {
+					 newList.add(renFurAppVO);
+				 }
+			 }
+			 
+			 req.setAttribute("list", newList);  
+			 RequestDispatcher successView = req.getRequestDispatcher("/back-end/renFurApp/showAllRenFurApp.jsp"); 
+			 successView.forward(req, res);
+		 }
 	}
 }

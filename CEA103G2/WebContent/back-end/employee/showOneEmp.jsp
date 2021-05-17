@@ -35,6 +35,11 @@
 		.errorMsgs {
 			color: #1cc88a;
 		}
+		.pageTitle{
+			color: #4165ae;
+			letter-spacing: 1rem;
+			text-shadow: 1px 1px 2px #233559;
+		}
 	</style>
 </head>
 
@@ -60,11 +65,14 @@
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
 ${errorMsgs.Exception}
-					<div class="row justify-content-center mt-5 mb-5">
-						<c:if test="${sessionScope.employeeVO.emp_id == null}">
-				        <div class="h1 border-bottom-primary">請完成基本資料填寫</div>
-				        </c:if>
-					</div>
+					<div class="mx-auto text-center pageTitle">
+	                    <h1 class="mx-auto mb-4 text-uppercase">基本資料</h1>
+	                </div>
+<!-- 					<div class="row justify-content-center mt-5 mb-5"> -->
+<%-- 						<c:if test="${sessionScope.employeeVO.emp_id == null}"> --%>
+<!-- 				        <div class="h1 border-bottom-primary">請完成基本資料填寫</div> -->
+<%-- 				        </c:if> --%>
+<!-- 					</div> -->
 					
                     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/employee/employee.do" ENCTYPE="multipart/form-data">
                     <div class="row justify-content-center">
@@ -368,15 +376,15 @@ ${errorMsgs.Exception}
 			$("#updateSubmit").css("display", "inline-block");
 		}
 		
-// 		$("#updateInfo").click(update);
 		$("#updateInfo").click(function() {
 			Swal.fire({
 				  title: '是否要修改基本資料?',
-				  icon: 'warning',
+				  icon: 'question',
 				  showCancelButton: true,
 				  confirmButtonColor: '#3085d6',
 				  cancelButtonColor: '#d33',
-				  confirmButtonText: 'Yes, do it!'
+				  confirmButtonText: '確定',
+				  cancelButtonText: '取消'
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					 update();

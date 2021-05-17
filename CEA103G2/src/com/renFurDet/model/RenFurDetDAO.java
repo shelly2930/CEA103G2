@@ -21,7 +21,7 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 	}
 	private static final String TABLE="RENT_FURNITURE_DETAIL";
 	private static final String INSERT_ITEM="(rfa_no,fnt_id,rtct_no,rent_date,rent_end_date,rent_tmt_date)";
-	private static final String UPDATE_ITEM="fnt_id= ?,rtct_no= ?,rent_date= ?,rent_end_date= ?,rent_tmt_date= ?";
+	private static final String UPDATE_ITEM="rtct_no= ?,rent_date= ?,rent_end_date= ?,rent_tmt_date= ?";
 	private static final String PK1="rfa_no";
 	private static final String PK2="fnt_id";
 	
@@ -93,14 +93,21 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
+			System.out.println(renFurDetVO.getRtct_no());
 			pstmt.setInt(1, renFurDetVO.getRtct_no());
+			System.out.println(renFurDetVO.getRent_date());
 			pstmt.setTimestamp(2, renFurDetVO.getRent_date());
+			System.out.println(renFurDetVO.getRent_end_date());
 			pstmt.setTimestamp(3, renFurDetVO.getRent_end_date());
+			System.out.println(renFurDetVO.getRent_tmt_date());
 			pstmt.setTimestamp(4, renFurDetVO.getRent_tmt_date());
+			System.out.println(renFurDetVO.getRfa_no());
 			pstmt.setInt(5, renFurDetVO.getRfa_no());
+			System.out.println(renFurDetVO.getFnt_id());
 			pstmt.setInt(6, renFurDetVO.getFnt_id());
+			System.out.println("!");
 			pstmt.executeUpdate();
-
+			System.out.println("!!!");
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
