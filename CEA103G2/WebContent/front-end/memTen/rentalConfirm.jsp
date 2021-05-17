@@ -75,7 +75,9 @@
 		</c:forEach>
 	</ul>
 </c:if>
+<jsp:useBean id="houseSvc" class="com.house.model.HouseService"/>
 ${houseVO.hos_name}
+${param.hos_no}
 <FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" name="form1">
 <table>
 	<tr>
@@ -125,6 +127,8 @@ ${houseVO.hos_name}
 <input type="hidden" name="hos_rent" value="${houseVO.hos_rent}">
 <input type="submit" value="送出申請"></FORM>
 
+<font color=blue>request.getServletPath():</font> <%=request.getServletPath()%><br>
+   <font color=blue>request.getRequestURI(): </font> <%=request.getRequestURI()%> </b>
 
 <!-- 上傳圖片可預覽 -->
 <script>
