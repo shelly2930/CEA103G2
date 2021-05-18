@@ -106,11 +106,11 @@ FurIteVO furIteVO = (FurIteVO) request.getAttribute("furIteVO");
 <!--             </p> -->
             <div class="card_area d-flex justify-content-between align-items-center">
 <!--              數量+-鈕 -->
-              <div class="product_count">
-                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                <input class="input-number" type="text" value="1" min="0" max="${furIteVO.fnt_unrent}">
-                <span class="number-increment"> <i class="ti-plus"></i></span>
-              </div>
+<!--               <div class="product_count"> -->
+<!--                 <span class="inumber-decrement"> <i class="ti-minus"></i></span> -->
+<%--                 <input class="input-number" type="text" value="1" min="0" max="${furIteVO.fnt_unrent}"> --%>
+<!--                 <span class="number-increment"> <i class="ti-plus"></i></span> -->
+<!--               </div> -->
 <!--               加入購物車 -->
               <a href="<%=request.getContextPath()%>/rentCart/rentCart.do?fnt_it_no=${furIteVO.fnt_it_no}&action=ADD&fnt_name=${furIteVO.fnt_name}&requestURL=<%=request.getServletPath()%>&fnt_price=${furIteVO.fnt_price}&quantity=1"  class="btn_3">+ 加入租借</a>
 <!-- 原始留              <a href="#" class="btn_3">+ 加入租借</a> -->
