@@ -213,8 +213,11 @@
 										<h3 id="${furIteVO.fnt_price}">$${furIteVO.fnt_price} /月</h3>
 										<!--                                   <以下加到購物車> -->
 										<%--                                     <a href="<%=request.getContextPath()%>/rentCart/rentCart.do?fnt_it_no=${furIteVO.fnt_it_no}&action=ADD&fnt_name=${furIteVO.fnt_name}&requestURL=<%=request.getServletPath()%>&fnt_price=${furIteVO.fnt_price}&quantity=1" class="add_cart">+ 加入租借<i class="ti-heart"></i></a> --%>
-										<a href=" " id="addCart${furIteVO.fnt_it_no}" class="add_cart">+
-											加入租借<i class="ti-heart"></i>
+										<a href=" "   id="${furIteVO.fnt_it_no}" name="cartButton" class="btn btn-info btn-icon-split" style="color:#46BBA2; background-color:#ffffff; border-color:#46BBA2;">
+											加入租借
+										</a>
+										<a href=" "  class="add_cart">+
+											加入收藏<i class="ti-heart"></i>
 										</a>
 									</div>
 								</div>
@@ -274,7 +277,7 @@
 
 	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript">
-$(".add_cart").click(function(e){
+$("[name*='cartButton']").click(function(e){
 	e.preventDefault();
 	alert("SUCCESS");
 	$.ajax({
@@ -288,7 +291,7 @@ $(".add_cart").click(function(e){
 			"quantity":"1",
 		},
 		success:function(){
-			console.log("YA! SUCCESS!!!!");
+			alert("YA! SUCCESS!!!!");
 		}
 	});
 });
@@ -300,24 +303,7 @@ $(".add_cart").click(function(e){
 // 	alert($(this).prev().prev().attr('id'));
 // 	});
 
-$("#addCart${furIteVO.fnt_it_no}").click(function(e){
-	e.preventDefault();
-	console.log("Hi!! AJAX!!");
-	$.ajax({
-		type:"POST",
-		url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
-		data:{
-			"action":"ADD",
-        	"fnt_it_no":"${furIteVO.fnt_it_no}",
-        	"fnt_name":"${furIteVO.fnt_name}",
-			"fnt_price":"${furIteVO.fnt_price}",
-			"quantity":"1",
-		},
-		success:function(){
-			console.log("YA! SUCCESS!!!!");
-		}
-	});
-});
+
 
 
 
