@@ -21,4 +21,8 @@ public interface RenConDAO_interface {
     public RenConVO findByPK(Integer rtct_no);
     public List<RenConVO> findByStatus(Byte rtct_status);
     public void updateStatus(RenConVO renConVO);
+    //·q¹F
+    public List<Integer> getMem(RenConVO renConVO);
+    public List<Integer> getMemHou(RenConVO renConVO);
+    public List<Integer> getMemHouCon(RenConVO renConVO);
 }

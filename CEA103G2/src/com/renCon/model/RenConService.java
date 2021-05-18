@@ -71,5 +71,25 @@ public class RenConService {
 //把參數轉成vo物件，就可以呼叫dao來對資料庫進行insert
 		dao.insert2(renConVO);
 		return renConVO;
-	} 
+	}
+	//敬達
+	public List<Integer> getMem(Byte status){
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_status(status);
+		return dao.getMem(renConVO);
+	}
+	
+	public List<Integer> getMemHou(Byte status,Integer mem_no){
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_status(status);
+		renConVO.setMem_no(mem_no);
+		return dao.getMemHou(renConVO);
+	}
+	public List<Integer> getMemHouCon(Byte status,Integer mem_no,Integer hos_no){
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_status(status);
+		renConVO.setMem_no(mem_no);
+		renConVO.setHos_no(hos_no);
+		return dao.getMemHouCon(renConVO);
+	}
 }

@@ -64,7 +64,10 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String FIND_BY_STATUS = "SELECT * FROM RENTAL_CONTRACT WHERE rtct_status=? ORDER BY hos_no";
 	private static final String UPDATE_STATUS = "UPDATE RENTAL_CONTRACT SET rtct_status=? WHERE rtct_no=?";
 	
-		
+	//敬達
+	private static final String GET_MEM="SELECT MEM_NO FROM RENTAL_CONTRACT WHERE rtct_status=?";
+	private static final String GET_MEM_HOU = "SELECT HOS_NO FROM RENTAL_CONTRACT WHERE rtct_status=? and MEM_NO=?";
+	private static final String GET_MEM_HOU_CON= "SELECT RTCT_NO FROM RENTAL_CONTRACT WHERE rtct_status=? and MEM_NO=? and HOS_NO=?";
 
 	@Override
 	public void insert(RenConVO renConVO) {
@@ -572,7 +575,163 @@ public class RenConDAO implements RenConDAO_interface{
 		}
 		
 	}
-/*===================== 蔡佳新增 ====================*/	
+/*===================== 蔡佳新增 ====================*/
+
+	@Override
+	public List<Integer> getMem(RenConVO renConVO) {
+		List<Integer> list = new ArrayList<Integer>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_MEM);
+			pstmt.setByte(1, renConVO.getRtct_status());
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getInt(1)); // Store the row in the list
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Integer> getMemHou(RenConVO renConVO) {
+		List<Integer> list = new ArrayList<Integer>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_MEM_HOU);
+			pstmt.setByte(1, renConVO.getRtct_status());
+			pstmt.setInt(2, renConVO.getMem_no());
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getInt(1)); // Store the row in the list
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Integer> getMemHouCon(RenConVO renConVO) {
+		List<Integer> list = new ArrayList<Integer>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_MEM);
+			pstmt.setByte(1, renConVO.getRtct_status());
+			pstmt.setInt(2, renConVO.getMem_no());
+			pstmt.setInt(3, renConVO.getHos_no());
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getInt(1)); // Store the row in the list
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}	
 	
 
 }
