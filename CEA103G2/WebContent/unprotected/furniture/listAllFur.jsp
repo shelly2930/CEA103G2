@@ -138,7 +138,24 @@
 
 <!--↓↓↓↓ 導覽列內容 測試完後刪除 改header檔 ↓↓↓↓-->
 <%-- <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%> --%>
-
+<head>
+<style>
+/*CART CSS*/
+.cartQuantity{
+  color:red;
+  position:absolute;
+  width: 15px;
+  height: 15px;
+  border-radius:50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right:-13px;
+  top:-8px;
+}
+/*CART CSS*/
+</style>
+</head>
 <!-- Required meta tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -250,17 +267,18 @@
 						</div>
 						
 <!-- 			↓↓↓ 	購物車圖式區域開始 ↓↓↓ -->
-									<a
-										href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery">測試</a>
-							<div class="dropdown cart">
-								<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery"  id="navbarDropdown3"
-									role="button" data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false"> <i class="fas fa-cart-plus"></i>
-								</a>
+									<a class="nav-link" 
+										href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery"><i class="fas fa-shopping-cart fa-3x"><span class="cartQuantity text-white bg-warning">0</span></i></a>
+<!-- 						原購物車程式碼 -->
+<!-- 							<div class="dropdown cart"> -->
+<%-- 								<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery"  id="navbarDropdown3" --%>
+<!-- 									role="button" data-toggle="dropdown" aria-haspopup="true" -->
+<!-- 									aria-expanded="false"> <i class="fas fa-cart-plus"></i> -->
+<!-- 								</a> -->
 								<!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <div class="single_product"></div>
                                 </div>-->
-
+<!-- 						原購物車程式碼 -->
 							</div>
 <!-- 			↑↑	↑		購物車圖式區域結束 ↑↑↑-->							
 							
@@ -414,7 +432,7 @@
                                    	<!--                               以下  h4超連結待改成各家具頁面介紹超連結 -->
 										<h4 id="${furIteVO.fnt_name}">${furIteVO.fnt_name}</h4>
 										<h3 id="${furIteVO.fnt_price}">$${furIteVO.fnt_price} /月</h3>
-										 <a class="add_cart"  id="${furIteVO.fnt_it_no}">+ 加入租借<i class="far fa-heart" id="${furIteVO.fnt_it_no}" style="color: red"></i></a>    
+										 <a class="add_cart"  id="${furIteVO.fnt_it_no}" style="color: red; cursor:pointer;">+ 加入租借<i class="far fa-heart" id="${furIteVO.fnt_it_no}" style="color: red"></i></a>    
 										<!--                                   <以下加到購物車> -->
 										<%--                                     <a href="<%=request.getContextPath()%>/rentCart/rentCart.do?fnt_it_no=${furIteVO.fnt_it_no}&action=ADD&fnt_name=${furIteVO.fnt_name}&requestURL=<%=request.getServletPath()%>&fnt_price=${furIteVO.fnt_price}&quantity=1" class="add_cart">+ 加入租借<i class="ti-heart"></i></a> --%>
 <!-- 原本 -->
@@ -524,7 +542,7 @@
 // 	}
 <%-- 	$("#page li.page-item").eq(j).after("<li class='page-item'><a class='page-link' href='<%=request.getContextPath()%>/house/house.do?whichPage="+enterPage+"&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery'>"+enterPage+"</a></li>"); --%>
 // 	enterPage++;
-// }
+//}
 
 let mem_no = ${empty MemTenVO.mem_no? "null" : MemTenVO.mem_no};
 getFurCol(mem_no);
@@ -883,6 +901,12 @@ $(".add_cart").click(function(e){
 		},
 		success:function(){
 			alert("YA! SUCCESS!!!!");
+// 			alert($(".cartQuantity").html());
+			//以下測試可送值取值 之後待從後端傳回品項總數 寫回購物車圖式旁數字
+			var quentity=parseInt($(".cartQuantity").html());
+			var add_one=quentity+1;
+			alert(add_one);
+			$(".cartQuantity").html(add_one);
 		}
 	});
 });
