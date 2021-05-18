@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import com.houPho.model.HouPhoVO;
+import com.lanlord.model.LanlordVO;
 
 public class RenConDAO implements RenConDAO_interface{
 	private static DataSource ds = null;
@@ -51,15 +52,19 @@ public class RenConDAO implements RenConDAO_interface{
 			"rtct_tmt_date=?, "+ 
 			"rtct_pic=?, "+
 			"rtct_deposit=? ";
-
 	private static final String INSERT = "INSERT INTO " + TABLE + "(" + REDUCE_PK_COL + ") VALUES ("+QUESTIONMARKS+")";
-	// 蔡佳
-	private static final String INSERT2 = "INSERT INTO RENTAL_CONTRACT (hos_no, mem_no, rtct_deposit) VALUES (?, ?, ?)";
 //	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by " + PK;
 	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by rtct_eff_date desc";
 	private static final String GET_ONE = "SELECT " + TOTAL_COL + " FROM " + TABLE + " where " + PK + "= ?";
 	private static final String DELETE = "DELETE FROM " + TABLE + " where +" + PK + "= ?";
 	private static final String UPDATE = "UPDATE " + TABLE + " set "+FOR_SET+" where " + PK + "=?";
+	// 蔡佳
+	private static final String INSERT2 = "INSERT INTO RENTAL_CONTRACT (hos_no, mem_no, rtct_eff_date, rtct_tmt_date, rtct_deposit, rtct_apptime) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String FIND_BY_PK = "SELECT * FROM RENTAL_CONTRACT WHERE rtct_no=?";
+	private static final String FIND_BY_STATUS = "SELECT * FROM RENTAL_CONTRACT WHERE rtct_status=? ORDER BY hos_no";
+	private static final String UPDATE_STATUS = "UPDATE RENTAL_CONTRACT SET rtct_status=? WHERE rtct_no=?";
+	
+		
 
 	@Override
 	public void insert(RenConVO renConVO) {
@@ -368,6 +373,7 @@ public class RenConDAO implements RenConDAO_interface{
 		
 	}
 
+/*===================== 蔡佳新增 ====================*/
 	@Override
 	public void insert2(RenConVO renConVO) {
 		
@@ -377,17 +383,16 @@ public class RenConDAO implements RenConDAO_interface{
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT2);
-//		========VO取值並設給preparedStatement=============
+			
 			pstmt.setInt(1,renConVO.getHos_no());
 			pstmt.setInt(2, renConVO.getMem_no());
-			pstmt.setInt(3,renConVO.getRtct_deposit());
-//	   =================送出指令========================
+			pstmt.setDate(3, renConVO.getRtct_eff_date());
+			pstmt.setDate(4, renConVO.getRtct_tmt_date());
+			pstmt.setInt(5,renConVO.getRtct_deposit());
+			pstmt.setTimestamp(6, renConVO.getRtct_apptime());
 			pstmt.executeUpdate();
 		
 		} catch (SQLException e) {
-//			RuntimeException老師說，為了丟出例外，
-//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
-//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
 			throw new RuntimeException("資料庫發生錯誤! "
 					+ e.getMessage());
 		}finally {
@@ -408,5 +413,166 @@ public class RenConDAO implements RenConDAO_interface{
 		}
 		
 	}
+
+	@Override
+	public RenConVO findByPK(Integer rtct_no) {
+		RenConVO renConVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_PK);
+
+			pstmt.setInt(1, rtct_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				renConVO  = new RenConVO();
+				renConVO.setRtct_no(rs.getInt("rtct_no"));
+				renConVO.setHos_no(rs.getInt("hos_no"));
+				renConVO.setMem_no(rs.getInt("mem_no"));
+				renConVO.setRtct_eff_date(rs.getDate("rtct_eff_date"));
+				renConVO.setRtct_end_date(rs.getDate("rtct_end_date"));
+				renConVO.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
+				renConVO.setRtct_pic(rs.getBytes("rtct_pic"));
+				renConVO.setRtct_deposit(rs.getInt("rtct_deposit"));
+				renConVO.setRtct_apptime(rs.getTimestamp("rtct_apptime"));
+				renConVO.setRtct_status(rs.getByte("rtct_status"));
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return renConVO;
+	}
+
+	@Override
+	public List<RenConVO> findByStatus(Byte rtct_status) {
+		List<RenConVO> list = new ArrayList<RenConVO>();
+		RenConVO renConVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_STATUS);
+
+			pstmt.setByte(1, rtct_status);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				renConVO = new RenConVO();
+				renConVO.setRtct_no(rs.getInt("rtct_no"));
+				renConVO.setHos_no(rs.getInt("hos_no"));
+				renConVO.setMem_no(rs.getInt("mem_no"));
+				renConVO.setRtct_eff_date(rs.getDate("rtct_eff_date"));
+				renConVO.setRtct_end_date(rs.getDate("rtct_end_date"));
+				renConVO.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
+				renConVO.setRtct_pic(rs.getBytes("rtct_pic"));
+				renConVO.setRtct_deposit(rs.getInt("rtct_deposit"));
+				renConVO.setRtct_apptime(rs.getTimestamp("rtct_apptime"));
+				renConVO.setRtct_status(rs.getByte("rtct_status"));
+				list.add(renConVO);
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public void updateStatus(RenConVO renConVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_STATUS);
+			
+			pstmt.setByte(1, renConVO.getRtct_status());
+			pstmt.setInt(2, renConVO.getRtct_no());
+			pstmt.executeUpdate();
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+/*===================== 蔡佳新增 ====================*/	
+	
 
 }

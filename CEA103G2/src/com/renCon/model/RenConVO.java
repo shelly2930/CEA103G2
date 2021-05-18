@@ -1,5 +1,7 @@
 package com.renCon.model;
 
+import java.sql.Timestamp;
+
 public class RenConVO implements java.io.Serializable{
 	private Integer rtct_no;
 	private Integer hos_no;
@@ -9,6 +11,8 @@ public class RenConVO implements java.io.Serializable{
 	private java.sql.Date rtct_tmt_date;
 	private byte[] rtct_pic;
 	private Integer rtct_deposit;
+	private Timestamp rtct_apptime;
+	private Byte rtct_status;
 	
 	public Integer getRtct_no() {
 		return rtct_no;
@@ -58,4 +62,17 @@ public class RenConVO implements java.io.Serializable{
 	public void setRtct_deposit(Integer rtct_deposit) {
 		this.rtct_deposit = rtct_deposit;
 	}
+	public Timestamp getRtct_apptime() {
+		return rtct_apptime;
+	}
+	public void setRtct_apptime(Timestamp rtct_apptime) {
+		this.rtct_apptime = rtct_apptime;
+	}
+	public Byte getRtct_status() {
+		return rtct_status;
+	}
+	public void setRtct_status(Byte rtct_status) {
+		this.rtct_status = rtct_status;
+	}
+	
 }
