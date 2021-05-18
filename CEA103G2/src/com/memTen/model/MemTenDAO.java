@@ -30,9 +30,10 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String GET_ALL_STMT = "SELECT * FROM MEMBER_TENANT ORDER BY mem_no";
 		private static final String GET_ONE_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_no = ?";
 		private static final String DELETE = "DELETE FROM MEMBER_TENANT WHERE mem_no = ?";
-		private static final String UPDATE = "UPDATE MEMBER_TENANT SET mem_username=?, mem_password=?, mem_pic=?,"
+		private static final String UPDATE = "UPDATE MEMBER_TENANT SET mem_password=?, mem_pic=?,"
 									+ " mem_name=?, mem_gender=?, mem_id=?, mem_birthday=?, mem_phone=?,"
-									+ " mem_mobile=?, mem_email=?, mem_city=?, mem_dist=?, mem_addr=? WHERE mem_no=?";
+									+ " mem_mobile=?, mem_email=?, mem_city=?, mem_dist=?, mem_addr=?, mem_idcard_f=?,"
+									+ " mem_idcard_r=? WHERE mem_no=?";
 		private static final String LOGIN_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_username=?";
 		private static final String FIND_BY_EMAIL = "SELECT * FROM MEMBER_TENANT WHERE mem_email=?";
 		private static final String UPDATE_PWD_BY_EMAIL = "UPDATE MEMBER_TENANT set mem_password=? WHERE mem_email=?";
@@ -139,26 +140,26 @@ public class MemTenDAO implements MemTenDAO_interface {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(UPDATE);
 
-				pstmt.setString(1, memTenVO.getMem_username());
-				pstmt.setString(2, memTenVO.getMem_password());
-				pstmt.setBytes(3, memTenVO.getMem_pic());
-				pstmt.setString(4, memTenVO.getMem_name());
-				pstmt.setByte(5, memTenVO.getMem_gender());
-				pstmt.setString(6, memTenVO.getMem_id());
-				pstmt.setDate(7, memTenVO.getMem_birthday());
-				pstmt.setString(8, memTenVO.getMem_phone());
-				pstmt.setString(9, memTenVO.getMem_mobile());
-				pstmt.setString(10, memTenVO.getMem_email());
-				pstmt.setString(11, memTenVO.getMem_city());
-				pstmt.setString(12, memTenVO.getMem_dist());
-				pstmt.setString(13, memTenVO.getMem_addr());
+//				pstmt.setString(1, memTenVO.getMem_username());
+				pstmt.setString(1, memTenVO.getMem_password());
+				pstmt.setBytes(2, memTenVO.getMem_pic());
+				pstmt.setString(3, memTenVO.getMem_name());
+				pstmt.setByte(4, memTenVO.getMem_gender());
+				pstmt.setString(5, memTenVO.getMem_id());
+				pstmt.setDate(6, memTenVO.getMem_birthday());
+				pstmt.setString(7, memTenVO.getMem_phone());
+				pstmt.setString(8, memTenVO.getMem_mobile());
+				pstmt.setString(9, memTenVO.getMem_email());
+				pstmt.setString(10, memTenVO.getMem_city());
+				pstmt.setString(11, memTenVO.getMem_dist());
+				pstmt.setString(12, memTenVO.getMem_addr());
 //				pstmt.setByte(12, memTenVO.getMem_status());
 				pstmt.setBytes(13, memTenVO.getMem_idcard_f());
 				pstmt.setBytes(14, memTenVO.getMem_idcard_r());
 //				pstmt.setByte(13, memTenVO.getMem_id_status());
 //				pstmt.setString(12, memTenVO.getMem_suspend());
 //				pstmt.setString(13, memTenVO.getMem_refuse());
-				pstmt.setInt(14, memTenVO.getMem_no());
+				pstmt.setInt(15, memTenVO.getMem_no());
 				
 				pstmt.executeUpdate();
 

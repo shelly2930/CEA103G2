@@ -2,8 +2,8 @@
 
 /*navbar CSS*/
 .main_menu  {
-position: fixed;
-background-color: white;
+	position: fixed;
+	background-color: white;
 /* border: 1px solid red; */
 /* height: 70px; */
 }
@@ -37,10 +37,10 @@ font-weight: 500;
 }
 
 .main_menu .main-menu-item ul li .nav-link:hover {
-color: #61D2B4;
+color: #ccb78f;
 }
 .main_menu .main-menu-item ul li .nav-link:active {
-color: #61D2B4;
+color: #ccb78f;
 }
 .navbar-brand img {
 height: 60px;
@@ -62,7 +62,7 @@ a {
 	font-size: 16px;
 }
 a:hover {
-	color: #61D2B4;
+	color: #ccb78f;
 }
 .dropdown-toggle::after {
     display: none;
@@ -98,5 +98,5 @@ a:hover {
     font-size: 15px;
 }
 .main_menu .cart i:after {
-	background-color: #61D2B4;
+	background-color: #ccb78f;
 }

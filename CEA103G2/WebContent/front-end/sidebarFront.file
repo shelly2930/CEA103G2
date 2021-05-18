@@ -1,0 +1,73 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/sidebar.css">
+
+<div class="col-lg-2 side">
+                    <div class="left_sidebar_area">
+                        <aside class="left_widgets p_filter_widgets bb">
+                            <nav id="sidebar">
+								<div class="p-4 pt-5">
+		  							<img src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?action=getmempic&mem_no=${memTenVO.mem_no}" class="img logo rounded-circle mb-5">
+	        						<ul class="list-unstyled components mb-5">
+	          							<li>
+	           	 							<a href="#memberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">個人資料</a>
+	            							<ul class="collapse list-unstyled" id="memberSubmenu">
+		                						<li>
+		                    						<a href="<%=request.getContextPath()%>/memTen/memTen.do?action=getOne_For_Update&mem_no=${MemTenVO.mem_no}">會員資料</a>
+		                						</li>
+								                <li>
+								                    <a href="#">房東資料</a>
+								                </li>
+								            </ul>
+								        </li>
+	
+								        <li>
+							            	<a href="#houseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租屋管理</a>
+							              	<ul class="collapse list-unstyled" id="houseSubmenu">
+							                	<li>
+							                    	<a href="#">Page 1</a>
+							                	</li>
+							                	<li>
+							                    	<a href="#">Page 2</a>
+							                	</li>
+							                	<li>
+							                    	<a href="#">Page 3</a>
+							                	</li>
+							              	</ul>
+								        </li>
+	          				
+	          							<li>
+							            	<a href="#furSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租家具管理</a>
+							              	<ul class="collapse list-unstyled" id="furSubmenu">
+							                	<li>
+							                    	<a href="#">Page 1</a>
+							                	</li>
+							                	<li>
+							                    	<a href="#">Page 2</a>
+							                	</li>
+							                	<li>
+							                    	<a href="#">Page 3</a>
+							                	</li>
+							              	</ul>
+								        </li>
+	          				
+										<li>
+							            	<a href="#billSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">帳務管理</a>
+							              	<ul class="collapse list-unstyled" id="billSubmenu">
+							                	<li>
+							                    	<a href="#">我的帳單</a>
+							                	</li>
+							                	<li>
+							                    	<a href="<%=request.getContextPath()%>/front-end/creCarInf/addCreditcard.jsp">我的信用卡</a>
+							                	</li>
+							                	<li>
+							                    	<a href="#">Page 3</a>
+							                	</li>
+							              	</ul>
+								        </li>	          				
+	        						</ul>
+	        					</div>
+	        				</nav>
+                        </aside>
+                    </div>
+                </div>
