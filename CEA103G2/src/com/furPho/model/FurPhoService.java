@@ -45,7 +45,7 @@ public class FurPhoService {
 	}
 	//拿所查品項的第一個照片編號(測試寫法${furPhoSvc.getThisIteFirstFnt_pic_no(furIteVO.fnt_it_no)}無法執行)
 	public Integer getThisIteFirstFnt_pic_no(Integer fnt_it_no) {
-		return getThisIteFirstFnt_pic_no(fnt_it_no);
+		return dao.getThisIteFirstFnt_pic_no(fnt_it_no);
 	}
 	//拿所查品項的第一個照片FurPhoVO
 	public FurPhoVO getThisIteFurPho(Integer fnt_it_no) {
@@ -56,5 +56,9 @@ public class FurPhoService {
 		return dao.getAll();
 	}
 	public List<FurPhoVO> getOneFntItePics(Integer fnt_it_no){
-		return dao.getOneFntItePics(fnt_it_no);}
+		return dao.getOneFntItePics(fnt_it_no);
+	}
+	public List<Integer> getFnt_pic_noByFK(Integer fnt_it_no){
+		return dao.getThisIteFnt_pic_no(fnt_it_no);
+	}
 }

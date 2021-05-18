@@ -37,7 +37,8 @@ public class FurPhoDAO implements FurPhoDAO_interface {
 		"UPDATE "+TABLE+" set "+UPDATE_ITEM+" where "+PK+" = ?";
 	private static final String GET_ONE_FNT_ITE_PICS_STMT="SELECT * FROM "+TABLE+"  where fnt_it_no= ?";
    //查所查品項的所有照片中的第一張照片編號
-	private static final String GET_THIS_FUR_ITE_FIRST_PIC_NO_STMT="SELECT fnt_pic_no FROM "+TABLE+ " where fnt_it_no=? order by fnt_pic_no limit 0,1";
+	private static final String GET_THIS_FUR_ITE_PIC_NO_STMT="SELECT fnt_pic_no FROM "+TABLE+ " where fnt_it_no=? order by fnt_pic_no";
+	private static final String GET_THIS_FUR_ITE_FIRST_PIC_NO_STMT="SELECT fnt_pic_no FROM "+TABLE+ " where fnt_it_no=? order by fnt_pic_no limit 1";
 	private static final String GET_THIS_FUR_ITE_FIRST_PHOVO_STMT="SELECT * FROM "+TABLE+ " where fnt_it_no=? order by fnt_pic_no limit 0,1";
 	
 	@Override
@@ -341,7 +342,6 @@ public class FurPhoDAO implements FurPhoDAO_interface {
 			while (rs.next()) {
 				thisFurIteFirst_pic_no=rs.getInt("fnt_pic_no");
 			}
-		   System.out.println(thisFurIteFirst_pic_no);
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -425,6 +425,54 @@ public class FurPhoDAO implements FurPhoDAO_interface {
 		return furPhoVO;
 	}
 
-	
+	@Override
+	public List<Integer> getThisIteFnt_pic_no(Integer fnt_it_no) {
+		List<Integer> list = new ArrayList<Integer>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_THIS_FUR_ITE_PIC_NO_STMT);
+
+			pstmt.setInt(1,fnt_it_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Integer fnt_pic_no =rs.getInt("fnt_pic_no");
+				list.add(fnt_pic_no);
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;		
+	}
 	
 }

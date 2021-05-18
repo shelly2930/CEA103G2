@@ -20,23 +20,23 @@ public class FurColDAO implements FurColDAO_interface {
 		}
 	}
 	private static final String TABLE="FURNITURE_COLLECT";
-	private static final String INSERT_ITEM="(mem_no,fnt_it_no,fnt_col_date,fnt_col_note)";
-	private static final String UPDATE_ITEM="mem_no= ?,fnt_it_no= ?,fnt_col_date= ?,fnt_col_note= ?";
+	private static final String INSERT_ITEM="(mem_no,fnt_it_no,fnt_col_note)";
+	private static final String UPDATE_ITEM="fnt_col_note= ?";
 	private static final String PK1="mem_no";
 	private static final String PK2="fnt_it_no";
 	
 	private static final String INSERT_STMT = 
-		"INSERT INTO "+TABLE+INSERT_ITEM + " VALUES (?, ?, ?, ?)";
+		"INSERT INTO "+TABLE+INSERT_ITEM + " VALUES (?, ?, ?)";
 	private static final String GET_ALL = 
 		"SELECT * FROM "+TABLE+ " order by "+PK1;
 	private static final String GET_ONE_BY_PK1_PK2 = 
 		"SELECT * FROM "+TABLE+"  where "+PK1+"= ? and "+PK2+"=?";
 	private static final String GET_ONE_BY_PK1 = 
-			"SELECT * FROM "+TABLE+"  where "+PK1+"= ?";
+			"SELECT * FROM "+TABLE+"  where "+PK1+"= ? order by fnt_col_date desc";
 	private static final String DELETE_ONE_BY_PK1_AND_PK2 = 
 		"DELETE FROM "+TABLE+" where "+PK1+"= ? and "+PK2+"=?";
 	private static final String UPDATE = 
-		"UPDATE"+TABLE+" set "+UPDATE_ITEM+" where "+PK1+"= ? and "+PK2+"=?";
+		"UPDATE "+TABLE+" set "+UPDATE_ITEM+" where "+PK1+"= ? and "+PK2+"=?";
 
 	@Override
 	public void insert(FurColVO furColVO) {
@@ -50,8 +50,7 @@ public class FurColDAO implements FurColDAO_interface {
 			pstmt = con.prepareStatement(INSERT_STMT);
 			pstmt.setInt(1, furColVO.getMem_no());
 			pstmt.setInt(2, furColVO.getFnt_it_no());
-			pstmt.setTimestamp(3, furColVO.getFnt_col_date());
-			pstmt.setString(4, furColVO.getFnt_col_note());
+			pstmt.setString(3, furColVO.getFnt_col_note());
 		
 			pstmt.executeUpdate();
 
@@ -89,10 +88,9 @@ public class FurColDAO implements FurColDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
-			pstmt.setInt(1, furColVO.getMem_no());
-			pstmt.setInt(2, furColVO.getFnt_it_no());
-			pstmt.setTimestamp(3, furColVO.getFnt_col_date());
-			pstmt.setString(4, furColVO.getFnt_col_note());
+			pstmt.setString(1, furColVO.getFnt_col_note());
+			pstmt.setInt(2, furColVO.getMem_no());
+			pstmt.setInt(3, furColVO.getFnt_it_no());
 			pstmt.executeUpdate();
 
 			// Handle any driver errors

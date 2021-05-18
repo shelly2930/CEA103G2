@@ -15,4 +15,5 @@ public interface FurPhoDAO_interface {
      public Integer getThisIteFirstFnt_pic_no(Integer fnt_it_no);
    //拿所查品項的第一個照片FurPhoVO
  	public FurPhoVO getThisIteFurPho(Integer fnt_it_no);
+ 	public List<Integer> getThisIteFnt_pic_no(Integer fnt_it_no);
 }
