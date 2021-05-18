@@ -19,6 +19,7 @@ import com.furIte.model.FurIteService;
 import com.furIte.model.FurIteVO;
 import com.furPho.model.FurPhoService;
 import com.furPho.model.FurPhoVO;
+import com.google.gson.Gson;
 
 @MultipartConfig
 public class FurPhoServlet extends HttpServlet {
@@ -398,9 +399,17 @@ public class FurPhoServlet extends HttpServlet {
 					failureView.forward(req, res);
 				}
 		 }
+		 
+		 
+		 if("getFnt_pic_noByFK".equals(action)) {
+			Integer fnt_it_no = new Integer(req.getParameter("fnt_it_no"));
+			FurPhoService svc = new FurPhoService();
+			List<Integer> list = svc.getFnt_pic_noByFK(fnt_it_no);
+			String str = new Gson().toJson(list);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(str);
+		 }
+		 
 	}
-
-
-
-	
 }

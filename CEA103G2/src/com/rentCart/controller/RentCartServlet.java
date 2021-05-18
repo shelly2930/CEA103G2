@@ -91,18 +91,22 @@ String url = "/Checkout.jsp";
 	
 	private RentCartItem getRentFurItem(HttpServletRequest req) {
 
-		Integer quantity =new Integer(req.getParameter("quantity"));
-		String fnt_name = req.getParameter("fnt_name");
+		System.out.println("進到get品項方法");
 		Integer fnt_it_no = new Integer(req.getParameter("fnt_it_no"));
+		System.out.println(fnt_it_no);
+		String fnt_name = req.getParameter("fnt_name");
+		System.out.println(fnt_name);
 		Integer fnt_price = new Integer(req.getParameter("fnt_price"));
-		
-		
+		System.out.println(fnt_price);
+		Integer quantity =new Integer(req.getParameter("quantity"));
+		System.out.println(quantity);
 		RentCartItem rentCartItem = new RentCartItem();
 
 		rentCartItem.setFnt_name(fnt_name);
 		rentCartItem.setQuantity(quantity);
 		rentCartItem.setFnt_it_no(fnt_it_no);
 		rentCartItem.setFnt_price(fnt_price);
+		System.out.println("裝完品項 準備return");
 		return rentCartItem;
 	}
 }
