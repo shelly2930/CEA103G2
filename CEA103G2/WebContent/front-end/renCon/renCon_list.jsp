@@ -16,7 +16,7 @@
 <style>
 
 .breadcrumb_bg {
-    background-image: url(<%=request.getContextPath()%>/front-end/renCon/image/contract01.jpg);
+    background-image: url(<%=request.getContextPath()%>/front-end/renCon/image/contract_03.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -30,10 +30,11 @@
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2 class='text-right'>歷史合約</h2>
-                            <h3 class='text-right'> &nbsp;&nbsp;&nbsp; ${MemTenVO.mem_name} 你好 !</h3>
-                            <h5 class='text-right'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>-</span> Contract</h5>
-                            <h5 class='text-right'>會員: ${MemTenVO.mem_no} <span>-</span> 查看合約內容</h5>
+                            <h2 class='text-left'>查看合約</h2>
+                            <h3 class='text-left'>${MemTenVO.mem_name}</h3>
+                            <h5 class='text-left'>
+							View historical contracts</h5>
+                            <h5 class='text-left'>查看合約</h5>
                         </div>
                     </div>
                 </div>
@@ -69,10 +70,13 @@
                            <div id='con'>
 	                            <table class="table table-hover">
 									<thead >
-										<tr><th colspan='3' style='font-weight:bold'>請詳細閱讀合約</th></tr>
+										<tr><th colspan='3' style='font-weight:bold'>查看合約</th></tr>
 										<tr style="background-color:#ccb78f">
-											<th scope="col" class='text-center'>已讀</th>
+											<th scope="col" class='text-center'>編號</th>
 											<th scope="col" class='text-center'>合約</th>
+											<th scope="col" class='text-center'>合約起始日</th>
+											<th scope="col" class='text-center'>合約終止日</th>
+											<th scope="col" class='text-center'>簽名</th>
 										</tr>
 									</thead>
 									<tbody id='showcon'>
@@ -84,7 +88,7 @@
 									</tbody>
 									<tfooter>
 										<tr>
-											<th colspan='2' class='text-center'><span id='sendtext'>已詳細閱讀&nbsp; &nbsp; </span><button id='send' class='btn btn-outline-info btn-sm'>下一步</button></th>
+											<th colspan='5' class='text-center'><span>History</span></th>
 										</tr>
 									</tfooter>
 	                           </table>
@@ -114,6 +118,27 @@
 		    </div>
 		  </div>
 		</div>
+		
+		
+		
+		<div class="modal" id='showSignature' tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Signature</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <img id='showPic' src=''>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 <!-- /****** CONTAINER *****/     -->	
 
 
@@ -129,32 +154,38 @@
 			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
 			type: 'post',
 			data:{
-				action:'getMemHou',
+				action:'getMemHou_coustom',
 				mem_no:mem_no,
+				status:'2',
 			},
 			success:function(memhou){
-				if(memhou==null){
-					alert('查無物件');
-				}
 				$('#showhou').empty();
-				let count = 1;
-				for(let i of memhou){
-					let str="<tr id='memhou"+i+"'>";
-					str+="<th scope='row' class='text-center'>";
-					str+="<a href='' class='listhoucon'>"+getHouse(i).hos_name+"</a>";
-					str+="</th>";
-					str+="<td class='text-center'>"+getHouse(i).hos_address+"</td>";
-					str+="<td class='text-center'>"+getHouse(i).hos_rent+"</td>";
-					str+="</tr>";  
+				if(memhou=="none"){
+					let str="<tr>";
+					str+="<th colspan='3' class='text-center'>";
+					str+="沒有歷史合約</th>";
+					str+="</tr>"; 
 					$('#showhou').append(str);
+				}else{
+					let count = 1;
+					for(let i of memhou){
+						let str="<tr id='memhou"+i+"'>";
+						str+="<th scope='row' class='text-center'>";
+						str+="<a style='color:#A1A1A1;' href='' class='listhoucon'>"+getHouse(i).hos_name+"</a>";
+						str+="</th>";
+						str+="<td class='text-center'>"+getHouse(i).hos_address+"</td>";
+						str+="<td class='text-center'>"+getHouse(i).hos_rent+"</td>";
+						str+="</tr>";  
+						$('#showhou').append(str);
+					}
+					$(".listhoucon").click(function(e){
+						e.preventDefault();
+						$('#hou').slideUp();
+						let hou = $(this).parents('tr').attr('id').substring(6);
+						showhoucon(mem_no,hou);
+						
+					})
 				}
-				$(".listhoucon").click(function(e){
-					e.preventDefault();
-					$('#hou').slideUp();
-					let hou = $(this).parents('tr').attr('id').substring(6);
-					showhoucon(mem_no,hou);
-					
-				})
 			}
 		})
 	}
@@ -164,9 +195,10 @@
 			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
 			type: 'post',
 			data:{
-				action:'getMemHouCon',
+				action:'getMemHouCon_coustom',
 				mem_no:mem_no,
-				hos_no:hou
+				hos_no:hou,
+				status:'2',
 			},
 			success:function(memhoucon){
 				if(memhoucon==null){
@@ -200,39 +232,25 @@
 								let count = 1;
 								for(let con of cons){
 									let str="<tr id='"+i+"' name='"+mem_no+"' class='"+hou+"'>";
-									str+="<td class='text-center'><i class='far fa-bookmark' style='font-size:19px;color:#C2C2FF'></i><input style='display:none;' type='checkbox' class='check' id='check"+(count++)+"'></td>";
+									str+="<td class='text-center'><i class='fas fa-book-open' style='font-size:19px;color:#C2C2FF'></i> Contract number"+i+"<input style='display:none;' type='checkbox' class='check' id='check"+(count++)+"'></td>";
 									str+="<td class='text-center'>";
-									str+="<a href='' id='"+con+"' class='listonecon'>"+con+"</a>";
+									str+="<a style='color:#A1A1A1;' href='' id='"+con+"' class='listonecon'>"+con+"</a>";
 									str+="</td>";
+									str+="<td class='text-center'>"+getCon(i).rtct_eff_date+"</td>";
+									str+="<td class='text-center'>"+getCon(i).rtct_tmt_date+"</td>";
+									str+="<td class='text-center'><a href=''class='signature' style='color:#00A8A8;'>簽名</a></td>"
 									str+="</tr>";
 									$('#showcon').append(str);
 								}
-								$("#send").click(function(){
-									let this_con_no = $(this).parents('table').children("tbody").children('tr').attr('id');
-									let judge = true;
-									$(".check").each(function(){
-										if($(this).prop('checked')==false){
-											judge = false;
-										}
-									})
-									if(judge==true){
-										document.location.href="<%=request.getContextPath()%>/front-end/renCon/renCon_mem.jsp?con_no="+this_con_no;
-										//send to write contract
-									}else{
-										Swal.fire({
-											  title: '請先詳細閱讀完所有合約內容!',
-											  icon: 'warning',
-											  confirmButtonColor: '#6495ed',
-											  confirmButtonText: '確定預約',
-											  confirmButtonClass:'btn-sm ',
-										})
-									}
+								$(".signature").click(function(e){
+									e.preventDefault();
+									$("#showSignature").modal('show');
+									let c_no = $(this).parents('tr').attr('id');
+									$("#showPic").attr('src',"data:image/gif;base64,"+getPic(c_no));
+// 									
 								})
 								$(".listonecon").click(function(e){
 									e.preventDefault();
-									$(this).parent().prev().children().prop('checked',true);
-									$(this).parent().prev().find('i').removeClass('far');
-									$(this).parent().prev().find('i').addClass('fas');
 									let mem_no =$(this).parents('tr').attr('name') ;
 									let hos_no =$(this).parents('tr').attr('class') ;
 									let con_no = $(this).parents('tr').attr('id') ;
@@ -276,6 +294,38 @@
 			}
 		})
 		return hosvo;
+	}
+	function getCon(conno){
+		let convo={};
+		$.ajax({
+			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+			type: 'post',
+			data:{
+				action:'getOneCon',
+				con_no:conno,
+			},
+			async:false,
+			success:function(con){
+				convo= con;
+			}
+		})
+		return convo;
+	}
+	function getPic(con){
+    	let str='';
+		$.ajax({
+    		url:"<%=request.getContextPath()%>/RenConCRUDServlet",
+     		type:'post',
+     		data:{
+     			action:'getPic',
+     			con_no:con,
+     		},
+     		async:false,
+     		success:function(b){
+     			str=b;
+     		}
+     	})
+     	return str;
 	}
 </script>				
 </body>

@@ -31,7 +31,7 @@
 							                    	<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_view.jsp">我的租屋</a>
 							                	</li>
 							                	<li>
-							                    	<a href="#">我的合約</a>
+							                    	<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_list.jsp">我的合約</a>
 							                	</li>
 							              	</ul>
 								        </li>

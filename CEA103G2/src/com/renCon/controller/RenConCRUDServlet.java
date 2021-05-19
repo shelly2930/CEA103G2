@@ -181,7 +181,7 @@ public class RenConCRUDServlet extends HttpServlet {
 			RenConService svc = new RenConService();
 			Byte status = Byte.parseByte(req.getParameter("status"));
 			List<Integer> list_mem = svc.getMem(status);
-			
+			System.out.println(list_mem.size());
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
@@ -193,11 +193,14 @@ public class RenConCRUDServlet extends HttpServlet {
 			Byte status = Byte.parseByte(req.getParameter("status"));
 			RenConService svc = new RenConService();
 			List<Integer> list_mem_hou = svc.getMemHou(status,mem_no);
-			
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
-			res.getWriter().print(g.toJson(list_mem_hou));
+			if(list_mem_hou.size()==0) {
+				res.getWriter().print(g.toJson("none"));
+			}else {
+				res.getWriter().print(g.toJson(list_mem_hou));
+			}
 		}
 		if("getMemHouCon_coustom".equals(action)) {
 			//呼叫service 取出這會員且該物件的所有合約
@@ -210,7 +213,21 @@ public class RenConCRUDServlet extends HttpServlet {
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
-			res.getWriter().print(g.toJson(list_mem_hou_con));
+			if(list_mem_hou_con.size()==0) {
+				res.getWriter().print(g.toJson("none"));
+			}else {
+				res.getWriter().print(g.toJson(list_mem_hou_con));
+			}
+			
+		}
+		if("getOneCon".equals(action)) {
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			RenConService svc = new RenConService();
+			RenConVO renconvo = svc.findByPK(con_no);
+			Gson g = new Gson();
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(g.toJson(renconvo));
 		}
 		
 		
