@@ -25,7 +25,6 @@
 							            	<a href="#houseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租屋管理</a>
 							              	<ul class="collapse list-unstyled" id="houseSubmenu">
 							                	<li>
-<<<<<<< HEAD
 							                    	<a href="#">我的預約</a>
 							                	</li>
 							                	<li>
@@ -33,15 +32,6 @@
 							                	</li>
 							                	<li>
 							                    	<a href="#">我的合約</a>
-=======
-							                    	<a class="second" href="#">Page 1</a>
-							                	</li>
-							                	<li>
-							                    	<a class="second" href="#">Page 2</a>
-							                	</li>
-							                	<li>
-							                    	<a class="second" href="#">Page 3</a>
->>>>>>> 34b89fff6f7d58bc8122dd62db1f944b88ffd5e9
 							                	</li>
 							              	</ul>
 								        </li>
