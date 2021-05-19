@@ -85,6 +85,12 @@ public class RenConService {
 		return dao.findByStatus(rtct_status);
 	}
 	
+	public void updateStatus(Integer rtct_no,Byte rtct_status) {
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_no(rtct_no);
+		renConVO.setRtct_status(rtct_status);
+		dao.updateStatus(renConVO);
+	}
 	
 	
 /*===================== ½²¨Î·s¼W ====================*/	
@@ -108,5 +114,20 @@ public class RenConService {
 		renConVO.setMem_no(mem_no);
 		renConVO.setHos_no(hos_no);
 		return dao.getMemHouCon(renConVO);
+	}
+	public List<RenConVO> getAllCon(Byte status,Integer mem_no){
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_status(status);
+		renConVO.setMem_no(mem_no);
+		return dao.getAllCon(renConVO);
+	}
+	public byte[] getPic(Integer rtct_no) {
+		return dao.getPic(rtct_no);
+	}
+	public void updatePic(byte[] pic, Integer con_no) {
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_pic(pic);
+		renConVO.setRtct_no(con_no);
+		dao.updatePic(renConVO);
 	}
 }

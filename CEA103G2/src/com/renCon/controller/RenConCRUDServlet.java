@@ -2,6 +2,7 @@ package com.renCon.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,7 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.house.model.HouseService;
+import com.house.model.HouseVO;
+import com.memTen.model.MemTenService;
+import com.memTen.model.MemTenVO;
 import com.renCon.model.RenConService;
+import com.renCon.model.RenConVO;
 
 /**
  * Servlet implementation class RenConCRUDServlet
@@ -22,26 +28,63 @@ public class RenConCRUDServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String action = req.getParameter("action");
+		if("updateStatus".equals(action)) {
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			Byte status = Byte.parseByte("2");
+			RenConService svc = new RenConService();
+			svc.updateStatus(con_no, status);
+		}
+		
+		
+		
+		if("getPic".equals(action)) {
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			RenConService svc = new RenConService();
+			byte[] bytepic = svc.getPic(con_no);
+			String base64pic = bytetobase64(bytepic);
+			Gson g = new Gson();
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(g.toJson(base64pic));
+		}
+		
+		if("savePic".equals(action)) {
+			String base = req.getParameter("base");
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			RenConService svc = new RenConService();
+			svc.updatePic(base64tobyte(base), con_no);
+		}
+		
 		if("list".equals(action)) {
-			File pdffile = new File(getServletContext().getRealPath("/pdf_uploaded"));
+			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			File pdffile = new File(getServletContext().getRealPath("/pdf_uploaded")+"\\"+mem_no+"\\"+hos_no+"\\"+con_no);
 			if(!pdffile.exists()) {
 				pdffile.mkdir();
 			}
 			String[] filename = pdffile.list();
+			System.out.println(filename.length);
 			Gson g = new Gson();
-			
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
-			res.getWriter().print(g.toJson(filename));
+			if(filename.length==0) {
+				res.getWriter().print(g.toJson("none"));
+			}else {
+				
+				res.getWriter().print(g.toJson(filename));
+			}
 		}
 		if("del".equals(action)) {
+			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
 			String name = null;
 			if(req.getParameter("name")!=null) {
 				name= req.getParameter("name");
 			}
 			
-			File de = new File(getServletContext().getRealPath("/pdf_uploaded") +"\\"+name);
-			System.out.println(de);
+			File de = new File(getServletContext().getRealPath("/pdf_uploaded")+"\\"+mem_no+"\\"+hos_no+"\\"+con_no+"\\"+name);
 			de.delete();
 		}
 		if("getMem".equals(action)) {
@@ -103,10 +146,6 @@ public class RenConCRUDServlet extends HttpServlet {
 					}
 				}
 			}
-			
-			
-			
-			
 			File pdffile = new File(getServletContext().getRealPath("/pdf_uploaded")+"\\"+mem_no+"\\"+hos_no);
 			String[] filename = pdffile.list();
 			Gson g = new Gson();
@@ -114,10 +153,33 @@ public class RenConCRUDServlet extends HttpServlet {
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(g.toJson(filename));
 		}
+		if("getOneMemten".equals(action)) {
+			Integer mem = Integer.parseInt(req.getParameter("mem_no"));
+			MemTenService svc = new MemTenService();
+			MemTenVO memvo = svc.getOneMemTen(mem);
+
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(memvo));
+		}
+		if("getOneHouse".equals(action)) {
+			Integer houseno = Integer.parseInt(req.getParameter("houseno"));
+			HouseService svc = new HouseService();
+			HouseVO housevo = svc.getOneHouse(houseno);
+
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(housevo));
+		}
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doGet(req, res);
 	}
-
+	 public static byte[] base64tobyte(String base64Str){
+	        return Base64.getDecoder().decode(base64Str);
+	 }
+	 public static String bytetobase64(byte[] base64byte){
+	        return Base64.getEncoder().encodeToString(base64byte);
+	 }
 }

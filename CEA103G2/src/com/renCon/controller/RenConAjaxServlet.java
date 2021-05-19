@@ -12,29 +12,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
+import com.google.gson.Gson;
 @WebServlet("/RenConAjaxServlet")
 @MultipartConfig
 public class RenConAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
-		
+		Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+		Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+		Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+		String judge = "different";
 		req.setCharacterEncoding("utf-8");
-		
-		
-	
-		File pdffile = new File(getServletContext().getRealPath("/pdf_uploaded"));
+		File pdffile = new File(getServletContext().getRealPath("/pdf_uploaded")+"\\"+mem_no+"\\"+hos_no+"\\"+con_no);
 		if(!pdffile.exists()) {
 			pdffile.mkdir();
 		}
-
-		req.getPart("file").write(getServletContext().getRealPath("/pdf_uploaded")+"/"+getFileNameFromPart(req.getPart("file")));
 		String[] ss = pdffile.list();
-		
 		for(String x : ss) {
-			System.out.println("SSS"+x);
+			if(x.equals(getFileNameFromPart(req.getPart("file")))) {
+				judge = "same";
+			}
 		}
+		req.getPart("file").write(pdffile+"/"+getFileNameFromPart(req.getPart("file")));
+		res.setCharacterEncoding("UTF-8");
+		res.getWriter().print(judge);
 //		
 //		File de = new File(getServletContext().getRealPath("/pdf_uploaded") + "/1.pdf");
 //		de.delete();

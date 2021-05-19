@@ -22,11 +22,13 @@ public class RenConPdfServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-		
+		System.out.println("SSA");
+		Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+		Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+		Integer con_no = Integer.parseInt(req.getParameter("con_no"));
 		String name = req.getParameter("name");
-		System.out.println(name);
-		String path = getServletContext().getRealPath("/pdf_uploaded");
-		String pdfFileName = "/EA103G2_¤å¥ó.pdf";
+		System.out.println("XX"+name);
+		File path = new File(getServletContext().getRealPath("/pdf_uploaded")+"\\"+mem_no+"\\"+hos_no+"\\"+con_no);
 		System.out.println(path +"\\"+name);
 		File pdfFile = new File(path +"\\"+name);
 		res.setContentLength((int) pdfFile.length());

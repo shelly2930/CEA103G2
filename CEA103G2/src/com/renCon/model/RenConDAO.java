@@ -65,10 +65,12 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String UPDATE_STATUS = "UPDATE RENTAL_CONTRACT SET rtct_status=? WHERE rtct_no=?";
 	
 	//敬達
-	private static final String GET_MEM="SELECT MEM_NO FROM RENTAL_CONTRACT WHERE rtct_status=?";
-	private static final String GET_MEM_HOU = "SELECT HOS_NO FROM RENTAL_CONTRACT WHERE rtct_status=? and MEM_NO=?";
-	private static final String GET_MEM_HOU_CON= "SELECT RTCT_NO FROM RENTAL_CONTRACT WHERE rtct_status=? and MEM_NO=? and HOS_NO=?";
-
+	private static final String GET_MEM="SELECT MEM_NO FROM RENTAL_CONTRACT WHERE RTCT_STATUS=?";
+	private static final String GET_MEM_HOU = "SELECT HOS_NO FROM RENTAL_CONTRACT WHERE RTCT_STATUS=? AND MEM_NO=?";
+	private static final String GET_MEM_HOU_CON= "SELECT RTCT_NO FROM RENTAL_CONTRACT WHERE RTCT_STATUS=? AND MEM_NO=? AND HOS_NO=?";
+	private static final String UPDATE_PIC = "UPDATE RENTAL_CONTRACT SET RTCT_PIC=? WHERE RTCT_NO=?";
+	private static final String GET_PIC = "SELECT RTCT_PIC FROM RENTAL_CONTRACT WHERE RTCT_NO=?";
+	private static final String GET_ALL_CON = "SELECT * FROM RENTAL_CONTRACT WHERE MEM_NO=? AND RTCT_STATUS=?";
 	@Override
 	public void insert(RenConVO renConVO) {
 		Connection con = null;
@@ -691,7 +693,7 @@ public class RenConDAO implements RenConDAO_interface{
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_MEM);
+			pstmt = con.prepareStatement(GET_MEM_HOU_CON);
 			pstmt.setByte(1, renConVO.getRtct_status());
 			pstmt.setInt(2, renConVO.getMem_no());
 			pstmt.setInt(3, renConVO.getHos_no());
@@ -731,6 +733,156 @@ public class RenConDAO implements RenConDAO_interface{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void updatePic(RenConVO renConVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_PIC);
+//		========VO取值並設給preparedStatement=============
+			pstmt.setBytes(1,renConVO.getRtct_pic());
+			pstmt.setInt(2,renConVO.getRtct_no());
+//	   =================送出指令========================
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ e.getMessage());
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public List<RenConVO> getAllCon(RenConVO renConVO) {
+		List<RenConVO> list = new ArrayList<RenConVO>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		RenConVO renCon = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_CON);
+			pstmt.setInt(1, renConVO.getMem_no());
+			pstmt.setByte(2, renConVO.getRtct_status());
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				renCon  = new RenConVO();
+				renCon.setRtct_no(rs.getInt("rtct_no"));
+				renCon.setHos_no(rs.getInt("hos_no"));
+				renCon.setMem_no(rs.getInt("mem_no"));
+				renCon.setRtct_eff_date(rs.getDate("rtct_eff_date"));
+				renCon.setRtct_end_date(rs.getDate("rtct_end_date"));
+				renCon.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
+				renCon.setRtct_pic(rs.getBytes("rtct_pic"));
+				renCon.setRtct_deposit(rs.getInt("rtct_deposit"));
+				renCon.setRtct_apptime(rs.getTimestamp("rtct_apptime"));
+				renCon.setRtct_status(rs.getByte("rtct_status"));
+				list.add(renCon); // Store the row in the list
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public byte[] getPic(Integer rtct_no) {
+		byte[] pic=null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_PIC);
+			pstmt.setInt(1, rtct_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				pic = rs.getBytes("rtct_pic");
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return pic;
+		
 	}	
 	
 
