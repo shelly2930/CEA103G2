@@ -48,7 +48,6 @@
                         <% } %>
                         <% if(list_Fun_no.indexOf(2) != -1) {%>	
                         <a class="collapse-item" href="<%=request.getContextPath()%>/house/houseAdm.do?action=listAllHouseByState">上下架處理</a>
-                        <a class="collapse-item" href="cards.html">代管合約</a>
                         <% } %>
                     </div>
                 </div>
@@ -66,7 +65,8 @@
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/pickHouse.jsp">預約時間管理</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp_EMP.jsp">預約看房申請</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/rentalAuth.jsp">租屋前審核</a>
-                        <a class="collapse-item" href="utilities-border.html">租屋合約</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/renConManage.jsp">合約管理</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/listRenCon.jsp">查看已繳費合約</a>
                     </div>
                 </div>
             </li>

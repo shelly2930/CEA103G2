@@ -28,4 +28,5 @@ public interface RenConDAO_interface {
     public void updatePic(RenConVO renConVO);
     public byte[] getPic(Integer rtct_no);
     public List<RenConVO> getAllCon(RenConVO renConVO);
+    public List<RenConVO> getAllByMem();
 }

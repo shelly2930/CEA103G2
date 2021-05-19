@@ -195,7 +195,7 @@
 						},
 						success:function(cons){
 							if(cons==="none"){
-								let str="<tr id='"+i+"' name='"+mem_no+"' class='"+hou+"'>";
+								let str="<tr>";
 								str+="<td class='text-center' colspan='2'>";
 								str+="<span>處理中，請稍後</span>";
 								str+="</td>";

@@ -130,4 +130,7 @@ public class RenConService {
 		renConVO.setRtct_no(con_no);
 		dao.updatePic(renConVO);
 	}
+	public List<RenConVO> getAllByMem() {
+		return dao.getAllByMem();
+	}
 }

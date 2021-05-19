@@ -71,6 +71,7 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String UPDATE_PIC = "UPDATE RENTAL_CONTRACT SET RTCT_PIC=? WHERE RTCT_NO=?";
 	private static final String GET_PIC = "SELECT RTCT_PIC FROM RENTAL_CONTRACT WHERE RTCT_NO=?";
 	private static final String GET_ALL_CON = "SELECT * FROM RENTAL_CONTRACT WHERE MEM_NO=? AND RTCT_STATUS=?";
+	private static final String GET_ALL_ORDER_BY_MEM = "SELECT * FROM RENTAL_CONTRACT ORDER BY MEM_NO ,HOS_NO, RTCT_NO";
 	@Override
 	public void insert(RenConVO renConVO) {
 		Connection con = null;
@@ -883,6 +884,66 @@ public class RenConDAO implements RenConDAO_interface{
 		}
 		return pic;
 		
+	}
+
+	@Override
+	public List<RenConVO> getAllByMem() {
+		List<RenConVO> list = new ArrayList<RenConVO>();
+		RenConVO renConVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_ORDER_BY_MEM);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				renConVO = new RenConVO();
+				renConVO.setRtct_no(rs.getInt("rtct_no"));
+				renConVO.setHos_no(rs.getInt("hos_no"));
+				renConVO.setMem_no(rs.getInt("mem_no"));
+				renConVO.setRtct_eff_date(rs.getDate("rtct_eff_date"));
+				renConVO.setRtct_end_date(rs.getDate("rtct_end_date"));
+				renConVO.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
+				renConVO.setRtct_pic(rs.getBytes("rtct_pic"));
+				renConVO.setRtct_deposit(rs.getInt("rtct_deposit"));
+				list.add(renConVO); // Store the row in the list
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
 	}	
 	
 

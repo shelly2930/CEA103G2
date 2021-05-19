@@ -41,11 +41,16 @@ public class RenConCRUDServlet extends HttpServlet {
 			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
 			RenConService svc = new RenConService();
 			byte[] bytepic = svc.getPic(con_no);
-			String base64pic = bytetobase64(bytepic);
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
-			res.getWriter().print(g.toJson(base64pic));
+			if(bytepic==null) {
+				res.getWriter().print(g.toJson("none"));
+			}else {
+				String base64pic = bytetobase64(bytepic);
+				res.getWriter().print(g.toJson(base64pic));
+				
+			}
 		}
 		
 		if("savePic".equals(action)) {
@@ -228,6 +233,14 @@ public class RenConCRUDServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(g.toJson(renconvo));
+		}
+		if("getall".equals(action)) {
+			RenConService svc = new RenConService();
+			List<RenConVO> list = svc.getAllByMem();
+			Gson g = new Gson();
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(g.toJson(list));
 		}
 		
 		
