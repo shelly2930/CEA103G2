@@ -306,54 +306,54 @@ public class MemTenServlet extends HttpServlet {
 			}
 		}
 		
-		if ("getOne_For_Rental".equals(action)) { // 來自listAllEmp.jsp的請求
-
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			
-//			try {
-				/***************************1.接收請求參數****************************************/
-//				System.out.println(req.getSession().getAttribute("MemTenVO"));	
-				Integer mem_no = 2;
-//				System.out.println(req.getSession());
-				
-				Integer hos_no = new Integer(req.getParameter("hos_no"));
-				
+//		if ("getOne_For_Rental".equals(action)) { // 來自listAllEmp.jsp的請求
+//
+//			List<String> errorMsgs = new LinkedList<String>();
+//			req.setAttribute("errorMsgs", errorMsgs);
+//			
+////			try {
+//				/***************************1.接收請求參數****************************************/
+////				System.out.println(req.getSession().getAttribute("MemTenVO"));	
+//				Integer mem_no = 2;
+////				System.out.println(req.getSession());
+//				
+//				Integer hos_no = new Integer(req.getParameter("hos_no"));
+//				
+////				HouseService houseSvc = new HouseService();
+////				HouseVO houseVO = houseSvc.getOneHouse(hos_no);
+//				
+////				Integer rtct_deposit = new Integer(req.getParameter("hos_rent")) * 2;
+//				Integer rtct_deposit = 1000;
+//				
+//				/***************************2.開始查詢資料****************************************/
+////				MemTenService memTenSvc = new MemTenService();
+////				MemTenVO memTenVO = memTenSvc.getOneMemTen(mem_no);
+//				
 //				HouseService houseSvc = new HouseService();
 //				HouseVO houseVO = houseSvc.getOneHouse(hos_no);
-				
-//				Integer rtct_deposit = new Integer(req.getParameter("hos_rent")) * 2;
-				Integer rtct_deposit = 1000;
-				
-				/***************************2.開始查詢資料****************************************/
-//				MemTenService memTenSvc = new MemTenService();
-//				MemTenVO memTenVO = memTenSvc.getOneMemTen(mem_no);
-				
-				HouseService houseSvc = new HouseService();
-				HouseVO houseVO = houseSvc.getOneHouse(hos_no);
-				
-				RenConService renConSvc = new RenConService();
-				RenConVO renConVO = renConSvc.addRenCon2(hos_no, mem_no, rtct_deposit);
-				
-				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-//				req.setAttribute("memTenVO", memTenVO);         // 資料庫取出的memTenVO物件,存入req
-				req.setAttribute("houseVO", houseVO);
-				req.setAttribute("renConVO", renConVO);
-				
-				req.getSession().setAttribute("hos_no", hos_no);
-				
-				String url = "/front-end/memTen/rentalConfirm.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_memTen_input.jsp
-				successView.forward(req, res);
-
-				/***************************其他可能的錯誤處理**********************************/
-//			} catch (Exception e) {
-//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher("/front-end/memTen/listOneMemTen.jsp");
-//				failureView.forward(req, res);
-//			}
-		}
+//				
+//				RenConService renConSvc = new RenConService();
+//				RenConVO renConVO = renConSvc.addRenCon2(hos_no, mem_no, rtct_deposit);
+//				
+//				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+////				req.setAttribute("memTenVO", memTenVO);         // 資料庫取出的memTenVO物件,存入req
+//				req.setAttribute("houseVO", houseVO);
+//				req.setAttribute("renConVO", renConVO);
+//				
+//				req.getSession().setAttribute("hos_no", hos_no);
+//				
+//				String url = "/front-end/memTen/rentalConfirm.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_memTen_input.jsp
+//				successView.forward(req, res);
+//
+//				/***************************其他可能的錯誤處理**********************************/
+////			} catch (Exception e) {
+////				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+////				RequestDispatcher failureView = req
+////						.getRequestDispatcher("/front-end/memTen/listOneMemTen.jsp");
+////				failureView.forward(req, res);
+////			}
+//		}
 		
 		if ("update".equals(action)) { // 來自update_memTen_input.jsp的請求
 			
