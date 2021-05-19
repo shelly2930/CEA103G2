@@ -177,6 +177,7 @@
 								type: 'post',
 								data:{
 									action:'getMem',
+									status:"1",
 								},
 								success:function(mem){
 									$('#showmem').empty();
@@ -220,6 +221,7 @@
 								data:{
 									action:'getMemHou',
 									mem_no:mem_no,
+									status:"1",
 								},
 								success:function(memhou){
 									if(memhou==null){
@@ -271,7 +273,8 @@
 								data:{
 									action:'getMemHouCon',
 									mem_no:mem_no,
-									hos_no:hou
+									hos_no:hou,
+									status:"1",
 								},
 								success:function(memhoucon){
 									

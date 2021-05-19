@@ -30,10 +30,10 @@
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2 class='text-right'>租屋合約</h2>
+                            <h2 class='text-right'>歷史合約</h2>
                             <h3 class='text-right'> &nbsp;&nbsp;&nbsp; ${MemTenVO.mem_name} 你好 !</h3>
-                            <h5 class='text-right'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View <span>-</span> Contract</h5>
-                            <h5 class='text-right'>會員: ${MemTenVO.mem_no} <span>-</span> 請確定合約內容</h5>
+                            <h5 class='text-right'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>-</span> Contract</h5>
+                            <h5 class='text-right'>會員: ${MemTenVO.mem_no} <span>-</span> 查看合約內容</h5>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         	<div id='hou'>
 	                            <table class="table table-hover">
 									<thead >
-										<tr><th colspan='3' style='font-weight:bold'>選取你要簽約的物件</th></tr>
+										<tr><th colspan='3' style='font-weight:bold'>以下是簽約的物件</th></tr>
 										<tr style="background-color:#ccb78f">
 											<th scope="col" class='text-center'>物件名稱</th>
 											<th scope="col" class='text-center'>地址</th>
@@ -129,9 +129,8 @@
 			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
 			type: 'post',
 			data:{
-				action:'getMemHou_coustom',
+				action:'getMemHou',
 				mem_no:mem_no,
-				status:"1",
 			},
 			success:function(memhou){
 				if(memhou==null){
@@ -165,10 +164,9 @@
 			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
 			type: 'post',
 			data:{
-				action:'getMemHouCon_coustom',
+				action:'getMemHouCon',
 				mem_no:mem_no,
-				hos_no:hou,
-				status:"1",
+				hos_no:hou
 			},
 			success:function(memhoucon){
 				if(memhoucon==null){

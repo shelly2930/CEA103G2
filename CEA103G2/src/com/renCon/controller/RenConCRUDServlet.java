@@ -90,7 +90,8 @@ public class RenConCRUDServlet extends HttpServlet {
 		if("getMem".equals(action)) {
 			//呼叫service 取出所有會員
 			RenConService svc = new RenConService();
-			List<Integer> list_mem = svc.getMem(new Byte("1"));
+			Byte status = Byte.parseByte(req.getParameter("status"));
+			List<Integer> list_mem = svc.getMem(status);
 			File mem_file = null;
 			if(list_mem != null) {
 				for(Integer mem_no : list_mem) {
@@ -111,8 +112,9 @@ public class RenConCRUDServlet extends HttpServlet {
 		if("getMemHou".equals(action)) {
 			//呼叫service 取出這會員所有租過物件
 			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Byte status = Byte.parseByte(req.getParameter("status"));
 			RenConService svc = new RenConService();
-			List<Integer> list_mem_hou = svc.getMemHou(new Byte("1"),mem_no);
+			List<Integer> list_mem_hou = svc.getMemHou(status,mem_no);
 			File mem_hou_file = null;
 			if(list_mem_hou != null) {
 				for(Integer hos_no : list_mem_hou) {
@@ -134,8 +136,9 @@ public class RenConCRUDServlet extends HttpServlet {
 			//呼叫service 取出這會員且該物件的所有合約
 			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
 			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			Byte status = Byte.parseByte(req.getParameter("status"));
 			RenConService svc = new RenConService();
-			List<Integer> list_mem_hou_con = svc.getMemHouCon(new Byte("1"),mem_no,hos_no);
+			List<Integer> list_mem_hou_con = svc.getMemHouCon(status,mem_no,hos_no);
 			File mem_hou_con_file = null;
 			if(list_mem_hou_con != null) {
 				for(Integer con_no : list_mem_hou_con) {
@@ -171,6 +174,46 @@ public class RenConCRUDServlet extends HttpServlet {
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson(housevo));
 		}
+		
+		
+		if("getMem_coustom".equals(action)) {
+			//呼叫service 取出所有會員
+			RenConService svc = new RenConService();
+			Byte status = Byte.parseByte(req.getParameter("status"));
+			List<Integer> list_mem = svc.getMem(status);
+			
+			Gson g = new Gson();
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(g.toJson(list_mem));
+		}
+		if("getMemHou_coustom".equals(action)) {
+			//呼叫service 取出這會員所有租過物件
+			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Byte status = Byte.parseByte(req.getParameter("status"));
+			RenConService svc = new RenConService();
+			List<Integer> list_mem_hou = svc.getMemHou(status,mem_no);
+			
+			Gson g = new Gson();
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(g.toJson(list_mem_hou));
+		}
+		if("getMemHouCon_coustom".equals(action)) {
+			//呼叫service 取出這會員且該物件的所有合約
+			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			Byte status = Byte.parseByte(req.getParameter("status"));
+			RenConService svc = new RenConService();
+			List<Integer> list_mem_hou_con = svc.getMemHouCon(status,mem_no,hos_no);
+			
+			Gson g = new Gson();
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(g.toJson(list_mem_hou_con));
+		}
+		
+		
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

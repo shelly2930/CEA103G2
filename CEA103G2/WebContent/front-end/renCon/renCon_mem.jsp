@@ -201,16 +201,19 @@
 			    			},
 			    			success:function(){
 			    				console.log("繳費成功");
-								Swal.fire({
+			    			}
+			    		})
+			    		Swal.fire({
 									  title: '已成功租屋!',
-									  text:'將可在預定日期入住',
+									  html:'將可在預定日期入住<br>將再5秒後回首頁',
 									  confirmButtonColor: '#6495ed',
 									  confirmButtonText: '確定預約',
 									  confirmButtonClass:'btn-sm ',
-								})
-			    			}
-			    		})
-		    			document.location.href = "<%=request.getContextPath()%>/index.jsp";
+						})
+						window.setTimeout(function(){
+							document.location.href = "<%=request.getContextPath()%>/index.jsp";
+						},5000);
+		    			
 		    		})
 				  }else{
 				  	
