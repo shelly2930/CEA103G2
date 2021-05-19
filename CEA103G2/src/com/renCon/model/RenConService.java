@@ -85,23 +85,13 @@ public class RenConService {
 		return dao.findByStatus(rtct_status);
 	}
 	
-<<<<<<< HEAD
-	public void updateStatus(Integer rtct_no,Byte rtct_status) {
-=======
 	public RenConVO updateStatus(Integer rtct_no, Byte rtct_status) {
->>>>>>> 34b89fff6f7d58bc8122dd62db1f944b88ffd5e9
 		RenConVO renConVO = new RenConVO();
 		renConVO.setRtct_no(rtct_no);
 		renConVO.setRtct_status(rtct_status);
 		dao.updateStatus(renConVO);
-<<<<<<< HEAD
-	}
-	
-=======
-
 		return renConVO;
 	}
->>>>>>> 34b89fff6f7d58bc8122dd62db1f944b88ffd5e9
 	
 /*===================== ½²¨Î·s¼W ====================*/	
 	
