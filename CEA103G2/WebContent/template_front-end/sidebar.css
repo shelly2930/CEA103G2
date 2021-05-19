@@ -3,8 +3,8 @@
 div.col-lg-2.side {
 	padding-right:0px;
 	padding-left:0px;
-	margin-left:-25px;
-	background-color: #242423;
+	margin-left:-20px;
+	background-color: #ccb78f;
 }
 
 .section_padding {
@@ -20,7 +20,7 @@ div.col-lg-10.content {
 }
 
 #sidebar {
-	background: #242423;
+	background: #ccb78f;
 	color: #fff;
 	-webkit-transition: all 0.3s;
 	-o-transition: all 0.3s;
@@ -58,9 +58,15 @@ div.col-lg-10.content {
 	padding: 10px 0;
 	display: block;
 	font-weight:700;
-	color: #ccb78f;
-	border-bottom: 1px solid #dddddd;
+	color: #242423;
+/* 	border-bottom: 1px solid #dddddd; */
+	font-size: 18px;
 }
+
+#sidebar ul li a.second {
+	font-size: 16px;
+	font-weight:500;
+} 
 
 #sidebar ul li a:hover {
 	color: white;
@@ -68,7 +74,7 @@ div.col-lg-10.content {
 
 #sidebar ul li.active>a {
 	background: transparent;
-	color: #ccb78f;
+	color: white;
 }
 
 @media ( max-width : 991.98px) {
@@ -98,3 +104,14 @@ div.pagetitle {
 	font-size:2rem;
 	font-weight: 700;
 }
+
+/* .dropdown-toggle::after { */
+/*     display: block; */
+/*     position: absolute; */
+/*     top: 50%; */
+/*     right: 0; */
+/*     -webkit-transform: translateY(-50%); */
+/*     -ms-transform: translateY(-50%); */
+/*     transform: translateY(-50%); */
+/* } */
+

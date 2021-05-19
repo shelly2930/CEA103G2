@@ -20,21 +20,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 
-<!-- 地址連動選單 -->
-<script>
-new TwCitySelector({
-    el: '.city-selector-set-has-value',
-    elCounty: '.county',
-    elDistrict: '.district',
-    bootstrapStyle: true
-  });	
-</script>
-
 <title></title>
 
 <style>
 body { 
-background-color: #dddddd !important;
+	background-color: #dddddd !important;
 }
 
 img.mem_pic {
@@ -46,10 +36,13 @@ img.mem_pic {
 </head>
 <body>
 
-
-
 <!--================ navbar =================-->
 <%@include file="/front-end/header.file"%>
+
+<!-- 地址連動選單 -->
+<script>
+new TwCitySelector();	
+</script>
 
 <!--================ Content Area start =================-->
 <section class="cat_product_area section_padding">
@@ -58,7 +51,7 @@ img.mem_pic {
             <!--================ Sidebar =================-->    
 			<%@include file="/front-end/sidebarFront.file"%>
                 
-            <div class="col-lg-10 content">
+            <div class="col-lg-9 content">
                 
                 <!--================ 不要的話自己刪掉 =================-->
                 <div class="pagetitle">會員資料查看與修改</div>
@@ -146,24 +139,9 @@ img.mem_pic {
 							</td>
 					    </tr>
 					    <tr>
-					    	<th>縣市</th>
-							<td>
-							<div class="city-selector-set-has-value">
-							  <div>
-							    <!-- 縣市選單 -->
-							    <select class="county" data-value="<%=memTenVO.getMem_city()%>"></select>
-							  </div>
-							  <div>
-							    <!-- 區域選單 -->
-							    <select class="district" data-value="<%=memTenVO.getMem_addr()%>"></select>
-							  </div>
-							</div>
-							</td>
-					    </tr>
-					    <tr>
 					    	<th>地址</th>
 							<td>
-								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="<%=memTenVO.getMem_city()%>"
+								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="<%=memTenVO.getMem_city()%>"
 						     			data-district-value="<%=memTenVO.getMem_dist()%>"></div>
 								<input type="TEXT" name="mem_addr" class="single-input" value="<%=memTenVO.getMem_addr()%>"/>
 							</td>

@@ -30,7 +30,6 @@ public class RenConServlet extends HttpServlet {
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		System.out.println("in");
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
@@ -130,9 +129,8 @@ public class RenConServlet extends HttpServlet {
 			
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-//				Integer rtct_no = new Integer(req.getParameter("no"));
 				
-//				Integer rtct_no = null;
+				Integer rtct_no = null;
 				
 				Byte rtct_status = null;
 				
@@ -145,24 +143,23 @@ public class RenConServlet extends HttpServlet {
 					rtct_status = 3;
 				}
 				
-				for(int i = 0; i < rtct_no_array.length; i++) {
-					System.out.println(rtct_no_array[i]);
-				}
-				
 				/***************************2.開始修改資料*****************************************/
 				RenConService renConSvc = new RenConService();
-				
 					
-					
-					
-				
+				for(int i = 0; i < rtct_no_array.length; i++) {
+					System.out.println(rtct_no_array[i]);
+					rtct_no = new Integer(rtct_no_array[i]);
+					RenConVO renConVO = renConSvc.findByPK(rtct_no);
+					renConVO = renConSvc.updateStatus(rtct_no, rtct_status);
+//					req.setAttribute("renConVO", renConVO);
+				}
 				
 				List<RenConVO> list = new ArrayList<RenConVO>();
 				list = renConSvc.findByStatus(rtct_status);
 				req.setAttribute("list",list);
 				
 				String url = "/back-end/renCon/rentalAuth.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理*************************************/	
@@ -173,6 +170,6 @@ public class RenConServlet extends HttpServlet {
 			}
 		}
 		
-		System.out.println("out");
+		
 	}
 }

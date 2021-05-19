@@ -24,6 +24,10 @@
 	 <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
 
 <style>
+input.btn.btn-primary {
+	margin:0px 10px 10px 10px;
+}
+
 img.mem_pic {
 	width:200px;
 	height:auto;
@@ -116,10 +120,10 @@ img.mem_pic {
 											</td>
 											
                                             <td>
-                                            	<button id="house" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#a">物件${renConVO.hos_no}</button>
+                                            	<button id="house" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#a">物件${renConVO.hos_no}</button>
                                             </td>
                                             <td id="${renConVO.mem_no}">
-                                             	<button id="member" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#mem">會員${renConVO.mem_no}</button>
+                                             	<button id="member" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#mem">會員${renConVO.mem_no}</button>
                                             </td>
 
                                             <td>${renConVO.rtct_no}</td>
@@ -258,7 +262,8 @@ img.mem_pic {
 							'網路費','員工編號',
 							'刊登狀態'];
 		
-		$("button[id='house']").click(function(){
+		$("button[id='house']").click(function(e1){
+			e1.preventDefault();
 			$("#b").text('編號'+$(this).parent().parent().attr('id')+'物件詳情');
 			$.ajax({
 				url:"<%=request.getContextPath()%>/HouseJsonServlet",
@@ -276,14 +281,13 @@ img.mem_pic {
 		})
 		
 		let member_value = ['mem_no','mem_username','mem_name','mem_gender','mem_id','mem_birthday','mem_phone','mem_mobile','mem_email',
-							'mem_city','mem_dist','mem_addr','mem_status','mem_idcard_f','mem_idcard_r','mem_id_status',
-							'mem_suspend','mem_refuse'];
+							'mem_city','mem_dist','mem_addr','mem_idcard_f','mem_idcard_r','mem_id_status'];
 		
 		let member_key = ['會員編號','帳號','姓名','性別','身分證字號','出生年月日','連絡電話','行動電話',
-							'電子信箱','縣市','鄉鎮市區','地址','帳號狀態','身分證正面','身分證背面','身份審核狀態',
-							'停權原因','未通過原因'];
+							'電子信箱','縣市','鄉鎮市區','地址','身分證正面','身分證背面','身份審核狀態'];
 	
-		$("button[id='member']").click(function(){
+		$("button[id='member']").click(function(e){
+			e.preventDefault();
 			$("#c").text('編號'+$(this).parent().attr('id')+'會員資料');
 			$.ajax({
 				url:"<%=request.getContextPath()%>/MemTenJsonServlet",
@@ -294,10 +298,10 @@ img.mem_pic {
 				},
 				success:function(jsonStr){
 					for(let i =0;i<member_key.length;i++){
-						 if(i==13){
+						 if(i==12){
 						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td></tr>');
-						 }else if(i==14){
+						 }else if(i==13){
 						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td></tr>');
 						 }else{
@@ -310,10 +314,12 @@ img.mem_pic {
 			
 		})
 		
-		
+		// 讓checkbox的td消失
 		if(${(empty list)||(list[0].rtct_status!= 0)}){
-					$("#check").attr("style",'display:none');
-				}
+			$("#check").attr("style",'display:none');
+			$("input[value='通過']").attr("style",'display:none');
+			$("input[value='不通過']").attr("style",'display:none');
+		}
  </script>
 	
 

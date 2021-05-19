@@ -85,7 +85,14 @@ public class RenConService {
 		return dao.findByStatus(rtct_status);
 	}
 	
-	
+	public RenConVO updateStatus(Integer rtct_no, Byte rtct_status) {
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_no(rtct_no);
+		renConVO.setRtct_status(rtct_status);
+		dao.updateStatus(renConVO);
+
+		return renConVO;
+	}
 	
 /*===================== ½²¨Î·s¼W ====================*/	
 	
