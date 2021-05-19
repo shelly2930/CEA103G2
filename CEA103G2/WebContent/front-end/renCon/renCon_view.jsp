@@ -134,28 +134,35 @@
 				status:"1",
 			},
 			success:function(memhou){
-				if(memhou==null){
-					alert('查無物件');
-				}
 				$('#showhou').empty();
-				let count = 1;
-				for(let i of memhou){
-					let str="<tr id='memhou"+i+"'>";
-					str+="<th scope='row' class='text-center'>";
-					str+="<a href='' class='listhoucon'>"+getHouse(i).hos_name+"</a>";
-					str+="</th>";
-					str+="<td class='text-center'>"+getHouse(i).hos_address+"</td>";
-					str+="<td class='text-center'>"+getHouse(i).hos_rent+"</td>";
+				if(memhou=='none'){
+					let str="<tr>";
+					str+="<th colspan='3' class='text-center'>";
+					str+="目前沒有租屋申請</th>";
 					str+="</tr>";  
 					$('#showhou').append(str);
-				}
-				$(".listhoucon").click(function(e){
-					e.preventDefault();
-					$('#hou').slideUp();
-					let hou = $(this).parents('tr').attr('id').substring(6);
-					showhoucon(mem_no,hou);
+				}else{
+					let count = 1;
+					for(let i of memhou){
+						let str="<tr id='memhou"+i+"'>";
+						str+="<th scope='row' class='text-center'>";
+						str+="<a href='' class='listhoucon'>"+getHouse(i).hos_name+"</a>";
+						str+="</th>";
+						str+="<td class='text-center'>"+getHouse(i).hos_address+"</td>";
+						str+="<td class='text-center'>"+getHouse(i).hos_rent+"</td>";
+						str+="</tr>";  
+						$('#showhou').append(str);
+					}
+					$(".listhoucon").click(function(e){
+						e.preventDefault();
+						$('#hou').slideUp();
+						let hou = $(this).parents('tr').attr('id').substring(6);
+						showhoucon(mem_no,hou);
+						
+					})
 					
-				})
+				}
+				
 			}
 		})
 	}
