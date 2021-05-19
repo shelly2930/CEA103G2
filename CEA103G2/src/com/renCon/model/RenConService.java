@@ -1,5 +1,6 @@
 package com.renCon.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.houPho.model.HouPhoDAO;
@@ -61,17 +62,33 @@ public class RenConService {
 		return dao.getAll();
 	}
 	
-	public RenConVO addRenCon2(Integer hos_no,Integer mem_no, Integer rtct_deposit) {
-//傳進來的參數，先包裝成VO，how to do?
-//先建立vo物件，在針對所有屬性，進行set
+/*===================== 蔡佳新增 ====================*/	
+	public RenConVO addRenCon2(Integer hos_no,Integer mem_no, java.sql.Date rtct_eff_date,
+			java.sql.Date rtct_tmt_date, Timestamp rtct_apptime, Integer rtct_deposit) {
+		
 		RenConVO renConVO = new RenConVO();
 		renConVO.setHos_no(hos_no);
 		renConVO.setMem_no(mem_no);
+		renConVO.setRtct_eff_date(rtct_eff_date);
+		renConVO.setRtct_tmt_date(rtct_tmt_date);
+		renConVO.setRtct_apptime(rtct_apptime);
 		renConVO.setRtct_deposit(rtct_deposit);
-//把參數轉成vo物件，就可以呼叫dao來對資料庫進行insert
 		dao.insert2(renConVO);
 		return renConVO;
 	}
+	
+	public RenConVO findByPK(Integer rtct_no) {
+		return dao.findByPK(rtct_no);
+	}
+	
+	public List<RenConVO> findByStatus(Byte rtct_status){
+		return dao.findByStatus(rtct_status);
+	}
+	
+	
+	
+/*===================== 蔡佳新增 ====================*/	
+	
 	//敬達
 	public List<Integer> getMem(Byte status){
 		RenConVO renConVO = new RenConVO();
