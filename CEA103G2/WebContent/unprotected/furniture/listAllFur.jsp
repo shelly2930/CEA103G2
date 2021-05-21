@@ -92,7 +92,7 @@
 
 	.breadcrumb_bg {
 	    background-image: url(<%=request.getContextPath()%>/unprotected/furniture/images/Morandi2.jpg)!important;
-	    background-position: bottom -300px right 0px; 
+	    background-position: bottom -300px right 0px!important; 
 	    background-repeat: no-repeat;
 	    background-size: cover;
 	}
@@ -138,6 +138,17 @@
 
 <!--↓↓↓↓ 導覽列內容 測試完後刪除 改header檔 ↓↓↓↓-->
 <%-- <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%> --%>
+<%@ page import="com.rentCart.model.RentCartItem"%>
+
+<%
+	List<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");
+	int	rentCartListSize=0;
+	if (rentCartList!=null){
+	 	rentCartListSize = rentCartList.size();
+	}
+	pageContext.setAttribute("rentCartListSize", rentCartListSize);
+%>
+
 <head>
 <style>
 /*CART CSS*/
@@ -266,9 +277,9 @@
 					<!--以上是移到頭像會出現的選單-->	
 						</div>
 						
-<!-- 			↓↓↓ 	購物車圖式區域開始 ↓↓↓ -->
+<!-- 			↓↓↓ 	購物車圖示區域開始 ↓↓↓ -->
 									<a class="nav-link" 
-										href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery"><i class="fas fa-shopping-cart fa-3x"><span class="cartQuantity text-white bg-warning">0</span></i></a>
+										href="<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp"><i class="fas fa-shopping-cart fa-3x"><span class="cartQuantity text-white bg-warning">${rentCartListSize}</span></i></a>
 <!-- 						原購物車程式碼 -->
 <!-- 							<div class="dropdown cart"> -->
 <%-- 								<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery"  id="navbarDropdown3" --%>
@@ -280,7 +291,7 @@
                                 </div>-->
 <!-- 						原購物車程式碼 -->
 							</div>
-<!-- 			↑↑	↑		購物車圖式區域結束 ↑↑↑-->							
+<!-- 			↑↑	↑		購物車圖示區域結束 ↑↑↑-->							
 							
 							<a class="nav-link" href=""><i class="fas fa-bell"></i></a>
 						</div>
@@ -392,7 +403,7 @@
 								<!-- 上方搜尋分頁↑↑↑ -->
 						
 
-<!-- =======以下東緯開始 -->
+<!-- =======以下東緯CODE開始 -->
 <!-- 上方搜尋分頁-模糊查詢框 ↓↓↓  -->      
                             <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furIte/furIte.do">
                                 <div class="single_product_menu d-flex">
@@ -432,9 +443,13 @@
                                    	<!--                               以下  h4超連結待改成各家具頁面介紹超連結 -->
 										<h4 id="${furIteVO.fnt_name}">${furIteVO.fnt_name}</h4>
 										<h3 id="${furIteVO.fnt_price}">$${furIteVO.fnt_price} /月</h3>
+									<c:if test="${furIteVO.fnt_unrent>0}">	
 										 <a class="add_cart"  id="${furIteVO.fnt_it_no}" style="color: red; cursor:pointer;">+ 加入租借<i class="far fa-heart" id="${furIteVO.fnt_it_no}" style="color: red"></i></a>    
+										</c:if>
+											<c:if test="${furIteVO.fnt_unrent==0}">	
+										 <a style="color:#2D85CC;">暫無庫存<i class="far fa-heart" id="${furIteVO.fnt_it_no}" style="color: red"></i></a>    
+										</c:if>
 										<!--                                   <以下加到購物車> -->
-										<%--                                     <a href="<%=request.getContextPath()%>/rentCart/rentCart.do?fnt_it_no=${furIteVO.fnt_it_no}&action=ADD&fnt_name=${furIteVO.fnt_name}&requestURL=<%=request.getServletPath()%>&fnt_price=${furIteVO.fnt_price}&quantity=1" class="add_cart">+ 加入租借<i class="ti-heart"></i></a> --%>
 <!-- 原本 -->
 <%-- 										<a href=" "   id="${furIteVO.fnt_it_no}" name="cartButton" class="btn btn-info btn-icon-split" style="color:#46BBA2; background-color:#ffffff; border-color:#46BBA2;"> --%>
 <!-- 											加入租借 -->
@@ -530,6 +545,7 @@
 
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
 <script>
 
@@ -888,7 +904,6 @@ if(mem_no == null) {
 //怡 原加入租借鈕取值
 $(".add_cart").click(function(e){
 	e.preventDefault();
-	alert("SUCCESS");
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
@@ -899,14 +914,20 @@ $(".add_cart").click(function(e){
 			"fnt_name":$(this).prev().prev().attr('id'),
 			"quantity":"1",
 		},
-		success:function(){
-			alert("YA! SUCCESS!!!!");
+		success:function(data){
 // 			alert($(".cartQuantity").html());
 			//以下測試可送值取值 之後待從後端傳回品項總數 寫回購物車圖式旁數字
-			var quentity=parseInt($(".cartQuantity").html());
-			var add_one=quentity+1;
-			alert(add_one);
-			$(".cartQuantity").html(add_one);
+// 			var quentity=parseInt($(".cartQuantity").html());
+// 			var add_one=quentity+1;
+// 			alert(add_one);
+			$(".cartQuantity").html(data);
+			Swal.fire({
+					 position:'center',	 
+	   				  icon:'success',
+	   			      title:'已加入租借!',
+	   			      showConfirmButton:false,
+	   			      timer:1000
+	   		});
 		}
 	});
 });
