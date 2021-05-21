@@ -54,12 +54,12 @@
                         <h2>Subscribe to get Updated
                             with new offers</h2> -->
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="請輸入文字"
-								aria-label="Recipient's username"
-								aria-describedby="basic-addon2">
-							<div class="input-group-append">
-								<a href="#" class="input-group-text btn_2" id="basic-addon2">search</a>
-							</div>
+								<input type="text" id='searchhouse' class="form-control" placeholder="物件關鍵字搜尋"
+									aria-label="Recipient's username"
+									aria-describedby="basic-addon2">
+								<div class="input-group-append">
+									<a href="#" class="input-group-text btn_2" id="basic-addon2">search</a>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -70,7 +70,7 @@
 
 
 	<!-- product_list part start-->
-	<section class="product_list best_seller section_padding">
+	<section class="product_list best_seller section_padding" style='padding-top:50px !important'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
@@ -80,44 +80,7 @@
 				</div>
 			</div>
 			<div class="row align-items-center justify-content-between">
-				<div class="col-lg-12">
-					<div class="best_product_slider owl-carousel">
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_1.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_2.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_3.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_4.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_5.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-					</div>
+				<div class="col-lg-12" id='showhouse'>
 				</div>
 			</div>
 		</div>
@@ -184,10 +147,76 @@
 	<!-- jquery 這行有需要的人在自己的頁面加 -->
 	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <!-- Required source end -->
-
+	<script>
+		$("#basic-addon2").click(function(){
+			let word = $("#searchhouse").val();
+			$(location).attr('href',"<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&keyword="+word);
+		})
+		$.ajax({
+			url:"<%=request.getContextPath()%>/HouseJsonServlet",
+			type:'post',
+			data:{
+				action:'getAllHouseOnLine',
+			},
+			success:function(list){
+				let str ="<div class='best_product_slider owl-carousel'>"
+				for(house of list){
+					str += "<div class='single_product_item'>";
+					str+="<img style='height:200px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno='"+house.hos_no+">";
+					str+="<div class='single_product_text'>";
+					str+="<h4>"+house.hos_name+"</h4>";
+					str+="<h3><span>$"+house.hos_rent+"</span></h3>";
+					str+="<h3><span>"+house.hos_squares+"坪</span></h3>";
+					str+="<h3><span>"+house.hos_address+"</span></h3>";
+					str+="</div></div>";
+				}
+				str+="</div>";
+				$("#showhouse").append(str);
+				
+				
+				$(".owl-carousel").owlCarousel({
+					  loop: true, // 循環播放
+					  margin: 20, // 外距 10px
+					  nav: true, // 顯示點點
+					  responsive: {
+					    0: {
+					      items: 1 // 螢幕大小為 0~600 顯示 1 個項目
+					    },
+					    600: {
+					      items: 3 // 螢幕大小為 600~1000 顯示 3 個項目
+					    },
+					    1000: {
+					      items: 5 // 螢幕大小為 1000 以上 顯示 5 個項目
+					    }
+					  }
+				});
+				$(".owl-theme .item").css({
+					'height': '10rem',
+					'background': '#4dc7a0',
+					'padding': '1rem'
+				})
+				$(".owl-carousel .item h4").css({
+					'color': '10rem',
+					'font-weight': '400',
+					'marginTop': '0rem'
+				})
+				$(".owl-prev").each(function(){
+					$(this).text("prev");
+					$(this).css('font-size','22px');
+				});
+				$(".owl-next").each(function(){
+					$(this).text("next");
+					$(this).css('font-size','22px');
+				});
+				
+			}
+		})
+			
+	
+	</script>
 <!-- 要放在最下面 -->
 <%@include file="/front-end/footer.file"%>
-
+	
 
 </body>
 </html>

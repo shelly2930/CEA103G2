@@ -19,6 +19,14 @@ public class CQ_advance_house {
 		// 用於varchar		
 		else if ("hos_city".equals(columnName) || "hos_dist".equals(columnName)) 
 			aCondition = columnName + " like '%" + value + "%'";
+		else if ("keyword".equals(columnName)) {
+			aCondition = "HOS_NAME  like '%" + value + "%' or ";
+			aCondition +="HOS_CITY  like '%" + value + "%' or ";
+			aCondition +="HOS_DIST  like '%" + value + "%' or ";
+			aCondition +="HOS_ADDRESS  like '%" + value + "%' or ";
+			aCondition +="HOS_INFO  like '%" + value + "%'";
+		}
+			
 		// 用於date
 		else if ("hiredate".equals(columnName)) //沒用到，留著參考                         
 			aCondition = columnName + "=" + "'"+ value +"'";                          //for 其它DB  的 date

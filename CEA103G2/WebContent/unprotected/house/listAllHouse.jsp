@@ -286,6 +286,13 @@
 			     			</a>
 			     		</c:if> 
 			     		 
+			     		<c:if test="${!empty map.keyword[0]}">
+			     			<a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery">
+			     			<button type="button" class="genric-btn success-border small">
+			     			√ˆ¡‰¶r:${map.keyword[0]} x
+			     			</button>
+			     			</a>
+			     		</c:if> 
 			     		
 			     		<c:choose>
 						<c:when test="${map.price[0]==0}">

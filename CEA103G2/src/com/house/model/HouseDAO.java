@@ -68,7 +68,7 @@ public class HouseDAO implements HouseDAO_interface {
 	private static final String GET_ALL_BY_STATE = "SELECT HOS_NO,HOS_NAME,HOS_DATE,HOS_INFO,EMP_NO,HOS_STATE,HOS_STATUS FROM HOUSE where HOS_STATE=? and HOS_STATUS=? order by HOS_STATE" ;
 	
 	private static final String PULLORPUSH = "UPDATE HOUSE SET HOS_STATE=? WHERE HOS_NO=?";
-	
+	private static final String SEARCH = "SELECT * FROM HOUSE WHERE HOS_NAME LIKE ? OR HOS_CITY LIKE ? OR HOS_DIST LIKE ? OR HOS_ADDRESS LIKE ? OR HOS_INFO LIKE ?";
 	//新增物件
 	@Override
 	public void insert(HouseVO houseVO) {
@@ -693,6 +693,75 @@ public class HouseDAO implements HouseDAO_interface {
 				}
 			}
 			
+		}
+		@Override
+		public List<HouseVO> search(String key) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<HouseVO> list = new ArrayList<HouseVO>();
+			HouseVO houseVO  = null;
+			System.out.println(SEARCH);
+			String keyword = "%"+key+"%";
+				try {
+					con = ds.getConnection();
+					pstmt = con.prepareStatement(SEARCH);
+					pstmt.setString(1,keyword);
+					pstmt.setString(2,keyword);
+					pstmt.setString(3,keyword);
+					pstmt.setString(4,keyword);
+					pstmt.setString(5,keyword);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						houseVO = new HouseVO();
+						houseVO.setHos_no(rs.getInt("hos_no"));
+						houseVO.setLld_no(rs.getInt("lld_no"));
+						houseVO.setHos_name(rs.getString("hos_name"));
+						houseVO.setHos_rent(rs.getInt("hos_rent"));
+						houseVO.setHos_expense(rs.getInt("hos_expense"));
+						houseVO.setHos_date(rs.getTimestamp("hos_date"));
+						houseVO.setHos_views(rs.getInt("hos_views"));
+						houseVO.setHos_city(rs.getString("hos_city"));
+						houseVO.setHos_dist(rs.getString("hos_dist"));
+						houseVO.setHos_address(rs.getString("hos_address"));
+						houseVO.setHos_lon(rs.getDouble("hos_lon"));
+						houseVO.setHos_lat(rs.getDouble("hos_lat"));
+						houseVO.setHos_type(rs.getByte("hos_type"));
+						houseVO.setHos_info(rs.getString("hos_info"));
+						houseVO.setHos_age(rs.getInt("hos_age"));
+						houseVO.setHos_floor(rs.getInt("hos_floor"));
+						houseVO.setHos_ele(rs.getByte("hos_ele"));
+						houseVO.setHos_parking(rs.getByte("hos_parking"));
+						houseVO.setHos_pet(rs.getByte("hos_pet"));
+						houseVO.setHos_cook(rs.getByte("hos_cook"));
+						houseVO.setHos_squares(rs.getDouble("hos_squares"));
+						houseVO.setHos_gender(rs.getByte("hos_gender"));
+						houseVO.setHos_water(rs.getDouble("hos_water"));
+						houseVO.setHos_power(rs.getDouble("hos_power"));
+						houseVO.setHos_internet(rs.getInt("hos_internet"));
+						houseVO.setHos_apptime(rs.getTimestamp("hos_apptime"));
+						houseVO.setHos_order_date(rs.getTimestamp("hos_order_date"));
+						houseVO.setEmp_no(rs.getInt("emp_no"));
+						houseVO.setHos_status(rs.getByte("hos_status"));
+						houseVO.setHos_result(rs.getByte("hos_result"));
+						houseVO.setHos_loc_pic(rs.getBytes("hos_loc_pic"));
+						houseVO.setHos_state(rs.getByte("hos_state"));
+						houseVO.setHos_refuse(rs.getString("hos_refuse"));
+						list.add(houseVO); // Store the row in the list
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					throw new RuntimeException(e.getMessage());
+				}finally {
+					if (con != null) {
+						try {
+							con.close();
+						} catch (Exception e) {
+							e.printStackTrace(System.err);
+						}
+					}
+				}
+			return list;
 		}
 				
 

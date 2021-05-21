@@ -190,7 +190,7 @@ h4 {
               ${houseVO.hos_address}
             </p>
             <div class="card_area d-flex justify-content-between align-items-center">
-              <a href="${pageContext.request.contextPath}/front-end/rooVieApp/pickTime.jsp?houseno=${houseVO.hos_no}" class="btn_3">預約看房</a>
+              <a id='choosetime' href="" class="btn_3">預約看房</a>
               <a href="${pageContext.request.contextPath}/memTen/memTen.do?action=getOne_For_Rental&hos_no=${houseVO.hos_no}" class="btn_3 rental">我要租房</a>
               <a href="#" class="btn_3 rentallogin">我要租房</a>
               <a href="#" class="like_us btn add"><i class="far fa-heart" style='color:#FF9696;font-size:23px;margin:auto;'></i></a>
@@ -501,7 +501,14 @@ h4 {
 	}else{
 		colarray = getCol(mem_no);
 	}
-	
+	$('#choosetime').click(function(e){
+		e.preventDefault();
+		if(mem_no==null){
+			$(".rentallogin").click();
+		}else{
+			$(location).prop('href', "${pageContext.request.contextPath}/front-end/rooVieApp/pickTime.jsp?houseno=${houseVO.hos_no}");
+		}
+	})
 	$('.add').click(function(e){
 		e.preventDefault();
 		if(mem_no==null){
