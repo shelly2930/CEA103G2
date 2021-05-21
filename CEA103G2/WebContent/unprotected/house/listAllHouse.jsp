@@ -123,7 +123,22 @@
             </div>
         </div>
     </section>
-	 
+	
+	   <section  style='padding-top:40px'>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                        <div class="breadcrumb_iner_item">
+								<div class="form-inline">
+								<input style='width:80%' type="text" class="form-control" placeholder="請輸入關鍵字">
+								<button type="submit" style='background-color:#EBEBFF;font-weight:bold' class="btn btn-default">關鍵字搜尋</button>
+								</div>
+								
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section> 
     <!--================Category Product Area =================-->
     <section class="cat_product_area" style='margin-top:20px'>
         <div class="container">
@@ -135,36 +150,40 @@
 
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>縣市</h3>
+                                <h3 style='color:#009E9E;font-weight:bold'>縣市</h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=基隆">基隆</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=基隆">基隆</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台北">台北</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台北">台北</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=桃園">桃園</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=新北">新北</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=新竹">新竹</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=桃園">桃園</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=苗栗">苗栗</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=新竹">新竹</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台中">台中</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=苗栗">苗栗</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=雲林">雲林</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台中">台中</a>
+                                        <span>(250)</span>
+                                    </li>
+                                    <li>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=雲林">雲林</a>
                                         <span>(250)</span>
                                     </li>
                                 </ul>
@@ -172,7 +191,7 @@
                         </aside>
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>類型</h3>
+                                <h3 style='color:#009E9E;font-weight:bold'>類型</h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
@@ -202,7 +221,7 @@
                         </aside>
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>坪數</h3>
+                                <h3 style='color:#009E9E;font-weight:bold'>坪數</h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
@@ -232,7 +251,7 @@
                         </aside>
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>價格</h3>
+                                <h3 style='color:#009E9E;font-weight:bold'>價格</h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
@@ -592,6 +611,146 @@
     
 	
 	<script>
+		let dist0 =['中山區','中正區','信義區','仁愛區','暖暖區','安樂區','七堵區'];
+		let dist1 =['北投區' , '士林區', '內湖區' , '松山區' , '中山區' , '大同區' , '南港區' ,'信義區' , '大安區' ,'中正區' , '萬華區' , '文山區'];
+		let dist2 =['板橋區','三重區','中和區','永和區','新莊區','新店區','土城區','蘆洲區','樹林區','汐止區','鶯歌區','三峽區','淡水區','瑞芳區','五股區','泰山區','林口區','深坑區','石碇區','坪林區','三芝區','石門區','八里區','平溪區','雙溪區','貢寮區','金山區','萬里區','烏來區'];
+		let dist3 =['中壢區','平鎮區','龍潭區','楊梅區','新屋區','觀音區','桃園區','龜山區','八德區','大溪區','復興區','大園區','蘆竹區'];
+		let dist4 =['新竹市','東區','北區','香山區'];
+		let dist5 =['苗栗市','苑裡鎮','通霄鎮','竹南鎮','頭份市','後龍鎮','卓蘭鎮','大湖鄉','公館鄉','銅鑼鄉','南庄鄉','頭屋鄉','三義鄉','西湖鄉','造橋鄉','三灣鄉','獅潭鄉','泰安鄉'];
+ 		let dist6 =['中區','東區','西區','南區','北區','西屯區','南屯區','北屯區','豐原區','大里區','太平區','清水區','沙鹿區','大甲區','東勢區','梧棲區','烏日區','神岡區','大肚區','大雅區','后里區','霧峰區','潭子區','龍井區','外埔區','和平區','石岡區','大安區','新社區'];
+		let dist7 =['麥寮鄉','崙背鄉','二崙鄉','西螺鎮','莿桐鄉','林內鄉','臺西鄉','東勢鄉','褒忠鄉','元長鄉','土庫鎮','大埤鄉','虎尾鎮','斗六市','斗南鎮','古坑鄉','四湖鄉','口湖鄉','水林鄉','北港鎮'];
+ 		$(".num").eq(0).click(function(e){
+			e.preventDefault();
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			let str ="";
+			for(let dist of dist0){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=基隆&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		$(".num").eq(1).click(function(e){
+			e.preventDefault();
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			let str ="";
+			for(let dist of dist1){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=新北市&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		$(".num").eq(2).click(function(e){
+			e.preventDefault();
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			let str ="";
+			for(let dist of dist2){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台北市&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		$(".num").eq(3).click(function(e){
+			e.preventDefault();
+			let str ="";
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			for(let dist of dist3){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=桃園&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		$(".num").eq(4).click(function(e){
+			e.preventDefault();
+			let str ="";
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			for(let dist of dist4){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=新竹&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		$(".num").eq(5).click(function(e){
+			e.preventDefault();
+			let str ="";
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			for(let dist of dist5){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=苗栗&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		
+		$(".num").eq(6).click(function(e){
+			e.preventDefault();
+			let str ="";
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			for(let dist of dist6){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台中&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		$(".num").eq(7).click(function(e){
+			e.preventDefault();
+			let str ="";
+			$(".hide").each(function(index){
+				$(this).remove();
+			})
+			for(let dist of dist7){
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=雲林&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+			}
+			$(this).parents('li').after(str);
+			$(".hide").hide();
+			$(".hide").slideDown(1000);
+		})
+		getNum('中壢')
+		$(".num").each(function(){
+			let size = getNum($(this).html());
+			$(this).next().text("("+size+")");
+			
+		})
+		function getNum(city){
+				let size=0;
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouseJsonServlet",
+					type:'post',
+					data:{
+						action:'findhouse',
+						keyword:city,
+					},
+					async: false,
+					success:function(str){
+						size=str.length;						
+					}
+				})
+				return size;
+			}
+	
+	
+	
+	
+	
 	
 	//取得會員
 			let mem_no = ${empty MemTenVO.mem_no ?"null":MemTenVO.mem_no};
