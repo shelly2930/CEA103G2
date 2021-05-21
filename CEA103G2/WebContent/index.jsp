@@ -8,6 +8,30 @@
 
 <style type="text/css">
 
+.subscribe_area {
+    background-image: url(/CEA103G2/index_img/city.jpg) !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.section_padding {
+    padding: 200px 0px !important;
+}
+/*·j´M¦C*/
+.subscribe_area .input-group .input-group-text {
+    height: 60px;
+    width: auto;
+    line-height: 60px;
+    padding: 0px 45px;
+    border: 0px solid transparent;
+    background-color: #ff3368;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
 /* content CSS start */
 .subscribe_area div.container {
 	padding: 100px 0;
