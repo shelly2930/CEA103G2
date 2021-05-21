@@ -160,7 +160,9 @@ public class HouseService {
 		dao.pullorpush(houseno, state);
 	}
 	
-
+	public List<HouseVO> search(String keyword){
+		return dao.search(keyword);
+	}
 }
 
 

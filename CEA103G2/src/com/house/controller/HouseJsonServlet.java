@@ -72,6 +72,19 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson("жие\"));
 		}
+		if("findhouse".equals(action)) {
+			HouseService svc = new HouseService();
+			
+			String keyword = null;
+			if(req.getParameter("keyword")!=null) {
+				keyword = req.getParameter("keyword");
+			}else keyword="";
+			System.out.println(keyword);
+			List<HouseVO> list = svc.search(keyword);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(list));
+		}
 	}
 
 }

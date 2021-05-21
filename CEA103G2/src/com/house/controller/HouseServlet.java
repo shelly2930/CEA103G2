@@ -116,13 +116,18 @@ public class HouseServlet extends HttpServlet {
 						}else if(req.getParameter("area")!=null){
 							String[] area = {req.getParameter("area")};
 							map.put("area",area);
+						}else if(req.getParameter("keyword")!=null){
+							String[] keyword = {req.getParameter("keyword")};
+							map.put("keyword",keyword);
 						}else{
 							//首次進入該頁面
+							String[] keyword = {req.getParameter("keyword")};
 							String[] hos_city = {req.getParameter("hos_city")};
 							String[] hos_dist = {req.getParameter("hos_dist")};
 							String[] hos_rent = {req.getParameter("hos_rent")};
 							String[] hos_type = {req.getParameter("hos_type")};//0：不限1：獨立套房2：分租套房3：雅房  4：整層住家 5：車位6：其他
 							String[] hos_squares = {req.getParameter("hos_squares")};
+							map1.put("keyword",keyword);
 							map1.put("hos_city",hos_city);
 							map1.put("hos_dist", hos_dist);
 							map1.put("hos_rent", hos_rent);
