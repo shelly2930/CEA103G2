@@ -201,6 +201,8 @@
 			    				status:'2'
 			    			},
 			    			success:function(){
+			    				let hos = getCon(con_no).hos_no;
+			    				pullorpush(hos,"2");
 			    				console.log("Ãº¶O¦¨¥\");
 			    			}
 			    		})
@@ -223,7 +225,36 @@
 //     		$("#s").attr('src',sig.signature('toDataURL', 'image/jpeg', 0.8));
     	});
     	
-    	
+    	function pullorpush(hos_no,hos_state){
+    		$.ajax({
+        		url:"<%=request.getContextPath()%>/HouseJsonServlet",
+         		type:'post',
+         		data:{
+         			action:'pullorpush',
+         			houseno:hos_no,
+         			state:hos_state
+         		},
+         		success:function(b){
+         			console.log(b);
+         		}
+         	})
+    	}
+    	function getCon(conno){
+    		let convo={};
+    		$.ajax({
+    			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+    			type: 'post',
+    			data:{
+    				action:'getOneCon',
+    				con_no:conno,
+    			},
+    			async:false,
+    			success:function(con){
+    				convo= con;
+    			}
+    		})
+    		return convo;
+    	}
     	</script>
     	
 

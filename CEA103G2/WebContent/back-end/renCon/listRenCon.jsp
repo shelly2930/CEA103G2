@@ -272,6 +272,7 @@
 				$(".cancelcon").click(function(e){
 					e.preventDefault();
 					let c_no = $(this).parents('tr').children().eq(2).attr('id');
+					let hos = $(this).parents('tr').attr('class');
 					$.ajax({
 						url:'<%=request.getContextPath()%>/RenConCRUDServlet',
 						type: 'post',
@@ -279,9 +280,10 @@
 							action:'updateTmtDate',
 							con_no:c_no,
 							status:'5',
-							tmtdate:new Date()
+							tmtdate:formate(new Date())
 						},
 						success:function(c){
+							pullorpush(hos,'2');
 							$("#history").click();
 						}
 					})
@@ -425,6 +427,24 @@
      		}
      	})
      	return str;
+	}
+	function pullorpush(hos_no,hos_state){
+		$.ajax({
+    		url:"<%=request.getContextPath()%>/HouseJsonServlet",
+     		type:'post',
+     		data:{
+     			action:'pullorpush',
+     			houseno:hos_no,
+     			state:hos_state
+     		},
+     		success:function(b){
+     			console.log(b);
+     		}
+     	})
+	}
+	function formate(d){
+		let date = new Date(d);
+		return dateFormat = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 	}
 	</script>
 </body>
