@@ -22,6 +22,7 @@
 
 
 <style>
+
 /* 收藏 */
 	#collection{
 		position:fixed;
@@ -94,7 +95,6 @@
 
 <%@include file="/front-end/header.file"%>	
 <!-- ==================================下面是搜尋BAR=============================================	 -->
-
 
 <div id="bs-canvas-right" class="bs-canvas bs-canvas-right position-fixed bg-light h-100">
 	<header class="bs-canvas-header p-3 bg-info overflow-auto" style='opacity:0.5;'>
@@ -495,7 +495,8 @@
                     <!--                     	以上收藏 -->
                     <div class="row align-items-center latest_product_inner">
                         <c:forEach var="houseVO" items="${listHouse_AllOrQuery}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" varStatus="counter">
-                            <div class="col-lg-4 col-sm-6">
+                            <c:if test="${houseVO.hos_state==1}">
+                            <div class="col-lg-4">
 	                            <div class="single_product_item">
 	<!--                                 	<div class="box1"> -->
 											<a href="<%=request.getContextPath()%>/house/house.do?houseno=${houseVO.hos_no}&action=listHouPho_ByHouseA">
@@ -518,6 +519,7 @@
 	                                </div>
 	                            </div>
                             </div>
+                            </c:if>
                    		</c:forEach>
                    </div>
                    
