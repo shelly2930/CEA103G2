@@ -105,6 +105,29 @@ h4 {
 /*     -webkit-box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.1) inset; */
 /*     -webkit-border-bottom-right-radius: 6px 50px;     */
 /* } */
+
+/******蔡佳******/
+/* body { */
+/* 	background-color:#dddddd; */
+/* } */
+
+.s_product_text h2 {
+    color: #61d2b4;
+}
+
+.s_product_text .btn_3 {
+    box-shadow: -1.717px 8.835px 29.76px 2.24px rgb(97 210 180 / 18%);
+    border: 1px solid #61d2b4;
+    background-color: #61d2b4;
+}
+
+.product_description_area .nav.nav-tabs li a.active {
+    background: #ccb78f;
+    color: #fff;
+    border-color: #ccb78f;
+    box-shadow: -1.717px 8.835px 29.76px 2.24px rgb(204 183 143 / 18%);
+}
+/******蔡佳******/
 </style>
 
 <style>
@@ -168,7 +191,8 @@ h4 {
             </p>
             <div class="card_area d-flex justify-content-between align-items-center">
               <a href="${pageContext.request.contextPath}/front-end/rooVieApp/pickTime.jsp?houseno=${houseVO.hos_no}" class="btn_3">預約看房</a>
-              <a href="${pageContext.request.contextPath}/memTen/memTen.do?action=getOne_For_Rental&hos_no=${houseVO.hos_no}" class="btn_3">我要租房</a>
+              <a href="${pageContext.request.contextPath}/memTen/memTen.do?action=getOne_For_Rental&hos_no=${houseVO.hos_no}" class="btn_3 rental">我要租房</a>
+              <a href="#" class="btn_3 rentallogin">我要租房</a>
               <a href="#" class="like_us btn add"><i class="far fa-heart" style='color:#FF9696;font-size:23px;margin:auto;'></i></a>
             </div>
           </div>
@@ -692,7 +716,78 @@ h4 {
 			return false;
 		});
 	});
+
+	<!--======== 蔡佳新增登入燈箱 =======-->
+	if(mem_no === null){
+		$(".rental").hide();
+	} else {
+		$('.rentallogin').hide();
+	}
 	
+	$(".rentallogin").on('click', function() {
+		login_ajax();
+	});
+	  
+	function login_ajax(){
+		Swal.fire({
+  			title: '請先登入會員',
+  			html:
+    		// 無法用required驗證
+  			'<input type="text" id="mem_username" class="swal2-input" placeholder="USERNAME">' +
+    		'<input type="password" id="mem_password" class="swal2-input" placeholder="PASSWORD">',
+    		showCloseButton: true,
+    		showDenyButton: true,
+    		confirmButtonText: "LOGIN",
+    		denyButtonText: "SIGN UP"
+		})
+		// SIGN UP
+		$(".swal2-deny").on("click", function(){
+				$(location).prop('href', '<%=request.getContextPath()%>/unprotected/memTen/addMemTen.jsp');
+		})	
+		// LOGIN	
+		$(".swal2-confirm").on("click", function(){
+				if($("#mem_username").val().trim().length != 0 && $("#mem_password").val().trim().length != 0){				
+	  			$.ajax({ 
+		  			  url:"<%=request.getContextPath()%>/AjaxLoginServlet",
+		  			  type:"POST", 
+		  			  data:{
+		  				  "mem_username":$("#mem_username").val(),
+		  				  "mem_password":$("#mem_password").val(),
+		  				  "action": "login_ajax"
+		  			  },
+		  			  success: function(str) {
+		  				if (str.length === 0 || str === ""){
+				  			Swal.fire({
+					  			  icon: 'error',
+					  			  title: '帳號或密碼有誤,請重新輸入',
+					  			  showConfirmButton: true,
+					  			  confirmButtonText: "我知道了"
+					  			});
+		  				} else {
+		  					Swal.fire({
+		  						 icon: 'success',
+		  						 title: '您已成功登入，歡迎回來',
+		  						 showConfirmButton: true,
+		  						 confirmButtonText: "我知道了"
+		  					}).then((result) => {
+		  					  if (result.isConfirmed) {
+		  						window.location.reload();// 按下我知道了即刷新頁面
+		  					  }
+		  					})
+		  				}
+		  			}, 	  
+	  			});
+				} else {
+					Swal.fire({
+						 icon: 'error',
+						 title: '帳號或密碼請勿空白',
+						 showConfirmButton: true,
+			  			 confirmButtonText: "我知道了"
+					});
+				}
+			});
+	};
+	<!--======== 蔡佳新增登入燈箱 =======-->
 </script>
 
 	

@@ -59,7 +59,7 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String DELETE = "DELETE FROM " + TABLE + " where +" + PK + "= ?";
 	private static final String UPDATE = "UPDATE " + TABLE + " set "+FOR_SET+" where " + PK + "=?";
 	// ½²¨Î
-	private static final String INSERT2 = "INSERT INTO RENTAL_CONTRACT (hos_no, mem_no, rtct_eff_date, rtct_tmt_date, rtct_deposit, rtct_apptime) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT2 = "INSERT INTO RENTAL_CONTRACT (hos_no, mem_no, rtct_eff_date, rtct_end_date, rtct_deposit, rtct_apptime) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String FIND_BY_PK = "SELECT * FROM RENTAL_CONTRACT WHERE rtct_no=?";
 	private static final String FIND_BY_STATUS = "SELECT * FROM RENTAL_CONTRACT WHERE rtct_status=? ORDER BY hos_no";
 	private static final String UPDATE_STATUS = "UPDATE RENTAL_CONTRACT SET rtct_status=? WHERE rtct_no=?";
@@ -393,7 +393,7 @@ public class RenConDAO implements RenConDAO_interface{
 			pstmt.setInt(1,renConVO.getHos_no());
 			pstmt.setInt(2, renConVO.getMem_no());
 			pstmt.setDate(3, renConVO.getRtct_eff_date());
-			pstmt.setDate(4, renConVO.getRtct_tmt_date());
+			pstmt.setDate(4, renConVO.getRtct_end_date());
 			pstmt.setInt(5,renConVO.getRtct_deposit());
 			pstmt.setTimestamp(6, renConVO.getRtct_apptime());
 			pstmt.executeUpdate();
