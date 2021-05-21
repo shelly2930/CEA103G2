@@ -134,7 +134,13 @@ public class RenConService {
 		return dao.getAllByMem();
 	}
 	public Timestamp getEndDate(Integer rtct_no) {
-		
 		return dao.getEndDate(rtct_no);
+	}
+	public Byte updateTmtDate(Integer con_no ,java.sql.Date rtct_tmt_date,Byte status) {
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_no(con_no);
+		renConVO.setRtct_status(status);
+		renConVO.setRtct_tmt_date(rtct_tmt_date);
+		return dao.updateTmtDate(renConVO);
 	}
 }

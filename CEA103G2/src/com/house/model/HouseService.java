@@ -156,6 +156,9 @@ public class HouseService {
 	public Set<HouPhoVO> getHouPhoByHouse(Integer houseno) {
 		return dao.getHouPhoByHouse(houseno);
 	}
+	public void pullorpush(Integer houseno,Byte state) {
+		dao.pullorpush(houseno, state);
+	}
 	
 
 }
