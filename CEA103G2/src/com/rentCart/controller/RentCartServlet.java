@@ -5,6 +5,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import com.rentCart.model.RentCartItem;
 
+import sun.print.PSPrinterJob.PluginPrinter;
+
 
 public class RentCartServlet extends HttpServlet {
 
@@ -12,23 +14,19 @@ public class RentCartServlet extends HttpServlet {
 			throws ServletException, IOException {
 		doPost(req, res);
 	}
-
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		req.setCharacterEncoding("UTF-8");
 		HttpSession session = req.getSession();
 
-		
 		@SuppressWarnings("unchecked")
-		List<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCart");
+		List<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");
 		String action = req.getParameter("action");
 		System.out.println("有進到此Servlet");
 		
 //結帳前動作  action不等於checkout時 可再新增或刪除品項 
 		if (!action.equals("CHECKOUT")) {
-			String requestURL = req.getParameter("requestURL"); 
-			System.out.println(requestURL);
 			// 刪除購物車中的家具
 			if (action.equals("DELETE")) {
 				String del = req.getParameter("del");
@@ -39,9 +37,8 @@ public class RentCartServlet extends HttpServlet {
 			else if (action.equals("ADD")) {
 				// 取得後來新增的家具
 				System.out.println("有進到ADD");
-
 				RentCartItem aRentCartItem = getRentFurItem(req);
-
+				System.out.println(aRentCartItem.getFnt_name());
 				if (rentCartList == null) {
 					rentCartList = new Vector<RentCartItem>();
 					rentCartList.add(aRentCartItem);
@@ -55,8 +52,24 @@ public class RentCartServlet extends HttpServlet {
 						rentCartList.add(aRentCartItem);
 					}
 				}
+				PrintWriter out = res.getWriter();
+				String countParse=Integer.toString(rentCartList.size());
+	            out.print(countParse);
 			}
-
+			if("changeQuantity".equals(action)){
+				System.out.println("已進到改變方法");
+				Integer changeFnt_it_no = new Integer(req.getParameter("fnt_it_no"));
+				Integer newQuantity = new Integer(req.getParameter("newQuantity"));
+				for(int i = 0; i < rentCartList.size(); i++) {
+					RentCartItem orinRentCartItem = rentCartList.get(i);
+					if(orinRentCartItem.getFnt_it_no().equals(changeFnt_it_no)) {
+						orinRentCartItem.setQuantity(newQuantity);
+					}
+				}
+			}
+			if("DeleteAll".equals(action)){
+				((Vector<RentCartItem>) rentCartList).removeAllElements();
+			}
 			session.setAttribute("rentCartList", rentCartList);
 //			String url = "/front-end/furIte/rentCart.jsp";
 //			String url = requestURL;
@@ -91,22 +104,17 @@ String url = "/Checkout.jsp";
 	
 	private RentCartItem getRentFurItem(HttpServletRequest req) {
 
-		System.out.println("進到get品項方法");
 		Integer fnt_it_no = new Integer(req.getParameter("fnt_it_no"));
-		System.out.println(fnt_it_no);
 		String fnt_name = req.getParameter("fnt_name");
-		System.out.println(fnt_name);
 		Integer fnt_price = new Integer(req.getParameter("fnt_price"));
-		System.out.println(fnt_price);
 		Integer quantity =new Integer(req.getParameter("quantity"));
-		System.out.println(quantity);
+		System.out.println("數量"+quantity);
 		RentCartItem rentCartItem = new RentCartItem();
 
 		rentCartItem.setFnt_name(fnt_name);
 		rentCartItem.setQuantity(quantity);
 		rentCartItem.setFnt_it_no(fnt_it_no);
 		rentCartItem.setFnt_price(fnt_price);
-		System.out.println("裝完品項 準備return");
 		return rentCartItem;
 	}
 }

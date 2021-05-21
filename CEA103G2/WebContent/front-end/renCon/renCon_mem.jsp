@@ -198,8 +198,11 @@
 			    			data:{
 			    				action:'updateStatus',
 			    				con_no:con_no,
+			    				status:'2'
 			    			},
 			    			success:function(){
+			    				let hos = getCon(con_no).hos_no;
+			    				pullorpush(hos,"2");
 			    				console.log("Ãº¶O¦¨¥\");
 			    			}
 			    		})
@@ -219,23 +222,39 @@
 				  	
 				  }
 			})
-    		console.log(sig.signature('toDataURL', 'image/jpeg', 0.8));
 //     		$("#s").attr('src',sig.signature('toDataURL', 'image/jpeg', 0.8));
     	});
     	
-    	
-//     	$.ajax({
-<%--     		url:"<%=request.getContextPath()%>/RenConCRUDServlet", --%>
-//     		type:'post',
-//     		data:{
-//     			action:'getPic',
-//     			con_no:'6',
-//     		},
-//     		success:function(e){
-//     			console.log(e);
-//     			$("#s").attr('src','data:image/gif;base64,'+e);
-//     		}
-//     	})
+    	function pullorpush(hos_no,hos_state){
+    		$.ajax({
+        		url:"<%=request.getContextPath()%>/HouseJsonServlet",
+         		type:'post',
+         		data:{
+         			action:'pullorpush',
+         			houseno:hos_no,
+         			state:hos_state
+         		},
+         		success:function(b){
+         			console.log(b);
+         		}
+         	})
+    	}
+    	function getCon(conno){
+    		let convo={};
+    		$.ajax({
+    			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+    			type: 'post',
+    			data:{
+    				action:'getOneCon',
+    				con_no:conno,
+    			},
+    			async:false,
+    			success:function(con){
+    				convo= con;
+    			}
+    		})
+    		return convo;
+    	}
     	</script>
     	
 

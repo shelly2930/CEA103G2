@@ -67,6 +67,7 @@ public class HouseDAO implements HouseDAO_interface {
 	private static final String GET_HOUPHO_By_HOUSE = "SELECT hos_pic_no, hos_no, hos_pic FROM HOUSE_PHOTO where hos_no = ? order by hos_pic_no";
 	private static final String GET_ALL_BY_STATE = "SELECT HOS_NO,HOS_NAME,HOS_DATE,HOS_INFO,EMP_NO,HOS_STATE,HOS_STATUS FROM HOUSE where HOS_STATE=? and HOS_STATUS=? order by HOS_STATE" ;
 	
+	private static final String PULLORPUSH = "UPDATE HOUSE SET HOS_STATE=? WHERE HOS_NO=?";
 	
 	//新增物件
 	@Override
@@ -656,6 +657,29 @@ public class HouseDAO implements HouseDAO_interface {
 				ps.setTimestamp(3, houseVO.getHos_date());
 				ps.setInt(4,houseVO.getHos_no());
 				
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				throw new RuntimeException(e.getMessage());
+			}finally {
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			
+		}
+		@Override
+		public void pullorpush(Integer houseno,Byte state) {
+			Connection con= null;
+			PreparedStatement ps= null;
+			try {
+				con = ds.getConnection();
+				ps = con.prepareStatement(PULLORPUSH);
+				ps.setByte(1,state);
+				ps.setInt(2,houseno);
 				ps.executeUpdate();
 			} catch (SQLException e) {
 				throw new RuntimeException(e.getMessage());

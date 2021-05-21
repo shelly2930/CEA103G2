@@ -1,5 +1,13 @@
 /com/
 /filter/
+<<<<<<< HEAD
 /hibernate/
 /jdbcUtil_CompositeQuery_advance/
 /jedis/
+=======
+/hibernate.cfg.xml
+/hibernate/
+/jdbcUtil_CompositeQuery_advance/
+/jedis/
+/log4j.properties
+>>>>>>> 03a1c1059494811b13ad3c04107e64082763d873

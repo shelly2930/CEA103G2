@@ -181,24 +181,29 @@
 								},
 								success:function(mem){
 									$('#showmem').empty();
-									let count = 1;
-									for(let i of mem){
-
-										let str="<tr id='mem"+i+"'>";
-										str+="<th scope='row' class='text-center'>"+(count++)+"</th>";
-										str+="<td class='text-center'>";
-										str+="<a href='' class='listmemhou'>"+i+getMem(i);+"</a>";
-										str+="</td>";
+									if(mem=="none"){
+										let str="<tr>";
+										str+="<th colspan='2' scope='row' class='text-center'>沒有任何合約</th>";
 										str+="</tr>";  
 										$('#showmem').append(str);
+									}else{
+										let count = 1;
+										for(let i of mem){
+											let str="<tr id='mem"+i+"'>";
+											str+="<th scope='row' class='text-center'>"+(count++)+"</th>";
+											str+="<td class='text-center'>";
+											str+="<a href='' class='listmemhou'>"+i+getMem(i);+"</a>";
+											str+="</td>";
+											str+="</tr>";  
+											$('#showmem').append(str);
+										}
+										$(".listmemhou").click(function(e){
+											e.preventDefault();
+											$("#mem").hide();
+											showmemhou($(this).parents('tr').attr('id').substring(3));
+											$("#memhou").show();
+										})
 									}
-									$(".listmemhou").click(function(e){
-										e.preventDefault();
-										$("#mem").hide();
-										showmemhou($(this).parents('tr').attr('id').substring(3));
-										$("#memhou").show();
-										
-									})
 								}
 							})
 						}

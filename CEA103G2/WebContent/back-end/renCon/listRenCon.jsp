@@ -45,12 +45,18 @@
                 	<div class="card shadow mb-4">
                         <div id='con'>
                         	<div class="card-header py-3">
-	                            <h6 class="m-0 font-weight-bold text-primary">查看已繳費合約</h6>
+                        		<div>
+                        		<button class='btn btn-outline-info btn-sm' id='total'>合約-總攬</button>
+                        		<button class='btn btn-outline-info btn-sm' id='success'>合約-生效</button>
+                        		<button class='btn btn-outline-info btn-sm' id='early'>合約-解約申請</button>
+                        		<button class='btn btn-outline-info btn-sm' id='history'>合約-歷史合約</button>
+                        		</div><hr>
+	                            <h6 class="m-0 font-weight-bold text-primary"><span>查看已繳費合約</span></h6>
 		                    </div>
 	                        <div class="card-body">
 	                            <div class="table-responsive">
 	                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-	                                    <thead>
+	                                    <thead style='background-color:#E8E8E8'>
 	                                        <tr>
 	                                            <th>會員</th>
 	                                            <th>物件</th>
@@ -58,11 +64,12 @@
 	                                            <th>簽名</th>
 	                                            <th>合約起始</th>
 	                                            <th>合約終止</th>
+	                                            <th id='cancelheader'>解約處理</th>
 	                                        </tr>
 	                                    </thead>
 	                                    <tfoot>
 	                                        <tr>
-	                                            <th colspan='5' class="text-center"	>物件</th>
+	                                            <th colspan='6' id="cancelfooter" class="text-center"	>Contract</th>
 	                                        </tr>
 	                                    </tfoot>
 	                                    <tbody id="showcon">
@@ -174,6 +181,52 @@
     <!-- Page level custom scripts -->
     <!-- Page level custom scripts -->
 	<script>
+	let judgeStatus = 999;
+	$("#total").click(function(){
+		$(this).siblings().each(function(){
+			$(this).removeClass('btn-info');
+			$(this).addClass('btn-outline-info');
+		})
+		$(this).removeClass('btn-outline-info');
+		$(this).addClass('btn-info');
+
+		judgeStatus=999;
+		getcontract(judgeStatus);
+	})
+	$("#success").click(function(){
+		$(this).siblings().each(function(){
+			$(this).removeClass('btn-info');
+			$(this).addClass('btn-outline-info');
+		})
+		$(this).removeClass('btn-outline-info');
+		$(this).addClass('btn-info');
+		judgeStatus=2;
+		getcontract(judgeStatus);
+	})
+	$("#early").click(function(){
+		$(this).siblings().each(function(){
+			$(this).removeClass('btn-info');
+			$(this).addClass('btn-outline-info');
+		})
+		$(this).removeClass('btn-outline-info');
+		$(this).addClass('btn-info');
+		judgeStatus=4;
+		getcontract(judgeStatus);
+	})
+	$("#history").click(function(){
+		$(this).siblings().each(function(){
+			$(this).removeClass('btn-info');
+			$(this).addClass('btn-outline-info');
+		})
+		$(this).removeClass('btn-outline-info');
+		$(this).addClass('btn-info');
+		judgeStatus=5;
+		getcontract(judgeStatus);
+	})	
+	getcontract(judgeStatus);
+	function getcontract(status){
+		let showtotal = true;
+		if(status==999) showtotal=false;
 		$.ajax({
 			url:"<%=request.getContextPath()%>/RenConCRUDServlet",
 			type:'post',
@@ -183,7 +236,7 @@
 			success:function(list){
 				$("#showcon").empty();
 				for(let con of list){
-					console.log(con);
+					if(status!==con.rtct_status && showtotal) continue;
 					let str = "<tr id='"+con.mem_no+"' class='"+con.hos_no+"'>";
 					str+="<td>";
 					str+=""+getMem(con.mem_no);
@@ -192,10 +245,10 @@
 					str+=""+getHouse(con.hos_no).hos_address;
 					str+="</td>";
 					str+="<td id='"+con.rtct_no+"'>";
-					str+="<a href='' class='contract'>"+con.rtct_no+"合約</a>";
+					str+="<a href='' style='color:#8C8CFF;font-weight:bold;' class='contract'>"+con.rtct_no+"合約</a>";
 					str+="</td>";
 					str+="<td>";
-					str+="<a href='' class='signature'>Click</a>";
+					str+="<a href='' style='color:#A1A1A1;font-weight:bold;' class='signature'>Click</a>";
 					str+="</td>";
 					str+="<td>";
 					str+=""+con.rtct_eff_date;
@@ -203,9 +256,41 @@
 					str+="<td>";
 					str+=""+con.rtct_end_date;
 					str+="</td>";
+					if(con.rtct_status==4 && status!=999){
+						str+="<td>";
+						str+="<a href='' class='cancelcon' style='color:#FF8C8C;font-weight:bold;'>結案</a>";
+						str+="</td>";
+						$("#cancelheader").show();
+						$("#cancelfooter").attr('colspan','7');
+					}else{
+						$("#cancelheader").hide();
+						$("#cancelfooter").attr('colspan','6');
+					}
 					str+="</tr>";
 					$("#showcon").append(str);
 				}
+				$(".cancelcon").click(function(e){
+					e.preventDefault();
+					let c_no = $(this).parents('tr').children().eq(2).attr('id');
+					let hos = $(this).parents('tr').attr('class');
+					$.ajax({
+						url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+						type: 'post',
+						data:{
+							action:'updateTmtDate',
+							con_no:c_no,
+							status:'5',
+							tmtdate:formate(new Date())
+						},
+						success:function(c){
+							pullorpush(hos,'2');
+							$("#history").click();
+						}
+					})
+				})
+				
+				
+				
 				$(".signature").click(function(e){
 					e.preventDefault();
 					let c_no = $(this).parent().prev().attr('id');
@@ -287,6 +372,7 @@
 				})
 			}
 		})
+	}
 		
 		
 		
@@ -341,6 +427,24 @@
      		}
      	})
      	return str;
+	}
+	function pullorpush(hos_no,hos_state){
+		$.ajax({
+    		url:"<%=request.getContextPath()%>/HouseJsonServlet",
+     		type:'post',
+     		data:{
+     			action:'pullorpush',
+     			houseno:hos_no,
+     			state:hos_state
+     		},
+     		success:function(b){
+     			console.log(b);
+     		}
+     	})
+	}
+	function formate(d){
+		let date = new Date(d);
+		return dateFormat = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 	}
 	</script>
 </body>

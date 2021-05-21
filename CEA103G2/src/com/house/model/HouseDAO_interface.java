@@ -29,4 +29,6 @@ public interface HouseDAO_interface {
 	
 	public void updateHouseContent(HouseVO houseVO);
 	public void updateHouseState(HouseVO houseVO);
+	
+	public void pullorpush(Integer houseno,Byte state);
 }
