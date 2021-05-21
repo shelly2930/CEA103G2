@@ -33,7 +33,7 @@ img{
 /* 	object-fit:cover;    */
 }
 </style>
-
+<!-- $('head').append("<style>.main_menu .cart i:after{ content: '4'!important; }</style>"); -->
 </head>
 
 <body id="page-top">

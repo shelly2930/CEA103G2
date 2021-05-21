@@ -16,6 +16,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.sql.DataSource;
 
+import com.furPho.model.FurPhoService;
+import com.furPho.model.FurPhoVO;
+
 
 
 public class FurPhoShowServlet extends HttpServlet {
@@ -30,30 +33,34 @@ public class FurPhoShowServlet extends HttpServlet {
 			ServletOutputStream out = res.getOutputStream();
 
 		try {
-			stmt = con.createStatement();
+//			stmt = con.createStatement();
 			String fnt_pic_no=req.getParameter("fnt_pic_no").trim();
-			ResultSet rs = stmt.executeQuery("SELECT fnt_pic FROM FURNITURE_PHOTO WHERE fnt_pic_no ="+fnt_pic_no);
+//			ResultSet rs = stmt.executeQuery("SELECT fnt_pic FROM FURNITURE_PHOTO WHERE fnt_pic_no ="+fnt_pic_no);
+//			
+//
+//			if (rs.next()) {
+//				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("fnt_pic"));
+//				byte[] buf = new byte[4 * 1024]; // 4K buffer
+//				int len;
+//				while ((len = in.read(buf)) != -1) {
+//					out.write(buf, 0, len);
+//				}
+//				in.close();
+//			} else {
+////				res.sendError(HttpServletResponse.SC_NOT_FOUND);
+//				InputStream in=getServletContext().getResourceAsStream("/back-end/furPho/images/none2.jpg");
+//				byte[] b =new byte[in.available()];
+//				in.read(b);
+//				out.write(b);
+//				in.close();
+//			
+//			}
+//			rs.close();
+//			stmt.close();
+			FurPhoService svc = new FurPhoService();
+			FurPhoVO vo = svc.getOneFurPho(Integer.parseInt(fnt_pic_no));
+			out.write(vo.getFnt_pic());
 			
-
-			if (rs.next()) {
-				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("fnt_pic"));
-				byte[] buf = new byte[4 * 1024]; // 4K buffer
-				int len;
-				while ((len = in.read(buf)) != -1) {
-					out.write(buf, 0, len);
-				}
-				in.close();
-			} else {
-//				res.sendError(HttpServletResponse.SC_NOT_FOUND);
-				InputStream in=getServletContext().getResourceAsStream("/back-end/furPho/images/none2.jpg");
-				byte[] b =new byte[in.available()];
-				in.read(b);
-				out.write(b);
-				in.close();
-			
-			}
-			rs.close();
-			stmt.close();
 		} catch (Exception e) {
 			InputStream in=getServletContext().getResourceAsStream("/back-end/furPho/images/null2.jpg");
 			byte[] b =new byte[in.available()];

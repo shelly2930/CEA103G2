@@ -31,4 +31,5 @@ public interface HouseDAO_interface {
 	public void updateHouseState(HouseVO houseVO);
 	
 	public void pullorpush(Integer houseno,Byte state);
+	public List<HouseVO> search(String keyword);
 }

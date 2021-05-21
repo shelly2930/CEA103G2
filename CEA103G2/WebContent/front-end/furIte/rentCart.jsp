@@ -1,11 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.rentCart.model.RentCartItem" %>
 <%@ page import="com.furIte.model.*" %>
 
-   <% @SuppressWarnings("unchecked")
-   Vector<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");%>
+<%--    <% @SuppressWarnings("unchecked") --%>
+<%--    Vector<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");%> --%>
     
 <!DOCTYPE html>
 <html>

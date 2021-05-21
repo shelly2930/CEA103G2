@@ -2,17 +2,23 @@
 <%@ page import="javax.servlet.http.Cookie"%>
 
 <%
-	String emp_username = null;
+// 	String emp_username = null;
+// 	Cookie[] cookieList = request.getCookies();
+// 	if(cookieList != null){
+// 		for(int i = 0; i < cookieList.length; i++) {
+// 			Cookie cookie = cookieList[i];
+// 			if(cookie.getName().equals("emp_username")){
+// 				emp_username = cookie.getValue();
+// 			}
+// 		}
+// 	}
+// 	pageContext.setAttribute("emp_username",emp_username);
+	
 	Cookie[] cookieList = request.getCookies();
-	if(cookieList != null){
-		for(int i = 0; i < cookieList.length; i++) {
-			Cookie cookie = cookieList[i];
-			if(cookie.getName().equals("emp_username")){
-				emp_username = cookie.getValue();
-			}
-		}
+	for(Cookie cookie : cookieList){
+		pageContext.setAttribute(cookie.getName(),cookie.getValue());
 	}
-	pageContext.setAttribute("emp_username",emp_username);
+	
 %>
 
 <!DOCTYPE html>
@@ -262,7 +268,7 @@
 			height: 100%;
 			display: flex;
 			background: linear-gradient(45deg, #dddddd, #B3B3B3);
-			background-image: url('https://images.unsplash.com/photo-1553332697-bf631215652e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1868&q=80');
+			background-image: url('<%=request.getContextPath()%>/images/LoginBack.jpg');
 			background-size: cover;
 			background-position:center;
 		}

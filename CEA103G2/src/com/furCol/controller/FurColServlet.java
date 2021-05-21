@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.furCol.model.FurColService;
 import com.furCol.model.FurColVO;
@@ -19,11 +20,11 @@ public class FurColServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doGet(req, res);
 	}
 	
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
 		String action = req.getParameter("action");
 		req.setCharacterEncoding("UTF-8");
@@ -74,5 +75,12 @@ public class FurColServlet extends HttpServlet {
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson(list));
 		}
+		if("set_location".equals(action)){
+			String URIaction = req.getParameter("URIaction");
+			String fnt_it_no = req.getParameter("fnt_it_no");
+			HttpSession session = req.getSession();
+			session.setAttribute("location", req.getContextPath() + "/furIte/furIte.do?action=" + URIaction + "&fnt_it_no=" + fnt_it_no);
+		}
+		
 	}
 }
