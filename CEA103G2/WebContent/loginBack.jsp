@@ -2,17 +2,23 @@
 <%@ page import="javax.servlet.http.Cookie"%>
 
 <%
-	String emp_username = null;
+// 	String emp_username = null;
+// 	Cookie[] cookieList = request.getCookies();
+// 	if(cookieList != null){
+// 		for(int i = 0; i < cookieList.length; i++) {
+// 			Cookie cookie = cookieList[i];
+// 			if(cookie.getName().equals("emp_username")){
+// 				emp_username = cookie.getValue();
+// 			}
+// 		}
+// 	}
+// 	pageContext.setAttribute("emp_username",emp_username);
+	
 	Cookie[] cookieList = request.getCookies();
-	if(cookieList != null){
-		for(int i = 0; i < cookieList.length; i++) {
-			Cookie cookie = cookieList[i];
-			if(cookie.getName().equals("emp_username")){
-				emp_username = cookie.getValue();
-			}
-		}
+	for(Cookie cookie : cookieList){
+		pageContext.setAttribute(cookie.getName(),cookie.getValue());
 	}
-	pageContext.setAttribute("emp_username",emp_username);
+	
 %>
 
 <!DOCTYPE html>

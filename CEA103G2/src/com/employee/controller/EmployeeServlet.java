@@ -577,11 +577,11 @@ public class EmployeeServlet extends HttpServlet {
 								
 							if(rememberMe != null) {
 								Cookie cookie = new Cookie("emp_username", emp_username);
-								cookie.setMaxAge(60);
+								cookie.setMaxAge(600);
 								cookie.setPath("/");
 								res.addCookie(cookie);
 								cookie = new Cookie("emp_no", employeeVO.getEmp_no().toString());
-								cookie.setMaxAge(60);
+								cookie.setMaxAge(600);
 								cookie.setPath("/");
 								res.addCookie(cookie);
 								
@@ -590,6 +590,15 @@ public class EmployeeServlet extends HttpServlet {
 //								cookie.setMaxAge(60);
 //								cookie.setPath("/");
 //								res.addCookie(cookie);
+							}else {
+								Cookie[] cookieList = req.getCookies();
+								for(Cookie cookie : cookieList) {
+									if(cookie.getName().equals("emp_username")){
+										cookie.setMaxAge(0);
+										cookie.setPath("/");
+										res.addCookie(cookie);
+									}
+								}
 							}
 							
 							
