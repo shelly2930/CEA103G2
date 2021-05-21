@@ -311,33 +311,17 @@ public class MemTenServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
-//			try {
+			try {
 				/***************************1.接收請求參數****************************************/
-//				Integer mem_no = new Integer(req.getParameter("mem_no"));
-//				System.out.println(req.getSession());
 				
 				Integer hos_no = new Integer(req.getParameter("hos_no"));
 				
-//				HouseService houseSvc = new HouseService();
-//				HouseVO houseVO = houseSvc.getOneHouse(hos_no);
-				
-//				Integer rtct_deposit = new Integer(req.getParameter("hos_rent")) * 2;
-//				Integer rtct_deposit = 1000;
-				
 				/***************************2.開始查詢資料****************************************/
-//				MemTenService memTenSvc = new MemTenService();
-//				MemTenVO memTenVO = memTenSvc.getOneMemTen(mem_no);
-				
 				HouseService houseSvc = new HouseService();
 				HouseVO houseVO = houseSvc.getOneHouse(hos_no);
 				
-//				RenConService renConSvc = new RenConService();
-//				RenConVO renConVO = renConSvc.addRenCon2(hos_no, mem_no, rtct_eff_date, rtct_tmt_date, rtct_apptime, rtct_deposit);
-				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-//				req.setAttribute("memTenVO", memTenVO);         // 資料庫取出的memTenVO物件,存入req
 				req.setAttribute("houseVO", houseVO);
-//				req.setAttribute("renConVO", renConVO);
 				
 				req.getSession().setAttribute("hos_no", hos_no);
 				
@@ -346,12 +330,12 @@ public class MemTenServlet extends HttpServlet {
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理**********************************/
-//			} catch (Exception e) {
-//				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher("/front-end/memTen/listOneMemTen.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/memTen/listOneMemTen.jsp");
+				failureView.forward(req, res);
+			}
 		}
 		
 		if ("update".equals(action)) { // 來自update_memTen_input.jsp的請求
@@ -560,15 +544,6 @@ public class MemTenServlet extends HttpServlet {
 				}
 				
 				java.sql.Date rtct_end_date = java.sql.Date.valueOf(req.getParameter("rtct_end_date").trim());
-//				try {
-//					rtct_end_date = java.sql.Date.valueOf(req.getParameter("rtct_end_date").trim());
-//					System.out.println("AAAAAAAAA");
-//				} catch (IllegalArgumentException e) {
-//					System.out.println("BBBBBBBBB");
-//					rtct_end_date = new java.sql.Date(System.currentTimeMillis());
-//					errorMsgs.add("請輸入日期!");
-//				}
-				System.out.println(rtct_end_date);
 				
 				java.sql.Timestamp rtct_apptime = new java.sql.Timestamp(System.currentTimeMillis());
 				
@@ -666,8 +641,7 @@ public class MemTenServlet extends HttpServlet {
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
 				req.setAttribute("renConVO", renConVO);
 				
-//				String url = "/front-end/memTen/rentalConfirm.jsp";
-				String url = "/index.jsp";
+				String url = "/front-end/memTen/rentalConfirm.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMemTen.jsp
 				successView.forward(req, res);
 
@@ -676,7 +650,7 @@ public class MemTenServlet extends HttpServlet {
 				System.out.println("xxxxxxxxxx");
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/memTen/rentalConfirm.jsp");
+						.getRequestDispatcher("/index.jsp");
 				failureView.forward(req, res);
 			}
 		}

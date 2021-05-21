@@ -4,14 +4,14 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
 <!-- Required source start -->
 	<!-- jquery 這行有需要的人再加 -->
 	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
-
-
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- Required source end -->
 
 <title>租屋前資料修改 - rentalConfirm.jsp</title>
 
@@ -22,15 +22,18 @@
 }
 
 .breadcrumb_bg {
-    background-image: url(/CEA103G2/front-end/memTen/images/city.jpg) !important;
+    background-image: url(/CEA103G2/front-end/memTen/images/home.jpg) !important;
 }
 
 .breadcrumb .breadcrumb_iner .breadcrumb_iner_item h2 {
     color: white !important;
+    text-align: right !important;
 }
 
 .aaa {
     color: white !important;
+    font-size:15px !important;
+    text-align: right !important;
 }
 
 div.rentalstep {
@@ -176,6 +179,10 @@ div.rentalstep {
         </form>
     </div>
 </div>
+
+<script>
+
+</script>
   
 
 <!-- 上傳圖片可預覽 -->
@@ -233,17 +240,6 @@ window.onload=function(){
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 
-<%
-	java.sql.Date rtct_eff_date = new java.sql.Date(System.currentTimeMillis());
-java.sql.Date rtct_end_date = new java.sql.Date(System.currentTimeMillis());
-
-// 	try {
-// 		mem_birthday = memTenVO.getMem_birthday();
-//  	} catch (Exception e) {
-// 		mem_birthday = new java.sql.Date(System.currentTimeMillis());
-//  	}
-%>
-
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
@@ -271,23 +267,15 @@ java.sql.Date rtct_end_date = new java.sql.Date(System.currentTimeMillis());
            //startDate:	            '2017/07/10',  // 起始日
             minDate:               somedate1, // 去除今日(不含)之前
            //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
-        	}).on('change',function(){
-        		var date1 = new Date(Date.parse($('#rtct_eff_date').val()));
-        		var somedate2 = new Date();
-        		
-                somedate2.setTime(date1.getTime()+24*60*60*30000);
-                console.log(somedate2);
-                $("#rtct_end_date").datetimepicker('setStartDate',somedate2);
-//             	$("#rtct_eff_date").datetimepicker('hide');
         });
+
         $('#rtct_eff_date').change(function(){
         	let date =$(this).val();
-        	let youwantdelayhowmanyday = 14;
+        	let youwantdelayhowmanyday = 30;
         	let mindate = new Date(date).getTime()+(1000*60*60*24*youwantdelayhowmanyday);
         	$('#rtct_end_date').datetimepicker({minDate:new Date(mindate)});
         })
-//         var somedate2 = new Date();
-//         somedate2.setTime($('#rtct_eff_date').val().getTime()+24*60*60*30000);
+
         $.datetimepicker.setLocale('zh');
         $('#rtct_end_date').datetimepicker({
 	       theme: '',              //theme: 'dark',
