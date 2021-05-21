@@ -330,8 +330,7 @@ $(document).ready(function(){
 			let fntPrice=$("#fntPrice"+index+"").html().substring(1);
 			$("#quan"+index+"").val(count);
 			let newQuantity=$("#quan"+index+"").val();
-			alert(count);
-			alert(newQuantity);
+
 			if (count> max) {
 				$("#quan"+index+"").val(max);
 				newQuantity=$("#quan"+index+"").val();
