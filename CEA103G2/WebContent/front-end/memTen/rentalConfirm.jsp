@@ -280,7 +280,12 @@ java.sql.Date rtct_end_date = new java.sql.Date(System.currentTimeMillis());
                 $("#rtct_end_date").datetimepicker('setStartDate',somedate2);
 //             	$("#rtct_eff_date").datetimepicker('hide');
         });
-        
+        $('#rtct_eff_date').change(function(){
+        	let date =$(this).val();
+        	let youwantdelayhowmanyday = 14;
+        	let mindate = new Date(date).getTime()+(1000*60*60*24*youwantdelayhowmanyday);
+        	$('#rtct_end_date').datetimepicker({minDate:new Date(mindate)});
+        })
 //         var somedate2 = new Date();
 //         somedate2.setTime($('#rtct_eff_date').val().getTime()+24*60*60*30000);
         $.datetimepicker.setLocale('zh');
