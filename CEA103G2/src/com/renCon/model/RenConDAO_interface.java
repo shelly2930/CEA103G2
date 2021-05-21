@@ -31,4 +31,7 @@ public interface RenConDAO_interface {
     public List<RenConVO> getAllByMem();
     public java.sql.Timestamp getEndDate(Integer rtct_no);
     public Byte updateTmtDate(RenConVO renConVO);
+    //©…„∏
+	public Byte getMemRentQua(Integer mem_no);
+    
 }

@@ -143,4 +143,9 @@ public class RenConService {
 		renConVO.setRtct_tmt_date(rtct_tmt_date);
 		return dao.updateTmtDate(renConVO);
 	}
+	
+//	©…„∏∑sºW
+	public Byte getMemRentQua(Integer mem_no){
+		return dao.getMemRentQua(mem_no);
+	}
 }

@@ -3,6 +3,8 @@ import java.util.*;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import com.renCon.model.RenConService;
 import com.rentCart.model.RentCartItem;
 
 import sun.print.PSPrinterJob.PluginPrinter;
@@ -36,9 +38,8 @@ public class RentCartServlet extends HttpServlet {
 			// 新增家具至購物車中
 			else if (action.equals("ADD")) {
 				// 取得後來新增的家具
-				System.out.println("有進到ADD");
 				RentCartItem aRentCartItem = getRentFurItem(req);
-				System.out.println(aRentCartItem.getFnt_name());
+	
 				if (rentCartList == null) {
 					rentCartList = new Vector<RentCartItem>();
 					rentCartList.add(aRentCartItem);
@@ -57,7 +58,6 @@ public class RentCartServlet extends HttpServlet {
 	            out.print(countParse);
 			}
 			if("changeQuantity".equals(action)){
-				System.out.println("已進到改變方法");
 				Integer changeFnt_it_no = new Integer(req.getParameter("fnt_it_no"));
 				Integer newQuantity = new Integer(req.getParameter("newQuantity"));
 				for(int i = 0; i < rentCartList.size(); i++) {
@@ -108,7 +108,6 @@ String url = "/Checkout.jsp";
 		String fnt_name = req.getParameter("fnt_name");
 		Integer fnt_price = new Integer(req.getParameter("fnt_price"));
 		Integer quantity =new Integer(req.getParameter("quantity"));
-		System.out.println("數量"+quantity);
 		RentCartItem rentCartItem = new RentCartItem();
 
 		rentCartItem.setFnt_name(fnt_name);

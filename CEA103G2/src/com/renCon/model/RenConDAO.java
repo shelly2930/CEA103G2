@@ -75,6 +75,8 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String GET_ALL_ORDER_BY_MEM = "SELECT * FROM RENTAL_CONTRACT ORDER BY MEM_NO ,HOS_NO, RTCT_NO";
 	private static final String GET_END_DATE = "SELECT RTCT_END_DATE FROM RENTAL_CONTRACT WHERE RTCT_NO=?";
 	private static final String UPDATE_TMT_DATE ="UPDATE RENTAL_CONTRACT SET RTCT_TMT_DATE=?,RTCT_STATUS=? WHERE RTCT_NO=?";
+	//怡蓁
+	private static final String GET_MEM_RENT_QUA="SELECT RTCT_STATUS FROM RENTAL_CONTRACT WHERE MEM_NO=? ORDER BY RTCT_STATUS";
 	@Override
 	public void insert(RenConVO renConVO) {
 		Connection con = null;
@@ -1040,6 +1042,68 @@ public class RenConDAO implements RenConDAO_interface{
 		}
 		return renConVO.getRtct_status();
 	}	
-	
+	//怡蓁新增
+	@Override
+	public Byte getMemRentQua(Integer mem_no){
+		List<Byte> statusList = new ArrayList<Byte>();
+		Byte mem_con_qua=null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		RenConVO renCon = null;
+		try {
 
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_MEM_RENT_QUA);
+			pstmt.setInt(1, mem_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Byte mem_con_status=null;
+				mem_con_status=rs.getByte("rtct_status");
+				statusList.add(mem_con_status);
+			}
+			if (statusList.contains(2)){
+				mem_con_qua=2;
+			}else if(statusList.contains(1)){
+				mem_con_qua=1;
+			}else if(statusList.contains(0)) {
+				mem_con_qua=0;
+			}else {
+				mem_con_qua=3;
+			}
+			//合約狀態有3,4,5時 均回傳3 代表均要先租屋才能租家具
+			
+			// Handle any driver errors
+		} catch (SQLException se) {
+
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return mem_con_qua;
+	}
 }
