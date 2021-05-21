@@ -1,4 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.rentCart.model.RentCartItem"%>
+
+<%
+	List<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");
+	int	rentCartListSize=0;
+	if (rentCartList!=null){
+	 	rentCartListSize = rentCartList.size();
+	}
+	pageContext.setAttribute("rentCartListSize", rentCartListSize);
+%>
 
 <!-- Required meta tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -112,19 +123,26 @@
 						
 							
 							<div class="dropdown cart">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3"
-									role="button" data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false"> <i class="fas fa-cart-plus" data-count="0"></i>
+								<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp"
+									id="navbarDropdown3" role="button" aria-haspopup="true"
+									aria-expanded="false"> <i class="fas fa-cart-plus" data-count="${rentCartListSize}"></i>
 								</a>
+								
+								<!-- ↓購物車數量設定↓　-->
 								<style>
 									.main_menu .cart i::after {
 									    content: attr(data-count);
 									}
 								</style>
 								<script>
-									document.styleSheets[0].addRule('.main_menu .cart i::after','visibility: hidden');
-									document.styleSheets[0].addRule('.main_menu .cart i::after','visibility: visible');
+									if(${rentCartListSize} == 0){
+										document.styleSheets[0].addRule('.main_menu .cart i::after','visibility: hidden');
+									}else{
+										document.styleSheets[0].addRule('.main_menu .cart i::after','visibility: visible');
+									}
 								</script>
+								<!-- ↑購物車數量設定↑　-->
+								
 								<!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <div class="single_product"></div>
                                 </div>-->
