@@ -308,8 +308,7 @@ $(document).ready(function(){
 			let fntNoMinus=$("#fntNo"+index+"").val();
 			let fntPrice=$("#fntPrice"+index+"").html().substring(1);
 			let newQuantity=$("#quan"+index+"").val();
-			let newsubtotal=$("#subtotal"+index+"").html("$"+fntPrice* newQuantity);
-			
+			getOrinSubtotal();
 			getTotalPrice();
 			
 			$.ajax({
@@ -329,15 +328,16 @@ $(document).ready(function(){
 			var count=parseInt($("#quan"+index+"").val())+1;
 			let fntNoPlus=$("#fntNo"+index+"").val();
 			let fntPrice=$("#fntPrice"+index+"").html().substring(1);
+			$("#quan"+index+"").val(count);
 			let newQuantity=$("#quan"+index+"").val();
-			let newsubtotal=$("#subtotal"+index+"").html("$"+fntPrice* newQuantity);
+			alert(count);
+			alert(newQuantity);
 			if (count> max) {
 				$("#quan"+index+"").val(max);
+				newQuantity=$("#quan"+index+"").val();
 	    		Swal.fire("很抱歉!<br>目前最多僅能提供"+ max+"個租用!");
-	    		count=count>max?max:count;
 	    	}
-	    		$("#quan"+index+"").val(count);	    		
-	    		
+			getOrinSubtotal();	
 			getTotalPrice()
 			
 			$.ajax({
