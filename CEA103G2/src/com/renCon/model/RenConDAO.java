@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String GET_PIC = "SELECT RTCT_PIC FROM RENTAL_CONTRACT WHERE RTCT_NO=?";
 	private static final String GET_ALL_CON = "SELECT * FROM RENTAL_CONTRACT WHERE MEM_NO=? AND RTCT_STATUS=?";
 	private static final String GET_ALL_ORDER_BY_MEM = "SELECT * FROM RENTAL_CONTRACT ORDER BY MEM_NO ,HOS_NO, RTCT_NO";
+	private static final String GET_END_DATE = "SELECT RTCT_END_DATE FROM RENTAL_CONTRACT WHERE RTCT_NO=?";
 	@Override
 	public void insert(RenConVO renConVO) {
 		Connection con = null;
@@ -944,6 +946,55 @@ public class RenConDAO implements RenConDAO_interface{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public Timestamp getEndDate(Integer rtct_no) {
+		Timestamp date = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_END_DATE);
+			pstmt.setInt(1, rtct_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				date = rs.getTimestamp("rtct_end_date");
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return date;
 	}	
 	
 

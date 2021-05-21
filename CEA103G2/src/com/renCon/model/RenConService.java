@@ -133,4 +133,8 @@ public class RenConService {
 	public List<RenConVO> getAllByMem() {
 		return dao.getAllByMem();
 	}
+	public Timestamp getEndDate(Integer rtct_no) {
+		
+		return dao.getEndDate(rtct_no);
+	}
 }

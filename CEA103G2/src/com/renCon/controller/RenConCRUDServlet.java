@@ -30,11 +30,17 @@ public class RenConCRUDServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		if("updateStatus".equals(action)) {
 			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
-			Byte status = Byte.parseByte("2");
+			Byte status = Byte.parseByte(req.getParameter("status"));
 			RenConService svc = new RenConService();
 			svc.updateStatus(con_no, status);
 		}
-		
+		if("getDate".equals(action)) {
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			RenConService svc = new RenConService();
+			System.out.println(svc.getEndDate(con_no));
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(svc.getEndDate(con_no));
+		}
 		
 		
 		if("getPic".equals(action)) {
@@ -186,7 +192,6 @@ public class RenConCRUDServlet extends HttpServlet {
 			RenConService svc = new RenConService();
 			Byte status = Byte.parseByte(req.getParameter("status"));
 			List<Integer> list_mem = svc.getMem(status);
-			System.out.println(list_mem.size());
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");

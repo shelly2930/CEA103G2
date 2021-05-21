@@ -198,6 +198,7 @@
 			    			data:{
 			    				action:'updateStatus',
 			    				con_no:con_no,
+			    				status:'2'
 			    			},
 			    			success:function(){
 			    				console.log("Ãº¶O¦¨¥\");
@@ -219,23 +220,10 @@
 				  	
 				  }
 			})
-    		console.log(sig.signature('toDataURL', 'image/jpeg', 0.8));
 //     		$("#s").attr('src',sig.signature('toDataURL', 'image/jpeg', 0.8));
     	});
     	
     	
-//     	$.ajax({
-<%--     		url:"<%=request.getContextPath()%>/RenConCRUDServlet", --%>
-//     		type:'post',
-//     		data:{
-//     			action:'getPic',
-//     			con_no:'6',
-//     		},
-//     		success:function(e){
-//     			console.log(e);
-//     			$("#s").attr('src','data:image/gif;base64,'+e);
-//     		}
-//     	})
     	</script>
     	
 

@@ -30,7 +30,7 @@
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2 class='text-left'>查看合約</h2>
+                            <h2 class='text-left'>當前合約</h2>
                             <h3 class='text-left'>${MemTenVO.mem_name}</h3>
                             <h5 class='text-left'>
 							View historical contracts</h5>
@@ -62,6 +62,7 @@
 										<tr>
 											<th scope="col">物件名稱</th>
 											<th scope="col">合約終止日</th>
+											
 											<th scope="col">合約狀態</th>
 										</tr>
 									</tbody>
@@ -70,13 +71,17 @@
                            <div id='con'>
 	                            <table class="table table-hover">
 									<thead >
-										<tr><th colspan='3' style='font-weight:bold'>查看合約</th></tr>
+										<tr><th colspan='7' style='font-weight:bold'> 
+										<a href='' ><i style='color:#00BDBD' class="fas fa-long-arrow-alt-left">Back</i></a>  
+										查看當前合約</th></tr>
 										<tr style="background-color:#ccb78f">
-											<th scope="col" class='text-center'>編號</th>
-											<th scope="col" class='text-center'>合約</th>
+											<th scope="col" class='text-center'>合約編號</th>
 											<th scope="col" class='text-center'>合約起始日</th>
 											<th scope="col" class='text-center'>合約終止日</th>
+											<th scope="col" class='text-center'>租約狀態</th>
 											<th scope="col" class='text-center'>簽名</th>
+											<th scope="col" class='text-center'>提出解約</th>
+											<th scope="col" class='text-center'>合約</th>
 										</tr>
 									</thead>
 									<tbody id='showcon'>
@@ -88,7 +93,7 @@
 									</tbody>
 									<tfooter>
 										<tr>
-											<th colspan='5' class='text-center'><span>History</span></th>
+											<th colspan='7' class='text-center'><span>History</span></th>
 										</tr>
 									</tfooter>
 	                           </table>
@@ -201,7 +206,7 @@
 				status:'2',
 			},
 			success:function(memhoucon){
-				if(memhoucon==null){
+				if(memhoucon=="none"){
 					alert('查無合約');
 				}
 				$('#showcon').empty();
@@ -229,19 +234,91 @@
 
 								
 							}else{
+								let samenum = 0;
 								let count = 1;
 								for(let con of cons){
+									
 									let str="<tr id='"+i+"' name='"+mem_no+"' class='"+hou+"'>";
-									str+="<td class='text-center'><i class='fas fa-book-open' style='font-size:19px;color:#C2C2FF'></i> Contract number"+i+"<input style='display:none;' type='checkbox' class='check' id='check"+(count++)+"'></td>";
+									if(samenum==0){
+										str+="<td class='text-center'><i class='fas fa-book-open' style='font-size:19px;color:#C2C2FF'></i> Contract number"+i+"<input style='display:none;' type='checkbox' class='check' id='check"+(count++)+"'></td>";
+										str+="<td class='text-center'>"+getCon(i).rtct_eff_date+"</td>";
+										str+="<td class='text-center'>"+getCon(i).rtct_end_date+"</td>";
+										let status = "";
+										if(getCon(i).rtct_status == 2){
+											status = "生效"
+										}else{
+											status = "未生效"
+										}
+										str+="<td class='text-center'>"+status+"</td>";
+										str+="<td class='text-center'><a href=''class='signature' style='color:#00A8A8;'>簽名</a></td>";
+										str+="<td class='text-center'>";
+										str+="<a href='' class='dismiss' style='color:#00A8A8'>提前解約</a></td>";
+									}else{
+										str+="<td class='text-center'></td>";
+										str+="<td class='text-center'></td>";
+										str+="<td class='text-center'></td>";
+										str+="<td class='text-center'></td>";
+										str+="<td class='text-center'></td>";
+										str+="<td class='text-center'></td>";
+									}
 									str+="<td class='text-center'>";
 									str+="<a style='color:#A1A1A1;' href='' id='"+con+"' class='listonecon'>"+con+"</a>";
 									str+="</td>";
-									str+="<td class='text-center'>"+getCon(i).rtct_eff_date+"</td>";
-									str+="<td class='text-center'>"+getCon(i).rtct_tmt_date+"</td>";
-									str+="<td class='text-center'><a href=''class='signature' style='color:#00A8A8;'>簽名</a></td>"
+									
 									str+="</tr>";
+									samenum++;
 									$('#showcon').append(str);
 								}
+								$(".dismiss").click(function(e){
+									e.preventDefault();
+									let contract = $(this).parents('tr').attr('id');
+									let mem_no =$(this).parents('tr').attr('name');
+									let hos_no =$(this).parents('tr').attr('class');
+									
+									console.log(getCon(contract).rtct_end_date)
+									if(judge(getDate(contract))){
+										Swal.fire({
+											  title: 'Recheck',
+											  text: "確定提出解約申請?",
+											  icon: 'warning',
+											  showCancelButton: true,
+											  confirmButtonColor: '#6495ed',
+											  cancelButtonColor: '#fa8072',
+											  confirmButtonText: '確定',
+											  cancelButtonText:'返回',
+											  confirmButtonClass:'btn-sm',
+											  cancelButtonClass:'btn btn-info btn-sm',
+											}).then((result) => {
+											  if (result.isConfirmed) {
+												  $.ajax({
+										    			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+										    			type:'post',
+										    			data:{
+										    				action:'updateStatus',
+										    				con_no:contract,
+										    				status:'4',
+										    			},
+										    			success:function(){
+										    				console.log("提前解約");
+										    				$('#con').slideUp();
+										    				showmemhou(mem_no);
+										    			}
+										    		})
+										    		Swal.fire({
+												    	icon:'success',
+												    	title:'已送出申請，請等候通知'
+												 	 })
+											  }else{
+													
+											  }
+										})
+									}else{
+										Swal.fire({
+									    	icon:'error',
+									    	text:'需於終止日兩個月以上才可以提出申請'
+									  })
+									}
+								})
 								$(".signature").click(function(e){
 									e.preventDefault();
 									$("#showSignature").modal('show');
@@ -326,6 +403,29 @@
      		}
      	})
      	return str;
+	}
+	function getDate(con){
+    	let str='';
+		$.ajax({
+    		url:"<%=request.getContextPath()%>/RenConCRUDServlet",
+     		type:'post',
+     		data:{
+     			action:'getDate',
+     			con_no:con,
+     		},
+     		async:false,
+     		success:function(b){
+     			str=b;
+     		}
+     	})
+     	return str;
+	}
+	function judge(judgeDay){
+		let diff = parseInt(Math.abs(new Date() - new Date(judgeDay)) / 1000 / 60 / 60 / 24); // 把相差的毫秒數轉換為天數
+		if(diff > 60)
+			return true;
+		else
+			return false;
 	}
 </script>				
 </body>

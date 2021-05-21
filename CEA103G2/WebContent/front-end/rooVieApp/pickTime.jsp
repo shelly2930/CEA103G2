@@ -570,14 +570,14 @@
 					                                </tbody>
 					                                <tfoot>
 					                                    <tr>
-					                                        <th scope="col" colspan="2" class="text-center">Pick Date</th>
+					                                        <th scope="col" colspan="2" class="text-center">${empty param.houseno}Pick Date</th>
 					                                    </tr>
 					                                </tfoot>
 					                            </table>
 					                        </div>
 					            </div>
 					    	</section>
-		    	
+		    				
 				      </div>
 				    </div>
 				  </div>
