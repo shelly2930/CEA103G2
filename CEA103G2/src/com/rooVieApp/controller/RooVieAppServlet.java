@@ -26,7 +26,7 @@ public class RooVieAppServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String action = req.getParameter("action");
 		req.setCharacterEncoding("UTF-8");
-		//儲存所有物件初始值
+		//儲存所有物件初始值 (未來開發用 目前沒用T^T)
 		if("saveInitControlTime".equals(action)) {
 			System.out.println("S");
 			String type = "control";
@@ -69,6 +69,8 @@ public class RooVieAppServlet extends HttpServlet {
 			HandlePickTime.saveControlTime(identity, message_controltime);
 			
 		}
+		
+		
 		//存儲個別物件時間
 		if("saveControlTime".equals(action)) {
 			String type = "control";
@@ -118,8 +120,8 @@ public class RooVieAppServlet extends HttpServlet {
 		if("listControlTime".equals(action)) {
 			String identity = req.getParameter("identity");
 			String control_JSON = HandlePickTime.getControlTime(identity);
-			if(control_JSON==null) {
-				control_JSON= HandlePickTime.getControlTime("0");//之後要改成0
+			if(control_JSON==null) {//系統初始
+				control_JSON= HandlePickTime.getControlTime("0");
 			}
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
@@ -129,6 +131,10 @@ public class RooVieAppServlet extends HttpServlet {
 		//印出所有CASE初始值
 		if("listInitControlTime".equals(action)) {
 			String control_JSON = HandlePickTime.getControlTime("0");
+			System.out.println("HERE"+control_JSON);
+			if(control_JSON==null) {
+				init();
+			}
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(control_JSON);
@@ -219,6 +225,28 @@ public class RooVieAppServlet extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doGet(req, res);
+	}
+	
+	public void init(){
+		String type = "control";
+		String identity = "0";
+		String sender = "";
+		String freeTimeToSee = null;
+		String gotowork = null;
+		String gooffwork = null;
+		Set<String> freedate = new TreeSet<String>();
+		//現在時間幾小時後，不可預約
+			freeTimeToSee = "2";//系統初始值
+		//上班時間
+			gotowork = "6";//系統初始值
+		//下班時間
+			gooffwork = "23";//系統初始值
+		//不可預約的時間
+			freedate.add("");
+		ControlTimeVO ctVO = new ControlTimeVO(type,sender,identity,freeTimeToSee,gotowork,gooffwork,freedate);
+		Gson gson = new Gson();
+		String message_controltime = gson.toJson(ctVO);
+		HandlePickTime.saveControlTime(identity, message_controltime);
 	}
 
 }

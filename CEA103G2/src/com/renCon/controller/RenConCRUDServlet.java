@@ -2,6 +2,9 @@ package com.renCon.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.List;
 
@@ -28,13 +31,36 @@ public class RenConCRUDServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String action = req.getParameter("action");
+		if("updateTmtDate".equals(action)) {
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			Byte status = Byte.parseByte(req.getParameter("status"));
+			java.sql.Date tmtdate = null;
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				tmtdate =new java.sql.Date( format.parse(req.getParameter("tmtdate")).getTime());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			RenConService svc = new RenConService();
+			svc.updateTmtDate(con_no, tmtdate, status);
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(status);
+		}
+		
 		if("updateStatus".equals(action)) {
 			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
-			Byte status = Byte.parseByte("2");
+			Byte status = Byte.parseByte(req.getParameter("status"));
 			RenConService svc = new RenConService();
 			svc.updateStatus(con_no, status);
 		}
-		
+		if("getDate".equals(action)) {
+			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
+			RenConService svc = new RenConService();
+			System.out.println(svc.getEndDate(con_no));
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(svc.getEndDate(con_no));
+		}
 		
 		
 		if("getPic".equals(action)) {
@@ -103,7 +129,7 @@ public class RenConCRUDServlet extends HttpServlet {
 					String mem= mem_no.toString();
 					mem_file = new File(getServletContext().getRealPath("/pdf_uploaded")+"\\"+mem);
 					if(!mem_file.exists()) {
-						mem_file.mkdir();
+						mem_file.mkdirs();
 					}
 				}
 			}
@@ -112,7 +138,11 @@ public class RenConCRUDServlet extends HttpServlet {
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
-			res.getWriter().print(g.toJson(filename));
+			if(filename!=null) {
+				res.getWriter().print(g.toJson(filename));
+			}else {
+				res.getWriter().print(g.toJson("none"));
+			}
 		}
 		if("getMemHou".equals(action)) {
 			//呼叫service 取出這會員所有租過物件
@@ -186,7 +216,6 @@ public class RenConCRUDServlet extends HttpServlet {
 			RenConService svc = new RenConService();
 			Byte status = Byte.parseByte(req.getParameter("status"));
 			List<Integer> list_mem = svc.getMem(status);
-			System.out.println(list_mem.size());
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,12 +55,12 @@ public class RenConDAO implements RenConDAO_interface{
 			"rtct_deposit=? ";
 	private static final String INSERT = "INSERT INTO " + TABLE + "(" + REDUCE_PK_COL + ") VALUES ("+QUESTIONMARKS+")";
 //	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by " + PK;
-	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by rtct_eff_date desc";
+	private static final String GET_ALL = "SELECT * FROM " + TABLE + " order by rtct_eff_date desc";
 	private static final String GET_ONE = "SELECT " + TOTAL_COL + " FROM " + TABLE + " where " + PK + "= ?";
 	private static final String DELETE = "DELETE FROM " + TABLE + " where +" + PK + "= ?";
 	private static final String UPDATE = "UPDATE " + TABLE + " set "+FOR_SET+" where " + PK + "=?";
 	// 蔡佳
-	private static final String INSERT2 = "INSERT INTO RENTAL_CONTRACT (hos_no, mem_no, rtct_eff_date, rtct_tmt_date, rtct_deposit, rtct_apptime) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT2 = "INSERT INTO RENTAL_CONTRACT (hos_no, mem_no, rtct_eff_date, rtct_end_date, rtct_deposit, rtct_apptime) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String FIND_BY_PK = "SELECT * FROM RENTAL_CONTRACT WHERE rtct_no=?";
 	private static final String FIND_BY_STATUS = "SELECT * FROM RENTAL_CONTRACT WHERE rtct_status=? ORDER BY hos_no";
 	private static final String UPDATE_STATUS = "UPDATE RENTAL_CONTRACT SET rtct_status=? WHERE rtct_no=?";
@@ -72,6 +73,8 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String GET_PIC = "SELECT RTCT_PIC FROM RENTAL_CONTRACT WHERE RTCT_NO=?";
 	private static final String GET_ALL_CON = "SELECT * FROM RENTAL_CONTRACT WHERE MEM_NO=? AND RTCT_STATUS=?";
 	private static final String GET_ALL_ORDER_BY_MEM = "SELECT * FROM RENTAL_CONTRACT ORDER BY MEM_NO ,HOS_NO, RTCT_NO";
+	private static final String GET_END_DATE = "SELECT RTCT_END_DATE FROM RENTAL_CONTRACT WHERE RTCT_NO=?";
+	private static final String UPDATE_TMT_DATE ="UPDATE RENTAL_CONTRACT SET RTCT_TMT_DATE=?,RTCT_STATUS=? WHERE RTCT_NO=?";
 	@Override
 	public void insert(RenConVO renConVO) {
 		Connection con = null;
@@ -285,6 +288,7 @@ public class RenConDAO implements RenConDAO_interface{
 				renConVO.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
 				renConVO.setRtct_pic(rs.getBytes("rtct_pic"));
 				renConVO.setRtct_deposit(rs.getInt("rtct_deposit"));
+				renConVO.setRtct_status(rs.getByte("rtct_status"));
 				list.add(renConVO); // Store the row in the list
 			}
 			// Handle any driver errors
@@ -393,7 +397,7 @@ public class RenConDAO implements RenConDAO_interface{
 			pstmt.setInt(1,renConVO.getHos_no());
 			pstmt.setInt(2, renConVO.getMem_no());
 			pstmt.setDate(3, renConVO.getRtct_eff_date());
-			pstmt.setDate(4, renConVO.getRtct_tmt_date());
+			pstmt.setDate(4, renConVO.getRtct_end_date());
 			pstmt.setInt(5,renConVO.getRtct_deposit());
 			pstmt.setTimestamp(6, renConVO.getRtct_apptime());
 			pstmt.executeUpdate();
@@ -911,6 +915,8 @@ public class RenConDAO implements RenConDAO_interface{
 				renConVO.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
 				renConVO.setRtct_pic(rs.getBytes("rtct_pic"));
 				renConVO.setRtct_deposit(rs.getInt("rtct_deposit"));
+				renConVO.setRtct_status(rs.getByte("rtct_status"));
+				
 				list.add(renConVO); // Store the row in the list
 			}
 			// Handle any driver errors
@@ -944,6 +950,95 @@ public class RenConDAO implements RenConDAO_interface{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public Timestamp getEndDate(Integer rtct_no) {
+		Timestamp date = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_END_DATE);
+			pstmt.setInt(1, rtct_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				date = rs.getTimestamp("rtct_end_date");
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return date;
+	}
+
+	@Override
+	public Byte updateTmtDate(RenConVO renConVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_TMT_DATE);
+			
+
+//		========VO取值並設給preparedStatement=============
+			pstmt.setDate(1,renConVO.getRtct_tmt_date());
+			pstmt.setByte(2,renConVO.getRtct_status());
+			pstmt.setInt(3,renConVO.getRtct_no());
+//	   =================送出指令========================
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ e.getMessage());
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return renConVO.getRtct_status();
 	}	
 	
 

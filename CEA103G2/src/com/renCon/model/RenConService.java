@@ -64,13 +64,13 @@ public class RenConService {
 	
 /*===================== ½²¨Î·s¼W ====================*/	
 	public RenConVO addRenCon2(Integer hos_no,Integer mem_no, java.sql.Date rtct_eff_date,
-			java.sql.Date rtct_tmt_date, Timestamp rtct_apptime, Integer rtct_deposit) {
+			java.sql.Date rtct_end_date, Timestamp rtct_apptime, Integer rtct_deposit) {
 		
 		RenConVO renConVO = new RenConVO();
 		renConVO.setHos_no(hos_no);
 		renConVO.setMem_no(mem_no);
 		renConVO.setRtct_eff_date(rtct_eff_date);
-		renConVO.setRtct_tmt_date(rtct_tmt_date);
+		renConVO.setRtct_end_date(rtct_end_date);
 		renConVO.setRtct_apptime(rtct_apptime);
 		renConVO.setRtct_deposit(rtct_deposit);
 		dao.insert2(renConVO);
@@ -132,5 +132,15 @@ public class RenConService {
 	}
 	public List<RenConVO> getAllByMem() {
 		return dao.getAllByMem();
+	}
+	public Timestamp getEndDate(Integer rtct_no) {
+		return dao.getEndDate(rtct_no);
+	}
+	public Byte updateTmtDate(Integer con_no ,java.sql.Date rtct_tmt_date,Byte status) {
+		RenConVO renConVO = new RenConVO();
+		renConVO.setRtct_no(con_no);
+		renConVO.setRtct_status(status);
+		renConVO.setRtct_tmt_date(rtct_tmt_date);
+		return dao.updateTmtDate(renConVO);
 	}
 }
