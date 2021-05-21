@@ -55,7 +55,7 @@ public class RenConDAO implements RenConDAO_interface{
 			"rtct_deposit=? ";
 	private static final String INSERT = "INSERT INTO " + TABLE + "(" + REDUCE_PK_COL + ") VALUES ("+QUESTIONMARKS+")";
 //	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by " + PK;
-	private static final String GET_ALL = "SELECT " + TOTAL_COL + " FROM " + TABLE + " order by rtct_eff_date desc";
+	private static final String GET_ALL = "SELECT * FROM " + TABLE + " order by rtct_eff_date desc";
 	private static final String GET_ONE = "SELECT " + TOTAL_COL + " FROM " + TABLE + " where " + PK + "= ?";
 	private static final String DELETE = "DELETE FROM " + TABLE + " where +" + PK + "= ?";
 	private static final String UPDATE = "UPDATE " + TABLE + " set "+FOR_SET+" where " + PK + "=?";
@@ -287,6 +287,7 @@ public class RenConDAO implements RenConDAO_interface{
 				renConVO.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
 				renConVO.setRtct_pic(rs.getBytes("rtct_pic"));
 				renConVO.setRtct_deposit(rs.getInt("rtct_deposit"));
+				renConVO.setRtct_status(rs.getByte("rtct_status"));
 				list.add(renConVO); // Store the row in the list
 			}
 			// Handle any driver errors
@@ -913,6 +914,8 @@ public class RenConDAO implements RenConDAO_interface{
 				renConVO.setRtct_tmt_date(rs.getDate("rtct_tmt_date"));
 				renConVO.setRtct_pic(rs.getBytes("rtct_pic"));
 				renConVO.setRtct_deposit(rs.getInt("rtct_deposit"));
+				renConVO.setRtct_status(rs.getByte("rtct_status"));
+				
 				list.add(renConVO); // Store the row in the list
 			}
 			// Handle any driver errors
