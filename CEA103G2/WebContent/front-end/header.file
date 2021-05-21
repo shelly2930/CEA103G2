@@ -114,8 +114,17 @@
 							<div class="dropdown cart">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3"
 									role="button" data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+									aria-expanded="false"> <i class="fas fa-cart-plus" data-count="0"></i>
 								</a>
+								<style>
+									.main_menu .cart i::after {
+									    content: attr(data-count);
+									}
+								</style>
+								<script>
+									document.styleSheets[0].addRule('.main_menu .cart i::after','visibility: hidden');
+									document.styleSheets[0].addRule('.main_menu .cart i::after','visibility: visible');
+								</script>
 								<!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <div class="single_product"></div>
                                 </div>-->
