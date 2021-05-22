@@ -112,6 +112,8 @@ public class MemTenServlet extends HttpServlet {
 			HttpSession session = req.getSession();
 			if (session != null) {
 				session.removeAttribute("MemTenVO");
+				session.removeAttribute("lanlordSession");
+				session.removeAttribute("renCarList");
 			}
 			
 			/****************查詢完成,準備轉交(Send the Success view)***************/
@@ -641,7 +643,7 @@ public class MemTenServlet extends HttpServlet {
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
 				req.setAttribute("renConVO", renConVO);
 				
-				String url = "/front-end/memTen/rentalConfirm.jsp";
+				String url = "/front-end/memTen/confirmSuccess.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMemTen.jsp
 				successView.forward(req, res);
 

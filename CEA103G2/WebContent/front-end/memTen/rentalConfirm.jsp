@@ -10,10 +10,9 @@
 	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- Required source end -->
 
-<title>租屋前資料修改 - rentalConfirm.jsp</title>
+<title>租房申請</title>
 
 <style>
 
@@ -180,10 +179,6 @@ div.rentalstep {
     </div>
 </div>
 
-<script>
-
-</script>
-  
 
 <!-- 上傳圖片可預覽 -->
 <script>
