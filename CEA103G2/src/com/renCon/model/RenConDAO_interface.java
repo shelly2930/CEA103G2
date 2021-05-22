@@ -1,5 +1,6 @@
 package com.renCon.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,5 +34,6 @@ public interface RenConDAO_interface {
     public Byte updateTmtDate(RenConVO renConVO);
     //©…„∏
 	public Byte getMemRentQua(Integer mem_no);
+	public java.sql.Timestamp getRentStartDate(Integer mem_no);
     
 }

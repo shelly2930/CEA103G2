@@ -77,6 +77,7 @@ public class RenConDAO implements RenConDAO_interface{
 	private static final String UPDATE_TMT_DATE ="UPDATE RENTAL_CONTRACT SET RTCT_TMT_DATE=?,RTCT_STATUS=? WHERE RTCT_NO=?";
 	//怡蓁
 	private static final String GET_MEM_RENT_QUA="SELECT RTCT_STATUS FROM RENTAL_CONTRACT WHERE MEM_NO=? ORDER BY RTCT_STATUS";
+	private static final String GET_RTCT_EFF_DATE="SELECT RTCT_EFF_DATE FROM RENTAL_CONTRACT WHERE MEM_NO=? AND RTCT_STATUS=2 ORDER BY RTCT_EFF_DATE LIMIT 1 ";
 	@Override
 	public void insert(RenConVO renConVO) {
 		Connection con = null;
@@ -1043,10 +1044,17 @@ public class RenConDAO implements RenConDAO_interface{
 		return renConVO.getRtct_status();
 	}	
 	//怡蓁新增
+	//租家具資格
 	@Override
 	public Byte getMemRentQua(Integer mem_no){
+		System.out.println("進到DAO");
+		System.out.println("會員編號"+mem_no);
 		List<Byte> statusList = new ArrayList<Byte>();
 		Byte mem_con_qua=null;
+		Byte payed=2;
+		Byte unpayed=1;
+		Byte unchecked=0;
+		
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -1063,19 +1071,20 @@ public class RenConDAO implements RenConDAO_interface{
 			while (rs.next()) {
 				Byte mem_con_status=null;
 				mem_con_status=rs.getByte("rtct_status");
+				System.out.println("進DB取mem_con_status"+mem_con_status);
 				statusList.add(mem_con_status);
 			}
-			if (statusList.contains(2)){
+			if (statusList.contains(payed)){
 				mem_con_qua=2;
-			}else if(statusList.contains(1)){
+			}else if(statusList.contains(unpayed)){
 				mem_con_qua=1;
-			}else if(statusList.contains(0)) {
+			}else if(statusList.contains(unchecked)) {
 				mem_con_qua=0;
 			}else {
 				mem_con_qua=3;
 			}
 			//合約狀態有3,4,5時 均回傳3 代表均要先租屋才能租家具
-			
+			System.out.println("租屋狀態"+mem_con_qua);
 			// Handle any driver errors
 		} catch (SQLException se) {
 
@@ -1106,4 +1115,51 @@ public class RenConDAO implements RenConDAO_interface{
 		}
 		return mem_con_qua;
 	}
+	//找合約起始日方法
+	@Override
+	public Timestamp getRentStartDate(Integer mem_no) {
+		java.sql.Timestamp rtct_eff_date = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_RTCT_EFF_DATE);
+			pstmt.setInt(1, mem_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rtct_eff_date = rs.getTimestamp("rtct_eff_date");
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rtct_eff_date;
+	}
+	
 }

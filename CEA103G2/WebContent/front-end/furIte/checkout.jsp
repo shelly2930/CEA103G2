@@ -189,7 +189,6 @@
                         <a class="btn_1 checkout_btn_1" style="cursor:pointer;color:black;"  id="nextStep">下一步</a>
                          <jsp:useBean id="renConSvc" scope="page" class="com.renCon.model.RenConService" />
                          <input type="hidden" id="mem_rent_qua" value="${renConSvc.getMemRentQua(MemTenVO.mem_no)}">==${renConSvc.getMemRentQua(MemTenVO.mem_no)}==
-                         <input type="hidden" id="rent_mem_no" value="${MemTenVO.mem_no}">==${MemTenVO.mem_no}==
                     </div>
                     
 
@@ -342,27 +341,13 @@ $(document).ready(function(){
 	$("#nextStep").click(function(e){
 		let status=parseInt($("#mem_rent_qua").val());
 		if(status===2){
-			let rent_mem_no=parseInt($("#rent_mem_no").val());
 			$.ajax({
 				type:"POST",
 				url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
 				data:{
 					"action":"CHECKOUT",
-		        	"rent_mem_no":rent_mem_no,
+		        	"mem_rent_qua":status,
 				},
-				success:function(){
-// 					Swal.fire({
-// 						position:'center',	 
-// 			   		    icon:'success',
-// 			   			title:'已準備跳轉',
-// 			   			showConfirmButton:false,
-// 			   			timer:1500
-// 			   			});
-					
-					setTimeout(function(){
-						$(location).prop('href', '<%=request.getContextPath()%>/index.jsp'); 
-						},1500);
-	   			 }
 			});
 		}else if(status===1){
 			Swal.fire("很抱歉！<br>因租用家具不另收押金，以租屋合約押金為主，<br>請先完成租屋合約繳費手續，再租用家具，謝謝！");

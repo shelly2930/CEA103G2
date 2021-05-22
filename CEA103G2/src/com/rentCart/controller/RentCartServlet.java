@@ -1,9 +1,13 @@
 package com.rentCart.controller;
 import java.util.*;
 import java.io.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.google.protobuf.Timestamp;
 import com.renCon.model.RenConService;
 import com.rentCart.model.RentCartItem;
 
@@ -79,26 +83,51 @@ public class RentCartServlet extends HttpServlet {
 
 		// 結帳，計算購物車家具品項租金及項目總數
 		else if (action.equals("CHECKOUT")) {
-			Integer total = 0;
-			Integer amount=0;
-			for (int i = 0; i < rentCartList.size(); i++) {
-				RentCartItem order = rentCartList.get(i);
-				Integer price = order.getFnt_price();
-				Integer quantity = order.getQuantity();
-				total += (price * quantity);   //租金合計
-				amount+=quantity;              //租用家具合計(含同品項)
-			}
-			//租金合計
-			String rfa_total = String.valueOf(total);
-			//租用家具合計
-			String rfa_amount = String.valueOf(amount);
-			req.setAttribute("rfa_total", rfa_total);
-			req.setAttribute("rfa_amount", rfa_amount);
+			System.out.println("進到checkout");
+			Integer rent_mem_no = new Integer(req.getParameter("rent_mem_no"));
+			RenConService renConSvc=new RenConService();
+			java.sql.Timestamp rent_start_date=renConSvc.getRentStartDate(rent_mem_no); 
+			System.out.println(rent_start_date);
+			
+			SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd" );
+
+			
+
+			
+			java.sql.Timestamp rent_app_date = new java.sql.Timestamp(System.currentTimeMillis());
+			System.out.println(rent_app_date);
+			System.out.println( "當前日期是：" + df.format(rent_app_date));
+			java.sql.Timestamp rent_app_due = new java.sql.Timestamp(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000 );
+			
+//			String afterOneWeekDate=df.format(rent_app_due);
+			
+			System.out.println("一周後日期:"+df.format(rent_app_due));
+			
+//可能會改直接從CHECKOUT取此段用不到了到了
+//			Integer total = 0;
+//			Integer amount=0;
+//			for (int i = 0; i < rentCartList.size(); i++) {
+//				RentCartItem order = rentCartList.get(i);
+//				Integer price = order.getFnt_price();
+//				Integer quantity = order.getQuantity();
+//				total += (price * quantity);   //租金合計
+//				amount+=quantity;              //租用家具合計(含同品項)
+//			}
+//			//租金合計
+//			String rfa_total = String.valueOf(total);
+//			System.out.println("租金合計"+total);
+//			//租用家具合計
+//			String rfa_amount = String.valueOf(amount);
+//			System.out.println("品項合計"+amount);
+//			req.setAttribute("rfa_total", rfa_total);
+//			req.setAttribute("rfa_amount", rfa_amount);
 			
 //此行待改checkout.jsp路徑
-String url = "/Checkout.jsp";
-			RequestDispatcher rd = req.getRequestDispatcher(url);
-			rd.forward(req, res);
+//String url = "/furIte/checkout.jsp";
+//測跳轉
+			//String url = "/index.jsp";
+//			RequestDispatcher rd = req.getRequestDispatcher(url);
+//			rd.forward(req, res);
 		}
 	}
 	
