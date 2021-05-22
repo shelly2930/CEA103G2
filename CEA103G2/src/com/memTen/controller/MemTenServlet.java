@@ -113,7 +113,7 @@ public class MemTenServlet extends HttpServlet {
 			if (session != null) {
 				session.removeAttribute("MemTenVO");
 				session.removeAttribute("lanlordSession");
-				session.removeAttribute("renCarList");
+				session.removeAttribute("rentCartList");
 			}
 			
 			/****************查詢完成,準備轉交(Send the Success view)***************/
