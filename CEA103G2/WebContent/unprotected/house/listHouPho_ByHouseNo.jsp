@@ -33,6 +33,13 @@
 <%@include file="/front-end/header.file"%>
 <!-- =================地圖===================================== -->
 <style>
+	#mapsearch{
+		position:fixed;
+		right:0;
+   		top:480px;
+   		z-index:2;
+   		float:left; 
+	}
 /* 收藏 */
 	#collection{
 		position:fixed;
@@ -449,6 +456,7 @@ h4 {
 	  </div>
 	</div>
 	<!--                     	收藏 -->
+	<a class="ml-3 order-xl-last btn btn-primary" style='opacity:0.5;' id="mapsearch"  href="" ><i class="fas fa-map-marker-alt"><br><hr>地圖<br>找房</i></a>
 	<a class="ml-3 order-xl-last btn btn-info" style='opacity:0.5;' id="collection" data-toggle="canvas" href="#bs-canvas-right" aria-expanded="false" aria-controls="bs-canvas-right" role="button"><i class="fas fa-home" ><br><hr>收藏</i></a>
 	<!--                     	以上收藏 -->
   <!--================End Product Description Area =================-->
@@ -461,6 +469,12 @@ h4 {
 <%@ include file="/front-end/footer.file"%>
 
 <script>
+	$("#mapsearch").click(function(e){
+		e.preventDefault();
+		$(location).attr('href',"<%=request.getContextPath()%>/unprotected/house/mapsearch.jsp");
+	})
+
+
 	let mem_no = ${empty MemTenVO.mem_no ?"null":MemTenVO.mem_no};
 	let housno = ${empty houseVO.hos_no ?"null" :houseVO.hos_no};
 	//收藏

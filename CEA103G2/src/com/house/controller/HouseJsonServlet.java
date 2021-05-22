@@ -2,7 +2,9 @@ package com.house.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -81,6 +83,24 @@ public class HouseJsonServlet extends HttpServlet {
 			}else keyword="";
 			System.out.println(keyword);
 			List<HouseVO> list = svc.search(keyword);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(list));
+		}
+		if("mapsearch".equals(action)) {
+			String[] hos_city = new String[1];
+			if(req.getParameter("hos_city")!=null) {
+				hos_city[0] = req.getParameter("hos_city");
+			}
+			String[] hos_dist = new String[1];
+			if(req.getParameter("hos_dist")!=null) {
+				hos_dist[0] = req.getParameter("hos_dist");
+			}
+			Map<String,String[]> map = new HashMap<String, String[]>();
+			map.put("hos_city",hos_city);
+			map.put("hos_dist",hos_dist);
+			HouseService houseSvc = new HouseService();
+			List<HouseVO> list  = houseSvc.getAll(map);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson(list));
