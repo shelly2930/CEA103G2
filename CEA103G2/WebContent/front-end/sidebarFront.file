@@ -25,10 +25,10 @@
 							            	<a href="#houseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租屋管理</a>
 							              	<ul class="collapse list-unstyled" id="houseSubmenu">
 							                	<li>
-							                    	<a href="#">我的預約</a>
+							                    	<a href="<%=request.getContextPath()%>/front-end/rooVieApp/listApp.jsp">我的預約</a>
 							                	</li>
 							                	<li>
-							                    	<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_view.jsp">我的租屋</a>
+							                    	<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_view.jsp">進行簽約</a>
 							                	</li>
 							                	<li>
 							                    	<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_list.jsp">我的合約</a>
