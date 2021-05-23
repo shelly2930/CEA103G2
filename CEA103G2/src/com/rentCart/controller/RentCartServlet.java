@@ -6,8 +6,7 @@ import java.text.SimpleDateFormat;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-
-import com.google.protobuf.Timestamp;
+import java.sql.Timestamp;
 import com.renCon.model.RenConService;
 import com.rentCart.model.RentCartItem;
 
@@ -29,7 +28,6 @@ public class RentCartServlet extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		List<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");
 		String action = req.getParameter("action");
-		System.out.println("有進到此Servlet");
 		
 //結帳前動作  action不等於checkout時 可再新增或刪除品項 
 		if (!action.equals("CHECKOUT")) {
@@ -83,52 +81,40 @@ public class RentCartServlet extends HttpServlet {
 
 		// 結帳，計算購物車家具品項租金及項目總數
 		else if (action.equals("CHECKOUT")) {
-			System.out.println("進到checkout");
 			Integer rent_mem_no = new Integer(req.getParameter("rent_mem_no"));
+			Byte canRent=null;
 			RenConService renConSvc=new RenConService();
 			java.sql.Timestamp rent_start_date=renConSvc.getRentStartDate(rent_mem_no); 
-			System.out.println(rent_start_date);
 			
-			SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd" );
-
-			
-
-			
-			java.sql.Timestamp rent_app_date = new java.sql.Timestamp(System.currentTimeMillis());
-			System.out.println(rent_app_date);
-			System.out.println( "當前日期是：" + df.format(rent_app_date));
-			java.sql.Timestamp rent_app_due = new java.sql.Timestamp(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000 );
-			
-//			String afterOneWeekDate=df.format(rent_app_due);
-			
-			System.out.println("一周後日期:"+df.format(rent_app_due));
-			
-//可能會改直接從CHECKOUT取此段用不到了到了
-//			Integer total = 0;
-//			Integer amount=0;
-//			for (int i = 0; i < rentCartList.size(); i++) {
-//				RentCartItem order = rentCartList.get(i);
-//				Integer price = order.getFnt_price();
-//				Integer quantity = order.getQuantity();
-//				total += (price * quantity);   //租金合計
-//				amount+=quantity;              //租用家具合計(含同品項)
-//			}
-//			//租金合計
-//			String rfa_total = String.valueOf(total);
-//			System.out.println("租金合計"+total);
-//			//租用家具合計
-//			String rfa_amount = String.valueOf(amount);
-//			System.out.println("品項合計"+amount);
-//			req.setAttribute("rfa_total", rfa_total);
-//			req.setAttribute("rfa_amount", rfa_amount);
-			
-//此行待改checkout.jsp路徑
-//String url = "/furIte/checkout.jsp";
-//測跳轉
-			//String url = "/index.jsp";
-//			RequestDispatcher rd = req.getRequestDispatcher(url);
-//			rd.forward(req, res);
+			SimpleDateFormat df = new SimpleDateFormat( "yyyyMMdd" );
+			java.sql.Timestamp rent_app_due = new java.sql.Timestamp(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
+			Integer intRent_app_due=new Integer(df.format(rent_app_due));
+			Integer intRent_start_date=new Integer(df.format(rent_start_date));
+		
+			if(intRent_start_date>intRent_app_due) {
+				canRent=0;    //起始日大於等於預約截止日 不可租用
+			}else {
+				canRent=1;   //起始日小於預約截止日 可租用
+			}
+			PrintWriter out = res.getWriter();
+            out.print(canRent);
 		}
+		
+		//訂單成立
+		else if (action.equals("submitRentApp")) {
+			Integer mem_no = new Integer(req.getParameter("memTen_no"));
+			Timestamp rfa_order_date=null;
+				try {
+					rfa_order_date = Timestamp.valueOf(req.getParameter("rfa_order_date").trim());
+				} catch (IllegalArgumentException e) {
+					rfa_order_date = null;
+				}
+			
+			
+			RenConService renConSvc=new RenConService();
+			
+		}
+			
 	}
 	
 	private RentCartItem getRentFurItem(HttpServletRequest req) {

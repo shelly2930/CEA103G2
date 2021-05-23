@@ -1,9 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.furIte.model.*" %>
+<%@ page import="com.renCon.model.*" %>
+<%@ page import="com.memTen.model.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 
-<%--    <% @SuppressWarnings("unchecked") --%>
-<%--    Vector<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");%> --%>
+<%
+		RenConService renConSvc=new RenConService();
+		List<RenConVO> memHouList=new ArrayList<RenConVO>();
+		SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd" );
+		java.sql.Timestamp rent_app_due = new java.sql.Timestamp(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
+		String strRent_app_due=df.format(rent_app_due);
+		MemTenVO memTenVO=(MemTenVO) session.getAttribute("MemTenVO");
+		Integer mem_no=memTenVO.getMem_no();
+		memHouList=renConSvc.getDelHosNo(mem_no,strRent_app_due);
+		pageContext.setAttribute("memHouList",memHouList);
+%>
     
 <!DOCTYPE html>
 <html>
@@ -34,6 +46,13 @@
      		 text-align: center;
 		}
 
+	  .xdsoft_datetimepicker .xdsoft_datepicker{
+	           width:  300px;   /* width:  300px; */
+	  }
+	  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box{
+	           height: 151px;   /* height:  151px; */
+	  }
+
 </style>
 
 </head>
@@ -58,162 +77,120 @@
         </div>
     </section>
  <!--================End Home Banner Area =================-->
-    <!--================Cart Area =================-->
-    <!-- 租借明細 -->
-    <section class="cart_area padding_top">
-        <div class="container">
-            <div class="cart_inner">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" style="text-indent:150px;" colspan="2">家具品項</th>
-                                <th scope="col" style="text-indent:-10px;">每月租金</th>
-                                <th scope="col" style="text-indent:20px;">租用數量</th>
-                                <th scope="col">小計</th>
-                                <th scope="col">&nbsp&nbsp&nbsp刪除</th>
-                            </tr>
-                        </thead>
- <%if (rentCartList == null || (rentCartList.size() == 0)) {%>  
-					 
-					 <tr>
-					 <td colspan="6" style="text-align:center;">目前尚無租用品項!</td>
-					 </tr>
- 
- 					</table>
-                    <!-- 繼續購物或結帳區塊 開始 -->
-                    <div class="checkout_btn_inner float-right">
-                        <a class="btn_1" href="<%=request.getContextPath()%>/furIte/furIte.do?action=listAllGetOnFurIte">繼續瀏覽家具</a>
-                    </div>
-                    
-
-                    <!-- 繼續購物或結帳區塊 結束 -->
-                </div>
-            </div>
-    </section>
- <%@ include file="/front-end/footer.file"%>
- <%}%>                         
 <%if (rentCartList != null && (rentCartList.size() > 0)) {%> 
-<%-- <% --%>
-<!-- // 	 for (int index = 0; index < rentCartList.size(); index++) { -->
-<!-- // 	 RentCartItem rentItem = rentCartList.get(index); -->
-<%-- %>                --%>
-<jsp:useBean id="furPhoSvc" scope="page" class="com.furPho.model.FurPhoService" />
-<c:forEach var="rentItem"  items="${rentCartList}"  varStatus="r">
-                        <!-- 租借明細開始  由此開始循環 -->
-                        <tr>
-                           <td>
-                           		<a href="<%=request.getContextPath()%>/furIte/furIte.do?fnt_it_no=${rentItem.fnt_it_no}&action=getOneFurIteToFE" >
-                                <img src="<%=request.getContextPath()%>/furPho/furPhoShow.do?fnt_pic_no=${furPhoSvc.getThisIteFirstFnt_pic_no(rentItem.fnt_it_no)}"  width="111" height="120">
-                            </td>
-                            <td>
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/single-product/cart-1.jpg" alt="" />
-                                    </div>
-                                    <div class="media-body">
-<%--                                         <p><%=rentItem.getFnt_name()%></p> --%>
-                                        <p id="fntName${r.index}" >${rentItem.fnt_name}</p>
-                                        <input type="hidden" id="fntNo${r.index}" value="${rentItem.fnt_it_no}">
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <h5 id="fntPrice${r.index}" >$${rentItem.fnt_price}</h5>
-                            </td>
-<!--        ↓↓↓              此區為調整家具品項數量 ↓↓↓   -->
-                            <td>
-                            
-                            <jsp:useBean id="furIteSvc" scope="page" 	class="com.furIte.model.FurIteService" />
-                            <div>
-									<span class="minus"  id="down${r.index}" style="	cursor:pointer;width:10px;height:10px;background:#f2f2f2;	border-radius:4px;padding:4px 20px 20px 6px;border:1px solid #ddd;display: inline-block;vertical-align: middle;text-align: center;">一</span>
-									<input class="number" id="quan${r.index}" type="text" 	disabled="disabled" value="${rentItem.quantity>furIteSvc.getOneFurIte(rentItem.fnt_it_no).fnt_unrent?furIteSvc.getOneFurIte(rentItem.fnt_it_no).fnt_unrent:rentItem.quantity}" 
-									             style="background:white;height:28px;width:40px;text-align:center;font-size:15px;border:1px solid #ddd;border-radius:4px;display: inline-block;vertical-align: middle;">
-										<input type="hidden" id="max${r.index}" value="${furIteSvc.getOneFurIte(rentItem.fnt_it_no).fnt_unrent}">
-									<span class="plus"   id="up${r.index}" style="cursor:pointer;width:20px;height:10px;background:#f2f2f2;border-radius:4px;padding:4px 20px 20px 6px;border:1px solid #ddd;display: inline-block;vertical-align: middle;text-align: center;">十</span>
-							</div>
-                            </td>
- <!--        ↑↑↑             此區為調整家具品項數量   ↑↑↑ -->
-                            <td>
-                                <h5 id="subtotal${r.index}"></h5>
-                            </td>
-                            <!-- ↓↓↓↓ 加入垃圾桶元件 ↓↓↓↓ -->
-                            <td>
-                                <div class="">
-                                    <ul class="list-inline justify-content-center">
-                                        <span>&nbsp&nbsp&nbsp&nbsp<span>
-                                                <li class="list-inline-item">
-                                                    <input type="hidden" id="${r.index}">
-                                                    <a data-toggle="tooltip" data-placement="top" title="刪除此品項" class="delete"  data-original-title="Delete" id="del${r.index}" style="color:pink;cursor:pointer;">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <!-- ↑↑↑↑↑ 加入垃圾桶元件 ↑↑↑↑ -->
-                        </tr>
-</c:forEach>
 
-                        <!-- 此部分開始顯示明細合計 -->
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <h5>月租金合計</h5>
-                            </td>
-                            <td>
-                                <h5 id="getTotal"></h5>
-                            </td>
-                            <td>
-                                        <div class="">
-                                    <ul class="list-inline justify-content-center">
-                                        <span>&nbsp&nbsp&nbsp&nbsp<span>
-                                                <li class="list-inline-item">
-                                                    <a data-toggle="tooltip" data-placement="top" title="全部刪除" class="deleteAll"  data-original-title="Delete" id="deleteAll" style="color:pink;cursor:pointer;">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </li>
-                                    </ul>
-                                </div>
-                             </td>
-                        </tr>
-                        <!-- 顯示明細合計結束 -->
-<!--                         </tbody> -->
-                    </table>
-                    <!-- 繼續購物或結帳區塊 開始 -->
+<section class="checkout_area padding_top">
+    <div class="container">
+      <div class="returning_customer">
+       
+            <p> 
+         親愛的 ${MemTenVO.mem_name} 您好：<br>
+         
+         請選擇家具運送地點及配送時間，並確認下列租借品項資訊是否正確：
+        </p>
+     
+              <div class="col-md-12 form-group p_star">
+	              <div class="col-lg-8">
+	                <input type="hidden" id="memTenNo" value="${MemTenVO.mem_no}">
+						 <jsp:useBean id="houseSvc" scope="page" class="com.house.model.HouseService" />
+		 				  <jsp:useBean id="renConSvc2" scope="page" class="com.renCon.model.RenConService" />
+					<select class="form-control" name="county">     
+	              			<option value="0">選擇運送地點</option>
+	              		<c:forEach var="renConVO" items="${memHouList}" >
+	              			<option value="${renConVO.rtct_no}" data-index="0">	
+	              			${houseSvc.getOneHouse(renConSvc2.getOneRenCon(renConVO.rtct_no).hos_no).hos_address}${houseSvc.getOneHouse(renConSvc2.getOneRenCon(renConVO.rtct_no).hos_no).hos_floor}樓	
+							</option>  
+	        			</c:forEach>
+	        		</select>
+	        		</div>
+	        		<br>
+		      		<div class="col-lg-8">
+		      		<input type="text" name="rfa_order_date" id="rfa_order_date" placeholder="選擇配送時間" required="" class="form-control" >
+		      		</div>
+      		</div>
+      
+        <div class="row">
+        <div class="col-lg-12">
+          <div class="order_box">
+            <h3>租借明細</h3>
+            <table class="table table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col" colspan="2">家具品項</th>
+                  <th scope="col">租用數量</th>
+                  <th scope="col">每月租金</th>
+                  <th scope="col">小計</th>
+                </tr>
+              </thead>
+              <tbody>
+                <c:forEach var="rentItem"  items="${rentCartList}"  varStatus="r">
+	                <tr>
+	                  <td colspan="2"><a class="number"  href="<%=request.getContextPath()%>/furIte/furIte.do?fnt_it_no=${rentItem.fnt_it_no}&action=getOneFurIteToFE" id="fntName${r.index}" >${rentItem.fnt_name}</a></td>
+	                  <td id="quan${r.index}" >x${rentItem.quantity}</td>
+	                  <td id="fntPrice${r.index}" >$${rentItem.fnt_price}</td>
+	                  <td id="subtotal${r.index}"></td>
+	                  <input type="hidden" id="fntNo${r.index}" value="${rentItem.fnt_it_no}">
+	                </tr>
+               </c:forEach>
+              </tbody>
+              <tfoot>
+             <tr>
+                  <th colspan="3"></th>
+                  <th><b><span style="color:black;">月租金合計</span></b></th>
+                  <th><b><span id="getTotal" style="color:black;"></span></b></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <br>
+      	<div class="col-lg-2" style="float:right;"> 
+             	<a class="btn_3" href="#" id="submitRentApp">送出訂單</a> 
+        </div> 
+      	<div class="col-lg-2" style="float:right;"> 
+             	<a class="btn_3" href="<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp">上一步</a> 
+       	</div> 
+             
+    </div>
+    
+  </section>
 
-                    <div class="checkout_btn_inner float-right">
-                        <a class="btn_1" href="<%=request.getContextPath()%>/furIte/furIte.do?action=listAllGetOnFurIte">繼續瀏覽家具</a>
-                        <a class="btn_1 checkout_btn_1" style="cursor:pointer;color:black;"  id="nextStep">下一步</a>
-                         <jsp:useBean id="renConSvc" scope="page" class="com.renCon.model.RenConService" />
-                         <input type="hidden" id="mem_rent_qua" value="${renConSvc.getMemRentQua(MemTenVO.mem_no)}">==${renConSvc.getMemRentQua(MemTenVO.mem_no)}==
-                    </div>
-                    
 
-                    <!-- 繼續購物或結帳區塊 結束 -->
-                </div>
-            </div>
-    </section>
     <%@ include file="/front-end/footer.file"%>
 <%}%>
-<%-- <%@ include file="/front-end/footer.file"%> --%>
-
 
 <!-- JS ajax -->
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 		getOrinSubtotal(); 
 		getTotalPrice();
-	$(".delete").each(function(index){
-		$("#del"+index+"").click(function(e){
-			let delNo=$("#del"+index+"").prev().attr("id");
-			
+});
+	$("#submitRentApp").click(function(e){
+		let memTenNo=$("#memTenNo").val();	
+		let rfa_order_date=$("#rfa_order_date").val();
+		let rfa_total=parseInt($("#getTotal").html().substring(1));
+		let  rfa_apct_date = getRfa_apct_date();
+		
+		if($("select").val()==0){
 			Swal.fire({
-				  title: '確定刪除此品項?',
+				  icon: 'error',
+				  title: '請選擇家具配送地址！',
+				})
+		}else if(!$("#rfa_order_date").val()){
+			Swal.fire({
+				  icon: 'error',
+				  title: '請選擇家具配送時間！',
+				})
+		}else{
+			Swal.fire({
+				  title: '確定送出租借訂單？',
 				  icon: 'warning',
 				  showCancelButton: true,
 				  confirmButtonColor: '#3085d6',
@@ -221,152 +198,49 @@ $(document).ready(function(){
 				  confirmButtonText: '確定',
 				  cancelButtonText: "取消"
 				}).then((result) => {
-				 
+					
 					if (result.isConfirmed) {
 						if (result.value) {
 							$.ajax({
-								type: "POST",
-								url: "<%=request.getContextPath()%>/rentCart/rentCart.do",	
-								data: {					
-									del: delNo,
-									action: "DELETE",
+								type:"POST",
+								url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
+								data:{
+									"action":"submitRentApp",
+						        	"memTen_no":memTenNo,
+						        	"rfa_order_date":rfa_order_date,
+						        	"rfa_total":rfa_total,
+						        	"rfa_apct_date":rfa_apct_date,
+						        	"rfa_status":'0',
 								},
 								success:function(){
 									Swal.fire({
-						   				 position:'center',	 
-						   				  icon:'success',
-						   			      title:'已移除此品項!',
-						   			      showConfirmButton:false,
-						   			      timer:1500
-									});
+										position:'center',	 
+							   		    icon:'success',
+							   			title:'租借訂單已送出！',
+							   			showConfirmButton:false,
+							   			timer:1500
+							   			});
+									
 									setTimeout(function(){
-										$(location).prop('href', '<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp'); 
-									},1500);
+										$(location).prop('href', '<%=request.getContextPath()%>/index.jsp'); 
+										},1500);
 					   			 }
 				  			})
 						 }
 					}
 				})
-			})
-		})	
-	$("#deleteAll").click(function(e){
-		Swal.fire({
-			  title: '確定刪除所有項目?',
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  confirmButtonText: '確定',
-			  cancelButtonText: "取消"
-			}).then((result) => {
-				
-				if (result.isConfirmed) {
-					if (result.value) {
-						$.ajax({
-							type: "POST",
-							url: "<%=request.getContextPath()%>/rentCart/rentCart.do",	
-							data: {					
-								action: "DeleteAll",
-							},
-							success:function(){
-								Swal.fire({
-									position:'center',	 
-						   		    icon:'success',
-						   			title:'已刪除所有品項!',
-						   			showConfirmButton:false,
-						   			timer:1500
-						   			});
-								
-								setTimeout(function(){
-									$(location).prop('href', '<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp'); 
-									},1500);
-				   			 }
-			  			})
-					 }
-				}
-			})
-	});
-		
-	
-	$(".number").each(function(index){
-		$("#down"+index+"").click(function(e){
-			var count=parseInt($("#quan"+index+"").val())-1;
-			count=count<1?1:count;
-			$("#quan"+index+"").val(count);
-			let fntNoMinus=$("#fntNo"+index+"").val();
-			let fntPrice=$("#fntPrice"+index+"").html().substring(1);
-			let newQuantity=$("#quan"+index+"").val();
-			getOrinSubtotal();
-			getTotalPrice();
 			
-			$.ajax({
-				type:"POST",
-				url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
-				data:{
-					"action":"changeQuantity",
-		        	"fnt_it_no":fntNoMinus,
-					"newQuantity":newQuantity,
-				},
-			});
-		});	
-	});	
-	$(".number").each(function(index){
-		$("#up"+index+"").click(function(e){
-			var max=$("#max"+index+"").val();
-			var count=parseInt($("#quan"+index+"").val())+1;
-			let fntNoPlus=$("#fntNo"+index+"").val();
-			let fntPrice=$("#fntPrice"+index+"").html().substring(1);
-			$("#quan"+index+"").val(count);
-			let newQuantity=$("#quan"+index+"").val();
-
-			if (count> max) {
-				$("#quan"+index+"").val(max);
-				newQuantity=$("#quan"+index+"").val();
-	    		Swal.fire("很抱歉!<br>目前最多僅能提供"+ max+"個租用!");
-	    	}
-			getOrinSubtotal();	
-			getTotalPrice()
 			
-			$.ajax({
-				type:"POST",
-				url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
-				data:{
-					"action":"changeQuantity",
-		        	"fnt_it_no":fntNoPlus,
-					"newQuantity":newQuantity,
-				},
-			});
-		});	
-	});	
-	$("#nextStep").click(function(e){
-		let status=parseInt($("#mem_rent_qua").val());
-		if(status===2){
-			$.ajax({
-				type:"POST",
-				url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
-				data:{
-					"action":"CHECKOUT",
-		        	"mem_rent_qua":status,
-				},
-			});
-		}else if(status===1){
-			Swal.fire("很抱歉！<br>因租用家具不另收押金，以租屋合約押金為主，<br>請先完成租屋合約繳費手續，再租用家具，謝謝！");
-		}else if(status===0){
-			Swal.fire("很抱歉！因租用家具不另收押金，以租屋合約押金為主，由於您的租屋申請正在審核中，請待完成審核及合約繳費手續後，再租用家具，謝謝！");
-		}else{
-			Swal.fire("很抱歉！<br>因租用家具不另收押金，以租屋合約押金為主，<br>請先完成租屋手續，再租用家具，謝謝！");
 		}
-	})
-	
-// 	mem_rent_qua
-});
 
+		
+	})
 	
 	//載入時小計
 	function getOrinSubtotal(){
 		$('.number').each(function(index){
 			let fntPrice=$("#fntPrice"+index+"").html().substring(1);
-			let orinQuan=$("#quan"+index+"").val();
+			let orinQuan=$("#quan"+index+"").html().substring(1);
 			let OrinSubtotal = orinQuan*fntPrice;
 			$("#subtotal"+index+"").html("$"+OrinSubtotal);
 		})
@@ -381,10 +255,37 @@ $(document).ready(function(){
 	})
 	}	
 
-
+	function getRfa_apct_date() {  
+	    var date=new Date();
+		var y = date.getFullYear();  
+	    var m = date.getMonth() + 1;  
+	    m = m < 10 ? ('0' + m) : m;  
+	    var d = date.getDate();  
+	    d = d < 10 ? ('0' + d) : d;  
+	    var h = date.getHours();  
+	    var minute = date.getMinutes();  
+	    minute = minute < 10 ? ('0' + minute) : minute;  
+	    return y + '/' + m + '/' + d+' '+h+':'+minute;  
+	};  
+<!-- ====以下為 datetimepicker 之相關設定====-->
+      
+        $.datetimepicker.setLocale('zh');
+        var appStartDate = new Date();
+        appStartDate.setTime(appStartDate.getTime()+2*24*60*60*1000);
+        var appDueDate = new Date();
+        appDueDate.setTime(appDueDate.getTime()+7*24*60*60*1000);
+        $('#rfa_order_date').datetimepicker({
+           theme: '',              //theme: 'dark',
+ 	       timepicker:true,       //timepicker:true,
+ 	       step: 60,                //step: 60 (這是timepicker的預設間隔60分鐘)
+ 	       ormat:'Y-m-d H:i:s',      //format:'Y-m-d H:i:s',
+<%--  		   value: '<%=memTenVO.getMem_birthday()%>', // value:   new Date(), --%>
+           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+           startDate:	           appStartDate,  // 起始日
+           minDate:               appStartDate, // 去除今日(不含)之前
+           maxDate:               appDueDate // 去除今日(不含)之後
+        });
+        
 </script>
-
-
-
 </body>
 </html>

@@ -8,7 +8,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import util.CompositeQuery.util_CompositeQuery_Fnt;
+//import util.CompositeQuery.util_CompositeQuery_Fnt;
 
 
 public class FurLisDAO implements FurLisDAO_interface {
@@ -278,7 +278,7 @@ public class FurLisDAO implements FurLisDAO_interface {
 		}
 		return list;
 	}
-
+//	½Æ¦X¬d¸ß «Ý§ï
 	@Override
 	public List<FurLisVO> getAll(Map<String, String[]> map) {
 		List<FurLisVO> list = new ArrayList<FurLisVO>();
@@ -291,12 +291,12 @@ public class FurLisDAO implements FurLisDAO_interface {
 		try {
 			
 			con = ds.getConnection();
-			String finalSQL = "select * from emp2 "
-		          + util_CompositeQuery_Fnt.get_WhereCondition(map)
-		          + "order by empno";
-			pstmt = con.prepareStatement(finalSQL);
-			System.out.println("¡´¡´finalSQL(by DAO) = "+finalSQL);
-			rs = pstmt.executeQuery();
+//			String finalSQL = "select * from emp2 "
+//		          + util_CompositeQuery_Fnt.get_WhereCondition(map)
+//		          + "order by empno";
+//			pstmt = con.prepareStatement(finalSQL);
+//			System.out.println("¡´¡´finalSQL(by DAO) = "+finalSQL);
+//			rs = pstmt.executeQuery();
 	
 			while (rs.next()) {
 				furLisVO = new FurLisVO();

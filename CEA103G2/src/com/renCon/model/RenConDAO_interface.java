@@ -35,5 +35,5 @@ public interface RenConDAO_interface {
     //©…„∏
 	public Byte getMemRentQua(Integer mem_no);
 	public java.sql.Timestamp getRentStartDate(Integer mem_no);
-    
+	public List<RenConVO> getDelHosNo(Integer mem_no, String strRent_app_due);
 }

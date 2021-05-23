@@ -146,13 +146,13 @@ public class RenConService {
 	
 //	©…„∏∑sºW
 	public Byte getMemRentQua(Integer mem_no){
-		System.out.println("enter services");
-		System.out.println(mem_no);
 		return dao.getMemRentQua(mem_no);
 	}
 	public Timestamp getRentStartDate(Integer mem_no) {
 		return dao.getRentStartDate(mem_no);
 	}
-	
+	public List<RenConVO> getDelHosNo(Integer mem_no, String strRent_app_due){
+		return dao. getDelHosNo(mem_no,strRent_app_due);
+	}
 	
 }
