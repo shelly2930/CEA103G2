@@ -78,7 +78,7 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 	private static final String SHOWTHEMEMAPP = "SELECT * FROM room_viewing_application where  emp_no=? and rva_status =? order by hos_no ,mem_no,RVA_ORDER_TIME order by  rva_no desc";
 	private static final String SHOWTHEEMPAPP = "SELECT * FROM room_viewing_application where  mem_no=? and rva_status =? order by hos_no ,mem_no,RVA_ORDER_TIME";
 	private static final String UPDATEENDTIME = "update room_viewing_application set RVA_END_TIME=? where RVA_NO=?";
-	
+	private static final String UPDATETHEHOUSESTATUS = "update room_viewing_application set RVA_STATUS=2 where HOS_NO=? and (RVA_STATUS=1 or RVA_STATUS=0)";
 	@Override
 	public void insert(RooVieAppVO rooVieAppVO) {
 		Connection con = null;
@@ -988,6 +988,43 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 			pstmt.setTimestamp(1, end_time);
 			pstmt.setInt(2,rva_no);
 			
+//	   =================送出指令========================
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+//			RuntimeException老師說，為了丟出例外，
+//			當時測試，若沒有這個 當資料庫發生錯誤 必須把錯誤丟給controller
+//			否則這裡顯示錯誤就處理掉了，但前台都沒發生報錯
+			throw new RuntimeException("資料庫發生錯誤! "
+					+ e.getMessage());
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public void updateTheHouseStatus(Integer hos_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATETHEHOUSESTATUS);
+
+//		========VO取值並設給preparedStatement=============
+			pstmt.setInt(1,hos_no);
 //	   =================送出指令========================
 			pstmt.executeUpdate();
 		} catch (SQLException e) {

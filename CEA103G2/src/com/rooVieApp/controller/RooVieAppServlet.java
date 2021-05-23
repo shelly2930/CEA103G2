@@ -284,6 +284,15 @@ public class RooVieAppServlet extends HttpServlet {
 			res.getWriter().print(new Gson().toJson(emp));
 			return;
 		}
+		if("updateTheHouseStatus".equals(action)) {
+			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			rvaSvc.updateTheHouseStatus(hos_no);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson("Success"));
+			return;
+		}
 		
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

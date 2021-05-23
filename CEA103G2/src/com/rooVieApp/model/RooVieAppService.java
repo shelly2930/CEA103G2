@@ -111,4 +111,7 @@ public class RooVieAppService {
 	public void updateEndTime(Integer rva_no,Timestamp end_time) {
 		dao.updateEndTime(rva_no, end_time);
 	}
+	public void updateTheHouseStatus(Integer hos_no) {
+		dao.updateTheHouseStatus(hos_no);
+	}
 }

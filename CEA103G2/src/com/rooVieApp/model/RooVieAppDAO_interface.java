@@ -34,4 +34,5 @@ public interface RooVieAppDAO_interface {
     public List<RooVieAppVO> showTheEmpApp(Integer emp_no,Byte status);
     public void updateEndTime(Integer rva_no,Timestamp end_time);
     public List<RooVieAppVO> showTheMemApp(Integer mem_no,Byte status);
+    public void updateTheHouseStatus(Integer hos_no);
 }
