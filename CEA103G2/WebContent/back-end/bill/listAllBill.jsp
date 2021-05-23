@@ -36,11 +36,11 @@
 	<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 <style>
-	img.lld_acc_pic{
-		height: 100px;
-		width: auto;
+	img.lld_acc_pic {
+	  	height: 100px;
+	  	width: auto;
 	}
-	table:hover{
+  	table:hover{
 		cursor: pointer;
 	}
 	tr:hover{
@@ -87,7 +87,7 @@
 									<thead>
 										<tr>
 											<th>帳單編號</th>
-											<th>會員姓名</th>
+											<th>會員編號</th>
 											<th>帳單日期</th>
 											<th>繳費期限</th>
 											<th>租金</th>
@@ -112,6 +112,7 @@
 												<%
 												RenConService renConSvc = new RenConService();
 												HouseService houseSvc = new HouseService();
+// 												List<RenConVO> list_RenConVO = renConSvc.getAllCon(new Byte("2"), billVO.getMem_no());
 												List<RenConVO> list_RenConVO = renConSvc.getAll();
 												int hr_total = 0; //租屋合約租金合計
 												for(RenConVO renConVO : list_RenConVO){
