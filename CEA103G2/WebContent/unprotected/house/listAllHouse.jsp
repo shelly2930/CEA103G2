@@ -24,6 +24,13 @@
 <style>
 
 /* 收藏 */
+	#mapsearch{
+		position:fixed;
+		right:0;
+   		top:480px;
+   		z-index:2;
+   		float:left; 
+	}
 	#collection{
 		position:fixed;
 		 right:0;
@@ -131,7 +138,7 @@
                         <div class="breadcrumb_iner_item">
 								<div class="form-inline">
 								<input style='width:80%' type="text" class="form-control" placeholder="請輸入關鍵字">
-								<button type="submit" style='background-color:#EBEBFF;font-weight:bold' class="btn btn-default">關鍵字搜尋</button>
+								<button type="submit" id='key' style='background-color:#EBEBFF;font-weight:bold' class="btn btn-default">關鍵字搜尋</button>
 								</div>
 								
                         </div>
@@ -518,6 +525,7 @@
                		
 					<!--                     	收藏 -->
 					<a class="ml-3 order-xl-last btn btn-info" style='opacity:0.5;' id="collection" data-toggle="canvas" href="#bs-canvas-right" aria-expanded="false" aria-controls="bs-canvas-right" role="button"><i class="fas fa-home" ><br><hr>收藏</i></a>
+					<a class="ml-3 order-xl-last btn btn-primary" style='opacity:0.5;' id="mapsearch"  href="" ><i class="fas fa-map-marker-alt"><br><hr>地圖<br>找房</i></a>
                     <!--                     	以上收藏 -->
                     <div class="row align-items-center latest_product_inner">
                         <c:forEach var="houseVO" items="${listHouse_AllOrQuery}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" varStatus="counter">
@@ -611,6 +619,23 @@
     
 	
 	<script>
+		$("#mapsearch").click(function(e){
+			e.preventDefault();
+			$(location).attr('href',"<%=request.getContextPath()%>/unprotected/house/mapsearch.jsp");
+		})
+	
+		$("#key").click(function(){
+			if(!!$(this).prev().val()){
+				$(location).attr('href',"<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&keyword="+$(this).prev().val());
+			}else{
+				Swal.fire({
+					  title: '請輸入關鍵字',
+				})
+			}
+		})
+	
+	
+	
 		let dist0 =['中山區','中正區','信義區','仁愛區','暖暖區','安樂區','七堵區'];
 		let dist1 =['北投區' , '士林區', '內湖區' , '松山區' , '中山區' , '大同區' , '南港區' ,'信義區' , '大安區' ,'中正區' , '萬華區' , '文山區'];
 		let dist2 =['板橋區','三重區','中和區','永和區','新莊區','新店區','土城區','蘆洲區','樹林區','汐止區','鶯歌區','三峽區','淡水區','瑞芳區','五股區','泰山區','林口區','深坑區','石碇區','坪林區','三芝區','石門區','八里區','平溪區','雙溪區','貢寮區','金山區','萬里區','烏來區'];
