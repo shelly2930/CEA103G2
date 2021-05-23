@@ -312,7 +312,7 @@ public class BillServlet extends HttpServlet {
 				billVO = billSvc.addBill(mem_no, hos_no, bill_date, bill_due, bill_power, bill_water);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back-end/bill/listAllBill3.jsp";
+				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllBill.jsp
 				successView.forward(req, res);				
 				
