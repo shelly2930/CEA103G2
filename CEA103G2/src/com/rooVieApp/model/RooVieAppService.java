@@ -101,4 +101,14 @@ public class RooVieAppService {
 	public Map<RooVieAppVO,Integer> listTheEmpApp(Byte rva_status,Integer emp_no){
 		 return dao.listTheEmpApp(rva_status,emp_no);
 	}
+	
+	public List<RooVieAppVO> showTheEmpApp(Integer emp_no,Byte status){
+		return dao.showTheEmpApp(emp_no,status);
+	}
+	public List<RooVieAppVO> showTheMemApp(Integer mem_no,Byte status){
+		return dao.showTheEmpApp(mem_no,status);
+	}
+	public void updateEndTime(Integer rva_no,Timestamp end_time) {
+		dao.updateEndTime(rva_no, end_time);
+	}
 }

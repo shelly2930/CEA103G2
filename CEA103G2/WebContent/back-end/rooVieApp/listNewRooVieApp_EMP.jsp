@@ -46,31 +46,34 @@
 
                     <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">查看最新預約情況</h1>
-                    <p class="mb-4">新案件<a target="_blank" href="https://datatables.net"></a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800">預約申請單</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">點選物件編號 可以查看物件預約情況</h6>
+                        	<button class='btn btn-outline-info btn-sm' id='now'>申請單</button>
+                        	<button class='btn btn-outline-info btn-sm' id='history'>歷史申請案件</button>
+                        	<hr>
+                            <h6 class="m-0 font-weight-bold text-primary">預約處理表單</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            			<div id="freeEmp">
-										<!-- 	之後可以用js老師作業的隨機顏色耶XD -->
-										</div>
-                            	</table>
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <div id='app'>
+                                	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>物件編號</th>
-                                            <th>目前預約人數</th>
-                                            <th>最新預約時間</th>
+                                            <th>物件名稱</th>
+                                            <th>預約會員</th>
+                                            <th>預約時間</th>
+                                            <th>預約地點</th>
+                                            <th>聯絡方式</th>
+                                            <th id='casestatus'>結案</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="showData">
+                                    <tbody id="showApp">
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,74 +114,191 @@
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
 	<script>
           
-          
-//           $.ajax({
-<%--         	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do", --%>
-//         	  type:'post',
-//         	  data:{
-//         		  action:'listNewRooVieApp',
-//         	  },
-//         	  success:function(list){
-// 					for(let key in list){
-// 						let str = '<tr>';
-// 						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' id=\"'+key+'\">'+"control "+key+'</button>'+'</th>';
-// 		        		str+='<th>'+dateformat(list[key])+'</th>';
-// 		        		str+='</tr>';
-// 		        		$("#showData").append(str);
-// 					}
-// 					$(".controltime").click(function(){
-<%-- 						document.location.href="<%=request.getContextPath()%>/back-end/rooVieApp/controlTime.jsp?houseno="+$(this).attr("id"); --%>
-// 					})
-//         	  }
-//           })
 
-//           $.ajax({
-<%-- 				url:"<%=request.getContextPath()%>/HouseJsonServlet", --%>
-// 				type:'post',
-// 				data:{
-// 					action:'getAllEmp',
-// 				},
-// 				async: false,
-// 				success:function(str){
-// 					for(let obj of str){
-// 						console.log(obj.emp_name+obj.emp_no	);
-// 						let empString = "<button class='emp btn btn-info btn-sm'>"+obj.emp_no+" "+obj.emp_name+"";
-// 						empString+="<input type='hidden' name='emp_no' value='"+obj.emp_no+"'></button>&nbsp; ";
-// 						$("#freeEmp").append(empString);
-// 					}
-					
-// 				}
-				
-// 			})
-
-//           })
 		let empno = ${employeeVO.emp_no};
-		let rva_status = 1;
-		listTheEmpApp(2,1);
-		listTheEmpApp(1,1);
+		let nowStatus = 1;
+		$("#now").click(function(){
+			$("#now").removeClass('btn-outline-info');
+			$("#now").addClass('btn-info');
+			$("#history").removeClass('btn-info');
+			$("#history").addClass('btn-outline-info');
+			$("#app").hide();
+			nowStatus=1;
+			listTheEmpApp(empno,nowStatus);
+		})
+		$("#history").click(function(){
+			$("#history").removeClass('btn-outline-info');
+			$("#history").addClass('btn-info');
+			$("#now").removeClass('btn-info');
+			$("#now").addClass('btn-outline-info');
+			$("#app").hide();
+			nowStatus=2;
+			listTheEmpApp(empno,nowStatus);
+		})
+		
+		$("#app").hide();
+		listTheEmpApp(empno,nowStatus);
 		function listTheEmpApp(emp_no,rva_status){
+			$("#showApp").empty();
+			$("#app").hide();
 			$.ajax({
 	        	  url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
 	        	  type:'post',
 	        	  data:{
-	        		  action:'listTheEmpApp',
+	        		  action:'showTheEmpApp',
 	        		  emp_no:emp_no,
-	        		  rva_status:'1',
+	        		  rva_status:rva_status,
 	        	  },
-	        	  success:function(map){
-	        		 $("#showData").empty();
-					for(let x in map){
-						let str = '<tr>';
-						str+='<th><button class=\'btn btn-outline-secondary btn-sm housno\' id=\"'+JSON.parse(x).hos_no+'\">'+JSON.parse(x).hos_no+'</button></th>';
-		        		str+='<th>'+map[x]+'</th>';
-		        		str+='<th>'+dateformat(JSON.parse(x).rva_order_time)+'</th>';
-		        		str+='</tr>'; 
-						$("#showData").append(str);
-					}
+	        	  success:function(list){
+	        		if(list.length==0){
+	        			let str = "<tr>";
+		        		str+="<td class='text-center' colspan='7'>沒有新案件</td>";
+		        		str+="</tr>";
+		        		$("#showApp").append(str);
+	        		}else{
+	        			let sameMem = "";
+	        			for(let ap of list){
+	        				console.log(ap.rva_end_time)
+			        		let str = "<tr>";
+			        		str+="<td>"+ap.hos_no+"</td>";
+			        		str+="<td>"+getHos(ap.hos_no).hos_name+"</td>";
+			        		str+="<td>"+getMem(ap.mem_no).mem_name+"</td>";
+			        		str+="<td>"+dateformat(ap.rva_order_time)+"</td>";
+			        		str+="<td>"+getHos(ap.hos_no).hos_address+"</td>";
+			        		str+="<td >"+getMem(ap.mem_no).mem_mobile+"</td>";
+			        		if(nowStatus==1){
+				        		str+="<td id='"+ap.rva_no+"'>";
+				        		str+="<button class='cancel btn btn-outline-primary btn-sm'>取消預約</button>&nbsp; ";
+				        		str+="<button class='end btn btn-outline-success btn-sm'>結案</button>";
+				        		str+="</td>";
+			        		}else{
+			        			str+="<td>";
+			        			if(!ap.rva_end_time){
+			        				str+="系統取消";
+			        			}else{
+			        				str+="已帶看";
+			        			}
+				        		str+="</td>";
+			        		}
+			        		str+="</tr>";
+			        		
+			        		$("#showApp").append(str);
+			        		if(sameMem==ap.mem_no){
+			        			let catchid = "#"+ap.rva_no;
+	        					$(catchid).parent().css('background','#FFDEDE')
+	        					$(catchid).parent().children().eq(2).append("<br><p style='color:#FF7878'>(重複)</p>");
+	        				}
+	        				sameMem = ap.mem_no;
+	        			}
+	        			
+	        			$(".cancel").click(function(){
+	        				let rva_no = $(this).parent().attr('id');
+	        				let status = 2;
+	        				updateStatus(empno,rva_no,status);
+	        				listTheEmpApp(empno,nowStatus);
+	        			})
+	        			$(".end").click(function(){
+	        				let rva_no = $(this).parent().attr('id');
+	        				let status = 2;
+	        				updateStatus(empno,rva_no,status);
+	        				updateEndTime(rva_no);
+	        				listTheEmpApp(empno,nowStatus);
+	        			})
+	        		}
+	        		$("#app").slideDown();
 	        	  }
 	        })
 		}
-		
+		//緊急，借用RenCon sevlet救援~
+		function getMem(mem_no){
+			let mem = {};
+			$.ajax({
+				url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+				type: 'post',
+				data:{
+					action:'getOneMemten',
+					mem_no:mem_no,
+				},
+				async:false,
+				success:function(memvo){
+					for(let key in memvo){
+						mem[key]=memvo[key];
+					}
+					console.log(memvo)
+				}
+			})
+			return mem;
+		}
+		function getHos(hos_no){
+			let hos ={};
+			$.ajax({
+				url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+				type: 'post',
+				data:{
+					action:'getOneHouse',
+					houseno:hos_no,
+				},
+				async:false,
+				success:function(hosvo){
+					for(let key in hosvo){
+						hos[key]=hosvo[key];
+					}
+				}
+			})
+			return hos;
+		}
+		function updateStatus(emp_no,rva_no,status){
+			$.ajax({
+  		    	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+  		    	type:'post',
+  		    	data:{
+  		    		'action':'updateStatus',
+  		    		'emp_no':emp_no,
+					'rva_no':rva_no,
+					'status':status
+  		    	},
+  		    	async:false,
+  		    	success:function(result){
+  		    		console.log('成功更改');
+  		    	}
+  		    	
+  		    }); 
+		}
+		function updateEndTime(rva_no){
+			$.ajax({
+  		    	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+  		    	type:'post',
+  		    	data:{
+  		    		'action':'updateEndTime',
+					'rva_no':rva_no,
+  		    	},
+  		    	async:false,
+  		    	success:function(result){
+  		    		console.log('成功更改'+result);
+  		    	}
+  		    	
+  		    }); 
+		}
+		function checkthehousecon(hos){
+			let con ={};
+			$.ajax({
+  		    	url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+  		    	type:'post',
+  		    	data:{
+  		    		'action':'checkthehousecon',
+					'houseno':hos,
+  		    	},
+  		    	async:false,
+  		    	success:function(result){
+  		    		
+  		    		for(let key in result){
+  		    			con[key]=result[key];
+					}
+  		    		console.log(con)
+  		    	}
+  		    });
+			return con;
+		}
 		function dateformat(str){
 			 let year = new Date(str).getFullYear();
 			 let month = new Date(str).getMonth()+1;

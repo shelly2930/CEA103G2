@@ -143,6 +143,9 @@ public class RenConService {
 		renConVO.setRtct_tmt_date(rtct_tmt_date);
 		return dao.updateTmtDate(renConVO);
 	}
+	public List<RenConVO> checkTheHouseCon(Integer houseno) {
+		return dao.checkTheHouseCon(houseno);
+	}
 	
 //	©…„∏∑sºW
 	public Byte getMemRentQua(Integer mem_no){

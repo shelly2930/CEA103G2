@@ -32,6 +32,7 @@ public interface RenConDAO_interface {
     public List<RenConVO> getAllByMem();
     public java.sql.Timestamp getEndDate(Integer rtct_no);
     public Byte updateTmtDate(RenConVO renConVO);
+    public List<RenConVO> checkTheHouseCon(Integer houseno);
     //©…„∏
 	public Byte getMemRentQua(Integer mem_no);
 	public java.sql.Timestamp getRentStartDate(Integer mem_no);
