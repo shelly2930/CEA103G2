@@ -5,12 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import com.house.model.HouseVO;
 
 
 public class LanlordDAO implements LanlordDAO_interface {
@@ -35,7 +39,8 @@ public class LanlordDAO implements LanlordDAO_interface {
 	private static final String FIND_BY_LLDSTATUS = "SELECT * FROM LANLORD WHERE lld_status=? ORDER BY lld_apptime";
 	private static final String UPDATE_LLDSTATUS = "UPDATE LANLORD SET lld_status=?, lld_id_isvrfed=?, "
 				+ "lld_id_disapprove=? WHERE lld_no =?";
-	
+	// 用在帳單上，找房東有幾間審核通過的房子
+	private static final String GET_HOUSES_BY_LANLORD = "SELECT hos_no, hos_city, hos_dist, hos_address, hos_expense FROM HOUSE where lld_no=? and hos_result=1 order by hos_no";
 	
 	@Override
 	public void insert(LanlordVO lanlordVO) {
@@ -197,7 +202,7 @@ public class LanlordDAO implements LanlordDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVO 也稱為 Domain objects
+				// houseVO 也稱為 Domain objects
 				lanlordVO = new LanlordVO();
 				lanlordVO.setLld_no(rs.getInt("lld_no"));
 				lanlordVO.setMem_no(rs.getInt("mem_no"));
@@ -403,6 +408,62 @@ public class LanlordDAO implements LanlordDAO_interface {
 			}
 		}
 		
+	}
+	@Override
+	public Set<HouseVO> getHousesByLanlord(Integer lld_no) {
+		Set<HouseVO> set = new LinkedHashSet<HouseVO>();
+		HouseVO houseVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_HOUSES_BY_LANLORD);
+			pstmt.setInt(1, lld_no);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				houseVO = new HouseVO();
+				houseVO.setHos_no(rs.getInt("hos_no"));
+				houseVO.setHos_city(rs.getString("hos_city"));
+				houseVO.setHos_dist(rs.getString("hos_dist"));
+				houseVO.setHos_address(rs.getString("hos_address"));
+				houseVO.setHos_expense(rs.getInt("hos_expense"));
+				houseVO.setHos_result((byte) 1);
+				set.add(houseVO); // Store the row in the vector
+			}
+	
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
 	}
 	
 	

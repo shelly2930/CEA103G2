@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.renCon.model.RenConVO;
+
 public class MemTenDAO implements MemTenDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 		private static DataSource ds = null;
@@ -41,7 +43,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String RENTAL_CONFIRM = "UPDATE MEMBER_TENANT SET mem_name=?, mem_id=?, mem_mobile=?, mem_city=?, mem_dist=?,"
 									+ " mem_addr=?, mem_idcard_f=?, mem_idcard_r=?, mem_id_status=? WHERE mem_no=?";
 		private static final String UPDATE_MEM_ID_STATUS = "UPDATE MEMBER_TENANT SET mem_id_status=? WHERE mem_no=?";
-	
+		private static final String FIND_BILL_MEM = "select m.mem_no,m.mem_name from MEMBER_TENANT m join (select mem_no from RENTAL_CONTRACT where RTCT_STATUS=2 and RTCT_EFF_DATE < NOW()) r on m.mem_no = r.mem_no order by m.mem_no";
+		
 		@Override
 		public void insert(MemTenVO memTenVO) {
 			Connection con = null;
@@ -587,6 +590,73 @@ public class MemTenDAO implements MemTenDAO_interface {
 					}
 				}
 			}
+		}
+
+		@Override
+		public List<MemTenVO> findBillMem() {
+			System.out.println("DDDDDDDDDDD");
+			List<MemTenVO> listfindBillMem = new ArrayList<MemTenVO>();
+			MemTenVO memTenVO = null;
+//			RenConVO renConVO = null;
+
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(FIND_BILL_MEM);
+				rs = pstmt.executeQuery();
+				System.out.println("CCCCCCCCCCC");
+				while (rs.next()) {
+					// empVO 也稱為 Domain objects
+					memTenVO = new MemTenVO();
+					memTenVO.setMem_no(rs.getInt("mem_no"));
+					System.out.println(memTenVO.getMem_no());
+					memTenVO.setMem_name(rs.getString("mem_name"));
+					
+//					renConVO = new RenConVO();
+//					renConVO.setHos_no(rs.getInt("hos_no"));
+//					renConVO.setRtct_eff_date(rs.getDate("rtct_eff_date"));
+//					renConVO.setRtct_status(rs.getByte("rtct_status"));
+					listfindBillMem.add(memTenVO); // Store the row in the list
+					System.out.println("add");
+//					listfindBillMem.add(renConVO);
+					
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			System.out.println("BBBBBBBBBBBb");
+			return listfindBillMem;
+			
 		}
 
 		

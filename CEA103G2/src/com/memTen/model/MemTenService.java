@@ -114,4 +114,9 @@ public class MemTenService {
 
 		return memTenVO;
 	}
+	
+	public List<MemTenVO> findBillMem() {
+		System.out.println("AAAAAAAAAAAa");
+		return dao.findBillMem();
+	}
 }
