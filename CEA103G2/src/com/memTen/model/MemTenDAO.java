@@ -49,6 +49,10 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String FIND_BILL_MEM = "select r.mem_no,r.hos_no from MEMBER_TENANT m join (select mem_no, hos_no from RENTAL_CONTRACT where"
 									+ " (RTCT_STATUS=2 and RTCT_EFF_DATE < NOW()) or (TIMESTAMPDIFF(day, RTCT_TMT_DATE, now()) <= 31)) r on m.mem_no = r.mem_no order by m.mem_no";
 		
+		
+		
+		//敬達增加
+		private static final String JUDGELLD = "SELECT COUNT(*) AS JUDGE FROM HOWTRUE.MEMBER_TENANT M LEFT JOIN LANLORD L ON M.MEM_NO = L.MEM_NO WHERE M.MEM_NO=? AND LLD_STATUS =1";
 		@Override
 		public void insert(MemTenVO memTenVO) {
 			Connection con = null;
@@ -666,6 +670,55 @@ public class MemTenDAO implements MemTenDAO_interface {
 		public Map<Integer, Integer> findBill() {
 			// TODO Auto-generated method stub
 			return null;
+		}
+		
+		
+		//達
+		@Override
+		public Byte judgelld(Integer mem_no) {
+			Byte lld_status = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(JUDGELLD);
+				pstmt.setInt(1, mem_no);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					lld_status = rs.getByte("JUDGE");
+				}
+
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return lld_status;
 		}
 
 //		@Override

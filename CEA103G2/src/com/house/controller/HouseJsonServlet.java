@@ -19,6 +19,7 @@ import com.house.model.HouseService;
 import com.house.model.HouseVO;
 import com.lanlord.model.LanlordService;
 import com.lanlord.model.LanlordVO;
+import com.memTen.model.MemTenService;
 
 /**
  * Servlet implementation class HouseJsonServlet
@@ -121,6 +122,15 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson(lldvo));
+			return;
+		}
+		if("judgelld".equals(action)) {
+			Integer mem_no = new Integer(req.getParameter("mem_no"));
+			MemTenService svc = new MemTenService();
+			Byte  status = svc.judgelld(mem_no);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(status));
 			return;
 		}
 	}

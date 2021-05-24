@@ -17,4 +17,6 @@ public interface MemTenDAO_interface {
 	public void rentalConfirm(MemTenVO memTenVO);
 	public List<RenConVO> findBillMem();
 	public Map<Integer,Integer> findBill(); 
+	//·q¹F¼W¥[
+	public Byte judgelld(Integer mem_no);
 }

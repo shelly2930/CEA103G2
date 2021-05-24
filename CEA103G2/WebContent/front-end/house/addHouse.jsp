@@ -20,6 +20,7 @@
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 <!-- 先引用jquery(老師已經含有jquery)再引用twzipcode -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- =================套用台灣縣市鄉鎮要使用以上=========================== -->
 <style>
 .breadcrumb_bg {
@@ -321,6 +322,34 @@
 <!-- 	================= -->
 <!-- 參考網站 https://www.wfublog.com/2017/10/taiwan-county-town-zip-address-twzipcode-jquery.html -->
 	<script>
+	let mem_no = ${MemTenVO.mem_no};
+	if(judge(mem_no)==0){
+		Swal.fire({
+	    	icon:'error',
+	    	confirmButtonColor:'red',
+	    	title:'請先註冊成為房東',
+	    	text:'為您導向成為房東'
+	  	})
+	  	setTimeout(function(){
+	  		$(location).attr('href',"<%=request.getContextPath()%>/front-end/lanlord/addLanlord.jsp");
+	  	},2000);
+	}
+	function judge(mem_no){
+		let judge = 0;
+		$.ajax({
+			url:"<%=request.getContextPath()%>/HouseJsonServlet",
+			type:'post',
+			data:{
+				action:'judgelld',
+				'mem_no':mem_no
+			},
+			async:false,
+			success:function(e){
+				judge=0;
+			}
+		})
+		return judge;
+	}
 	$("#twzipcode").twzipcode({
         countySel: "${houseVO.hos_city}", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
         districtSel: '${houseVO.hos_dist}', // 地區預設值

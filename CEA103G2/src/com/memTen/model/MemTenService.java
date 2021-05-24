@@ -125,4 +125,8 @@ public class MemTenService {
 	public Map<Integer,Integer> findBill() {
 		return dao.findBill();
 	}
+	//¹F
+	public Byte judgelld(Integer mem_no) {
+		return dao.judgelld(mem_no);
+	}
 }
