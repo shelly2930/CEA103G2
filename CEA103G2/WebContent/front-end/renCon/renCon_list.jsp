@@ -224,7 +224,7 @@
 						success:function(cons){
 							if(cons==="none"){
 								let str="<tr id='"+i+"' name='"+mem_no+"' class='"+hou+"'>";
-								str+="<td class='text-center' colspan='2'>";
+								str+="<td class='text-center' colspan='7'>";
 								str+="<span>處理中，請稍後</span>";
 								str+="</td>";
 								str+="</tr>";

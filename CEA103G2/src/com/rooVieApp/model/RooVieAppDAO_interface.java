@@ -30,4 +30,9 @@ public interface RooVieAppDAO_interface {
     public Map<RooVieAppVO,Integer> listTheEmpApp(Byte rva_status,Integer emp_no);
     //查詢該物件所有預約單時間
     public List<RooVieAppVO> listOrderTime(RooVieAppVO rooVieAppVO);
+    
+    public List<RooVieAppVO> showTheEmpApp(Integer emp_no,Byte status);
+    public void updateEndTime(Integer rva_no,Timestamp end_time);
+    public List<RooVieAppVO> showTheMemApp(Integer mem_no,Byte status);
+    public void updateTheHouseStatus(Integer hos_no);
 }

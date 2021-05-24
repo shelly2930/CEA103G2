@@ -13,4 +13,5 @@ public interface MemTenDAO_interface {
 	public MemTenVO findByEmail(String mem_email); // §Ñ°O±K½X
 	public void updatePwd(String mem_email, String mem_password); // §ï±K½X
 	public void rentalConfirm(MemTenVO memTenVO);
+	public List<MemTenVO> findBillMem();
 }

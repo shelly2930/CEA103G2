@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.employee.model.EmployeeService;
+import com.employee.model.EmployeeVO;
 import com.google.gson.Gson;
+import com.renCon.model.RenConService;
+import com.renCon.model.RenConVO;
 import com.rooVieApp.model.RooVieAppService;
 import com.rooVieApp.model.RooVieAppVO;
 import com.rooVieApp.websocket.jedis.HandlePickTime;
@@ -222,6 +226,74 @@ public class RooVieAppServlet extends HttpServlet {
 			res.getWriter().print(new Gson().toJson(jsonmap));
 			return;
 		}
+		
+		if("showTheEmpApp".equals(action)) {
+			Integer emp_no = Integer.parseInt(req.getParameter("emp_no"));
+			Byte rva_status = Byte.parseByte(req.getParameter("rva_status"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			List<RooVieAppVO> list = rvaSvc.showTheEmpApp(emp_no, rva_status);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(list));
+			return;
+		}
+		if("showTheMemApp".equals(action)) {
+			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
+			Byte rva_status = Byte.parseByte(req.getParameter("rva_status"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			List<RooVieAppVO> list = rvaSvc.showTheEmpApp(mem_no, rva_status);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(list));
+			return;
+		}
+		
+		if("updateStatus".equals(action)){
+			Integer emp_no = Integer.parseInt(req.getParameter("emp_no"));
+			Byte rva_status = Byte.parseByte(req.getParameter("status"));
+			Integer rva_no = Integer.parseInt(req.getParameter("rva_no"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			rvaSvc.changeEmp(emp_no, rva_status, rva_no);
+			res.getWriter().print(rva_no);
+			return;
+		}
+		if("updateEndTime".equals(action)){
+			Integer rva_no = Integer.parseInt(req.getParameter("rva_no"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			java.sql.Timestamp end_time = null;
+			end_time = new java.sql.Timestamp(System.currentTimeMillis());
+			rvaSvc.updateEndTime(rva_no, end_time);
+			res.getWriter().print(rva_no);
+			return;
+		}
+		if("checkthehousecon".equals(action)){
+			Integer houseno = Integer.parseInt(req.getParameter("houseno"));
+			RenConService svc = new RenConService();
+			List<RenConVO> list = svc.checkTheHouseCon(houseno);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(list));
+			return;
+		}
+		if("getOneEmp".equals(action)) {
+			Integer emp_no = Integer.parseInt(req.getParameter("emp_no"));
+			EmployeeService svc = new EmployeeService();
+			EmployeeVO emp = svc.getOneEmp(emp_no);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(emp));
+			return;
+		}
+		if("updateTheHouseStatus".equals(action)) {
+			Integer hos_no = Integer.parseInt(req.getParameter("hos_no"));
+			RooVieAppService rvaSvc = new RooVieAppService();
+			rvaSvc.updateTheHouseStatus(hos_no);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson("Success"));
+			return;
+		}
+		
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doGet(req, res);

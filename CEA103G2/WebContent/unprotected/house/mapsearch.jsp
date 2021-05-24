@@ -62,8 +62,37 @@
             </div>
         </div>
     </section> 
-    <div id="map" style="width: 500px; height: 500px; margin:20px auto"></div>
-<script type="text/javascript" src="javascripts/jquery.googlemap.js"></script>
+    
+    <div id='zerotext' style='padding:100px;margin:auto;' class='text-center'><h3 style='color:#BABABA;'>請輸入要搜尋的位置</h3></div>
+    
+    <section   style='padding-top:40px'>
+        <div id='show' style='display:none' class="container">
+        <div class="row justify-content-center">
+    		<div class='col-sm-6 col' id="map" style="width: 500px; height: 500px;"></div>
+    		<div id='searchtable' class='col-sm-6 col '  style="width: 500px; height: 500px;overflow-x:hidden">
+    			<table  class="table table-striped ">
+	                <thead>
+                       <tr class="table-info">
+                       		<th class="text-center">圖片</th>
+                           <th class="text-center">物件名稱</th>
+                           <th class="text-center">地點</th>
+                           <th class="text-center">價格</th>
+                           <th class="text-center">預約</th>
+                           <th class="text-center"	id='hide2'>租屋</th>
+                       </tr>
+                   </thead>
+                   <tbody id='showhouse'>
+                   </tbody>
+                   <tfoot>
+                       <tr>
+                           <th scope="col" colspan="7" class="text-center">Map </th>
+                       </tr>
+                   </tfoot>
+              </table>
+    		</div>
+     	</div>
+        </div>
+    </section> 
 <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJtdRDJrA8jHn3wA3iA_20Uh7rl8CCUbY"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -86,7 +115,7 @@
 	  	let markerObj = [];
 	  	let info = [];
 	  	let infowindow = [];
-	    
+	  	$("#showhouse").empty();
 	    for(let hos of objArray){
 	    	let hosobj = objArray.pop()
     		markerObj.push(
@@ -103,6 +132,22 @@
     	    str+="<a href='<%=request.getContextPath()%>/house/house.do?houseno="+hosobj['no']+"&action=listHouPho_ByHouseA'>";
     	    str+="<img style='height:200px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+hosobj['no']+"' ></a>";	
     	    info.push(str);
+    	    
+    	    console.log(hosobj['no']);
+    	    let string = "<tr>";
+    		string+="<td><img style='height:50px;' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+hosobj['no']+"'></td>";
+    		string+="<td class='text-center'><a style='color:#6E6EFF;' href='<%=request.getContextPath()%>/house/house.do?houseno="+hosobj['no']+"&action=listHouPho_ByHouseA'>"+hosobj['name']+"</a></td>";
+    		string+="<td class='text-center'>"+hosobj['address']+"</td>";
+    		string+="<td class='text-center'>"+hosobj['rent']+"</td>";
+    		string+="<td class='text-center'><i class='far fa-calendar-check'></i>Application</td>";
+    		string+="<td class='text-center'><i class='fas fa-home'></i>Rent</td>";
+    		string+="</tr>";
+    		console.log(string)
+    		$("#showhouse").append(string);
+    	    
+	    }
+	    if(objArray.length!=0){
+	    	$("#searchtable").show();
 	    }
 	    info.forEach(function(e,v){
 	    	infowindow[v] = new google.maps.InfoWindow({
@@ -113,19 +158,22 @@
 	    markerObj.forEach(function(e,v){
 	    	markers[v] = new google.maps.Marker(e);
 	    	infowindow[v].open(map, markers[v]);
-	    	setTimeout(function(){
-	    		infowindow[v].close();
-	    	},(count++)*400);
-	    	markers[v].addListener('click', function() {
-	    		 infowindow[v].open(map, markers[v]);
+	    		setTimeout(function(){
+	    			infowindow[v].close();
+	    		},(count++)*400);
+	    		markers[v].addListener('click', function() {
+	    		infowindow[v].open(map, markers[v]);
 	    	});
+	    		setTimeout(function(){
+	    			markers[v].setMap(map);
+	    		},v*500);
 	    	
-	    	markers[v].setMap(map);
 	    })
 	    var marker = new google.maps.Marker(test);
 	    
 	}
 	$("#key").click(function(){
+		$("#zerotext").hide();
 		if(!!$(this).prev().val()){
 			let address = $(this).prev().val();
 			$.ajax({
@@ -140,7 +188,7 @@
 					 const KEY = "AIzaSyDJtdRDJrA8jHn3wA3iA_20Uh7rl8CCUbY";
 					 let address_success = address;
 					 let xhttp = new XMLHttpRequest();
-				    xhttp.onreadystatechange = function(e) {
+				   	 xhttp.onreadystatechange = function(e) {
 				    	let country="";
 						let dist = "";
 				        if (xhttp.readyState == 4 & xhttp.status == 200) {
@@ -149,7 +197,6 @@
 				            initobj.center = key["results"][0]["formatted_address"];
 				            initobj.lat = key["results"][0]["geometry"]["location"]["lat"];
 				            initobj.lng = key["results"][0]["geometry"]["location"]["lng"];
-							console.log(key["results"][0]['address_components']);
 							let obj = key["results"][0]['address_components'];
 							for(let k of obj){
 								if(k['types'][0]=="administrative_area_level_1" ||k['types'][0]=="administrative_area_level_2"||k['types'][0]=="colloquial_area"){
@@ -164,7 +211,9 @@
 				    }
 				    xhttp.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_success + "&key=" + KEY, true);
 				    xhttp.send();
+				    $("#show").show();
 				}
+				
 			})
 		
 		}else{
@@ -191,12 +240,15 @@
 					hosobj.lng=hos.hos_lon;
 					hosobj.name=hos.hos_name;
 					hosobj.no=hos.hos_no;
+					hosobj.rent=hos.hos_rent;
+					hosobj.address=hos.hos_address;
 					objArray.push(hosobj);
 				}
 				if(objArray.length===0){
 					Swal.fire({
 						  title: '這附近尚無案件',
 					})
+					$("#searchtable").hide();
 				}
 				initMap(initobj);
 			}

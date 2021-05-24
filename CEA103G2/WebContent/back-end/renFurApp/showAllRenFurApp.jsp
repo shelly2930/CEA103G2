@@ -1,9 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.renFurApp.model.*"%>
+<%@ page import="com.renFurDet.model.*"%>
+<%@ page import="com.furIte.model.*"%>
+<%@ page import="com.furLis.model.*"%>
 <% 	  
 if(request.getAttribute("list") == null){
 	List<RenFurAppVO> list =null;
@@ -11,7 +13,31 @@ if(request.getAttribute("list") == null){
 	list= renFurAppSvc.getAll();
 	request.setAttribute("list",list);
 }
+
+// 以下按比例計算租金
+// RenFurDetService renFurDetSvc = new RenFurDetService();
+// FurIteService furIteSvc = new FurIteService();
+// FurLisService furLisSvc = new FurLisService();
+// int raf_total = 0; //每月租金合計
+// for(RenFurDetVO renFurDetVO : renFurDetSvc.getOneList(list.get(3).getRfa_no())){
+// 	int fnt_price = furIteSvc.getOneFurIte(furLisSvc.getOneFurLis(renFurDetVO.getFnt_id()).getFnt_it_no()).getFnt_price(); //家具品項租金
+// 	if(renFurDetVO.getRent_tmt_date() == null){ //如解約日期為空值
+// 		raf_total += fnt_price;
+// 	}else {
+// 		Calendar cal = Calendar.getInstance();
+// 		cal.setTime(renFurDetVO.getRent_tmt_date()); //將解約日期轉為Calendar
+// 		int dayOfMonth = cal.get(Calendar.DATE); //解約日期為當月第幾天
+// 		cal.set(Calendar.DATE, 1); //把日期設定為當月第一天
+// 		cal.roll(Calendar.DATE, -1); //日期回滾一天，也就是最後一天
+// 	    int totalDaysOfMonth = cal.get(Calendar.DATE); //解約日期當月總天數
+// 		if((new Date().getTime() - renFurDetVO.getRent_tmt_date().getTime()) / (24*60*60*1000) < totalDaysOfMonth) { //如當下時間與解約日期相差天數小於總天數
+// 		    int partOf_fnt_price = (int)Math.floor((double)dayOfMonth / (double)totalDaysOfMonth * fnt_price); //按天數計算租金,int轉為double相除才會有小數
+// 		    raf_total += partOf_fnt_price;
+// 		}
+// 	}
+// }
 %>
+<%-- <%=raf_total %> --%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,6 +154,18 @@ if(request.getAttribute("list") == null){
 												</td>
 												
 												<td>${renFurAppVO.rfa_total} 元</td>
+												
+<!-- 												以下依照租家具明細解約日期非空值才做租金合計 -->
+<%-- 												<jsp:useBean id="renFurDetSvc" scope="page" class="com.renFurDet.model.RenFurDetService" /> --%>
+<%-- 												<jsp:useBean id="furLisSvc" scope="page" class="com.furLis.model.FurLisService" /> --%>
+<%--   												<jsp:useBean id="furIteSvc" scope="page" class="com.furIte.model.FurIteService" /> --%>
+<%-- 												<c:set var="raf_total" value="0" /> --%>
+<%-- 												<c:forEach var="renFurDetVO" items="${renFurDetSvc.getOneList(renFurAppVO.rfa_no)}"> --%>
+<%-- 													<c:if test="${renFurDetVO.rent_tmt_date == null}"> --%>
+<%-- 													<c:set var="raf_total" value="${raf_total + furIteSvc.getOneFurIte(furLisSvc.getOneFurLis(renFurDetVO.fnt_id).fnt_it_no).fnt_price}" /> --%>
+<%-- 													</c:if> --%>
+<%-- 												</c:forEach> --%>
+<%-- 												<td>${raf_total}元</td> --%>
 												
 												<jsp:useBean id="renFurDetSvc" scope="page" class="com.renFurDet.model.RenFurDetService" />
 												<c:set var="isTMT" value="true" />

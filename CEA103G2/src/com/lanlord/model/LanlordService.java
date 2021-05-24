@@ -2,6 +2,9 @@ package com.lanlord.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
+
+import com.house.model.HouseVO;
 
 public class LanlordService {
 	private LanlordDAO_interface dao;
@@ -70,6 +73,11 @@ public class LanlordService {
 		lanlordVO.setLld_id_isvrfed(lld_id_isvrfed);
 		lanlordVO.setLld_id_disapprove(lld_id_disapprove);	
 		dao.updatelldstatus(lanlordVO);
+		
 		return lanlordVO;
+	}
+	
+	public Set<HouseVO> getHousesByLanlord(Integer lld_no) {
+		return dao.getHousesByLanlord(lld_no);
 	}
 }

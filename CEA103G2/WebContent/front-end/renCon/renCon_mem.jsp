@@ -203,6 +203,7 @@
 			    			success:function(){
 			    				let hos = getCon(con_no).hos_no;
 			    				pullorpush(hos,"2");
+			    				updateTheHouseStatus(hos);
 			    				console.log("Ãº¶O¦¨¥\");
 			    			}
 			    		})
@@ -254,6 +255,21 @@
     			}
     		})
     		return convo;
+    	}
+    	
+    	function updateTheHouseStatus(hos_no){
+    		$.ajax({
+    			url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
+  		    	type:'post',
+  		    	data:{
+  		    		'action':'updateTheHouseStatus',
+					'hos_no':hos_no,
+  		    	},
+  		    	success:function(result){
+  		    		
+  		    		console.log(result);
+  		    	}
+    		})
     	}
     	</script>
     	

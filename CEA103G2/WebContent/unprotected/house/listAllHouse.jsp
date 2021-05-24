@@ -469,7 +469,7 @@
                         <%@ include file="pages/page1_ByCompositeQuery.file"%>
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu">
-                                    <p>共<span> <%=listSize%> </span> 筆符合搜尋結果的物件</p>
+                                    <p style='color:#969696;font-size:18px'>共<span> <%=listSize%> </span> 筆符合搜尋結果的物件</p>
                                 </div>
                                  
                                 <div class="row">
@@ -522,14 +522,13 @@
                     </div>
 <!--   <==================內容                  -->
 <!-- 					//產品 -->
-               		
+               		<div id='zerotext' style='padding:100px;display:none;margin:auto;' ><h3 style='color:#BABABA;margin:auto;'>查無搜尋結果</h3></div>
 					<!--                     	收藏 -->
 					<a class="ml-3 order-xl-last btn btn-info" style='opacity:0.5;' id="collection" data-toggle="canvas" href="#bs-canvas-right" aria-expanded="false" aria-controls="bs-canvas-right" role="button"><i class="fas fa-home" ><br><hr>收藏</i></a>
 					<a class="ml-3 order-xl-last btn btn-primary" style='opacity:0.5;' id="mapsearch"  href="" ><i class="fas fa-map-marker-alt"><br><hr>地圖<br>找房</i></a>
                     <!--                     	以上收藏 -->
                     <div class="row align-items-center latest_product_inner">
                         <c:forEach var="houseVO" items="${listHouse_AllOrQuery}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" varStatus="counter">
-                            <c:if test="${houseVO.hos_state==1}">
                             <div class="col-lg-4">
 	                            <div class="single_product_item">
 	<!--                                 	<div class="box1"> -->
@@ -553,7 +552,6 @@
 	                                </div>
 	                            </div>
                             </div>
-                            </c:if>
                    		</c:forEach>
                    </div>
                    
@@ -565,15 +563,16 @@
                         
                        
                         <div class="col-lg-12">
-                            <div class="pageination">
+                            <div id='zerosearch' class="pageination">
                                 <nav aria-label="Page navigation example">
                                     <ul id="page" class="pagination justify-content-center">
-                                   		 <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/house/house.do?whichPage=1&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery">第一頁</a></li>
+                                   		<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/house/house.do?whichPage=1&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery">第一頁</a></li>
                                         <li class="page-item">
                                             <a class="page-link" href="<%=request.getContextPath()%>/house/house.do?whichPage=${(param.whichPage==0)||(param.whichPage-1)==0?'1':param.whichPage-1}&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery" aria-label="Previous">
                                                 <i class="ti-angle-double-left"></i>
                                             </a>
                                         </li>
+                                        <li id='thispage' class='page-item'></li>
                                         <li class="page-item">
                                             <a class="page-link" href="<%=request.getContextPath()%>/house/house.do?whichPage=<%=pageNumber%>&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery" aria-label="Next">
                                                 <i class="ti-angle-double-right"></i>
@@ -783,14 +782,11 @@
 			//分頁
 			let enterPage = ${empty param.whichPage?'1':param.whichPage};
 			let totalPage = <%=pageNumber %>;
-			for(let j = 1;j<6;j++){
-				if((enterPage)>totalPage){
-					break;
-				}
-				$("#page li.page-item").eq(j).after("<li class='page-item'><a class='page-link' href='<%=request.getContextPath()%>/house/house.do?whichPage="+enterPage+"&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery'>"+enterPage+"</a></li>");
-				enterPage++;
-				
+			if(totalPage==0){
+				$("#zerosearch").hide();
+				$("#zerotext").show();
 			}
+			$("#thispage").html("<a class='page-link' href='<%=request.getContextPath()%>/house/house.do?whichPage="+enterPage+"&orderCol=${param.orderCol}&orderType=${param.orderType}&action=listHouse_AllOrQuery'>"+enterPage+"</a>");
 			//收藏
 			function getCol(mem_no){
 				if(mem_no==null){

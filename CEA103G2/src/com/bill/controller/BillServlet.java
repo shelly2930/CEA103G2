@@ -7,6 +7,13 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.bill.model.*;
+import com.furIte.model.FurIteService;
+import com.furLis.model.FurLisService;
+import com.house.model.HouseService;
+import com.renFurApp.model.RenFurAppService;
+import com.renFurApp.model.RenFurAppVO;
+import com.renFurDet.model.RenFurDetService;
+import com.renFurDet.model.RenFurDetVO;
 
 
 
@@ -242,7 +249,6 @@ public class BillServlet extends HttpServlet {
 				try {
 					mem_no = new Integer(req.getParameter("mem_no").trim());
 				} catch (NumberFormatException e) {
-					mem_no = 1;
 					errorMsgs.add("會員編號請填數字!");
 				}
 				
@@ -250,7 +256,6 @@ public class BillServlet extends HttpServlet {
 				try {
 					hos_no = new Integer(req.getParameter("hos_no").trim());
 				} catch (NumberFormatException e) {
-					hos_no = 1;
 				errorMsgs.add("物件編號請填數字!");
 				}
 				
@@ -274,7 +279,6 @@ public class BillServlet extends HttpServlet {
 				try {
 					bill_power = new Integer(req.getParameter("bill_power").trim());
 				} catch (NumberFormatException e) {
-					bill_power = 1;
 					errorMsgs.add("本月用電量請填數字!");
 				}
 
@@ -282,9 +286,9 @@ public class BillServlet extends HttpServlet {
 				try {
 					bill_water = new Integer(req.getParameter("bill_water").trim());
 				} catch (NumberFormatException e) {
-					bill_water = 1;
 					errorMsgs.add("本月用水量請填數字!");
 				}
+				
 				
 				BillVO billVO = new BillVO();
 				billVO.setMem_no(mem_no);
@@ -308,7 +312,7 @@ public class BillServlet extends HttpServlet {
 				billVO = billSvc.addBill(mem_no, hos_no, bill_date, bill_due, bill_power, bill_water);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back-end/bill/listAllBill.jsp";
+				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllBill.jsp
 				successView.forward(req, res);				
 				
