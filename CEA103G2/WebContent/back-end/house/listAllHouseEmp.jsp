@@ -84,7 +84,7 @@
 											<th scope="col">申請時間</th>
 											<th scope="col">預約時間</th>
 											<th scope="col">申請進度</th>
-                                            
+                                            <th scope="col">聯絡方式</th>
                                         </tr>
                                     </thead>
                                     
@@ -125,6 +125,9 @@
 															<c:when test="${houseVO.hos_status==3}">廢棄案件</c:when>
 														</c:choose>
 													</td>
+													<td>
+														<a  class='contact btn btn-info btn-sm'>聯絡方式</a>
+													</td>
 												</tr>
 											</c:if>
 									</c:forEach>
@@ -149,12 +152,43 @@
                     </div>
 
                 </div>
+                
                 <!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
-			
+				
 
             </div>
             <!-- End of Main Content -->
-
+			<div class="modal fade" id="click" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">聯絡資訊</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body" >
+			      			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">房東編號</th>
+                                            <th scope="col">房東姓名</th>
+											<th scope="col">連絡電話</th>
+                                            <th scope="col">地址</th>
+											<th scope="col">信箱</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='showcontract'>
+                                    	
+                                    </tbody>
+                          </table>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
             <!-- Footer -->
             <%@include file="/back-end/includeFile/footerBack.file"%>
 
@@ -182,6 +216,22 @@
 
 <!--     Page level custom scripts -->
  <script>
+ 			$(".contact").click(function(){
+ 				$("#showcontract").empty();
+ 				let hosnum = $(this).parents('tr').attr('id');
+ 				let address = getHos(hosnum).hos_address;
+ 				let lld = getHos(hosnum).lld_no;
+ 				let mem =getlld(lld).mem_no;
+ 				let str = "<tr>";
+ 				str+="<td scope='col'>"+lld+"</td>";
+ 				str+="<td scope='col'>"+getMem(mem).mem_name+"</td>";
+ 				str+="<td scope='col'>"+getMem(mem).mem_mobile+"</td>";
+ 				str+="<td scope='col'>"+address+"</td>";
+ 				str+="<td scope='col'>"+getMem(mem).mem_email+"</td>";
+ 				str+="</tr>";
+ 				$("#showcontract").append(str);
+ 				$("#click").modal('show');
+ 			})
 			if($("#check").children().length==0){
 				let str = "<tr><th class='text-center' colspan='"+$("#num").children().length+"'>查無案件</th></tr>";
 				$("#check").append(str);
@@ -286,6 +336,24 @@
 						
 				})
 				return name;
+			}
+			function getHos(hos_no){
+				let hos ={};
+				$.ajax({
+					url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+					type: 'post',
+					data:{
+						action:'getOneHouse',
+						houseno:hos_no,
+					},
+					async:false,
+					success:function(hosvo){
+						for(let key in hosvo){
+							hos[key]=hosvo[key];
+						}
+					}
+				})
+				return hos;
 			}
 			</script>
 </body>

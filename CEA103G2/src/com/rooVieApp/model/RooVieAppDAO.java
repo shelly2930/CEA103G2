@@ -75,8 +75,8 @@ public class RooVieAppDAO implements RooVieAppDAO_interface{
 	private static final String LISTTHEEMPAPP = "SELECT HOS_NO,COUNT(MEM_NO),MAX(RVA_ORDER_TIME) FROM room_viewing_application where rva_status=? and EMP_NO =? group by HOS_NO having DATEDIFF(MAX(RVA_ORDER_TIME),NOW()) > 0";
 	
 	private static final String LISTORDERTIME ="SELECT * FROM room_viewing_application where RVA_STATUS=? and EMP_NO =? and HOS_NO=?";
-	private static final String SHOWTHEMEMAPP = "SELECT * FROM room_viewing_application where  emp_no=? and rva_status =? order by hos_no ,mem_no,RVA_ORDER_TIME order by  rva_no desc";
-	private static final String SHOWTHEEMPAPP = "SELECT * FROM room_viewing_application where  mem_no=? and rva_status =? order by hos_no ,mem_no,RVA_ORDER_TIME";
+	private static final String SHOWTHEMEMAPP = "SELECT * FROM room_viewing_application where  mem_no=? and rva_status =? order by hos_no ,mem_no,RVA_ORDER_TIME ";
+	private static final String SHOWTHEEMPAPP = "SELECT * FROM room_viewing_application where  emp_no=? and rva_status =? order by hos_no ,mem_no,RVA_ORDER_TIME";
 	private static final String UPDATEENDTIME = "update room_viewing_application set RVA_END_TIME=? where RVA_NO=?";
 	private static final String UPDATETHEHOUSESTATUS = "update room_viewing_application set RVA_STATUS=2 where HOS_NO=? and (RVA_STATUS=1 or RVA_STATUS=0)";
 	@Override
