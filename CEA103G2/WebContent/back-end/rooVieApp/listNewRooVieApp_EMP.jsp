@@ -146,10 +146,12 @@
 	        	  type:'post',
 	        	  data:{
 	        		  action:'showTheEmpApp',
-	        		  emp_no:emp_no,
-	        		  rva_status:rva_status,
+	        		  'emp_no':emp_no,
+	        		  'rva_status':rva_status,
 	        	  },
 	        	  success:function(list){
+	        		  console.log(list);
+	        		  console.log(rva_status);
 	        		if(list.length==0){
 	        			let str = "<tr>";
 		        		str+="<td class='text-center' colspan='7'>沒有新案件</td>";
