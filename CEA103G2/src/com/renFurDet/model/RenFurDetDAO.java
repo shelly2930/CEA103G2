@@ -20,13 +20,13 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 		}
 	}
 	private static final String TABLE="RENT_FURNITURE_DETAIL";
-	private static final String INSERT_ITEM="(rfa_no,fnt_id,rtct_no,rent_date,rent_end_date,rent_tmt_date)";
+	private static final String INSERT_ITEM=" (rfa_no,fnt_id,rtct_no,rent_end_date) ";
 	private static final String UPDATE_ITEM="rtct_no= ?,rent_date= ?,rent_end_date= ?,rent_tmt_date= ?";
 	private static final String PK1="rfa_no";
 	private static final String PK2="fnt_id";
-	
+
 	private static final String INSERT_STMT = 
-		"INSERT INTO "+TABLE+INSERT_ITEM + " VALUES (?, ?, ?, ?, ?, ?)";
+		"INSERT INTO "+TABLE+INSERT_ITEM + " VALUES (?, ?, ?, ?)";
 	private static final String GET_ALL = 
 		"SELECT * FROM "+TABLE+ " order by "+PK1;
 	private static final String GET_ONE_BY_PK1_PK2 = 
@@ -39,24 +39,65 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 		"DELETE FROM " + TABLE + " where " + PK1 + "= ?";
 	private static final String UPDATE = 
 		"UPDATE "+TABLE+" set "+UPDATE_ITEM+" where "+PK1+"= ? and "+PK2+"=?";
+	//找家具品項的未租數量
+	private static final String GET_FNT_UNRENT="select fnt_unrent from HOWTRUE.FURNITURE_ITEM where FNT_IT_NO=?"; 
+	//更改家具品項的未租數量		
+	private static final String UPDATE_FNT_UNRENT="update FURNITURE_ITEM  set  fnt_unrent=? where FNT_IT_NO=?";
+	//取未租家具品項編號
+	private static final String 	GET_UNRENT_FNT_ID="SELECT fnt_id FROM HOWTRUE.FURNITURE_LIST where fnt_it_no=? and fnt_status=0 and fnt_rent_status=0 limit 1";
+	//改家具品項狀態
+	private static final String 	UPDATE_FNTID_STATUS ="update HOWTRUE.FURNITURE_LIST set fnt_rent_status=1 where fnt_id=?";
 
+	
 	@Override
-	public void insert(RenFurDetVO renFurDetVO) {
+	public void insert(RenFurDetVO renFurDetVO, Connection con) {
 
-		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		ResultSet rs = null;
 		try {
-
-			con = ds.getConnection();
+//			  找家具品項的未租數量
+			   Integer minusFnt_it_no=renFurDetVO.getFnt_id();
+			   pstmt=con.prepareStatement(GET_FNT_UNRENT);
+			   
+			   pstmt.setInt(1, minusFnt_it_no);
+			   Integer unrent=null;
+			   rs = pstmt.executeQuery();
+			   if(rs.next()) {
+				   unrent = rs.getInt(1); 
+				}
+//           家具品項未租數減1 改回品項
+			   unrent=unrent-1;
+			   pstmt=con.prepareStatement(UPDATE_FNT_UNRENT);
+			   
+			   pstmt.setInt(1,unrent);
+			   pstmt.setInt(2,minusFnt_it_no);
+			   
+			   pstmt.executeUpdate();
+			 
+//           找家具品項編號
+			   Integer getUnrentFntId=null;
+			   
+			   pstmt=con.prepareStatement(GET_UNRENT_FNT_ID);
+			   pstmt.setInt(1,minusFnt_it_no);
+			   
+			   rs=pstmt.executeQuery();
+			   
+			   while(rs.next()) {
+				   getUnrentFntId= rs.getInt(1); 
+			   }
+//把拿出的家具品項編號給租家具明細序號			   
+			   renFurDetVO.setFnt_id(getUnrentFntId);
+//			   把拿出的家具品項編號狀態改變為租借中
+			   pstmt=con.prepareStatement(UPDATE_FNTID_STATUS);
+			   pstmt.setInt(1,getUnrentFntId);
+			   pstmt.executeUpdate();
+	
+			//開始新增明細
 			pstmt = con.prepareStatement(INSERT_STMT);
 			pstmt.setInt(1, renFurDetVO.getRfa_no());
 			pstmt.setInt(2, renFurDetVO.getFnt_id());
 			pstmt.setInt(3, renFurDetVO.getRtct_no());
-			pstmt.setTimestamp(4, renFurDetVO.getRent_date());
-			pstmt.setTimestamp(5, renFurDetVO.getRent_end_date());
-			pstmt.setTimestamp(6, renFurDetVO.getRent_tmt_date());
-
+			pstmt.setTimestamp(4, renFurDetVO.getRent_end_date());
 			pstmt.executeUpdate();
 
 			// Handle any SQL errors
@@ -385,4 +426,10 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 		}
 		return list;
 	}
+
+//	@Override
+//	public void insert(RenFurDetVO renFurDetVO) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

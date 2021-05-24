@@ -15,20 +15,8 @@ public class RenFurAppService {
 		dao = new RenFurAppDAO();
 	}
 
-	public RenFurAppVO addRenFurApp(Integer mem_no, Integer emp_no, Timestamp rfa_order_date,
-			Integer rfa_total, Timestamp rfa_apct_date, Byte rfa_status) {
-
-		RenFurAppVO renFurAppVO = new RenFurAppVO();
-		renFurAppVO.setMem_no(mem_no);
-		renFurAppVO.setEmp_no(emp_no);
-		renFurAppVO.setRfa_order_date(rfa_order_date);
-		renFurAppVO.setRfa_total(rfa_total);
-		renFurAppVO.setRfa_apct_date(rfa_apct_date);
-		renFurAppVO.setRfa_status(rfa_status);
-
-		dao.insert(renFurAppVO);
-
-		return renFurAppVO;
+	public void insertWithDetail(RenFurAppVO renFurAppVO,List<RenFurDetVO> renFurDetList) {
+		dao. insertWithDetail(renFurAppVO,renFurDetList);
 	}
 
 	public RenFurAppVO updateRenFurApp(Integer rfa_no, Integer emp_no, Timestamp rfa_order_date, Byte rfa_status) {

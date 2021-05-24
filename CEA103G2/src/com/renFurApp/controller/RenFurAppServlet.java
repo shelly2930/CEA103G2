@@ -6,9 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,6 +18,7 @@ import javax.servlet.http.*;
 import com.renCon.model.RenConService;
 import com.renFurApp.model.*;
 import com.renFurDet.model.*;
+import com.rentCart.model.RentCartItem;
 
 public class RenFurAppServlet extends HttpServlet {
 
@@ -28,7 +31,7 @@ public class RenFurAppServlet extends HttpServlet {
 			throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 	    res.setContentType("text/html; charset=Big5");
-
+	    HttpSession session = req.getSession();
 		String action = req.getParameter("action");
 		
 		//String action1 = req.getParameter("action1");
@@ -63,8 +66,55 @@ public class RenFurAppServlet extends HttpServlet {
 			Timestamp rfa_order_date = Timestamp.valueOf(req.getParameter("rfa_order_date").trim());
 			Timestamp rfa_acpt_date = new java.sql.Timestamp(System.currentTimeMillis());
 			Byte rfa_status = 0;
-
+			//合約編號要塞明細和找合約終止日期
+			Integer rtct_no=new Integer(req.getParameter("rtct_no"));
+			
+			RenFurAppVO renFurAppVO=new RenFurAppVO();
+			renFurAppVO.setMem_no(mem_no);
+			renFurAppVO.setRfa_apct_date(rfa_acpt_date);
+			renFurAppVO.setRfa_total(rfa_total);
+			renFurAppVO.setRfa_status(rfa_status);
+			renFurAppVO.setRfa_order_date(rfa_order_date);
+			
 			RenConService renConSvc=new RenConService();
+			Timestamp rfa_end_date=renConSvc.getEndDate(rtct_no);
+			
+			@SuppressWarnings("unchecked")
+			List<RentCartItem> rentCartList = (Vector<RentCartItem>) session.getAttribute("rentCartList");
+			List<RenFurDetVO> renFurDetList = new ArrayList<RenFurDetVO>();
+			
+			for(int index=0; index<rentCartList.size();index++) {
+				RenFurDetVO renFurDetVO=new RenFurDetVO();
+				RentCartItem orderFurCartItem=rentCartList.get(index);
+				Integer qty=orderFurCartItem.getQuantity();
+				if(qty>1) {
+					int innerloopSize=qty;
+					for(int index2=0;index2<innerloopSize;index2++) {
+						renFurDetVO.setFnt_id(orderFurCartItem.getFnt_it_no());
+						System.out.println(orderFurCartItem.getFnt_it_no());
+						renFurDetVO.setRtct_no(rtct_no);
+						renFurDetVO.setRent_end_date(rfa_end_date);
+						renFurDetList.add(renFurDetVO);
+					}
+				}else {
+					renFurDetVO.setFnt_id(orderFurCartItem.getFnt_it_no());
+					System.out.println(orderFurCartItem.getFnt_it_no());
+					renFurDetVO.setRtct_no(rtct_no);
+					renFurDetVO.setRent_end_date(rfa_end_date);
+					renFurDetList.add(renFurDetVO);
+				}
+			}
+//			↓↓↓拆單測試用 待刪↓↓↓
+			Iterator<RenFurDetVO> iterator=renFurDetList.iterator();
+			while (iterator.hasNext()) {
+				System.out.println(iterator.next());
+			}
+//			↑↑↑拆單測試用 待刪↑↑↑
+			RenFurAppService renFurAppService=new RenFurAppService();
+			renFurAppService.insertWithDetail(renFurAppVO,renFurDetList);
+			
+			session.removeAttribute("rentCartList");
+			System.out.println("購物車清空!!");
 			
 		}
 		
