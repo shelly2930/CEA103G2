@@ -99,26 +99,11 @@ public class RentCartServlet extends HttpServlet {
 			PrintWriter out = res.getWriter();
             out.print(canRent);
 		}
-		
-		//­q³æ¦¨¥ß
-		else if (action.equals("submitRentApp")) {
-			Integer mem_no = new Integer(req.getParameter("memTen_no"));
-			Timestamp rfa_order_date=null;
-				try {
-					rfa_order_date = Timestamp.valueOf(req.getParameter("rfa_order_date").trim());
-				} catch (IllegalArgumentException e) {
-					rfa_order_date = null;
-				}
-			
-			
-			RenConService renConSvc=new RenConService();
-			
-		}
 			
 	}
 	
-	private RentCartItem getRentFurItem(HttpServletRequest req) {
 
+	private RentCartItem getRentFurItem(HttpServletRequest req) {
 		Integer fnt_it_no = new Integer(req.getParameter("fnt_it_no"));
 		String fnt_name = req.getParameter("fnt_name");
 		Integer fnt_price = new Integer(req.getParameter("fnt_price"));

@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.renCon.model.RenConService;
 import com.renFurApp.model.*;
 import com.renFurDet.model.*;
 
@@ -25,13 +26,10 @@ public class RenFurAppServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		System.out.println(req.getParameter("action1"));
-		System.out.println(req.getParameter("action"));
 		req.setCharacterEncoding("UTF-8");
 	    res.setContentType("text/html; charset=Big5");
 
 		String action = req.getParameter("action");
-		System.out.println("有進到servlet 拿到的action值為:"+action);
 		
 		//String action1 = req.getParameter("action1");
 		//點擊家具品項名稱跳轉至所選品項清單
@@ -56,8 +54,23 @@ public class RenFurAppServlet extends HttpServlet {
 //			}
 //		}
 //		
-//	//新增資料鈕連結(新增品項頁面的下一步按鈕)
-//		 if ("insert".equals(action)) {   
+
+		//訂單成立(from 前台)
+		 if (action.equals("insert")) {
+			System.out.println("訂單送出YA!");
+			Integer mem_no = new Integer(req.getParameter("memTen_no"));
+			Integer rfa_total = new Integer(req.getParameter("rfa_total"));
+			Timestamp rfa_order_date = Timestamp.valueOf(req.getParameter("rfa_order_date").trim());
+			Timestamp rfa_acpt_date = new java.sql.Timestamp(System.currentTimeMillis());
+			Byte rfa_status = 0;
+
+			RenConService renConSvc=new RenConService();
+			
+		}
+		
+		
+		
+		//		 if ("insert".equals(action)) {   
 //				
 //				List<String> errorMsgs = new LinkedList<String>();
 //				req.setAttribute("errorMsgs", errorMsgs);

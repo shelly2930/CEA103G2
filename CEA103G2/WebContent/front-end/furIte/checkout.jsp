@@ -176,7 +176,6 @@ $(document).ready(function(){
 		let memTenNo=$("#memTenNo").val();	
 		let rfa_order_date=$("#rfa_order_date").val();
 		let rfa_total=parseInt($("#getTotal").html().substring(1));
-		let  rfa_apct_date = getRfa_apct_date();
 		
 		if($("select").val()==0){
 			Swal.fire({
@@ -203,14 +202,12 @@ $(document).ready(function(){
 						if (result.value) {
 							$.ajax({
 								type:"POST",
-								url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
+								url:"<%=request.getContextPath()%>/renFurApp/renFurApp.do",
 								data:{
-									"action":"submitRentApp",
+									"action":"insert",
 						        	"memTen_no":memTenNo,
 						        	"rfa_order_date":rfa_order_date,
 						        	"rfa_total":rfa_total,
-						        	"rfa_apct_date":rfa_apct_date,
-						        	"rfa_status":'0',
 								},
 								success:function(){
 									Swal.fire({
@@ -255,18 +252,6 @@ $(document).ready(function(){
 	})
 	}	
 
-	function getRfa_apct_date() {  
-	    var date=new Date();
-		var y = date.getFullYear();  
-	    var m = date.getMonth() + 1;  
-	    m = m < 10 ? ('0' + m) : m;  
-	    var d = date.getDate();  
-	    d = d < 10 ? ('0' + d) : d;  
-	    var h = date.getHours();  
-	    var minute = date.getMinutes();  
-	    minute = minute < 10 ? ('0' + minute) : minute;  
-	    return y + '/' + m + '/' + d+' '+h+':'+minute;  
-	};  
 <!-- ====以下為 datetimepicker 之相關設定====-->
       
         $.datetimepicker.setLocale('zh');
@@ -278,7 +263,7 @@ $(document).ready(function(){
            theme: '',              //theme: 'dark',
  	       timepicker:true,       //timepicker:true,
  	       step: 60,                //step: 60 (這是timepicker的預設間隔60分鐘)
- 	       ormat:'Y-m-d H:i:s',      //format:'Y-m-d H:i:s',
+ 	       format:'Y-m-d H:i:s',      //format:'Y-m-d H:i:s',
 <%--  		   value: '<%=memTenVO.getMem_birthday()%>', // value:   new Date(), --%>
            //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
            startDate:	           appStartDate,  // 起始日
