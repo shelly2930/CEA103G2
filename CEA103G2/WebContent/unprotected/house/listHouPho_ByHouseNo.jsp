@@ -147,7 +147,7 @@ h4 {
 </head>
 <body bgcolor='white'>
 
-<div id="bs-canvas-right" class="bs-canvas bs-canvas-right position-fixed bg-light h-100">
+<div id="bs-canvas-right" class="bs-canvas bs-canvas-right position-fixed bg-light h-100" >
 	<header class="bs-canvas-header p-3 bg-info overflow-auto" style='opacity:0.5;'>
     	<button type="button" class="bs-canvas-close float-left close" aria-label="Close" aria-expanded="false"><span aria-hidden="true" class="text-light">&times;</span></button>
         <h4 class="d-inline-block text-light mb-0 float-right font-weight-bolder" >我的收藏</h4>
@@ -157,7 +157,7 @@ h4 {
     </div>    
 </div>
   <!--================Single Product Area =================-->
-  <div class="product_image_area section_padding">
+  <div class="product_image_area section_padding" style='padding-bottom:5px'>
     <div class="container">
       <div class="row s_product_inner justify-content-between">
         <div class="col-lg-7 col-xl-7">
@@ -176,7 +176,7 @@ h4 {
           <div class="s_product_text">
             <h5>${houseVO.hos_city} <span>|</span> ${houseVO.hos_city}</h5>
             <h3>${houseVO.hos_name}</h3>
-            <h2>${houseVO.hos_rent}</h2>
+            <h2>租金: ${houseVO.hos_rent} 元</h2>
             <ul class="list">
               <li>
                 <span>類型</span> : <c:choose>
@@ -190,11 +190,11 @@ h4 {
 									</c:choose>
               </li>
               <li>
-                <span>坪數</span> : ${houseVO.hos_squares}
+                <span>坪數</span> : ${houseVO.hos_squares}坪
               </li>
             </ul>
             <p>
-              ${houseVO.hos_address}
+              	地址:${houseVO.hos_address}
             </p>
             <div class="card_area d-flex justify-content-between align-items-center">
               <a id='choosetime' href="" class="btn_3">預約看房</a>
@@ -207,7 +207,7 @@ h4 {
       </div>
     </div>
   </div>
-  <section class="product_description_area">
+  <section class="product_description_area" >
     <div class="container">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -319,7 +319,7 @@ h4 {
                     <h5>刊登日期</h5>
                   </td>
                   <td>
-                    <h5>${houseVO.hos_date}</h5>
+                    <h5 class='time'>${houseVO.hos_date}</h5>
                   </td>
                 </tr>
                 <tr>
@@ -469,6 +469,24 @@ h4 {
 <%@ include file="/front-end/footer.file"%>
 
 <script>
+	$(".time").each(function(){
+		$(this).text(dateformat($(this).text()))
+	})
+	function dateformat(str){
+		 let year = new Date(str).getFullYear();
+		 let month = new Date(str).getMonth()+1;
+		 let date = new Date(str).getDate();
+		 let hour = new Date(str).getHours();
+		 let isAm = "上午";
+		 if((Math.floor(hour/12)==1)){
+			 isAm = "下午";
+		 }
+		 let minutes = new Date(str).getMinutes();
+		 let second = new Date(str).getSeconds();
+		 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+	}
+
+	
 	$("#mapsearch").click(function(e){
 		e.preventDefault();
 		$(location).attr('href',"<%=request.getContextPath()%>/unprotected/house/mapsearch.jsp");

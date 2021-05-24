@@ -50,7 +50,7 @@
                         	<div id='hou'>
 	                            <table class="table table-hover">
 									<thead >
-										<tr><th colspan='3' style='font-weight:bold'>選取你要簽約的物件</th></tr>
+										<tr><th colspan='3' style='font-weight:bold'>點選你要進行簽約的物件</th></tr>
 										<tr style="background-color:#ccb78f">
 											<th scope="col" class='text-center'>物件名稱</th>
 											<th scope="col" class='text-center'>地址</th>
@@ -69,7 +69,16 @@
                            <div id='con'>
 	                            <table class="table table-hover">
 									<thead >
-										<tr><th colspan='3' style='font-weight:bold'>請詳細閱讀合約</th></tr>
+										<tr>
+											<th colspan='3'>
+											<span id='name'>正在處理中</span>
+											<br><span id='address'>將儘快為您處理</span>
+											<br><span id='contract'>請稍後</span>
+											<br><span id='date'>謝謝!</span>
+											<br><span id='hidetext' style='font-weight:bold'>請詳細閱讀以下所有合約</span> 
+											</th>
+											
+										</tr>
 										<tr style="background-color:#ccb78f">
 											<th scope="col" class='text-center'>已讀</th>
 											<th scope="col" class='text-center'>合約</th>
@@ -146,7 +155,7 @@
 					for(let i of memhou){
 						let str="<tr id='memhou"+i+"'>";
 						str+="<th scope='row' class='text-center'>";
-						str+="<a href='' class='listhoucon'>"+getHouse(i).hos_name+"</a>";
+						str+="<a href='' style='color:#9999FF' class='listhoucon'>"+getHouse(i).hos_name+"</a>";
 						str+="</th>";
 						str+="<td class='text-center'>"+getHouse(i).hos_address+"</td>";
 						str+="<td class='text-center'>"+getHouse(i).hos_rent+"</td>";
@@ -203,11 +212,11 @@
 								$('#showcon').append(str);
 								$("#send").hide();
 								$("#sendtext").hide();
-
-								
+								$("#hidetext").hide();
 							}else{
 								let count = 1;
 								for(let con of cons){
+									console.log(con);
 									let str="<tr id='"+i+"' name='"+mem_no+"' class='"+hou+"'>";
 									str+="<td class='text-center'><i class='far fa-bookmark' style='font-size:19px;color:#C2C2FF'></i><input style='display:none;' type='checkbox' class='check' id='check"+(count++)+"'></td>";
 									str+="<td class='text-center'>";
@@ -215,7 +224,14 @@
 									str+="</td>";
 									str+="</tr>";
 									$('#showcon').append(str);
+									
 								}
+								$("#name").text("會員:  "+getMem(mem_no).mem_name);
+								$("#address").text("物件地址:  "+getHouse(hou).hos_address);
+								$("#contract").text("合約編號:  第 "+i+" 號");
+								$("#date").text("簽約時間:  "+dateformat(new Date()));
+								
+								
 								$("#send").click(function(){
 									let this_con_no = $(this).parents('table').children("tbody").children('tr').attr('id');
 									let judge = true;
@@ -269,7 +285,25 @@
 			}
 		})
 	}
-	
+	function getMem(mem_no){
+		let mem = {};
+		$.ajax({
+			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+			type: 'post',
+			data:{
+				action:'getOneMemten',
+				mem_no:mem_no,
+			},
+			async:false,
+			success:function(memvo){
+				for(let key in memvo){
+					mem[key]=memvo[key];
+				}
+				console.log(memvo)
+			}
+		})
+		return mem;
+	}
 	function getHouse(hos_no){
 		let hosvo={};
 		$.ajax({
@@ -285,6 +319,19 @@
 			}
 		})
 		return hosvo;
+	}
+	function dateformat(str){
+		 let year = new Date(str).getFullYear();
+		 let month = new Date(str).getMonth()+1;
+		 let date = new Date(str).getDate();
+		 let hour = new Date(str).getHours();
+		 let isAm = "上午";
+		 if((Math.floor(hour/12)==1)){
+			 isAm = "下午";
+		 }
+		 let minutes = new Date(str).getMinutes();
+		 let second = new Date(str).getSeconds();
+		 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
 	}
 </script>				
 </body>

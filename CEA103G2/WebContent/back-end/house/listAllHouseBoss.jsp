@@ -113,12 +113,12 @@
 				    						</div>
 				    						</td>
                                             <td>${houseVO.hos_no}</td>
-											<td><div class='empno'>${houseVO.emp_no}</div></td>
-											<td>${houseVO.lld_no}</td>
-                                            <td>${houseVO.hos_rent}</td>
-											<td>${houseVO.hos_expense}</td>
-                                            <td>${houseVO.hos_apptime}</td>
-											<td>${houseVO.hos_order_date}</td>
+											<td><div class='empno'>${houseVO.emp_no==0?'未指派':houseVO.emp_no}</div></td>
+											<td class='lld'>${houseVO.lld_no}</td>
+                                            <td>${houseVO.hos_rent} 元</td>
+											<td>${houseVO.hos_expense} 元</td>
+                                            <td class='time'>${houseVO.hos_apptime}</td>
+											<td class='time'>${houseVO.hos_order_date}</td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>
@@ -200,8 +200,61 @@
 						
 				})
 			})
-			
-			
+			$(".time").each(function(){
+				$(this).text(dateformat($(this).text()));
+			})
+			$(".lld").each(function(){
+				$(this).text(getMem(getlld($(this).text()).mem_no).mem_name);
+			})
+			function dateformat(str){
+			 let year = new Date(str).getFullYear();
+			 let month = new Date(str).getMonth()+1;
+			 let date = new Date(str).getDate();
+			 let hour = new Date(str).getHours();
+			 let isAm = "上午";
+			 if((Math.floor(hour/12)==1)){
+				 isAm = "下午";
+			 }
+			 let minutes = new Date(str).getMinutes();
+			 let second = new Date(str).getSeconds();
+			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+ 			}
+			function getlld(lld_no){
+				let lldvo={}
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouseJsonServlet",
+					type:'post',
+					data:{
+						action:'getLanlord',
+						'lld_no':lld_no,
+					},
+					async:false,
+					success:function(data){
+						for(let key in data){
+							lldvo[key]=data[key];
+						}
+					}
+				})
+				return lldvo;
+			}
+			function getMem(mem_no){
+				let mem = {};
+				$.ajax({
+					url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+					type: 'post',
+					data:{
+						action:'getOneMemten',
+						mem_no:mem_no,
+					},
+					async:false,
+					success:function(memvo){
+						for(let key in memvo){
+							mem[key]=memvo[key];
+						}
+					}
+				})
+				return mem;
+			}
 			$(document).ready(function(){
 				let hoseno =  ${empty houseno_list ? '[]' : houseno_list};
 				for(let i of hoseno){

@@ -2,6 +2,9 @@ package com.memTen.model;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
+
+import com.renCon.model.RenConVO;
 
 public class MemTenService {
 	private MemTenDAO_interface dao;
@@ -115,8 +118,15 @@ public class MemTenService {
 		return memTenVO;
 	}
 	
-	public List<MemTenVO> findBillMem() {
-		System.out.println("AAAAAAAAAAAa");
+	public List<RenConVO> findBillMem() {
 		return dao.findBillMem();
+	}
+	
+	public Map<Integer,Integer> findBill() {
+		return dao.findBill();
+	}
+	//¹F
+	public Byte judgelld(Integer mem_no) {
+		return dao.judgelld(mem_no);
 	}
 }
