@@ -44,6 +44,7 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			"DELETE FROM RENT_FURNTURE_DETAIL where "+PK+"= ?";
 	private static final String UPDATE = 
 		"UPDATE "+TABLE+" set "+UPDATE_ITEM+" where "+PK+" = ?";
+	private static final String GET_LAST_RFA_NO="SELECT rfa_no FROM RENT_FURNITURE_APPLICATION order by rfa_no desc limit 1";
 	//查申請單的租借狀態用
 	private static final String GET_RENT_STATUS="SELECT RENT_DATE,RENT_TMT_DATE FROM RENT_FURNITURE_DETAIL WHERE rfa_no=? limit 0,1";
     //找租屋合約編號用
@@ -73,12 +74,21 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			pstmt.executeUpdate();
 			System.out.println("新增申請單成功");
 			Integer getRfa_no = null;
-			rs = pstmt.getGeneratedKeys();	
+			
+			pstmt=con.prepareStatement(GET_LAST_RFA_NO);
+			rs = pstmt.executeQuery();
+			
 			if(rs.next()) {
 				getRfa_no = rs.getInt(1); 
 				System.out.println("拿到申請單編號"+getRfa_no);
 			}
-			rs.close();
+			
+//			rs = pstmt.getGeneratedKeys();	
+//			if(rs.next()) {
+//				getRfa_no = rs.getInt(1); 
+//				System.out.println("拿到申請單編號"+getRfa_no);
+//			}
+			
 			
 			RenFurDetDAO dao=new RenFurDetDAO();
 			for(RenFurDetVO detail : renFurDetList) {
