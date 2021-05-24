@@ -24,6 +24,7 @@
     <!-- Custom styles for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
 	 <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+	 
 </head>
 
 <body id="page-top">
@@ -72,7 +73,7 @@
                             	<%@ include file="pages/page1.file"%>	
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr>
+                                        <tr id='num'>
                                             <th scope="col" id="put" >上架</th>
                                             <th scope="col">物件編號</th>
                                             <th scope="col" ${param.hos_status==2||param.hos_status==3||param.action=='changeHouseStatus'?"style='display:none'":''}>修改物件</th>
@@ -83,58 +84,49 @@
 											<th scope="col">申請時間</th>
 											<th scope="col">預約時間</th>
 											<th scope="col">申請進度</th>
-											<th scope="col">未通過原因</th>
                                             
                                         </tr>
                                     </thead>
                                     
-                                    <tbody>
+                                    <tbody id='check'>
                                         <c:forEach var="houseVO" items="${listAllHouse_Backend_list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" varStatus="counter">
-										<tr id ="${houseVO.hos_no}">
-											<td  style="${houseVO.hos_status == 0 || houseVO.hos_status == 2 || houseVO.hos_status == 3 ?'display:none':''}">
-												<label for="${houseVO.hos_no}input">CLICK ME!
-												<input type="checkbox" id="${houseVO.hos_no}input" name="houseno" value="${houseVO.hos_no}">
-												</label>
-											</td>
-											
-											<td>
-												<h3>${houseVO.hos_no}</h3>
-											</td>
-											
-											<td  ${param.hos_status==2||param.hos_status==3||param.action=='changeHouseStatus'?"style='display:none'":""}>
-												<a href="<%=request.getContextPath()%>/house/house.do?action=getOneHouseForUpdate&houseno=${houseVO.hos_no}&requestURL=<%=request.getRequestURL()%>">
-												<button type="button"   class="btn-sm btn ${houseVO.hos_state==1?'btn-outline-danger':'btn-outline-info'}">修改物件</button></a>
-											</td>
-											
-											<td>${houseVO.emp_no}</td>
-											
-											<td>${houseVO.lld_no}</td>
-											
-											<td>${'所有權狀照片'}<img src="<%=request.getContextPath()%>/house/houseImg.do?action=getOneContractImg&houseno=${houseVO.hos_no}" width="100px"></td>
-											
-											<td>${houseVO.hos_apptime}</td>
-											
-											<td>${houseVO.hos_order_date}</td>
-											
-											<td>
-												<c:choose>
-													<c:when test="${houseVO.hos_status==0}">未處理案件</c:when>
-													<c:when test="${houseVO.hos_status==1}">處理中案件</c:when>
-													<c:when test="${houseVO.hos_status==2}">已完成案件</c:when>
-													<c:when test="${houseVO.hos_status==3}">廢棄案件</c:when>
-												</c:choose>
-											</td>
-											
-											<td>
-												<c:choose>
-													<c:when test="${houseVO.hos_refuse.trim().length()==0||houseVO.hos_refuse==null}">未填</c:when>	
-													<c:when test="${houseVO.hos_refuse.trim().length()!=0}">
-														${houseVO.hos_refuse}
-													</c:when>			
-												</c:choose>
-											</td>
-											
-										</tr>
+											<c:if test="${houseVO.emp_no == employeeVO.emp_no}">
+												<tr id ="${houseVO.hos_no}">
+													<td  style="${houseVO.hos_status == 0 || houseVO.hos_status == 2 || houseVO.hos_status == 3 ?'display:none':''}">
+														<label for="${houseVO.hos_no}input">CLICK ME!
+														<input type="checkbox" id="${houseVO.hos_no}input" name="houseno" value="${houseVO.hos_no}">
+														</label>
+													</td>
+													
+													<td>
+														<h3>${houseVO.hos_no}</h3>
+													</td>
+													
+													<td  ${param.hos_status==2||param.hos_status==3||param.action=='changeHouseStatus'?"style='display:none'":""}>
+														<a href="<%=request.getContextPath()%>/house/house.do?action=getOneHouseForUpdate&houseno=${houseVO.hos_no}&requestURL=<%=request.getRequestURL()%>">
+														<button type="button"   class="btn-sm btn ${houseVO.hos_state==1?'btn-outline-danger':'btn-outline-info'}">修改物件</button></a>
+													</td>
+													
+													<td class='emp'>${houseVO.emp_no}</td>
+													
+													<td class='lld'>${houseVO.lld_no}</td>
+													
+													<td>${'所有權狀照片'}<img src="<%=request.getContextPath()%>/house/houseImg.do?action=getOneContractImg&houseno=${houseVO.hos_no}" width="100px"></td>
+													
+													<td class='time'>${houseVO.hos_apptime}</td>
+													
+													<td class='time'>${houseVO.hos_order_date}</td>
+													
+													<td>
+														<c:choose>
+															<c:when test="${houseVO.hos_status==0}">未處理案件</c:when>
+															<c:when test="${houseVO.hos_status==1}">處理中案件</c:when>
+															<c:when test="${houseVO.hos_status==2}">已完成案件</c:when>
+															<c:when test="${houseVO.hos_status==3}">廢棄案件</c:when>
+														</c:choose>
+													</td>
+												</tr>
+											</c:if>
 									</c:forEach>
                                     </tbody>
                                     
@@ -145,10 +137,11 @@
                                     </tfoot>
                                    
                                 </table>
-                                 <input type="hidden" name="action" value="changeHouseStatus">
+                                	 <input type="hidden" name="action" value="changeHouseStatus">
 									<input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
-									<input type="submit" class="btn btn-primary" value="確認送出">
-									<input type="submit" class="btn btn-primary" value="案件廢棄">
+									<input type='submit' class='btn btn-outline-primary btn-sm' value='確認送出'>
+									<input type='submit' class='btn btn-outline-primary btn-sm' value='案件廢棄'><hr>
+									
 									</form>
 								<%@ include file="pages/page3.file"%>
                             </div>
@@ -157,6 +150,7 @@
 
                 </div>
                 <!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
+			
 
             </div>
             <!-- End of Main Content -->
@@ -166,18 +160,9 @@
 
         </div>
         <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
-	
-    <%@include file="/back-end/includeFile/otherBack.file" %>
-    
-  
-    
-    
-<!--     Bootstrap core JavaScript -->
-   
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!--     Core plugin JavaScript -->
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -187,10 +172,20 @@
 
 <!--     Page level plugins -->
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
+    <%@include file="/back-end/includeFile/otherBack.file" %>
+    
+  
+    
+    
+<!--     Bootstrap core JavaScript -->
+   
 
 <!--     Page level custom scripts -->
- 
-			<script>
+ <script>
+			if($("#check").children().length==0){
+				let str = "<tr><th class='text-center' colspan='"+$("#num").children().length+"'>查無案件</th></tr>";
+				$("#check").append(str);
+			}
 			$(document).ready(function(){
 				$(".hidden").hide();
 				$(".show").show;
@@ -205,7 +200,6 @@
 				})
 				$("input[value='案件廢棄']").click(function(){
 					$(this).before("<input type='hidden' name='delete' value='3'>");
-					alert($("input[name='delete']").html());
 				})
 				if(${(empty listAllHouse_Backend_list)||(listAllHouse_Backend_list[0].hos_status!='1')}){
 					$("#put").attr("style",'display:none');
@@ -213,8 +207,86 @@
 					$("input[value='案件廢棄']").attr("style",'display:none');
 				}
 				//參考 未完善功能
-				${empty houseno_list ? '' :"let list="+=houseno_list+=";for(let h of list){let x= '#'+h;$(x).css('background-color','yellow');}"}
+				${empty houseno_list ? '' :"let list="+=houseno_list+=";for(let h of list){let x= '#'+h;$(x).css('background-color','#D6D6FF');}"}
 			})
+			$(".emp").each(function(){
+				let empno = $(this).text();
+				$(this).text(getEmp(empno));
+			})
+			$(".lld").each(function(){
+				let lld = $(this).text();
+				$(this).text(getMem(getlld(lld).mem_no).mem_name);
+			})
+			$(".time").each(function(){
+				let time = $(this).text();
+				$(this).text(dateformat(time));
+			})
+			function getlld(lld_no){
+				let lldvo={}
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouseJsonServlet",
+					type:'post',
+					data:{
+						action:'getLanlord',
+						'lld_no':lld_no,
+					},
+					async:false,
+					success:function(data){
+						for(let key in data){
+							lldvo[key]=data[key];
+						}
+					}
+				})
+				return lldvo;
+			}
+			function getMem(mem_no){
+				let mem = {};
+				$.ajax({
+					url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+					type: 'post',
+					data:{
+						action:'getOneMemten',
+						mem_no:mem_no,
+					},
+					async:false,
+					success:function(memvo){
+						for(let key in memvo){
+							mem[key]=memvo[key];
+						}
+					}
+				})
+				return mem;
+			}
+			function dateformat(str){
+				 let year = new Date(str).getFullYear();
+				 let month = new Date(str).getMonth()+1;
+				 let date = new Date(str).getDate();
+				 let hour = new Date(str).getHours();
+				 let isAm = "上午";
+				 if((Math.floor(hour/12)==1)){
+					 isAm = "下午";
+				 }
+				 let minutes = new Date(str).getMinutes();
+				 let second = new Date(str).getSeconds();
+				 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+	 		}
+			function getEmp(emp){
+				let name= '';
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouseJsonServlet",
+					type:'post',
+					data:{
+						action:'getEmpName',
+						empno:emp,
+					},
+					async:false,
+					success:function(str){
+						name=str.emp_name;
+					}
+						
+				})
+				return name;
+			}
 			</script>
 </body>
   			

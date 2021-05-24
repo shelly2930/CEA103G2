@@ -65,7 +65,6 @@
                 			<h2 class="text-gray">照片管理</h2>
                 		</div>
                 		<div class="card-body showerror">
-                
 							<form method="post" action="<%=request.getContextPath()%>/houPho/houPho.do">
 							<!-- 輪播 -->							
 							<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -79,9 +78,7 @@
 								         <label for="${HouPhoVO.hos_pic_no}"><h1>照片編號${HouPhoVO.hos_pic_no}</h1></label>	
 								    </div>			    
 							    </div>
-							    <div class="carousel-item">
-							    <img src='<%=request.getContextPath()%>/errorImg/error.png'  class='d-block'>
-							    </div>
+							    
 							    </c:forEach>
 							    
 							    
@@ -148,7 +145,7 @@
 // 						let Str = "<div class='carousel-inner'><div class='carousel-item' active>";
 <%-- 						Str +="<img src=\'<%=request.getContextPath()%>/errorImg/error.png\'  class=\'d-block\'></div></div>"; --%>
 						$("#carouselExampleControls").hide();	
-						$(".showerror").prepend("<img src=\'<%=request.getContextPath()%>/errorImg/error.png\'  class=\'d-block\' style='height:300px;margin:0 auto;'>")
+						$(".showerror").prepend("<p>尚未上傳照片</p>")
 					}
 					if(${not empty ErrorMessage}){
 						$('#Modal').modal({

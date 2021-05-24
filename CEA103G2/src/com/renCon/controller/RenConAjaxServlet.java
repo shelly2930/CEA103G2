@@ -38,9 +38,6 @@ public class RenConAjaxServlet extends HttpServlet {
 		req.getPart("file").write(pdffile+"/"+getFileNameFromPart(req.getPart("file")));
 		res.setCharacterEncoding("UTF-8");
 		res.getWriter().print(judge);
-//		
-//		File de = new File(getServletContext().getRealPath("/pdf_uploaded") + "/1.pdf");
-//		de.delete();
 			
 		
 		

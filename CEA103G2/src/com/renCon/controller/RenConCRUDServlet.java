@@ -34,7 +34,6 @@ public class RenConCRUDServlet extends HttpServlet {
 		if("updateTmtDate".equals(action)) {
 			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
 			Byte status = Byte.parseByte(req.getParameter("status"));
-			System.out.println(req.getParameter("tmtdate"));
 			java.util.Date tmttemp = null;
 			java.sql.Date tmtdate = null;
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
@@ -60,7 +59,6 @@ public class RenConCRUDServlet extends HttpServlet {
 		if("getDate".equals(action)) {
 			Integer con_no = Integer.parseInt(req.getParameter("con_no"));
 			RenConService svc = new RenConService();
-			System.out.println(svc.getEndDate(con_no));
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(svc.getEndDate(con_no));
 		}
@@ -101,7 +99,7 @@ public class RenConCRUDServlet extends HttpServlet {
 			Gson g = new Gson();
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
-			if(filename==null) {
+			if(filename==null||filename.length==0) {
 				res.getWriter().print(g.toJson("none"));
 			}else {
 				

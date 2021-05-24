@@ -151,9 +151,6 @@
     		cvc: '***'
     		}
     	});
-    	$("#sk").click(function(){
-    		
-    	})
     	let url = location.href;
     	let con_no = url.substring(url.indexOf('?')+8);
     	var sig =$('#show').signature();
