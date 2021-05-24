@@ -43,6 +43,8 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 	private static final String GET_RENT_STATUS="SELECT RENT_DATE,RENT_TMT_DATE FROM RENT_FURNITURE_DETAIL WHERE rfa_no=? limit 0,1";
     //找租屋合約編號用
 	private static final String GET_RENT_CONT="SELECT RTCT_NO FROM RENT_FURNITURE_DETAIL WHERE rfa_no=? limit 0,1";
+	// 蔡佳 查會員的所有申請單
+	private static final String GET_ALL_BY_MEM = "SELECT * FROM RENT_FURNITURE_APPLICATION WHERE mem_no=? and rfa_status=?";
 	
 	@Override
 	public void insert(RenFurAppVO renFurAppVO) {
@@ -413,6 +415,72 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			}
 		}
 		return rtct_no;
+	}
+
+	@Override
+	public List<RenFurAppVO> getAllByMem(Integer mem_no, Byte rfa_status) {
+		List<RenFurAppVO> list = new ArrayList<RenFurAppVO>();
+		RenFurAppVO renFurAppVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_BY_MEM);
+			
+			pstmt.setInt(1, mem_no);
+			pstmt.setByte(2, rfa_status);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while (rs.next()) {
+				renFurAppVO = new RenFurAppVO();
+				renFurAppVO.setRfa_no(rs.getInt("rfa_no"));
+				renFurAppVO.setMem_no(rs.getInt("mem_no"));
+				renFurAppVO.setEmp_no(rs.getInt("emp_no"));
+				
+				renFurAppVO.setRfa_order_date(rs.getTimestamp("rfa_order_date"));
+				
+				renFurAppVO.setRfa_total(rs.getInt("rfa_total"));
+				renFurAppVO.setRfa_apct_date(rs.getTimestamp("rfa_apct_date"));
+				renFurAppVO.setRfa_status(rs.getByte("rfa_status"));
+				list.add(renFurAppVO); // Store the row in the list
+			}
+		    
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
 	}
 	
 

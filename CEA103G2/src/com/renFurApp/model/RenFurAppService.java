@@ -85,4 +85,8 @@ public class RenFurAppService {
 	public Integer getRentCon(Integer rfa_no) {
 		return dao.getRentCon(rfa_no);
 	}
+	// 蔡佳 查會員的所有申請單
+	public List<RenFurAppVO> getAllByMem(Integer mem_no,Byte rfa_status) {
+		return dao.getAllByMem(mem_no, rfa_status);
+	}
 }

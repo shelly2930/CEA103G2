@@ -16,4 +16,6 @@ public interface RenFurAppDAO_interface {
 	//查申請單的租借狀態用
 	public Byte getRenFurAppStatus(Integer rfa_no);
 	public Integer getRentCon(Integer rfa_no);
+	// 蔡佳 查會員的所有申請單
+	public List<RenFurAppVO> getAllByMem(Integer mem_no,Byte rfa_status);
 }
