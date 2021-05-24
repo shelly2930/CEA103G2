@@ -132,7 +132,7 @@
 	        	  success:function(list){
 	        		if(list.length==0){
 	        			let str = "<tr>";
-		        		str+="<td class='text-center' colspan='7'>沒有新案件</td>";
+		        		str+="<td class='text-center' colspan='8'>沒有新案件</td>";
 		        		str+="</tr>";
 		        		$("#showapp").append(str);
 	        		}else{
@@ -153,6 +153,7 @@
 				        		str+="<td>"+getEmp(ap.emp_no).emp_phone+"</td>";
 				        		$("#hide0").show();
 			        			$("#hide1").show();
+			        			$("#hide2").hide();
 			        		}else{
 			        			str+="<td>"+"已完成"+"</td>";
 			        			str+="<td>"+getEmp(ap.emp_no).emp_name+"</td>";

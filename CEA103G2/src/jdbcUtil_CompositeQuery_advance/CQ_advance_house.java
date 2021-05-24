@@ -74,7 +74,7 @@ public class CQ_advance_house {
 		String value = null;
 		for (String key : map.keySet()) {
 			value = map.get(key)[0];
-			if(value == null || value.trim().length() == 0) continue;//常⊿把计秈碞琌琩高场ぃノSQL
+			if(value == null || value.trim().length() == 0)  continue;//常⊿把计秈碞琌琩高场ぃノSQL
 			if (!"action".equals(key) 
 					&&!"orderType".equals(key)
 					&&!"orderCol".equals(key)
@@ -83,7 +83,8 @@ public class CQ_advance_house {
 				count++;
 				String aCondition = get_aCondition_For_myDB(key, value.trim());
 				if (count == 1)
-					whereCondition.append(" where " + aCondition);
+					whereCondition.append(" where  " + aCondition);
+//					whereCondition.append(" where hos_state=1 and " + aCondition);
 				else
 					whereCondition.append(" and " + aCondition);
 			}else if ("orderCol".equals(key)){
@@ -92,6 +93,7 @@ public class CQ_advance_house {
 				orderType = value;
 			}	
 		}
+//		if(count==0) whereCondition.append(" where hos_state=1 ");
 		if(orderCol!=null && orderType!=null) {
 			whereCondition.append(" order by "+orderCol+" "+orderType);
 		}else {
