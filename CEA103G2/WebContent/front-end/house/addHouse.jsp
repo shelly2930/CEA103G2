@@ -339,7 +339,7 @@
   </section>
  	<script>
  	$("input[type='submit']").click(function(){
- 		picktimeSuccess("房東申請看屋");
+ 		picktimeSuccess("剛剛有房東申請租屋");
  	})
  	
 	let mem_no = ${MemTenVO.mem_no};

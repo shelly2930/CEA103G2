@@ -27,7 +27,7 @@
 				  </div>
 			</div>
 			<script>
-			picktimeSuccess("2@2@");
+			picktimeSuccess("2«¢«¢sss«¢",'9');
 			$(document).ready(function(){
 				connectNotice();
 			})
@@ -62,17 +62,17 @@
 			function disconnectNotice() {
 				webSocket_notice.close();
 			}
-			function picktimeSuccess(message){
+			function picktimeSuccess(message,who){
 				let obj = {
 						type:'send',
 						identity:'1',
-						username:'${employeeVO.emp_no}',
+						username:JSON.stringify(who),
 						currentTime:new Date(),
 						message:JSON.stringify(message),
 				}
 				setTimeout(function(){
 					webSocket_notice.send(JSON.stringify(obj));
-					},200
+					},1000
 				)
 			}
 			function shownotice(mes){
