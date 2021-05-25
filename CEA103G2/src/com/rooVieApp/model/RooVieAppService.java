@@ -106,7 +106,7 @@ public class RooVieAppService {
 		return dao.showTheEmpApp(emp_no,status);
 	}
 	public List<RooVieAppVO> showTheMemApp(Integer mem_no,Byte status){
-		return dao.showTheEmpApp(mem_no,status);
+		return dao.showTheMemApp(mem_no,status);
 	}
 	public void updateEndTime(Integer rva_no,Timestamp end_time) {
 		dao.updateEndTime(rva_no, end_time);

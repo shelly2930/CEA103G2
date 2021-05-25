@@ -16,6 +16,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
+import com.notice.websocket.jedis.HandleNotice;
 import com.notice.websocket.model.Notice;
 
 @ServerEndpoint("/test/{username}/{identity}")
@@ -42,19 +43,31 @@ public class NoticeWS {
 		String curTime = notice.getCurrentTime();
 		String mes = notice.getMessage();
 		Notice sendNotice = null;
-		if(notice.getType().equals("send")) {
+		if(notice.getType().equals("send")&&notice.getIdentity().equals("0")) {
 			sendNotice = new Notice("receive",username,identity,curTime,mes);
 			String sendNoticeJson = new Gson().toJson(sendNotice);
 			Set<String> total = sessionsMap.keySet();
 			for(String temp : total) {
 				if("1".equals(judge.get(temp))&&sessionsMap.get(temp).isOpen()) {
+					System.out.println("SAAA");
+					HandleNotice.saveHistory(identity, sendNoticeJson);
+					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);//前台
+				}
+			}
+		}else if(notice.getType().equals("send")&&notice.getIdentity().equals("1")) {//來自後台
+			sendNotice = new Notice("receive",identity,username,curTime,mes);
+			String sendNoticeJson = new Gson().toJson(sendNotice);
+			Set<String> total = sessionsMap.keySet();
+			for(String temp : total) {
+				if("0".equals(judge.get(temp))&&sessionsMap.get(temp).isOpen()) {
+					HandleNotice.saveHistory(identity, sendNoticeJson);
 					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);//後台
-				}else {
-					//前台
+					System.out.println(sendNoticeJson+"TEST");
 				}
 			}
 		}
 	}
+
 
 	@OnError
 	public void onError(Session userSession, Throwable e) {

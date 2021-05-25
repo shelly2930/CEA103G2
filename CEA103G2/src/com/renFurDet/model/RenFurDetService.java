@@ -61,4 +61,16 @@ public class RenFurDetService {
 	public List<RenFurDetVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public RenFurDetVO updateTmtDate(Integer fnt_id, Timestamp rent_tmt_date) {
+		
+		RenFurDetVO renFurDetVO = new RenFurDetVO();
+//		renFurDetVO.setRfa_no(rfa_no);
+		renFurDetVO.setFnt_id(fnt_id);
+		renFurDetVO.setRent_tmt_date(rent_tmt_date);
+
+		dao.updateTmtDate(renFurDetVO);
+
+		return renFurDetVO;
+	}
 }

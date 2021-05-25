@@ -67,8 +67,15 @@
 	</footer>
 <!--::footer_part end::-->
 
-<div id='appendnotice' aria-live="polite" aria-atomic="true" style="position: absolute; top: 12%; left: 84%;min-height: 200px;">
-	    <div id='shownotice'>
+
+
+
+
+
+
+
+	<div id='appendnotice' aria-live="polite" aria-atomic="true" style="position: fixed;z-index:9; top:12%; left: 84%;min-height: 200px;">
+	    <div id='shownotice' style='display:none'>
 		  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
 	    	<div class="toast-header">
 		      <strong class="mr-auto">通 知</strong>
@@ -85,12 +92,14 @@
 	</div>
 	
 	<script>
+	//picktimeSuccess("會員已經租房囉");
 	$(document).ready(function(){
 		connectNotice();
 	})
 	//我是前台通知
 	let webSocket_notice;	
 	let MyPoint_notice = "/test/${MemTenVO.mem_no}/0";
+	let giveThisMem =${MemTenVO.mem_no};
 	let endPointURL1 = "ws://" + window.location.host + (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1))  + MyPoint_notice;
 	function connectNotice() {
 		webSocket_notice = new WebSocket(endPointURL1);
@@ -98,18 +107,25 @@
 			console.log("Connect Success!");
 		};
 		webSocket_notice.onmessage = function(event) {
-		let initobj = {
-			type:'open',
-			identity:'0',
-			username:'${MemTenVO.mem_no}',
-			currentTime:new Date(),
-			message:'',
-		}
-		webSocket_notice.send(JSON.stringify(initobj));
-		$("#test").click(function(){
-			picktimeSuccess("D");
+			let initobj = {
+				type:'open',
+				identity:'0',
+				username:'${MemTenVO.mem_no}',
+				currentTime:new Date(),
+				message:'',
+			}
+			webSocket_notice.send(JSON.stringify(initobj));
+			let notice = JSON.parse(event.data);
 			
-		})
+			if(notice.type=="receive"){
+			console.log(parseInt(notice.username))
+				if(parseInt(giveThisMem)==parseInt(JSON.parse(notice.username))){
+					let revJSON = JSON.parse(notice.message);
+					shownotice(revJSON);
+				}
+				
+				
+			}
 		};
 		webSocket_notice.onclose = function(event) {
 			console.log("Disconnected!");
@@ -124,17 +140,42 @@
 				identity:'0',
 				username:'${MemTenVO.mem_no}',
 				currentTime:new Date(),
-				message:message,
+				'message':JSON.stringify(message),
 		}
-		webSocket_notice.send(JSON.stringify(obj));
+		setTimeout(function(){
+			webSocket_notice.send(JSON.stringify(obj));
+			},1000
+		)
 	}
-	let a = $("#shownotice").clone(true);
-	$("#appendnotice").append($(a));
-	$(a).children().children().eq(0).children().eq(1).text("xss").end();
-	console.log($("#shownotice").clone(true).children().children().eq(0).children().eq(1).text())
+	function shownotice(mes){
+		let a = $("#shownotice").clone();
+		$("#appendnotice").append($(a));
+		$(a).children().children().eq(0).children().eq(1).text(dateformat(new Date()));
+		$(a).children().children().eq(1).text(mes);
+		$(a).show();
+		$(".toast").toast('show',8000);
+		setTimeout(function(){
+			$(a).empty();
+		},5000)
+	}
 	
-	$(".toast").toast('show',80000);
+	function dateformat(str){
+			 let year = new Date(str).getFullYear();
+			 let month = new Date(str).getMonth()+1;
+			 let date = new Date(str).getDate();
+			 let hour = new Date(str).getHours();
+			 let isAm = "上午";
+			 if((Math.floor(hour/12)==1)){
+				 isAm = "下午";
+			 }
+			 let minutes = new Date(str).getMinutes();
+			 let second = new Date(str).getSeconds();
+			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+ 	}
 	</script>
+
+
+
 
 
 
