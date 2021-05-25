@@ -118,13 +118,6 @@ public class MemTenService {
 		return memTenVO;
 	}
 	
-	public List<RenConVO> findBillMem() {
-		return dao.findBillMem();
-	}
-	
-	public Map<Integer,Integer> findBill() {
-		return dao.findBill();
-	}
 	//¹F
 	public Byte judgelld(Integer mem_no) {
 		return dao.judgelld(mem_no);

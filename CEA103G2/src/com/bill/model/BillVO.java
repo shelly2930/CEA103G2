@@ -5,7 +5,6 @@ import java.sql.Date;
 public class BillVO implements java.io.Serializable { // why implements java.io.Serializable? p218 beanname
 	private Integer bill_no;
 	private Integer mem_no;
-	private Integer hos_no;
 	private Date bill_date;
 	private Date bill_due;
 	private Integer bill_power;
@@ -24,12 +23,6 @@ public class BillVO implements java.io.Serializable { // why implements java.io.
 	}
 	public void setMem_no(Integer mem_no) {
 		this.mem_no = mem_no;
-	}
-	public Integer getHos_no() {
-		return hos_no;
-	}
-	public void setHos_no(Integer hos_no) {
-		this.hos_no = hos_no;
 	}
 	public Date getBill_date() {
 		return bill_date;

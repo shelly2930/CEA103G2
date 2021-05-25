@@ -15,8 +15,6 @@ public interface MemTenDAO_interface {
 	public MemTenVO findByEmail(String mem_email); // 忘記密碼
 	public void updatePwd(String mem_email, String mem_password); // 改密碼
 	public void rentalConfirm(MemTenVO memTenVO);
-	public List<RenConVO> findBillMem();
-	public Map<Integer,Integer> findBill(); 
 	//敬達增加
 	public Byte judgelld(Integer mem_no);
 }

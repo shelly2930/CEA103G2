@@ -71,21 +71,28 @@
 
 <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/bill/bill.do" name="form1">
 <table>
+	<c:forEach var="map" items="${memTenSvc.findBill()}" >
 	<tr>
 		<td>會員編號:</td>
 		<td>
-			<select size="1" name="mem_no">
-	         <c:forEach var="memTenVO" items="${memTenSvc.findBillMem()}" > 
-	          <option value="${memTenVO.mem_no}">${memTenVO.mem_no}
-	         </c:forEach>   
+			<select size="1" name="mem_no" onchange="func()">
+<%-- 	         <c:forEach var="renConVO" items="${memTenSvc.findBillMem()}" >  --%>
+	          <option value="${map.renConVO.mem_no}">${map.renConVO.mem_no}
+<%-- 	         </c:forEach>    --%>
 	       </select>
        </td>
 	</tr>
 	<tr>
 		<td>物件編號:</td>
-		<td><input type="TEXT" name="hos_no" size="45"
-			 value="${billVO.hos_no}" /></td>
+		<td>
+			<select size="1" name="mem_no" class="house">
+<%-- 			<c:forEach var="renConVO" items="${memTenSvc.findBillMem()}" > --%>
+				<option value="${map.renConVO.hos_no}">${map.renConVO.hos_no}
+<%-- 			</c:forEach> --%>
+			</select>
+		</td>
 	</tr>
+	</c:forEach>
 	<tr>
 		<td>帳單日期:</td>
 		<td><input class="single-input" name="bill_date" id="bill_date" type="text" required></td>
@@ -241,4 +248,10 @@
         //      }});
         
 </script>
+
+<script>
+
+
+</script>
+
 </html>

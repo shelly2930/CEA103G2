@@ -91,7 +91,7 @@ img.mem_pic {
 											<th>身分證背面</th>
 											<th>身份審核狀態</th>
 											<th>審核未通過原因</th>	
-											<th>修改</th>
+<!-- 											<th>修改</th> -->
 										</tr>
 									</thead>
 									<tbody>
@@ -134,13 +134,13 @@ img.mem_pic {
 													</c:choose>
 												</td>
 												<td>${memTenVO.mem_refuse}</td>
-												<td>
-												  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" style="margin-bottom: 0px;">
-												     <input type="submit" value="修改">
-												     <input type="hidden" name="mem_no"  value="${memTenVO.mem_no}">
-												     <input type="hidden" name="action"	value="getOne_For_Update">
-												  </FORM>
-												</td>
+<!-- 												<td> -->
+<%-- 												  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" style="margin-bottom: 0px;"> --%>
+<!-- 												     <input type="submit" value="修改"> -->
+<%-- 												     <input type="hidden" name="mem_no"  value="${memTenVO.mem_no}"> --%>
+<!-- 												     <input type="hidden" name="action"	value="getOne_For_Update"> -->
+<!-- 												  </FORM> -->
+<!-- 												</td> -->
 											</tr>
 										</c:forEach>
 									</tbody>
