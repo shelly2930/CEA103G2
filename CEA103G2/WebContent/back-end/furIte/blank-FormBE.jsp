@@ -1,6 +1,25 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.furCat.model.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.furIte.model.*"%>
+
+<% 	  
+		List<FurIteVO> list =new ArrayList<FurIteVO>();
+		if(request.getAttribute("QueryResultList")!=null && request.getParameter("fnt_ctgr_no")==null){
+			list=(ArrayList<FurIteVO>) request.getAttribute("QueryResultList");	
+				 pageContext.setAttribute("list",list);				
+		}else if(request.getParameter("fnt_ctgr_no")==null){
+			FurIteService furIteSvc = new FurIteService();
+		    list= furIteSvc.getAll();
+		    pageContext.setAttribute("list",list);	
+		} 
+		else{
+			FurIteService furIteSvc = new FurIteService(); 
+			Integer fnt_ctgr_no = new Integer(request.getParameter("fnt_ctgr_no"));
+			 list = furIteSvc.getOneFurCat_Item(fnt_ctgr_no); 
+			pageContext.setAttribute("list",list);
+		}
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +31,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>家具類別資料新增</title>
+    <title>家具品項資料</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,7 +67,7 @@
                     <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">家具類別管理</h1>
+                    <h1 class="h3 mb-2 text-gray-800">家具品項管理</h1>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -75,7 +94,6 @@
 										                                    
 										                                  
                                       <!--                  ↑↑↑       表單擺放位置↑↑↑↑ -->      
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
