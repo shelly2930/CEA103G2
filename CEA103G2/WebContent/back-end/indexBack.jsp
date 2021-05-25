@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,22 +10,137 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>��x����</title>
+    <title>後台首頁</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
 
-<!--     <style>
-        .bg-gradient-prima{
-            background-color:   #009393;
-        }
-    </style> -->
+<style>
+	@media (max-width:575px) {
+		.display-4 {
+			font-size: 1.5rem;
+		}
+		.day h5 {
+			background-color: #d6f8ff;
+			padding: 3px 5px 5px;
+			margin: -8px -8px 8px -8px;
+		}
+		.date {
+			padding-left: 4px;
+		}
+	}
+	@media (min-width: 576px) {
+		.day {
+/* 			height: 8vw; */
+		}
+	}
+
+	.fc-state-default.fc-corner-left {
+		border-top-left-radius: 4px;
+		border-bottom-left-radius: 4px;
+	}
+	.fc-state-default.fc-corner-right {
+		border-top-right-radius: 4px;
+		border-bottom-right-radius: 4px;
+	}
+	.fc-header .fc-corner-right, .fc-header .ui-corner-right {
+		margin-right: 0;
+	}
+	.fc-header .fc-button {
+		margin-right: -5px;
+	}
+	.fc-header .fc-button {
+		margin-bottom: 1em;
+		margin-top: -0.5rem;
+		vertical-align: top;
+	}
+	.fc-state-default {
+		border-color: #ff3b30;
+		color: #ff3b30;
+	}
+	.fc-state-default {
+		border: 1px solid;
+	}
+	.fc-button {
+		position: relative;
+		display: inline-block;
+		padding: 0 .6em;
+		overflow: hidden;
+		height: 1.9em;
+		white-space: nowrap;
+		cursor: pointer;
+	}
+	.fc-button-prev .fc-text-arrow, .fc-button-next .fc-text-arrow {
+		font-weight: bold;
+	}
+	.fc-text-arrow {
+		margin: 0 .4em;
+		font-size: 2em;
+		line-height: 23px;
+		vertical-align: baseline;
+	}
+	.fc-header-space {
+		padding-left: 10px;
+	}
+	.fc-button-today {
+		border: 1px solid rgba(255,255,255,.0);
+	}
+	.fc-state-disabled {
+		cursor: default;
+		background-image: none;
+		background-color: #FFE3E3;
+		filter: alpha(opacity=65);
+		box-shadow: none;
+		border: 1px solid #FFE3E3;
+		color: #ff3b30;
+	}
+
+	.cal-title{
+		display: inline-block;
+		color: #509a53;
+	}
+	.fc-header{
+		display: inline-block;
+		margin-left: 1rem;
+	}
+	.cal-header{
+ 		text-align: right;
+ 		padding-right: 3rem;
+	}
+	@media (max-width: 576px){
+		.cal-header{
+			text-align: center;
+			padding-right: 0;
+		}
+	}
+	.fc-button-today:hover{
+		cursor: pointer;
+	}
+	.bg-light {
+    	background-color: #eaefff!important;
+	}
+	.bg-dark {
+	    background-color: #485189!important;
+	}
+	.text-muted {
+	    color: #858796!important;
+	}
+	.this-month{
+		color: #133331;
+	}
+	.done{
+		filter: brightness(0.7);
+	}
+	.unassigned{
+		border: 2px black solid;
+	}
+</style>
 </head>
 
 <body id="page-top">
@@ -48,330 +163,28 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server Migration <span
-                                            class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Sales Tracking <span
-                                            class="float-right">40%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Customer Database <span
-                                            class="float-right">60%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%"
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Payout Details <span
-                                            class="float-right">80%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Account Setup <span
-                                            class="float-right">Complete!</span></h4>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Color System -->
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-primary text-white shadow">
-                                        <div class="card-body">
-                                            Primary
-                                            <div class="text-white-50 small">#4e73df</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-success text-white shadow">
-                                        <div class="card-body">
-                                            Success
-                                            <div class="text-white-50 small">#1cc88a</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            Info
-                                            <div class="text-white-50 small">#36b9cc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-warning text-white shadow">
-                                        <div class="card-body">
-                                            Warning
-                                            <div class="text-white-50 small">#f6c23e</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-danger text-white shadow">
-                                        <div class="card-body">
-                                            Danger
-                                            <div class="text-white-50 small">#e74a3b</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-secondary text-white shadow">
-                                        <div class="card-body">
-                                            Secondary
-                                            <div class="text-white-50 small">#858796</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-light text-black shadow">
-                                        <div class="card-body">
-                                            Light
-                                            <div class="text-black-50 small">#f8f9fc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-dark text-white shadow">
-                                        <div class="card-body">
-                                            Dark
-                                            <div class="text-white-50 small">#5a5c69</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="../template_back-end/img/undraw_posting_photo.svg" alt="">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
-                                </div>
-                            </div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+					<header>
+						<div class="cal-header">
+							<h4 class="display-4 mb-4 text-center cal-title"></h4>
+							<div class="fc-header">
+								<span class="fc-button fc-button-prev fc-state-default fc-corner-left" unselectable="on"><span class="fc-text-arrow">‹</span></span>
+								<span class="fc-button fc-button-next fc-state-default fc-corner-right" unselectable="on"><span class="fc-text-arrow">›</span></span>
+								<span class="fc-header-space"></span>
+								<span class="fc-button fc-button-today fc-state-default fc-corner-left fc-corner-right fc-state-disabled" unselectable="on">today</span>
+							</div>
+						</div>
+						<div class="row d-none d-sm-flex p-1 bg-dark text-white">
+							<h5 class="col-sm p-1 text-center">日</h5>
+							<h5 class="col-sm p-1 text-center">一</h5>
+							<h5 class="col-sm p-1 text-center">二</h5>
+							<h5 class="col-sm p-1 text-center">三</h5>
+							<h5 class="col-sm p-1 text-center">四</h5>
+							<h5 class="col-sm p-1 text-center">五</h5>
+							<h5 class="col-sm p-1 text-center">六</h5>
+						</div>
+					</header>
+					<div class="row border border-right-0 border-bottom-0 cal-body">
+					</div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -390,23 +203,228 @@
 
     <%@ include file="/back-end/includeFile/otherBack.file" %>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="../template_back-end/vendor/jquery/jquery.min.js"></script>
-    <script src="../template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap core JavaScript-->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../template_back-end/js/sb-admin-2.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../template_back-end/vendor/chart.js/Chart.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="../template_back-end/js/demo/chart-area-demo.js"></script>
-    <script src="../template_back-end/js/demo/chart-pie-demo.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
+	
+<script>
+show(new Date());
 
+function show(date) {
+	let year = date.getFullYear();
+	let month = date.getMonth();
+	let day = date.getDate();
+	let dayOfWeek = (new Date(year, month, 1)).getDay();
+	let daysOfMonth = [31, isLeap(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	let week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+
+	$(".cal-title").text(year + " - " + (month + 1));
+
+	let row = Math.ceil((dayOfWeek + daysOfMonth[month]) / 7);
+	let str = "";
+	for(let i = 0; i < dayOfWeek; i++){
+		let year2 = year;
+		let month2 = month;
+		if(month2 == 0){
+			month2 += 12;
+			year2 -= 1;
+		}
+		let dateNum;
+		if(month == 0){
+			dateNum = daysOfMonth[11] - dayOfWeek + 1 + i;
+		}else{
+			dateNum = daysOfMonth[month - 1] - dayOfWeek + 1 + i;
+		}
+		str += "<div class='day col-sm p-2 border border-left-0 border-top-0 text-truncate d-none d-sm-inline-block bg-light text-muted " + year2+"-"+month2+"-"+dateNum + "'>";
+		str += "<h5 class='row align-items-center'>";
+		str += "<span class='date col-1'>" + dateNum + "</span>";
+		str += "<small class='col d-sm-none text-center text-muted'>" + week[i] + "</small>";
+		str += "<span class='col-1'></span>";
+		str += "</h5>";
+		// str += "<p class='d-sm-none'></p>";
+		str += "</div>";
+	}
+	for(let i = 0; i < daysOfMonth[month]; i++){
+		let weekIndex = dayOfWeek + i;
+		while(weekIndex >= 7){
+			weekIndex -= 7;
+		}
+		str += "<div class='day col-sm p-2 border border-left-0 border-top-0 text-truncate this-month " + year+"-"+(month+1)+"-"+(i+1) + "'>";
+		str += "<h5 class='row align-items-center'>";
+		str += "<span class='date col-1'>" + (i + 1) + "</span>";
+		str += "<small class='col d-sm-none text-center text-muted'>" + week[weekIndex] + "</small>";
+		str += "<span class='col-1'></span>";
+		str += "</h5>";
+		// str += "<p class='d-sm-none'></p>";
+		str += "</div>";
+		if(weekIndex == 6){
+			str += "<div class='w-100'></div>";
+		}
+	}
+	for(let i = 0; i < row * 7 - dayOfWeek - daysOfMonth[month]; i++){
+		let weekIndex = (dayOfWeek + daysOfMonth[month]) % 7;
+		let year2 = year;
+		let month2 = month;
+		if(month2 == 11){
+			month2 -= 12;
+			year2 += 1;
+		}
+		str += "<div class='day col-sm p-2 border border-left-0 border-top-0 text-truncate d-none d-sm-inline-block bg-light text-muted " + year2+"-"+(month2+2)+"-"+(i+1) + "'>";
+		str += "<h5 class='row align-items-center'>";
+		str += "<span class='date col-1'>" + (i + 1) + "</span>";
+		str += "<small class='col d-sm-none text-center text-muted'>" + week[weekIndex] + "</small>";
+		str += "<span class='col-1'></span>";
+		str += "</h5>";
+		// str += "<p class='d-sm-none'></p>";
+		str += "</div>";
+		weekIndex++;
+	}
+
+	$(".cal-body").html(str);
+	addRenFurApp();
+	addRooVieApp();
+	addHouse();
+// 	alert("!!!");
+}
+
+function isLeap(year) {
+	return year % 4 === 0? (year % 100 !== 0? 29:  (year % 400 === 0? 29: 28)): 28;
+}
+
+let now = new Date();
+let year = now.getFullYear();
+let month = now.getMonth();
+$(".fc-corner-left").click(function(){
+	if(month == 0){
+		month += 11;
+		year -= 1;
+	}else{
+		month -= 1;
+	}
+	show(new Date(year, month));
+});
+$(".fc-corner-right").click(function(){
+	if(month == 11){
+		month -= 11;
+		year += 1;
+	}else{
+		month += 1;
+	}
+	show(new Date(year, month));
+});
+$(".fc-button-today").click(function(){
+	year = now.getFullYear();
+	month = now.getMonth();
+	show(now);
+});
+
+function addRenFurApp() {
+	$.ajax({
+		url:"<%=request.getContextPath()%>/employee/employee.do",
+		type:'post',
+		data:{
+			action:'getAllRenFurAppJSON'
+		},
+		async: false,
+		success:function(data){
+			for(let renFurAppVO of data){
+				let d = new Date(renFurAppVO.rfa_order_date);
+				let year = d.getFullYear();
+				let month = d.getMonth() + 1;
+				let date = d.getDate();
+				let hour = d.getHours();
+				let min = d.getMinutes();
+				$("."+year+"-"+month+"-"+date).append
+					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-info text-white' href='<%=request.getContextPath()%>/renFurApp/renFurApp.do?rfa_no="
+						+renFurAppVO.rfa_no+"&action=getOne_For_Update'>租家具申請 "+hour+":00</a>");
+				if(${employeeVO.emp_job != "主管"} && renFurAppVO.emp_no != ${employeeVO.emp_no}){
+					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
+				}
+				if(renFurAppVO.rfa_status == 0){
+					$("."+year+"-"+month+"-"+date).find("a").addClass("unassigned");
+				}else if(renFurAppVO.rfa_status == 2){
+					$("."+year+"-"+month+"-"+date).find("a").addClass("done");
+				}
+			}
+		}
+	});
+}
+function addRooVieApp() {
+	$.ajax({
+		url:"<%=request.getContextPath()%>/employee/employee.do",
+		type:'post',
+		data:{
+			action:'getAllRooVieAppJSON'
+		},
+		async: false,
+		success:function(data){
+			for(let RooVieAppVO of data){
+				let d = new Date(RooVieAppVO.rva_order_time);
+				let year = d.getFullYear();
+				let month = d.getMonth() + 1;
+				let date = d.getDate();
+				let hour = d.getHours();
+				let min = d.getMinutes();
+				$("."+year+"-"+month+"-"+date).append
+					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-warning text-white' href='<%=request.getContextPath()%>/renFurApp/renFurApp.do?rfa_no="
+						+RooVieAppVO.rva_no+"&action=getOne_For_Update'>預約看房申請 "+hour+":00</a>");
+				if(${employeeVO.emp_job != "主管"} && RooVieAppVO.emp_no != ${employeeVO.emp_no}){
+					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
+				}
+				if(RooVieAppVO.rva_status == 0){
+					$("."+year+"-"+month+"-"+date).find("a").addClass("unassigned");
+				}else if(RooVieAppVO.rva_status == 2){
+					$("."+year+"-"+month+"-"+date).find("a").addClass("done");
+				}
+			}
+		}
+	});
+}
+function addHouse() {
+	$.ajax({
+		url:"<%=request.getContextPath()%>/employee/employee.do",
+		type:'post',
+		data:{
+			action:'getAllHouseJSON'
+		},
+		async: false,
+		success:function(data){
+			for(let HouseVO of data){
+				let d = new Date(HouseVO.hos_order_date);
+				let year = d.getFullYear();
+				let month = d.getMonth() + 1;
+				let date = d.getDate();
+				let hour = d.getHours();
+				let min = d.getMinutes();
+				$("."+year+"-"+month+"-"+date).append
+					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-success text-white' href='<%=request.getContextPath()%>/house/house.do?houseno="
+						+HouseVO.hos_no+"&action=getOneHouseForUpdate'>預約代管申請 "+hour+":00</a>");
+				if(${employeeVO.emp_job != "主管"} && HouseVO.emp_no != ${employeeVO.emp_no}){
+					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
+				}
+				if(HouseVO.hos_status == 0){
+					$("."+year+"-"+month+"-"+date).find("a").addClass("unassigned");
+				}else if(HouseVO.hos_status == 2){
+					$("."+year+"-"+month+"-"+date).find("a").addClass("done");
+				}
+			}
+		}
+	});
+}
+</script>
 </body>
 
 </html>

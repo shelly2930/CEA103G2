@@ -66,7 +66,12 @@
                 <div class="container-fluid">
 ${errorMsgs.Exception}
 					<div class="mx-auto text-center pageTitle">
-	                    <h1 class="mx-auto mb-4 text-uppercase">基本資料</h1>
+						<c:if test="${sessionScope.employeeVO.emp_id != null}">
+				        <h1 class="mx-auto mb-4 text-uppercase">基本資料</h1>
+				        </c:if>
+						<c:if test="${sessionScope.employeeVO.emp_id == null}">
+				        <h1 class="mx-auto mb-4 text-uppercase">請完成基本資料填寫</h1>
+				        </c:if>
 	                </div>
 <!-- 					<div class="row justify-content-center mt-5 mb-5"> -->
 <%-- 						<c:if test="${sessionScope.employeeVO.emp_id == null}"> --%>

@@ -36,6 +36,11 @@
 	 		text-align: right;
 		}
 	}
+	.pageTitle{
+		color: #4165ae;
+		letter-spacing: 1rem;
+		text-shadow: 1px 1px 2px #233559;
+	}
 </style>
 </head>
 
@@ -58,6 +63,10 @@
 
 				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
 				<div class="container-fluid">
+					
+					<div class="mx-auto text-center pageTitle">
+				        <h1 class="mx-auto mb-4 text-uppercase">新增員工</h1>
+				    </div>
 
 					<form method="post" action="<%=request.getContextPath()%>/employee/employee.do">
 
