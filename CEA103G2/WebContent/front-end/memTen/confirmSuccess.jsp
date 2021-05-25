@@ -54,7 +54,7 @@ a.member {
         <table>
         	<tr>
         		<td>
-        			您已成功送出租房申請，請至<a href="" class="member">會員專區</a>查看，謝謝。
+        			您已成功送出租房申請，請至<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_view.jsp" class="member">會員專區</a>查看，謝謝。
         		</td>
         	</tr>
         </table>
