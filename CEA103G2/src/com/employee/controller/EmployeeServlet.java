@@ -23,6 +23,13 @@ import org.json.JSONObject;
 
 import com.employee.model.EmployeeService;
 import com.employee.model.EmployeeVO;
+import com.google.gson.Gson;
+import com.house.model.HouseService;
+import com.house.model.HouseVO;
+import com.renFurApp.model.RenFurAppService;
+import com.renFurApp.model.RenFurAppVO;
+import com.rooVieApp.model.RooVieAppService;
+import com.rooVieApp.model.RooVieAppVO;
 import com.staRig.model.StaRigService;
 import com.staRig.model.StaRigVO;
 
@@ -470,10 +477,11 @@ public class EmployeeServlet extends HttpServlet {
 				/*************************** 2.開始新增資料 ***************************************/
 				// 1. 亂數產生密碼 password
 				// 2. password --> email --> employee
-//				MailService mailService = new MailService();
-//			    String subject = "HowTrue好厝  - 新進員工登入通知";
-//			    String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password;
-//			    mailService.sendMail(emp_email, subject, messageText);
+				MailService mailService = new MailService();
+			    String subject = "HowTrue好厝  - 新進員工登入通知";
+			    String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password
+			    		+ "\n登入網址：" + req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/loginBack.jsp";
+			    mailService.sendMail(emp_email, subject, messageText);
 				// 3. password 轉成另一組亂數存進資料庫 (安全性問題)
 				
 				EmployeeService employeeSvc = new EmployeeService();
@@ -667,7 +675,8 @@ public class EmployeeServlet extends HttpServlet {
 				String emp_username = req.getParameter("emp_username");
 				String emp_password = new EmployeeService().getOneEmp(new Integer(req.getParameter("emp_no"))).getEmp_password();
 				String subject = "HowTrue好厝  - 新進員工登入通知";
-				String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password;
+				String messageText = "Hello!很高興您成為本公司的一員\n請由以下提共之員工代號及密碼登入本公司系統，並修改密碼及完成填寫基本資料\n員工代號: " + emp_username + "\n暫時性密碼: " + emp_password
+						+ "\n登入網址：" + req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/loginBack.jsp";
 				mailService.sendMail(emp_email, subject, messageText);
 				out.print("發送成功");
 			}
@@ -715,6 +724,26 @@ public class EmployeeServlet extends HttpServlet {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		if("getAllRenFurAppJSON".equals(action)) {
+			 List<RenFurAppVO> list = new RenFurAppService().getAll();
+			 res.setContentType("application/json");
+			 res.setCharacterEncoding("UTF-8");
+			 res.getWriter().print(new Gson().toJson(list));
+			 System.out.println("????");
+		 }
+		if("getAllRooVieAppJSON".equals(action)) {
+			 List<RooVieAppVO> list = new RooVieAppService().getAll();
+			 res.setContentType("application/json");
+			 res.setCharacterEncoding("UTF-8");
+			 res.getWriter().print(new Gson().toJson(list));
+		}
+		if("getAllHouseJSON".equals(action)) {
+			List<HouseVO> list = new HouseService().getAll(); 
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(list));
 		}
 		
 	}

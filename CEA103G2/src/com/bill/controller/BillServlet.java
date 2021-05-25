@@ -146,14 +146,6 @@ public class BillServlet extends HttpServlet {
 					errorMsgs.add("會員編號請填數字!");
 				}
 				
-				Integer hos_no = null;
-				try {
-					hos_no = new Integer(req.getParameter("hos_no").trim());
-				} catch (NumberFormatException e) {
-					hos_no = 1;
-				errorMsgs.add("物件編號請填數字!");
-				}
-				
 				java.sql.Date bill_date = null;
 				try {
 					bill_date = java.sql.Date.valueOf(req.getParameter("bill_date").trim());
@@ -196,7 +188,6 @@ public class BillServlet extends HttpServlet {
 				BillVO billVO = new BillVO();
 				billVO.setBill_no(bill_no);
 				billVO.setMem_no(mem_no);
-				billVO.setHos_no(hos_no);
 				billVO.setBill_date(bill_date);
 				billVO.setBill_due(bill_due);
 				billVO.setBill_power(bill_power);
@@ -216,7 +207,7 @@ public class BillServlet extends HttpServlet {
 
 				/***************************2.開始修改資料*****************************************/
 				BillService billSvc = new BillService();
-				billVO = billSvc.updateBill(bill_no, mem_no, hos_no, bill_date, bill_due, bill_power, bill_water, bill_p_status, bill_r_status);
+				billVO = billSvc.updateBill(bill_no, mem_no, bill_date, bill_due, bill_power, bill_water, bill_p_status, bill_r_status);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("billVO", billVO); // 資料庫update成功後,正確的的billVO物件,存入req
@@ -252,13 +243,6 @@ public class BillServlet extends HttpServlet {
 					errorMsgs.add("會員編號請填數字!");
 				}
 				
-				Integer hos_no = null;
-				try {
-					hos_no = new Integer(req.getParameter("hos_no").trim());
-				} catch (NumberFormatException e) {
-				errorMsgs.add("物件編號請填數字!");
-				}
-				
 				java.sql.Date bill_date = null;
 				try {
 					bill_date = java.sql.Date.valueOf(req.getParameter("bill_date").trim());
@@ -292,7 +276,6 @@ public class BillServlet extends HttpServlet {
 				
 				BillVO billVO = new BillVO();
 				billVO.setMem_no(mem_no);
-				billVO.setHos_no(hos_no);
 				billVO.setBill_date(bill_date);
 				billVO.setBill_due(bill_due);
 				billVO.setBill_power(bill_power);
@@ -309,7 +292,7 @@ public class BillServlet extends HttpServlet {
 				
 				/***************************2.開始新增資料***************************************/
 				BillService billSvc = new BillService();
-				billVO = billSvc.addBill(mem_no, hos_no, bill_date, bill_due, bill_power, bill_water);
+				billVO = billSvc.addBill(mem_no, bill_date, bill_due, bill_power, bill_water);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/index.jsp";
@@ -354,5 +337,17 @@ public class BillServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		if ("autoInsert".equals(action)) { // 來自addEmp.jsp的請求  
+			try {
+				BillService billSvc = new BillService();
+				int amountOfInsert = billSvc.autoAddBill();
+				res.getWriter().print(amountOfInsert);
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.sendRedirect(req.getContextPath() + "/back-end/bill/listAllBill.jsp");
+			}
+		}
+		
 	}
 }
