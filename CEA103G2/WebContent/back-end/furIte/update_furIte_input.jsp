@@ -145,17 +145,17 @@ window.addEventListener("load",function (){
 		<img src="<%=request.getContextPath()%>/back-end/furIte/images/pic.png" style="width:20px; height:20px;"></a>
 		</td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<th>计秖:</th>
 		<td><input type="TEXT" name="fnt_unrent" size="45"
 			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_unrent()%>" /></td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<th>蝴计秖:</th>
 		<td><input type="TEXT" name="fnt_repair" size="45"
 			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_repair()%>" /></td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<th>羆计秖:</th>
 		<td><input type="TEXT" name="fnt_total" size="45"
 			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_total()%>" /></td>
@@ -195,7 +195,7 @@ window.addEventListener("load",function (){
  		<td>
  		<textarea name="fnt_info" cols="43" rows="7"><%=(furIteVO==null)? "" :furIteVO.getFnt_info()%></textarea></td> 
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<th>聅凝Ω计:</th>
 		<td><input type="TEXT" name="fnt_views" size="45"
 			 value="<%=(furIteVO==null)? "" :furIteVO.getFnt_views()%>" /></td>
