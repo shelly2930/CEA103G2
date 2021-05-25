@@ -189,7 +189,7 @@ $(document).ready(function(){
 				})
 		}else{
 			Swal.fire({
-				  title: '確定送出租借訂單？',
+				  title: '租借訂單送出後將無法修改<br>確定送出？',
 				  icon: 'warning',
 				  showCancelButton: true,
 				  confirmButtonColor: '#3085d6',

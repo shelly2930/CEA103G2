@@ -37,7 +37,6 @@ public class RenFurAppServlet extends HttpServlet {
 
 		//訂單成立(from 前台)
 		 if (action.equals("insert")) {
-			System.out.println("訂單送出YA!");
 			Integer mem_no = new Integer(req.getParameter("memTen_no"));
 			Integer rfa_total = new Integer(req.getParameter("rfa_total"));
 			Timestamp rfa_order_date = Timestamp.valueOf(req.getParameter("rfa_order_date").trim());
@@ -67,32 +66,23 @@ public class RenFurAppServlet extends HttpServlet {
 				if(qty>1) {
 					int innerloopSize=qty;
 					for(int index2=0;index2<innerloopSize;index2++) {
-						renFurDetVO.setFnt_id(orderFurCartItem.getFnt_it_no());
-						System.out.println(orderFurCartItem.getFnt_it_no());
-						renFurDetVO.setRtct_no(rtct_no);
-						renFurDetVO.setRent_end_date(rfa_end_date);
-						renFurDetList.add(renFurDetVO);
+						RenFurDetVO renFurDetVO2=new RenFurDetVO();
+						renFurDetVO2.setFnt_id(orderFurCartItem.getFnt_it_no());
+						renFurDetVO2.setRtct_no(rtct_no);
+						renFurDetVO2.setRent_end_date(rfa_end_date);
+						renFurDetList.add(renFurDetVO2);
 					}
 				}else {
 					renFurDetVO.setFnt_id(orderFurCartItem.getFnt_it_no());
-					System.out.println(orderFurCartItem.getFnt_it_no());
 					renFurDetVO.setRtct_no(rtct_no);
 					renFurDetVO.setRent_end_date(rfa_end_date);
 					renFurDetList.add(renFurDetVO);
 				}
 			}
-//			↓↓↓拆單測試用 待刪↓↓↓
-			Iterator<RenFurDetVO> iterator=renFurDetList.iterator();
-			while (iterator.hasNext()) {
-				System.out.println(iterator.next());
-			}
-//			↑↑↑拆單測試用 待刪↑↑↑
 			RenFurAppService renFurAppService=new RenFurAppService();
 			renFurAppService.insertWithDetail(renFurAppVO,renFurDetList);
 			
 			session.removeAttribute("rentCartList");
-			System.out.println("購物車清空!!");
-			
 		}
 		
 		

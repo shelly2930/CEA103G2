@@ -72,7 +72,6 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			pstmt.setByte(5, renFurAppVO.getRfa_status());
 
 			pstmt.executeUpdate();
-			System.out.println("新增申請單成功");
 			Integer getRfa_no = null;
 			
 			pstmt=con.prepareStatement(GET_LAST_RFA_NO);
@@ -80,28 +79,22 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			
 			if(rs.next()) {
 				getRfa_no = rs.getInt(1); 
-				System.out.println("拿到申請單編號"+getRfa_no);
 			}
 			
 //			rs = pstmt.getGeneratedKeys();	
 //			if(rs.next()) {
 //				getRfa_no = rs.getInt(1); 
-//				System.out.println("拿到申請單編號"+getRfa_no);
 //			}
-			
+//			
 			
 			RenFurDetDAO dao=new RenFurDetDAO();
 			for(RenFurDetVO detail : renFurDetList) {
 				detail.setRfa_no(getRfa_no);
-				System.out.println("拿到申請單編號給明細: "+detail.getRfa_no());
-				System.out.println("準備傳連線");
 				dao.insert(detail,con);
 			}
 			
 			con.commit();
 			con.setAutoCommit(true);
-			System.out.println("交易完成");
-			
 
 			// Handle any SQL errors
 		} catch (SQLException se) {
@@ -124,7 +117,6 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 				}
 			}
 		}
-
 	}
 
 	@Override
