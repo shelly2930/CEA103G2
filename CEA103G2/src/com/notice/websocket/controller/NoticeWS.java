@@ -42,19 +42,27 @@ public class NoticeWS {
 		String curTime = notice.getCurrentTime();
 		String mes = notice.getMessage();
 		Notice sendNotice = null;
-		if(notice.getType().equals("send")) {
+		if(notice.getType().equals("send")&&notice.getIdentity().equals("0")) {
 			sendNotice = new Notice("receive",username,identity,curTime,mes);
 			String sendNoticeJson = new Gson().toJson(sendNotice);
 			Set<String> total = sessionsMap.keySet();
 			for(String temp : total) {
 				if("1".equals(judge.get(temp))&&sessionsMap.get(temp).isOpen()) {
 					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);//後台
-				}else {
-					//前台
+				}
+			}
+		}else if(notice.getType().equals("send")&&notice.getIdentity().equals("1")) {
+			sendNotice = new Notice("receive",username,identity,curTime,mes);
+			String sendNoticeJson = new Gson().toJson(sendNotice);
+			Set<String> total = sessionsMap.keySet();
+			for(String temp : total) {
+				if("0".equals(judge.get(temp))&&sessionsMap.get(temp).isOpen()) {
+					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);//後台
 				}
 			}
 		}
 	}
+
 
 	@OnError
 	public void onError(Session userSession, Throwable e) {

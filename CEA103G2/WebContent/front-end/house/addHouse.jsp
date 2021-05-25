@@ -20,6 +20,7 @@
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 <!-- 先引用jquery(老師已經含有jquery)再引用twzipcode -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- =================套用台灣縣市鄉鎮要使用以上=========================== -->
 <style>
@@ -29,6 +30,7 @@
     background-repeat: no-repeat  !important;
     background-size: cover;
 }
+
 </style>
 </head>
 
@@ -36,7 +38,6 @@
 <!-- =================================下面是導覽列==================================================== --> 
 <%@include file="/front-end/header.file"%>
 <!-- =================================上面是導覽列==================================================== --> 
-
 
 <!--================Home Banner Area =================-->
   <!-- breadcrumb start-->
@@ -317,11 +318,30 @@
         </div>
 		</FORM> 
       </div>
+      
+      <div id='appendnotice' aria-live="polite" aria-atomic="true" style="position: fixed;z-index:9; top:12%; left: 84%;min-height: 200px;">
+	    <div id='shownotice'>
+		  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
+	    	<div class="toast-header">
+		      <strong class="mr-auto">通 知</strong>
+		      <small class='noticetime'>11 mins ago</small>
+		      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		      </button>
+		    </div>
+		    <div class="toast-body">
+		      Hello, world! This is a toast message.
+		    </div>
+	    </div>
+	  </div>
+	</div>
+      
   </section>
-
-<!-- 	================= -->
-<!-- 參考網站 https://www.wfublog.com/2017/10/taiwan-county-town-zip-address-twzipcode-jquery.html -->
-	<script>
+ 	<script>
+ 	$("input[type='submit']").click(function(){
+ 		picktimeSuccess("房東申請看屋");
+ 	})
+ 	
 	let mem_no = ${MemTenVO.mem_no};
 	if(judge(mem_no)==0){
 		Swal.fire({
@@ -424,25 +444,98 @@
     });
    
     
-	</script>
+	
+	
+
+
+
+<!-- 	================= -->
+<!-- 參考網站 https://www.wfublog.com/2017/10/taiwan-county-town-zip-address-twzipcode-jquery.html -->
+
 <!-- ====以上新增物件資料送出=== -->
 
-</body>
+	
+	
+		
+	
+	$(document).ready(function(){
+		connectNotice();
+	})
+	//我是前台通知
+	let webSocket_notice;	
+	let MyPoint_notice = "/test/${MemTenVO.mem_no}/0";
+	let endPointURL1 = "ws://" + window.location.host + (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1))  + MyPoint_notice;
+	function connectNotice() {
+		webSocket_notice = new WebSocket(endPointURL1);
+		webSocket_notice.onopen = function(event) {
+			console.log("Connect Success!");
+		};
+		webSocket_notice.onmessage = function(event) {
+			let initobj = {
+				type:'open',
+				identity:'0',
+				username:'${MemTenVO.mem_no}',
+				currentTime:new Date(),
+				message:'',
+			}
+			webSocket_notice.send(JSON.stringify(initobj));
+			let notice = JSON.parse(event.data);
+			if(notice.type=="receive"){
+				let revJSON = JSON.parse(notice.message);
+				shownotice(revJSON);
+				
+			}
+		};
+		webSocket_notice.onclose = function(event) {
+			console.log("Disconnected!");
+		};
+	}
+	function disconnectNotice() {
+		webSocket_notice.close();
+	}
+	function picktimeSuccess(message){
+		let obj = {
+				type:'send',
+				identity:'0',
+				username:'${MemTenVO.mem_no}',
+				currentTime:new Date(),
+				'message':JSON.stringify(message),
+		}
+		setTimeout(function(){
+			webSocket_notice.send(JSON.stringify(obj));
+			},1000
+		)
+	}
+	function shownotice(mes){
+		let a = $("#shownotice").clone();
+		$("#appendnotice").append($(a));
+		$(a).children().children().eq(0).children().eq(1).text(dateformat(new Date()));
+		$(a).children().children().eq(1).text(mes);
+		$(".toast").toast('show',8000);
+	}
+	
+	function dateformat(str){
+			 let year = new Date(str).getFullYear();
+			 let month = new Date(str).getMonth()+1;
+			 let date = new Date(str).getDate();
+			 let hour = new Date(str).getHours();
+			 let isAm = "上午";
+			 if((Math.floor(hour/12)==1)){
+				 isAm = "下午";
+			 }
+			 let minutes = new Date(str).getMinutes();
+			 let second = new Date(str).getSeconds();
+			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+ 	}
+	
+	</script>
 
+</body>
 
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
 <!-- =====================下面為input時間外掛============================= -->
 <!-- ########    而且注意不能Ctrl+shift+F自動排版 會發生錯誤!!!!!     ########### -->
-<%
-	java.sql.Timestamp hos_order_date = null;
-	try {
-		hos_order_date = houseVO.getHos_order_date();
-	} catch (Exception e) {
-		hos_order_date = new java.sql.Timestamp(System.currentTimeMillis());
-	}
-%>
-
 
 
 <style>
@@ -504,4 +597,5 @@
         //              return [true, ""];
         //      }});
 </script>
+
 </html>

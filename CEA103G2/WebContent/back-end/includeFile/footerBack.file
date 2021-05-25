@@ -10,23 +10,24 @@
             
             
             //通知
-            <div aria-live="polite" aria-atomic="true" style="position: absolute; top: 70px; left: 84%;min-height: 200px;">
-			  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
-			    <div id='shownotice'>
-			    	<div class="toast-header">
-				      <strong class="mr-auto">通 知</strong>
-				      <small>11 mins ago</small>
-				      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-				        <span aria-hidden="true">&times;</span>
-				      </button>
+            <div id='appendnotice' aria-live="polite" aria-atomic="true" style="position: fixed; top: 10%; left: 84%;min-height: 200px;">
+				   <div id='shownotice'>
+					  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
+				    	<div class="toast-header">
+					      <strong class="mr-auto">通 知</strong>
+					      <small class='noticetime'>11 mins ago</small>
+					      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+					        <span aria-hidden="true">&times;</span>
+					      </button>
+					    </div>
+					    <div class="toast-body">
+					      Hello, world! This is a toast message.
+					    </div>
 				    </div>
-				    <div class="toast-body">
-				      Hello, world! This is a toast message.
-				    </div>
-			    </div>
-			  </div>
+				  </div>
 			</div>
 			<script>
+			picktimeSuccess("2@2@");
 			$(document).ready(function(){
 				connectNotice();
 			})
@@ -35,43 +36,68 @@
 			let MyPoint_notice = "/test/${employeeVO.emp_no}/1";
 			let endPointURL1 = "ws://" + window.location.host +  (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1)) + MyPoint_notice;
 			function connectNotice() {
-				webSocket_notice = new WebSocket(endPointURL1);
-				webSocket_notice.onopen = function(event) {
-					console.log("Connect Success!");
-				};
-				webSocket_notice.onmessage = function(event) {
-					let initobj = {
-						type:'open',
-						identity:'1',
-						username:'${employeeVO.emp_no}',
-						currentTime:new Date(),
-						message:'',
-					}
-					webSocket_notice.send(JSON.stringify(initobj));
-					let notice = JSON.parse(event.data);
-					if(notice.type=="receive"){
-						let revJSON = JSON.parse(notice.message);
-						console.log(revJSON);
-						$(".toast-body").html(revJSON);
-						$('.toast').toast('show',800);
-					}
-					console.log(event.data);
-				};
-				webSocket_notice.onclose = function(event) {
-					console.log("Disconnected!");
-				};
-				}
-				function disconnectNotice() {
-					webSocket_notice.close();
-				}
-				function picktimeSuccess(message){
-					let obj = {
-							type:'send',
+					webSocket_notice = new WebSocket(endPointURL1);
+					webSocket_notice.onopen = function(event) {
+						console.log("Connect Success!");
+					};
+					webSocket_notice.onmessage = function(event) {
+						let initobj = {
+							type:'open',
 							identity:'1',
 							username:'${employeeVO.emp_no}',
 							currentTime:new Date(),
-							message:message,
-					}
-					webSocket_notice.send(JSON.stringify(obj));
+							message:'',
+						}
+						webSocket_notice.send(JSON.stringify(initobj));
+						let notice = JSON.parse(event.data);
+						if(notice.type=="receive"){
+							let revJSON = JSON.parse(notice.message);
+							shownotice(revJSON);
+						}
+					};
+					webSocket_notice.onclose = function(event) {
+						console.log("Disconnected!");
+					};
+			}
+			function disconnectNotice() {
+				webSocket_notice.close();
+			}
+			function picktimeSuccess(message){
+				let obj = {
+						type:'send',
+						identity:'1',
+						username:'${employeeVO.emp_no}',
+						currentTime:new Date(),
+						message:JSON.stringify(message),
 				}
+				setTimeout(function(){
+					webSocket_notice.send(JSON.stringify(obj));
+					},200
+				)
+			}
+			function shownotice(mes){
+				let a = $("#shownotice").clone();
+				$("#appendnotice").append($(a));
+				$(a).children().children().eq(0).children().eq(1).text(dateformat(new Date()));
+				$(a).children().children().eq(1).text(mes);
+				$(".toast").toast('show',8000);
+				setTimeout(function(){
+					$(a).empty();
+				},5000)
+			}
+			
+			function dateformat(str){
+			 let year = new Date(str).getFullYear();
+			 let month = new Date(str).getMonth()+1;
+			 let date = new Date(str).getDate();
+			 let hour = new Date(str).getHours();
+			 let isAm = "上午";
+			 if((Math.floor(hour/12)==1)){
+				 isAm = "下午";
+			 }
+			 let minutes = new Date(str).getMinutes();
+			 let second = new Date(str).getSeconds();
+			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+ 			}
+			
 			</script>
