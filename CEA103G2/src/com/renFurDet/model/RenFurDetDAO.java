@@ -45,7 +45,8 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 	private static final String 	GET_UNRENT_FNT_ID="SELECT fnt_id FROM HOWTRUE.FURNITURE_LIST where fnt_it_no=? and fnt_status=0 and fnt_rent_status=0 limit 1";
 	//改家具品項狀態
 	private static final String 	UPDATE_FNTID_STATUS ="update HOWTRUE.FURNITURE_LIST set fnt_rent_status=1 where fnt_id=?";
-
+	// 蔡佳 提前退租更新解約日期
+	private static final String UPDATE_TMT_DATE = "UPDATE RENT_FURNITURE_DETAIL SET rent_tmt_date=? where fnt_id=?";
 	
 	@Override
 	public void insert(RenFurDetVO renFurDetVO, Connection con) {
@@ -393,6 +394,44 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void updateTmtDate(RenFurDetVO renFurDetVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_TMT_DATE);
+			
+			pstmt.setTimestamp(1, renFurDetVO.getRent_tmt_date());
+//			pstmt.setInt(2, renFurDetVO.getRfa_no());
+			pstmt.setInt(2, renFurDetVO.getFnt_id());
+			pstmt.executeUpdate();
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
 	}
 
 //	@Override

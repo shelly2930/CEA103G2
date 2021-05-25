@@ -1,6 +1,7 @@
 package com.renFurApp.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.memTen.model.MemTenVO;
+import com.renCon.model.RenConVO;
 import com.renFurApp.model.RenFurAppService;
 import com.renFurApp.model.RenFurAppVO;
 import com.renFurDet.model.RenFurDetService;
@@ -104,5 +106,48 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 				failureView.forward(req, res);
 			}
 		}
+		// 提早退租
+		if("renTerminate".equals(action)) {
+			System.out.println("renTerminate");
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String[] fntarray = req.getParameterValues("no");
+				
+				Integer fnt_id =  null;
+				
+				Timestamp rent_tmt_date = null;
+				try {
+					rent_tmt_date = Timestamp.valueOf(req.getParameter("rent_tmt_date").trim());
+				} catch (IllegalArgumentException e) {
+					rent_tmt_date=new Timestamp(System.currentTimeMillis());
+					errorMsgs.add("請輸入日期!");
+				}
+				
+				RenFurDetService renFurDetSvc = new RenFurDetService();
+				
+				for(int i = 0; i < fntarray.length; i++) {
+					System.out.println(fntarray[i]);
+					fnt_id = new Integer(fntarray[i]);
+					RenFurDetVO renFurDetVO = renFurDetSvc.updateTmtDate(fnt_id, rent_tmt_date);
+					req.setAttribute("RenFurDetVO", renFurDetVO);
+				}
+				
+				RequestDispatcher successView = req.getRequestDispatcher("/front-end/renFurApp/listRenFurAppByMem.jsp"); 
+				successView.forward(req, res);
+				
+			}catch(Exception e) {
+				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/renFurApp/listRenFurAppByMem.jsp");
+				failureView.forward(req, res);
+			}
+			
+		}
+		
+		
 	}
+	
+	
 }

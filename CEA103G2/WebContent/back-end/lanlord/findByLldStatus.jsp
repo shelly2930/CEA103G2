@@ -104,7 +104,7 @@ img.lld_acc_pic {
 													</c:choose>
 												</td>
 												<td><fmt:formatDate value="${lanlordVO.lld_id_isvrfed}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-												<td><buttom class="btn-sm btn btn-info" onclick="showModal${lanlordVO.lld_no}()" value="">¼f®Ö</button></td>
+												<td><button class="btn-sm btn btn-info" onclick="showModal${lanlordVO.lld_no}()" value="">¼f®Ö</button></td>
 												<!--  Modal  -->
 												
 												
@@ -184,6 +184,7 @@ img.lld_acc_pic {
 												            </div>
 												            </form>
 												       </div>
+												     </div>
 												</td>
 												<script>
 													function showModal${lanlordVO.lld_no}() {
