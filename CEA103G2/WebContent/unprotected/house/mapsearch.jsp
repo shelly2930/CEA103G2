@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,11 +100,11 @@
 <script>
 	let objArray = [];
 	let initobj = {};
-	
+	let mem_no = ${empty MemTenVO.mem_no ?"null":MemTenVO.mem_no};
 	function initMap(initobj) {
 	    //設定中心點座標
 	    var map = new google.maps.Map(document.getElementById('map'), {
-	      zoom: 10,
+	      zoom: 12,
 	      center: {lat: initobj['lat'], lng: initobj['lng']},
 	    });
 	    let test = {
@@ -133,19 +134,38 @@
     	    str+="<img style='height:200px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+hosobj['no']+"' ></a>";	
     	    info.push(str);
     	    
-    	    console.log(hosobj['no']);
-    	    let string = "<tr>";
+    	    let string = "<tr id='"+hosobj['no']+"'>";
     		string+="<td><img style='height:50px;' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+hosobj['no']+"'></td>";
     		string+="<td class='text-center'><a style='color:#6E6EFF;' href='<%=request.getContextPath()%>/house/house.do?houseno="+hosobj['no']+"&action=listHouPho_ByHouseA'>"+hosobj['name']+"</a></td>";
     		string+="<td class='text-center'>"+hosobj['address']+"</td>";
     		string+="<td class='text-center'>"+hosobj['rent']+"</td>";
-    		string+="<td class='text-center'><i class='far fa-calendar-check'></i>Application</td>";
-    		string+="<td class='text-center'><i class='fas fa-home'></i>Rent</td>";
+    		string+="<td class='text-center'><a href='' class ='app' ><i style='color:#00BDBD' class='far fa-calendar-check'><br>Application</i></a></td>";
+    		string+="<td class='text-center'><a href='' class ='rent' ><i style='color:#00BDBD' class='fas fa-home'><br>Rent</i></a></td>";
     		string+="</tr>";
     		console.log(string)
     		$("#showhouse").append(string);
     	    
 	    }
+	    $(".app").click(function(e){
+	    	let hos_no = $(this).parents('tr').attr('id');
+	    	let destination ="${pageContext.request.contextPath}/front-end/rooVieApp/pickTime.jsp?houseno="+hos_no;
+	    	e.preventDefault();
+	    	if(mem_no===null){
+		    	login_ajax(destination);
+	    	}else{
+	    		$(location).attr('href',destination);
+	    	}
+	    })
+	    $(".rent").click(function(e){
+	    	let hos_no = $(this).parents('tr').attr('id');
+	    	let destination = "${pageContext.request.contextPath}/memTen/memTen.do?action=getOne_For_Rental&hos_no="+hos_no;
+	    	e.preventDefault();
+	    	if(mem_no===null){
+		    	login_ajax(destination);
+	    	}else{
+	    		$(location).attr('href',destination);
+	    	}
+	    })
 	    if(objArray.length!=0){
 	    	$("#searchtable").show();
 	    }
@@ -254,6 +274,66 @@
 			}
 		})
 	}
+	function login_ajax(destination){
+		Swal.fire({
+  			title: '請先登入會員',
+  			html:
+    		// 無法用required驗證
+  			'<input type="text" id="mem_username" class="swal2-input" placeholder="USERNAME">' +
+    		'<input type="password" id="mem_password" class="swal2-input" placeholder="PASSWORD">',
+    		showCloseButton: true,
+    		showDenyButton: true,
+    		confirmButtonText: "LOGIN",
+    		denyButtonText: "SIGN UP"
+		})
+		// SIGN UP
+		$(".swal2-deny").on("click", function(){
+				$(location).prop('href', '<%=request.getContextPath()%>/unprotected/memTen/addMemTen.jsp');
+		})	
+		// LOGIN	
+		$(".swal2-confirm").on("click", function(){
+				if($("#mem_username").val().trim().length != 0 && $("#mem_password").val().trim().length != 0){				
+	  			$.ajax({ 
+		  			  url:"<%=request.getContextPath()%>/AjaxLoginServlet",
+		  			  type:"POST", 
+		  			  data:{
+		  				  "mem_username":$("#mem_username").val(),
+		  				  "mem_password":$("#mem_password").val(),
+		  				  "action": "login_ajax"
+		  			  },
+		  			  async:false,
+		  			  success: function(str) {
+		  				if (str.length === 0 || str === ""){
+				  			Swal.fire({
+					  			  icon: 'error',
+					  			  title: '帳號或密碼有誤,請重新輸入',
+					  			  showConfirmButton: true,
+					  			  confirmButtonText: "我知道了"
+					  			});
+		  				} else {
+		  					Swal.fire({
+		  						 icon: 'success',
+		  						 title: '您已成功登入，歡迎回來',
+		  						 showConfirmButton: true,
+		  						 confirmButtonText: "我知道了"
+		  					}).then((result) => {
+		  					  if (result.isConfirmed) {
+		  						$(location).attr('href',destination);// 按下我知道了即刷新頁面
+		  					  }
+		  					})
+		  				}
+		  			}, 	  
+	  			});
+				} else {
+					Swal.fire({
+						 icon: 'error',
+						 title: '帳號或密碼請勿空白',
+						 showConfirmButton: true,
+			  			 confirmButtonText: "我知道了"
+					});
+				}
+			});
+	};
 </script>    
     
 <%@ include file="/front-end/footer.file"%>

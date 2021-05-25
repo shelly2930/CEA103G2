@@ -94,10 +94,10 @@
 	                <input type="hidden" id="memTenNo" value="${MemTenVO.mem_no}">
 						 <jsp:useBean id="houseSvc" scope="page" class="com.house.model.HouseService" />
 		 				  <jsp:useBean id="renConSvc2" scope="page" class="com.renCon.model.RenConService" />
-					<select class="form-control" name="county">     
+					<select class="form-control" name="county" id="getRtctNo">     
 	              			<option value="0">選擇運送地點</option>
 	              		<c:forEach var="renConVO" items="${memHouList}" >
-	              			<option value="${renConVO.rtct_no}" data-index="0">	
+	              			<option value="${renConVO.rtct_no}" data-index="0" >	
 	              			${houseSvc.getOneHouse(renConSvc2.getOneRenCon(renConVO.rtct_no).hos_no).hos_address}${houseSvc.getOneHouse(renConSvc2.getOneRenCon(renConVO.rtct_no).hos_no).hos_floor}樓	
 							</option>  
 	        			</c:forEach>
@@ -176,7 +176,7 @@ $(document).ready(function(){
 		let memTenNo=$("#memTenNo").val();	
 		let rfa_order_date=$("#rfa_order_date").val();
 		let rfa_total=parseInt($("#getTotal").html().substring(1));
-		
+		let rtct_no=$("#getRtctNo").val();
 		if($("select").val()==0){
 			Swal.fire({
 				  icon: 'error',
@@ -208,6 +208,7 @@ $(document).ready(function(){
 						        	"memTen_no":memTenNo,
 						        	"rfa_order_date":rfa_order_date,
 						        	"rfa_total":rfa_total,
+						        	"rtct_no":rtct_no,
 								},
 								success:function(){
 									Swal.fire({

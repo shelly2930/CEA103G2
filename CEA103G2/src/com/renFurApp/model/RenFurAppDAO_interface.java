@@ -2,8 +2,10 @@ package com.renFurApp.model;
 
 import java.util.*;
 
+import com.renFurDet.model.RenFurDetVO;
+
 public interface RenFurAppDAO_interface {
-	public void insert(RenFurAppVO renFurAppVO);
+	public void  insertWithDetail(RenFurAppVO renFurAppVO,List<RenFurDetVO> renFurDetList);
     public void update(RenFurAppVO renFurAppVO);
     public void delete(Integer rfa_no);
     public RenFurAppVO findByPrimaryKey(Integer rfa_no);

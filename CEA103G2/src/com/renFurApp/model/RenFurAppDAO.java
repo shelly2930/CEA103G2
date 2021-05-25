@@ -9,6 +9,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.renFurDet.model.RenFurDetDAO;
+import com.renFurDet.model.RenFurDetVO;
+
+import oracle.jdbc.OracleConnection.CommitOption;
+
 public class RenFurAppDAO implements RenFurAppDAO_interface {
 
 	private static DataSource ds = null;
@@ -21,14 +26,14 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 		}
 	}
 	private static final String TABLE="RENT_FURNITURE_APPLICATION";
-	private static final String INSERT_ITEM=" (mem_no,emp_no,rfa_order_date,rfa_total,rfa_apct_date,rfa_status)";
+	private static final String INSERT_ITEM=" (mem_no,rfa_order_date,rfa_total,rfa_apct_date,rfa_status)";
 //	private static final String UPDATE_ITEM="mem_no= ?,emp_no= ?,rfa_order_date= ?,rfa_total= ?,rfa_status= ?";
 	private static final String UPDATE_ITEM="emp_no= ?,rfa_order_date= ?, rfa_status=?";
 	private static final String PK="rfa_no";
 	
 	private static final String INSERT_STMT = 
 		"INSERT INTO "+TABLE+INSERT_ITEM + 
-		" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		" VALUES (?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = 
 			"SELECT rfa_no,mem_no,emp_no,rfa_order_date,rfa_total, rfa_apct_date,rfa_status FROM RENT_FURNITURE_APPLICATION order by rfa_no";
 	private static final String GET_ONE_STMT = 
@@ -39,6 +44,7 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			"DELETE FROM RENT_FURNTURE_DETAIL where "+PK+"= ?";
 	private static final String UPDATE = 
 		"UPDATE "+TABLE+" set "+UPDATE_ITEM+" where "+PK+" = ?";
+	private static final String GET_LAST_RFA_NO="SELECT rfa_no FROM RENT_FURNITURE_APPLICATION order by rfa_no desc limit 1";
 	//查申請單的租借狀態用
 	private static final String GET_RENT_STATUS="SELECT RENT_DATE,RENT_TMT_DATE FROM RENT_FURNITURE_DETAIL WHERE rfa_no=? limit 0,1";
     //找租屋合約編號用
@@ -47,24 +53,55 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 	private static final String GET_ALL_BY_MEM = "SELECT * FROM RENT_FURNITURE_APPLICATION WHERE mem_no=? and rfa_status=?";
 	
 	@Override
-	public void insert(RenFurAppVO renFurAppVO) {
+	public void insertWithDetail(RenFurAppVO renFurAppVO,List<RenFurDetVO> renFurDetList) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		ResultSet rs = null;
+		
 		try {
 
 			con = ds.getConnection();
+			con.setAutoCommit(false);
+			
 			pstmt = con.prepareStatement(INSERT_STMT);
-			//由此開始改
 			pstmt.setInt(1, renFurAppVO.getMem_no());
-			pstmt.setInt(2, renFurAppVO.getEmp_no());
-			pstmt.setTimestamp(3, renFurAppVO.getRfa_order_date());
-			pstmt.setInt(4, renFurAppVO.getRfa_total());
-			pstmt.setTimestamp(5, renFurAppVO.getRfa_apct_date());
-			pstmt.setByte(6, renFurAppVO.getRfa_status());
+			pstmt.setTimestamp(2, renFurAppVO.getRfa_order_date());
+			pstmt.setInt(3, renFurAppVO.getRfa_total());
+			pstmt.setTimestamp(4, renFurAppVO.getRfa_apct_date());
+			pstmt.setByte(5, renFurAppVO.getRfa_status());
 
 			pstmt.executeUpdate();
+			System.out.println("新增申請單成功");
+			Integer getRfa_no = null;
+			
+			pstmt=con.prepareStatement(GET_LAST_RFA_NO);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				getRfa_no = rs.getInt(1); 
+				System.out.println("拿到申請單編號"+getRfa_no);
+			}
+			
+//			rs = pstmt.getGeneratedKeys();	
+//			if(rs.next()) {
+//				getRfa_no = rs.getInt(1); 
+//				System.out.println("拿到申請單編號"+getRfa_no);
+//			}
+			
+			
+			RenFurDetDAO dao=new RenFurDetDAO();
+			for(RenFurDetVO detail : renFurDetList) {
+				detail.setRfa_no(getRfa_no);
+				System.out.println("拿到申請單編號給明細: "+detail.getRfa_no());
+				System.out.println("準備傳連線");
+				dao.insert(detail,con);
+			}
+			
+			con.commit();
+			con.setAutoCommit(true);
+			System.out.println("交易完成");
+			
 
 			// Handle any SQL errors
 		} catch (SQLException se) {

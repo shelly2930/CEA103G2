@@ -17,6 +17,9 @@ import com.employee.model.EmployeeVO;
 import com.google.gson.Gson;
 import com.house.model.HouseService;
 import com.house.model.HouseVO;
+import com.lanlord.model.LanlordService;
+import com.lanlord.model.LanlordVO;
+import com.memTen.model.MemTenService;
 
 /**
  * Servlet implementation class HouseJsonServlet
@@ -37,6 +40,7 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);
+			return;
 		}
 		if("getAllHouseOnLine".equals(action)) {
 			HouseService svc = new HouseService();
@@ -46,6 +50,7 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);
+			return;
 		}
 		if("getAllEmp".equals(action)) {
 			EmployeeService svc = new EmployeeService();
@@ -55,6 +60,7 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);
+			return;
 		}
 		if("getEmpName".equals(action)){
 			EmployeeService svc = new EmployeeService();
@@ -64,6 +70,7 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(str);
+			return;
 		}
 		if("pullorpush".equals(action)){
 			HouseService svc = new HouseService();
@@ -73,6 +80,7 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson("жие\"));
+			return;
 		}
 		if("findhouse".equals(action)) {
 			HouseService svc = new HouseService();
@@ -86,6 +94,7 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson(list));
+			return;
 		}
 		if("mapsearch".equals(action)) {
 			String[] hos_city = new String[1];
@@ -104,6 +113,25 @@ public class HouseJsonServlet extends HttpServlet {
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson(list));
+			return;
+		}
+		if("getLanlord".equals(action)) {
+			Integer lld_no = new Integer(req.getParameter("lld_no"));
+			LanlordService svc = new LanlordService();
+			LanlordVO  lldvo = svc.getOneLanlord(lld_no);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(lldvo));
+			return;
+		}
+		if("judgelld".equals(action)) {
+			Integer mem_no = new Integer(req.getParameter("mem_no"));
+			MemTenService svc = new MemTenService();
+			Byte  status = svc.judgelld(mem_no);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(status));
+			return;
 		}
 	}
 

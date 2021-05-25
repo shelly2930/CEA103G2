@@ -95,7 +95,7 @@
                                         <tr id="${houseVO.hos_no}" ${not empty param.houseno && (param.houseno==houseVO.hos_no) ?"class='border-left-primary'":""}>
                                             <th>
                                             <a href="" data-toggle="modal" data-target="#a">
-					 						 SHOW 物件
+					 						  物件詳請
                                             ${houseVO.hos_no}</a>
                                             </th>
                                             <th ${empty list || list.get(0).hos_state==1 || list.get(0).hos_state==3?"style='display:none'":""}>
@@ -139,7 +139,7 @@
 				  							物件內文
 											</button>
                                             </th>
-                                            <th>${houseVO.emp_no}</th>
+                                            <th class='emp'>${houseVO.emp_no}</th>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -179,7 +179,7 @@
 					
 					<!-- Modal -->
 					<div class="modal fade" id="a" tabindex="-1" role="dialog" aria-labelledby="#b" aria-hidden="true">
-					  <div class="modal-dialog modal-dialog-centered" role="document">
+					  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
 					        <h5 class="modal-title" id="b">Modal title</h5>
@@ -188,14 +188,14 @@
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					      <table class="table table-bordered">
+					      <table class="table table-striped">
 					      	<thead>
                             <tr>
                                <th>物件編號</th>
                                <th>刊登狀態</th>
                             </tr>
                             </thead>
-					        <tbody id="showOneHouse">
+					        <tbody id="showOneHouse" class='table-striped'>
                             <tr>
                             </tr>
                             </tbody>
@@ -203,7 +203,6 @@
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					        <button type="button" class="btn btn-primary">Save changes</button>
 					      </div>
 					    </div>
 					  </div>
@@ -239,8 +238,27 @@
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
     
 	<script>
-	
-	
+	$(".emp").each(function(){
+		let empno = $(this).text();
+		$(this).text(getEmp(empno));
+	})
+	function getEmp(emp){
+				let name= '';
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouseJsonServlet",
+					type:'post',
+					data:{
+						action:'getEmpName',
+						empno:emp,
+					},
+					async:false,
+					success:function(str){
+						name=str.emp_name;
+					}
+						
+				})
+				return name;
+	}
 // 	日期格式化
 		$(function(){
 			$("th[name='dateformat']").each(function(){
@@ -281,20 +299,16 @@
 			});
 		})
 		
-		let house_value = ['hos_no',
+		let house_value = [
 			'lld_no',
 			'hos_name',
 			'hos_rent',
 			'hos_expense',
 			'hos_date',
-			'hos_views',
 			'hos_city',
 			'hos_dist',
 			'hos_address',
-			'hos_lon',
-			'hos_lat',
 			'hos_type',
-			'hos_info',
 			'hos_age',
 			'hos_floor',
 			'hos_ele',
@@ -305,30 +319,19 @@
 			'hos_gender',
 			'hos_water',
 			'hos_power',
-			'hos_internet',
-			'hos_apptime',
-			'hos_order_date',
-			'emp_no',
-			'hos_status',
-			'hos_result',
-			'hos_loc_pic',
-			'hos_state',
-			'hos_refuse'];
+			'hos_internet'
+			];
 		
-		let house_key = ['物件編號',
+		let house_key = [
 			'房東編號',
 			'物件名稱',
 			'物件租金',
 			'管理費',
 			'刊登日期',
-			'瀏覽次數',
 			'縣市',
 			'鄉鎮[市]區',
 			'地址',
-			'經度',
-			'緯度',
 			'房型',
-			'介紹',
 			'屋齡',
 			'樓層',
 			'電梯與否',
@@ -339,16 +342,11 @@
 			'性別限制',
 			'水費/一度',
 			'電費/一度',
-			'網路費',
-			'申請時間',
-			'預約時間',
-			'員工編號',
-			'申請進度',
-			'審核結果',
-			'所有權狀照片',
-			'刊登狀態',
-			'未通過原因'];
+			'網路費'
+			];
 		$("a[data-toggle='modal']").click(function(){
+			$("#showOneHouse").empty();
+			$("#showOneHouse").append("<tr></tr>");
 			$("#b").text('編號'+$(this).parent().parent().attr('id')+'物件詳請');
 			$.ajax({
 				url:"<%=request.getContextPath()%>/HouseJsonServlet",
@@ -359,13 +357,81 @@
 				},
 				success:function(jsonStr){
 					for(let i =0;i<house_key.length;i++){
-						$("#showOneHouse tr:last-child").after('<tr><th>'+house_key[i]+'</th><th>'+jsonStr[house_value[i]]+'</th></tr>');
+						$("#showOneHouse tr:last-child").after("<tr scope='col'><th >"+house_key[i]+"</th><th id='"+house_value[i]+"'>"+jsonStr[house_value[i]]+"</th></tr>");
 					}
-				}
+					$("#hos_internet").text("有提供");
+					$("#hos_power").append("元");
+					$("#hos_water").append("元");
+					if($("#hos_gender").text()==0){
+						$("#hos_gender").text("不拘");
+					}else if($("#hos_gender").text()==1){
+						$("#hos_gender").text("限制: 女");
+					}else{
+						$("#hos_gender").text("限制: 男");
+					}
+					$("#hos_squares").append("坪");
+					$("#hos_cook").text("可接受");
+					$("#hos_pet").text("可接受");
+					$("#hos_parking").text("有提供");
+					$("#hos_ele").text("有提供");
+					$("#hos_age").append("年");
+					$("#hos_floor").append("樓");
+					$("#hos_date").text(dateformat($("#hos_date").text()));
+					$("#hos_rent").append("元");
+					$("#lld_no").text(getMem(getlld($("#lld_no").text()).mem_no).mem_name);
+					}
+					
 				});
 		})
-	
- 		
+		function getlld(lld_no){
+				let lldvo={}
+				$.ajax({
+					url:"<%=request.getContextPath()%>/HouseJsonServlet",
+					type:'post',
+					data:{
+						action:'getLanlord',
+						'lld_no':lld_no,
+					},
+					async:false,
+					success:function(data){
+						for(let key in data){
+							lldvo[key]=data[key];
+						}
+					}
+				})
+				return lldvo;
+		}
+		function getMem(mem_no){
+			let mem = {};
+			$.ajax({
+				url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+				type: 'post',
+				data:{
+					action:'getOneMemten',
+					mem_no:mem_no,
+				},
+				async:false,
+				success:function(memvo){
+					for(let key in memvo){
+						mem[key]=memvo[key];
+					}
+				}
+			})
+			return mem;
+		}
+ 		function dateformat(str){
+			 let year = new Date(str).getFullYear();
+			 let month = new Date(str).getMonth()+1;
+			 let date = new Date(str).getDate();
+			 let hour = new Date(str).getHours();
+			 let isAm = "上午";
+			 if((Math.floor(hour/12)==1)){
+				 isAm = "下午";
+			 }
+			 let minutes = new Date(str).getMinutes();
+			 let second = new Date(str).getSeconds();
+			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
+ 		}
  </script>
 	
 
