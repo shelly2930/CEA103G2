@@ -14,8 +14,6 @@
 <title>瀏覽所有物件(訪客看到的頁面)</title>
 <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
-<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <!-- =========icon fontawesome -->
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <!-- ========= -->
@@ -81,16 +79,6 @@
     background-position: center;
     background-repeat: no-repeat  !important;
     background-size: cover;
-}
-.box1{
-    margin: 20px;
-    padding: 10px;   
-    position:relative;
-    display: inline-block;
-    background: -webkit-gradient(linear, 0% 20%, 0% 1000%, from(#fff), to(#fff), color-stop(.1,#f3f3f3));
-    border: 1px solid #ccc;
-    -webkit-box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.1) inset;
-    -webkit-border-bottom-right-radius: 6px 50px;    
 }
  
 </style>

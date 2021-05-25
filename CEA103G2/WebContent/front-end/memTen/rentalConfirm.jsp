@@ -7,7 +7,6 @@
 
 <!-- Required source start -->
 	<!-- jquery 這行有需要的人再加 -->
-<%-- 	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script> --%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 <!-- Required source end -->
@@ -178,7 +177,8 @@ div.rentalstep {
         </form>
     </div>
 </div>
-
+<!--================ footer =================-->
+<%@include file="/front-end/footer.file"%>
 
 <!-- 上傳圖片可預覽 -->
 <script>
@@ -338,8 +338,7 @@ window.onload=function(){
 </script>
 
 
-<!--================ footer =================-->
-<%@include file="/front-end/footer.file"%>
+
 
 </body> 	
 </html>

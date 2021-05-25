@@ -246,7 +246,7 @@
                </div>
               <div class="col-md-6 form-group">
                 <input type="text" name="hos_order_date" id="f_date1"
-  					value="<%=(houseVO == null) ? "600" : houseVO.getHos_order_date()%>"
+  					value="<%=(houseVO == null) ? "" : houseVO.getHos_order_date()%>"
   					class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"> 
                 <span class="placeholder" ></span>
               </div>
@@ -415,7 +415,7 @@
        theme: '',              //theme: 'dark',
        timepicker:true,       //timepicker:true,
        step: 60,                //step: 60 (這是timepicker的預設間隔60分鐘)
-       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
 	   value: today, // value:   new Date(),
        //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
        startDate:	            today,  // 起始日

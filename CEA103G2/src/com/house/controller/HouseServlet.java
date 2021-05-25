@@ -213,6 +213,7 @@ public class HouseServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
+				System.out.println("SAA");
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 				//*表示 功能要在改善
 				//#表示 該表格之後要在主管或員工那裏可以更改
@@ -459,6 +460,7 @@ public class HouseServlet extends HttpServlet {
 				}
 				/*************************** 2.開始新增資料 ***************************************/
 				HouseService houseSvc = new HouseService();
+				System.out.println("SAS");
 				houseVO = houseSvc.addHouse(lld_no, hos_name, hos_rent, hos_expense, hos_date, hos_views, hos_city,
 						hos_dist, hos_address, hos_lon, hos_lat, hos_type, hos_info, hos_age, hos_floor, hos_ele,
 						hos_parking, hos_pet, hos_cook, hos_squares, hos_gender, hos_water, hos_power, hos_internet,

@@ -37,6 +37,10 @@
     margin-left: 10px;
 }
 
+.btn_2 {
+	box-shadow: -1.717px 8.835px 29.76px 2.24px rgb(97 210 180 / 18%) !important;
+}
+
 /* content CSS start */
 .subscribe_area div.container {
 	padding: 100px 0;
