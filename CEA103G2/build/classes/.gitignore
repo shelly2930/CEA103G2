@@ -1,32 +1,5 @@
-import com.google.protobuf.Timestamp;
-
-//找東西寫法
-	@Override
-	public RenFurDetVO findByPrimaryKey(Integer rfa_no,Integer fnt_id) {
-
-		RenFurDetVO renFurDetVO = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ONE_BY_PK1_PK2);
-
-			pstmt.setInt(1, rfa_no);
-			pstmt.setInt(2, fnt_id);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				renFurDetVO = new RenFurDetVO();
-				renFurDetVO.setRfa_no(rs.getInt("rfa_no"));
-				renFurDetVO.setFnt_id(rs.getInt("fnt_id"));
-				renFurDetVO.setRtct_no(rs.getInt("rtct_no"));
-				renFurDetVO.setRent_date(rs.getTimestamp("rent_date"));
-				renFurDetVO.setRent_end_date(rs.getTimestamp("rent_end_date"));
-				renFurDetVO.setRent_tmt_date(rs.getTimestamp("rent_tmt_date"));
-
-			}
 /com/
+/filter/
+/hibernate/
+/jdbcUtil_CompositeQuery_advance/
+/jedis/
