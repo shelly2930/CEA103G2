@@ -242,7 +242,7 @@ public class RooVieAppServlet extends HttpServlet {
 			Integer mem_no = Integer.parseInt(req.getParameter("mem_no"));
 			Byte rva_status = Byte.parseByte(req.getParameter("rva_status"));
 			RooVieAppService rvaSvc = new RooVieAppService();
-			List<RooVieAppVO> list = rvaSvc.showTheEmpApp(mem_no, rva_status);
+			List<RooVieAppVO> list = rvaSvc.showTheMemApp(mem_no, rva_status);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");
 			res.getWriter().print(new Gson().toJson(list));

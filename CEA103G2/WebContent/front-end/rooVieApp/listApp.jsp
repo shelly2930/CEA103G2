@@ -149,15 +149,27 @@
 			        			$("#hide2").hide();
 			        		}else if(ap.rva_status==1){
 			        			str+="<td>"+"接洽中"+"</td>";
-			        			str+="<td>"+getEmp(ap.emp_no).emp_name+"</td>";
-				        		str+="<td>"+getEmp(ap.emp_no).emp_phone+"</td>";
+			        			let en = getEmp(ap.emp_no).emp_name;
+			        			let ep = getEmp(ap.emp_no).emp_phone;
+			        			if(!en){
+			        				en="尚未指派";
+			        				ep="尚未指派";
+			        			}
+			        			str+="<td>"+en+"</td>";
+				        		str+="<td>"+ep+"</td>";
 				        		$("#hide0").show();
 			        			$("#hide1").show();
 			        			$("#hide2").hide();
 			        		}else{
 			        			str+="<td>"+"已完成"+"</td>";
-			        			str+="<td>"+getEmp(ap.emp_no).emp_name+"</td>";
-				        		str+="<td>"+getEmp(ap.emp_no).emp_phone+"</td>";
+			        			let en = getEmp(ap.emp_no).emp_name;
+			        			let ep = getEmp(ap.emp_no).emp_phone;
+			        			if(!en){
+			        				en="尚未指派";
+			        				ep="尚未指派";
+			        			}
+			        			str+="<td>"+en+"</td>";
+				        		str+="<td>"+ep+"</td>";
 				        		if(checkthehousecon(ap.hos_no)==true){
 				        			str+="<td>"+"<a  style='color:#FF8282;font-weight:bold'>已經出租</a>"+"</td>";
 				        		}else{

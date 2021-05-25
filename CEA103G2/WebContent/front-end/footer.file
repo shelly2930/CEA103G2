@@ -99,6 +99,7 @@
 	//我是前台通知
 	let webSocket_notice;	
 	let MyPoint_notice = "/test/${MemTenVO.mem_no}/0";
+	let giveThisMem =${MemTenVO.mem_no};
 	let endPointURL1 = "ws://" + window.location.host + (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1))  + MyPoint_notice;
 	function connectNotice() {
 		webSocket_notice = new WebSocket(endPointURL1);
@@ -115,9 +116,14 @@
 			}
 			webSocket_notice.send(JSON.stringify(initobj));
 			let notice = JSON.parse(event.data);
+			
 			if(notice.type=="receive"){
-				let revJSON = JSON.parse(notice.message);
-				shownotice(revJSON);
+			console.log(parseInt(notice.username))
+				if(parseInt(giveThisMem)==parseInt(JSON.parse(notice.username))){
+					let revJSON = JSON.parse(notice.message);
+					shownotice(revJSON);
+				}
+				
 				
 			}
 		};
@@ -138,7 +144,7 @@
 		}
 		setTimeout(function(){
 			webSocket_notice.send(JSON.stringify(obj));
-			},200
+			},1000
 		)
 	}
 	function shownotice(mes){
@@ -165,7 +171,6 @@
 			 let second = new Date(str).getSeconds();
 			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
  	}
- 	
 	</script>
 
 

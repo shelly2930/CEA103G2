@@ -205,7 +205,6 @@
     <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
 
 <!--     Page level plugins -->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
     <%@include file="/back-end/includeFile/otherBack.file" %>
     
   
