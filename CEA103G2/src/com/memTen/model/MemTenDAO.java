@@ -30,7 +30,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 		
 		private static final String INSERT_STMT = "INSERT INTO MEMBER_TENANT (mem_username, mem_password, mem_pic,"
 									+ " mem_name, mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email,"
-									+ " mem_city, mem_dist, mem_addr, mem_idcard_f, mem_idcard_r) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+									+ " mem_city, mem_dist, mem_addr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		private static final String GET_ALL_STMT = "SELECT * FROM MEMBER_TENANT ORDER BY mem_no";
 		private static final String GET_ONE_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_no = ?";
 		private static final String DELETE = "DELETE FROM MEMBER_TENANT WHERE mem_no = ?";
@@ -45,14 +45,9 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String RENTAL_CONFIRM = "UPDATE MEMBER_TENANT SET mem_name=?, mem_id=?, mem_mobile=?, mem_city=?, mem_dist=?,"
 									+ " mem_addr=?, mem_idcard_f=?, mem_idcard_r=?, mem_id_status=? WHERE mem_no=?";
 		private static final String UPDATE_MEM_ID_STATUS = "UPDATE MEMBER_TENANT SET mem_id_status=? WHERE mem_no=?";
-		// 找出目前需要帳單的會員與對應物件
-		private static final String FIND_BILL_MEM = "select r.mem_no,r.hos_no from MEMBER_TENANT m join (select mem_no, hos_no from RENTAL_CONTRACT where"
-									+ " (RTCT_STATUS=2 and RTCT_EFF_DATE < NOW()) or (TIMESTAMPDIFF(day, RTCT_TMT_DATE, now()) <= 31)) r on m.mem_no = r.mem_no order by m.mem_no";
-		
-		
-		
 		//敬達增加
 		private static final String JUDGELLD = "SELECT COUNT(*) AS JUDGE FROM HOWTRUE.MEMBER_TENANT M LEFT JOIN LANLORD L ON M.MEM_NO = L.MEM_NO WHERE M.MEM_NO=? AND LLD_STATUS =1";
+		
 		@Override
 		public void insert(MemTenVO memTenVO) {
 			Connection con = null;
@@ -600,79 +595,6 @@ public class MemTenDAO implements MemTenDAO_interface {
 			}
 		}
 
-		@Override
-		public List<RenConVO> findBillMem() {
-			List<RenConVO> listfindBillMem = new ArrayList<RenConVO>();
-			MemTenVO memTenVO = null;
-			RenConVO renConVO = null;
-
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-
-			try {
-
-				con = ds.getConnection();
-				pstmt = con.prepareStatement(FIND_BILL_MEM);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					// empVO 也稱為 Domain objects
-//					memTenVO = new MemTenVO();
-//					memTenVO.setMem_no(rs.getInt("mem_no"));
-//					memTenVO.setMem_name(rs.getString("mem_name"));
-//					memTenVO.setHos_no(rs.getInt("hos_no"));
-					
-					renConVO = new RenConVO();
-					renConVO.setMem_no(rs.getInt("mem_no"));
-					renConVO.setHos_no(rs.getInt("hos_no"));
-//					renConVO.setHos_no(rs.getInt("hos_no"));
-//					renConVO.setRtct_eff_date(rs.getDate("rtct_eff_date"));
-//					renConVO.setRtct_status(rs.getByte("rtct_status"));
-					listfindBillMem.add(renConVO); // Store the row in the list
-					System.out.println("add");
-//					listfindBillMem.add(renConVO);
-					
-				}
-
-				// Handle any driver errors
-			} catch (SQLException se) {
-				throw new RuntimeException("A database error occured. "
-						+ se.getMessage());
-				// Clean up JDBC resources
-			} finally {
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-						e.printStackTrace(System.err);
-					}
-				}
-			}
-			return listfindBillMem;
-			
-		}
-
-		@Override
-		public Map<Integer, Integer> findBill() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		
 		//達
 		@Override
 		public Byte judgelld(Integer mem_no) {
@@ -721,82 +643,4 @@ public class MemTenDAO implements MemTenDAO_interface {
 			return lld_status;
 		}
 
-//		@Override
-//		public Map<Integer, Integer> findBill() {
-//			Map<Integer, Integer> map = new HashMap<>();
-//			
-//
-////			Map<Integer, List<RenConVO>> map1 = new HashMap<Integer,List<RenConVO>>();
-////			List<RenConVO> renConVO = new ArrayList<>();
-//			
-//			RenConVO renConVO = null;
-//
-//			Connection con = null;
-//			PreparedStatement pstmt = null;
-//			ResultSet rs = null;
-//
-//			try {
-//
-//				con = ds.getConnection();
-//				pstmt = con.prepareStatement(FIND_BILL_MEM);
-//				rs = pstmt.executeQuery();
-//				while (rs.next()) {
-//					// empVO 也稱為 Domain objects
-////					memTenVO = new MemTenVO();
-////					memTenVO.setMem_no(rs.getInt("mem_no"));
-////					memTenVO.setMem_name(rs.getString("mem_name"));
-////					memTenVO.setHos_no(rs.getInt("hos_no"));
-//					
-//					renConVO = new RenConVO();
-//					renConVO.setMem_no(rs.getInt("mem_no"));
-//					renConVO.setHos_no(rs.getInt("hos_no"));
-////					renConVO.setHos_no(rs.getInt("hos_no"));
-////					renConVO.setRtct_eff_date(rs.getDate("rtct_eff_date"));
-////					renConVO.setRtct_status(rs.getByte("rtct_status"));
-//					
-//					
-//					map.put(renConVO.getMem_no(), renConVO.getHos_no()); // Store the row in the list
-//					System.out.println("put");
-//					System.out.println(map);
-//					for (String keys : objectSet.keySet())  
-//					{
-//					   System.out.println(keys + ":"+ objectSet.get(keys));
-//					}
-////					listfindBillMem.add(renConVO);
-//					
-//				}
-//
-//				// Handle any driver errors
-//			} catch (SQLException se) {
-//				throw new RuntimeException("A database error occured. "
-//						+ se.getMessage());
-//				// Clean up JDBC resources
-//			} finally {
-//				if (rs != null) {
-//					try {
-//						rs.close();
-//					} catch (SQLException se) {
-//						se.printStackTrace(System.err);
-//					}
-//				}
-//				if (pstmt != null) {
-//					try {
-//						pstmt.close();
-//					} catch (SQLException se) {
-//						se.printStackTrace(System.err);
-//					}
-//				}
-//				if (con != null) {
-//					try {
-//						con.close();
-//					} catch (Exception e) {
-//						e.printStackTrace(System.err);
-//					}
-//				}
-//			}
-//			
-//			return map;
-//		}
-
-		
 }

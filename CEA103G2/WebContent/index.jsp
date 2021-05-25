@@ -9,15 +9,20 @@
 <style type="text/css">
 
 .subscribe_area {
-    background-image: url(/CEA103G2/index_img/city.jpg) !important;
+    background-image: url(/CEA103G2/index_img/danger.jpg) !important;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .section_padding {
-    padding: 200px 0px !important;
+    padding: 160px 0px 220px 0px !important;
 }
+
+/* .section_padding.fur { */
+/* 	padding: 0px 0px 0px 0px !important; */
+/* } */
+
 /*·j´M¦C*/
 .subscribe_area .input-group .input-group-text {
     height: 60px;
@@ -89,7 +94,7 @@
 
 
 	<!-- product_list2 part start-->
-	<section class="product_list best_seller section_padding">
+	<section class="product_list best_seller section_padding fur" style='padding-top:50px !important'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.repApp.model.RepAppVO" table="REPAIR_APPLICATION" >
+        
+        <id name="ra_no" column="ra_no">
+            <generator class="identity" />
+        </id>
+        
+        <property name="mem_no" column="mem_no" update="false" />
+        <property name="rtct_no" column="rtct_no" update="false" />
+        <property name="emp_no" column="emp_no" />
+        <property name="ra_app_time" column="ra_app_time" insert="false" update="false" />
+        <property name="ra_order_time" column="ra_order_time" />
+        <property name="ra_end_time" column="ra_end_time" />
+        <property name="ra_status" column="ra_status" insert="false" />
+        
+<!--         <many-to-one name="memTenVO" class="com.memTen.model.MemTenVO" lazy="false"> -->
+<!--             <column name="mem_no" /> -->
+<!--         </many-to-one> -->
+<!--         <many-to-one name="renConVO" class="com.renCon.model.RenConVO" lazy="false"> -->
+<!--             <column name="rtct_no" /> -->
+<!--         </many-to-one> -->
+<!--         <many-to-one name="employeeVO" class="com.employee.model.EmployeeVO" lazy="false"> -->
+<!--             <column name="emp_no" /> -->
+<!--         </many-to-one> -->
+        
+        <set name="set_RepAppDetVO" table="REPAIR_APPLICATION_DETAILS" lazy="false" cascade="all"  inverse="true"  order-by="rad_no asc">			
+			<key>
+				<column name="ra_no" />
+			</key>
+			<one-to-many class="com.repAppDet.model.RepAppDetVO" />
+		</set>
+        
+    </class>
+</hibernate-mapping>
+

@@ -22,7 +22,7 @@
     background-size: cover;
 }
 </style>
-<body onload="connect();connectNotice();" onunload="disconnect();disconnectNotice();">
+<body onload="connect();" onunload="disconnect();disconnectNotice();">
 <!-- ======圖片 -->
    <section class="breadcrumb breadcrumb_bg" >
         <div class="container">
@@ -582,10 +582,10 @@
 				    </div>
 				  </div>
 				</div>
-				
+				<%@include file="/front-end/footer.file"%>
 <!-- /****** CONTAINER *****/     -->	                       
 		<script>
-		
+
 		//找到上一個網頁傳的querystring 目前只帶houseno 若要增加請處理
 		let queryString=location.search;
 		let firstequalindex = queryString.indexOf("=");
@@ -634,7 +634,7 @@
 			return obj;
 		}		
 		
-		
+			
 //日曆生成
 		
 			let choose = new Date();
@@ -1035,13 +1035,13 @@
 							success:function(){
 								console.log("預約成功");
 								//送出通知
-								let sendobj = {
-									"houseno":houseno, 
-									"picktime":confirmpicktime,
-									"checked":"true",
-								}
-								
-								picktimeSuccess(JSON.stringify(sendobj));
+// 								let sendobj = {
+// 									"houseno":houseno, 
+// 									"picktime":confirmpicktime,
+// 									"checked":"true",
+// 								}
+								let mess="會員"+mem_no+"在剛剛成功預約"+confirmpicktime+"時段";
+								picktimeSuccess(JSON.stringify(mess));
 							}
 						})
 					    Swal.fire({
@@ -1091,47 +1091,8 @@
 	$("button[class='swal2-confirm btn-sm swal2-styled']").click(function(){
 		console.log("I GET");
 	})
-	//通知
-	let webSocket_notice;	
-	let MyPoint_notice = "/test/${MemTenVO.mem_no}/0";
-	let endPointURL1 = "ws://" + window.location.host + webCtx + MyPoint_notice;
-	function connectNotice() {
-		webSocket_notice = new WebSocket(endPointURL1);
-		webSocket_notice.onopen = function(event) {
-			console.log("Connect Success!");
-		};
-		webSocket_notice.onmessage = function(event) {
-		let initobj = {
-			type:'open',
-			identity:'0',
-			username:'${MemTenVO.mem_no}',
-			currentTime:new Date(),
-			message:'',
-		}
-		webSocket_notice.send(JSON.stringify(initobj));
-		$("#test").click(function(){
-			picktimeSuccess("D");
-			
-		})
-		};
-		webSocket_notice.onclose = function(event) {
-			console.log("Disconnected!");
-		};
-	}
-	function disconnectNotice() {
-		webSocket_notice.close();
-	}
-	function picktimeSuccess(message){
-		let obj = {
-				type:'send',
-				identity:'0',
-				username:'${MemTenVO.mem_no}',
-				currentTime:new Date(),
-				message:message,
-		}
-		webSocket_notice.send(JSON.stringify(obj));
-	}
+
 	</script>
 </body>
-<%@include file="/front-end/footer.file"%>
+
 </html>

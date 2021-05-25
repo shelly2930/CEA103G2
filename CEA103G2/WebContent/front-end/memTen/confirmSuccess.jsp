@@ -5,10 +5,6 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
-<!-- Required source start -->
-	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
 
 <title>租房申請成功</title>
 
@@ -54,7 +50,7 @@ a.member {
         <table>
         	<tr>
         		<td>
-        			您已成功送出租房申請，請至<a href="" class="member">會員專區</a>查看，謝謝。
+        			您已成功送出租房申請，請至<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_view.jsp" class="member">會員專區</a>查看，謝謝。
         		</td>
         	</tr>
         </table>

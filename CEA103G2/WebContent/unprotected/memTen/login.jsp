@@ -99,10 +99,6 @@ p.errorMsgs {
 <!--================login_part end =================-->
 
 
-<!-- Required source start -->
-	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
 
 <%@include file="/front-end/footer.file"%>
 

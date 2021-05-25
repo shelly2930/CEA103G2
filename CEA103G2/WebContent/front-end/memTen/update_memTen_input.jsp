@@ -13,11 +13,6 @@
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 
-<!-- Required source start -->
-	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
-
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 
 <title></title>

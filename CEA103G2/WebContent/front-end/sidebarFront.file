@@ -7,7 +7,7 @@
                         <aside class="left_widgets p_filter_widgets bb">
                             <nav id="sidebar">
 								<div class="p-4 pt-5">
-		  							<img src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?action=getmempic&mem_no=${memTenVO.mem_no}" class="img logo rounded-circle mb-5">
+		  							<img src="<%=request.getContextPath()%>/MemberPicServlet?mem_no=${MemTenVO.mem_no}" class="img logo rounded-circle mb-5">
 	        						<ul class="list-unstyled components mb-5">
 	          							<li>
 	           	 							<a href="#memberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">個人資料</a>
@@ -25,13 +25,13 @@
 							            	<a href="#houseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租屋管理</a>
 							              	<ul class="collapse list-unstyled" id="houseSubmenu">
 							                	<li>
-							                    	<a href="<%=request.getContextPath()%>/front-end/rooVieApp/listApp.jsp">我的預約</a>
+							                    	<a class="second" href="<%=request.getContextPath()%>/front-end/rooVieApp/listApp.jsp">我的預約</a>
 							                	</li>
 							                	<li>
-							                    	<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_view.jsp">進行簽約</a>
+							                    	<a class="second" href="<%=request.getContextPath()%>/front-end/renCon/renCon_view.jsp">進行簽約</a>
 							                	</li>
 							                	<li>
-							                    	<a href="<%=request.getContextPath()%>/front-end/renCon/renCon_list.jsp">我的合約</a>
+							                    	<a class="second" href="<%=request.getContextPath()%>/front-end/renCon/renCon_list.jsp">我的合約</a>
 							                	</li>
 							              	</ul>
 								        </li>
@@ -40,10 +40,10 @@
 							            	<a href="#furSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租家具管理</a>
 							              	<ul class="collapse list-unstyled" id="furSubmenu">
 							                	<li>
-							                    	<a class="second" href="#">Page 1</a>
+							                    	<a class="second" href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}">查看申請單</a>
 							                	</li>
 							                	<li>
-							                    	<a class="second" href="#">Page 2</a>
+							                    	<a class="second" href="<%=request.getContextPath()%>/front-end/renFurApp/listRenFurAppByMem.jsp">Page 2</a>
 							                	</li>
 							                	<li>
 							                    	<a class="second" href="#">Page 3</a>

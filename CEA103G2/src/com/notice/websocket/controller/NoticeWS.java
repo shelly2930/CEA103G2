@@ -48,7 +48,9 @@ public class NoticeWS {
 			Set<String> total = sessionsMap.keySet();
 			for(String temp : total) {
 				if("1".equals(judge.get(temp))&&sessionsMap.get(temp).isOpen()) {
-					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);
+					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);//後台
+				}else {
+					//前台
 				}
 			}
 		}

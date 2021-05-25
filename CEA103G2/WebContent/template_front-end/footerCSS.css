@@ -1,6 +1,11 @@
 /* footer CSS start */
-.footer_part {
+footer.footer_part {
+  	background-color:#242423 !important;
   	padding: 25px 0px 15px !important;
+  	position: absolute !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 72px !important;
 }
 @media (max-width: 576px) {
   .footer_part {
