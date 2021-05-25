@@ -111,15 +111,24 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="<%=request.getContextPath()%>/back-end/cusSer/chatBack.jsp">
                     <i class="fas fa-fw fa-comments"></i>
                     <span>客服管理</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-bullhorn"></i>
-                    <span>公告管理</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePost"
+                    aria-expanded="true" aria-controls="collapsePost">
+                    <i class="fas fa-fw fa-hand-holding-usd"></i>
+                    <span>公告管理</span>
+                </a>
+                <div id="collapsePost" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Cashier Management:</h6>
+                        <a class="collapse-item" href="<%=request.getContextPath() %>/back-end/post/addPost.jsp">新增公告</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/post/post.do?action=listAll&status=0">查看公告</a>
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item">

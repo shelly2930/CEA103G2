@@ -345,7 +345,7 @@
 			},
 			async:false,
 			success:function(e){
-				judge=0;
+				judge=e;
 			}
 		})
 		return judge;

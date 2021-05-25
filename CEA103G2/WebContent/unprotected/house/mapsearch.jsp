@@ -147,18 +147,17 @@
     	    
 	    }
 	    $(".app").click(function(e){
-	    	let hos_no = $(this).parent().attr('id');
+	    	let hos_no = $(this).parents('tr').attr('id');
 	    	let destination ="${pageContext.request.contextPath}/front-end/rooVieApp/pickTime.jsp?houseno="+hos_no;
 	    	e.preventDefault();
 	    	if(mem_no===null){
 		    	login_ajax(destination);
 	    	}else{
-	    		alert(destination);
 	    		$(location).attr('href',destination);
 	    	}
 	    })
 	    $(".rent").click(function(e){
-	    	let hos_no = $(this).parent().attr('id');
+	    	let hos_no = $(this).parents('tr').attr('id');
 	    	let destination = "${pageContext.request.contextPath}/memTen/memTen.do?action=getOne_For_Rental&hos_no="+hos_no;
 	    	e.preventDefault();
 	    	if(mem_no===null){

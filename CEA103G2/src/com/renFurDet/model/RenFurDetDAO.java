@@ -51,12 +51,13 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 	
 	@Override
 	public void insert(RenFurDetVO renFurDetVO, Connection con) {
-
+		System.out.println("拿到連線 進到RenForDetDAO");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 //			  找家具品項的未租數量
 			   Integer minusFnt_it_no=renFurDetVO.getFnt_id();
+			   System.out.println("拿到要減的家具品項編號"+minusFnt_it_no);
 			   pstmt=con.prepareStatement(GET_FNT_UNRENT);
 			   
 			   pstmt.setInt(1, minusFnt_it_no);
@@ -65,6 +66,7 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 			   if(rs.next()) {
 				   unrent = rs.getInt(1); 
 				}
+			   System.out.println("品項目前UNRENT數: "+unrent);
 //           家具品項未租數減1 改回品項
 			   unrent=unrent-1;
 			   pstmt=con.prepareStatement(UPDATE_FNT_UNRENT);
@@ -73,7 +75,8 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 			   pstmt.setInt(2,minusFnt_it_no);
 			   
 			   pstmt.executeUpdate();
-			 
+			   System.out.println("更改品項UNRENT-1後: "+unrent);
+			   
 //           找家具品項編號
 			   Integer getUnrentFntId=null;
 			   
@@ -85,13 +88,14 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 			   while(rs.next()) {
 				   getUnrentFntId= rs.getInt(1); 
 			   }
+			   System.out.println("取未租品項編號"+getUnrentFntId);
 //把拿出的家具品項編號給租家具明細序號			   
 			   renFurDetVO.setFnt_id(getUnrentFntId);
 //			   把拿出的家具品項編號狀態改變為租借中
 			   pstmt=con.prepareStatement(UPDATE_FNTID_STATUS);
 			   pstmt.setInt(1,getUnrentFntId);
 			   pstmt.executeUpdate();
-	
+			   System.out.println("更改品項編號成功");
 			//開始新增明細
 			pstmt = con.prepareStatement(INSERT_STMT);
 			pstmt.setInt(1, renFurDetVO.getRfa_no());
@@ -99,7 +103,7 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 			pstmt.setInt(3, renFurDetVO.getRtct_no());
 			pstmt.setTimestamp(4, renFurDetVO.getRent_end_date());
 			pstmt.executeUpdate();
-
+			System.out.println("新增明細成功");
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
