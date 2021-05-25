@@ -5,10 +5,6 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
-<!-- Required source start -->
-	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
 
 <title>租房申請成功</title>
 

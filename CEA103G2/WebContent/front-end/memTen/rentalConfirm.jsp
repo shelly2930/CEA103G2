@@ -7,7 +7,7 @@
 
 <!-- Required source start -->
 	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<%-- 	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script> --%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 <!-- Required source end -->
@@ -282,10 +282,7 @@ window.onload=function(){
            //startDate:	            '2017/07/10',  // 起始日
            //minDate:               '-1970-01-01', // 去除今日(不含)之前
            //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
-        	}).on('change',function(){
-            	$("#rtct_eff_date").datetimepicker('setEndDate',$('#rtct_end_date').val());
-            	$("#rtct_end_date").datetimepicker('hide'); 
-        });
+        	})
         
         
    
