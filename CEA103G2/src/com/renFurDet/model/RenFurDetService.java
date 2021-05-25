@@ -11,20 +11,20 @@ public class RenFurDetService {
 		dao = new RenFurDetDAO();
 	}
 
-	public RenFurDetVO addRenFurDet(Integer rfa_no, Integer fnt_id, Integer rtct_no, Timestamp rent_date,
-			Timestamp rent_end_date, Timestamp rent_tmt_date) {
-
-		RenFurDetVO renFurDetVO = new RenFurDetVO();
-		renFurDetVO.setRfa_no(rfa_no);
-		renFurDetVO.setFnt_id(fnt_id);
-		renFurDetVO.setRtct_no(rtct_no);
-		renFurDetVO.setRent_date(rent_date);
-		renFurDetVO.setRent_end_date(rent_end_date);
-		renFurDetVO.setRent_tmt_date(rent_tmt_date);
-		dao.insert(renFurDetVO);
-
-		return renFurDetVO;
-	}
+//	public RenFurDetVO addRenFurDet(Integer rfa_no, Integer fnt_id, Integer rtct_no, Timestamp rent_date,
+//			Timestamp rent_end_date, Timestamp rent_tmt_date) {
+//
+//		RenFurDetVO renFurDetVO = new RenFurDetVO();
+//		renFurDetVO.setRfa_no(rfa_no);
+//		renFurDetVO.setFnt_id(fnt_id);
+//		renFurDetVO.setRtct_no(rtct_no);
+//		renFurDetVO.setRent_date(rent_date);
+//		renFurDetVO.setRent_end_date(rent_end_date);
+//		renFurDetVO.setRent_tmt_date(rent_tmt_date);
+//		dao.insert(renFurDetVO);
+//
+//		return renFurDetVO;
+//	}
 
 	public RenFurDetVO updateRenFurDet(Integer rfa_no, Integer fnt_id, Integer rtct_no, Timestamp rent_date,
 			Timestamp rent_end_date, Timestamp rent_tmt_date) {
