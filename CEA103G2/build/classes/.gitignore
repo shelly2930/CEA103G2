@@ -1,5 +1,7 @@
 /com/
 /filter/
+/hibernate.cfg.xml
 /hibernate/
 /jdbcUtil_CompositeQuery_advance/
 /jedis/
+/log4j.properties
