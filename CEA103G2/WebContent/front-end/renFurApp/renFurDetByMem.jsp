@@ -81,7 +81,7 @@
 					</ul>
 				</c:if>
 				
-				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurApp/renFurApp.do" name="form1">
+<%-- 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurApp/renFurApp.do" name="form1"> --%>
 <table>
 	<tr>
 		<th>¥Ó½Ð³æ½s¸¹:</th>
@@ -192,7 +192,7 @@
 <%--        <jsp:include page="listDets_ByRenFurApp_edit.jsp" /> --%>
 <%-- <%} %> --%>
 
-</FORM>
+<!-- </FORM> -->
 					
 
 

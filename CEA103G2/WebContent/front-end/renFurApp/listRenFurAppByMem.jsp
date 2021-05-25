@@ -63,8 +63,6 @@
 				
 				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
 				<div class="table-responsive-lg">
-								--${ rfastatus }--
-								<%=request.getAttribute("rfastatus") %>
 								<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}" class="genric-btn info radius">未處理</a>
 								<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}&rfa_status=1" class="genric-btn info radius">處理中</a>
 								<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}&rfa_status=2" class="genric-btn info radius">已完成</a>
