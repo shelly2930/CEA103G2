@@ -33,6 +33,12 @@
 	href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
 <style>
+.card {
+    z-index: 99999;
+}
+.topbar .dropdown .dropdown-menu {
+	z-index: 999999;
+}
 </style>
 </head>
 

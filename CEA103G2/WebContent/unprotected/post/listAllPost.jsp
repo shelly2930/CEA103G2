@@ -17,14 +17,26 @@
 	href="<%=request.getContextPath()%>/template_front-end/css/all.css">
 
 <style>
+.breadcrumb_bg {
+	background-image: url('<%=request.getContextPath()%>/index_img/10.jpg')
+		!important;
+	background-position: center;
+	background-repeat: no-repeat !important;
+	background-size: cover;
+}
+
+.justify-content-center {
+	opacity: 0;
+}
+
 div#desc div#asc {
-	color: #0000EE;
+	/* 	color: #0000EE; */
 	text-decoration: none;
 }
 
 .table-borderless tbody+tbody, .table-borderless td, .table-borderless th,
 	.table-borderless thead th {
-	border: 5px solid black;
+	border: 3px solid black;
 }
 
 .confirmation_part .order_details_iner .table thead th {
@@ -35,6 +47,35 @@ div#desc div#asc {
 td#time {
 	text-align: right
 }
+
+.col-xl-12 {
+	top: -50px;
+}
+
+.confirmation_part .single_confirmation_details {
+	padding: 0 !important;
+}
+
+.confirmation_part .order_details_iner {
+	background-color: white;
+	padding: 0;
+	position: relative;
+	box-sizing: border-box;
+	left: -5%;
+	width: 110%;
+}
+
+.confirmation_part .single_confirmation_details {
+	background-color: white;
+}
+
+.title { 
+ 	color: #007bff !important; 
+	
+ } 
+a.page{
+	color: #007bff !important; 
+} 
 </style>
 <script>
     $(document).ready(function(){
@@ -48,6 +89,20 @@ td#time {
 
 </head>
 <body>
+	<!--================Home Banner Area =================-->
+	<section class="breadcrumb breadcrumb_bg">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="breadcrumb_iner">
+						<div class="breadcrumb_iner_item"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
 	<!--================ confirmation part start =================-->
 	<%-- ¿ù»~ªí¦C --%>
 	<c:if test="${not empty errorMsgs}">
@@ -62,10 +117,10 @@ td#time {
 	<section class="confirmation_part padding_top">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12 col-lx-12">
+				<div class="col-xl-12 col-xl-12">
 					<div class="single_confirmation_details">
 						<div class="row">
-							<div class="col-lg-12">
+							<div class="col-xl-12">
 								<div class="order_details_iner">
 									<table class="table table-borderless">
 										<thead>
@@ -90,7 +145,7 @@ td#time {
 											end="<%=pageIndex+rowsPerPage-1%>">
 											<tbody>
 												<tr>
-													<td scope="col" colspan="1"><a
+													<td scope="col" colspan="1" ><a class= "title"
 														href="<%=request.getContextPath() %>/post/post.do?action=GoToOneContent&post_no=${postVO.post_no}">${postVO.post_title}</a></td>
 													<td id="time"><fmt:formatDate
 															value="${postVO.post_time}" pattern="yyyy-MM-dd HH:mm" /></td>
