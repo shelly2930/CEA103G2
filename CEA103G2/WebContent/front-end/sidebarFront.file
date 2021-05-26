@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/sidebar.css">
 
+
 <div class="col-lg-2 side">
                     <div class="left_sidebar_area">
                         <aside class="left_widgets p_filter_widgets bb">
@@ -16,8 +17,11 @@
 		                    						<a class="second" href="<%=request.getContextPath()%>/memTen/memTen.do?action=getOne_For_Update&mem_no=${MemTenVO.mem_no}">會員資料</a>
 		                						</li>
 								                <li>
-								                    <a class="second" href="#">房東資料</a>
+								                	<a class="second" href="<%=request.getContextPath()%>/front-end/lanlord/listOneLanlord.jsp">房東資料</a>
 								                </li>
+								                
+								                
+								                
 								            </ul>
 								        </li>
 	
@@ -37,18 +41,7 @@
 								        </li>
 	          				
 	          							<li>
-							            	<a href="#furSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租家具管理</a>
-							              	<ul class="collapse list-unstyled" id="furSubmenu">
-							                	<li>
-							                    	<a class="second" href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}">查看申請單</a>
-							                	</li>
-							                	<li>
-							                    	<a class="second" href="<%=request.getContextPath()%>/front-end/renFurApp/listRenFurAppByMem.jsp">Page 2</a>
-							                	</li>
-							                	<li>
-							                    	<a class="second" href="#">Page 3</a>
-							                	</li>
-							              	</ul>
+							            	<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}">租家具管理</a>
 								        </li>
 	          				
 										<li>

@@ -71,21 +71,21 @@ img.mem_pic {
                             </button>
                             </a>
                             
-                            <a href="${pageContext.request.contextPath}/RenConServlet?action=findByStatus&rtct_status=2">
-                            <button class="btn-sm btn btn${not empty list && list.get(0).rtct_status==2?'':'-outline'}-info">
-                            	通過已繳費
-                            </button>
-                            </a>
+<%--                             <a href="${pageContext.request.contextPath}/RenConServlet?action=findByStatus&rtct_status=2"> --%>
+<%--                             <button class="btn-sm btn btn${not empty list && list.get(0).rtct_status==2?'':'-outline'}-info"> --%>
+<!--                             	通過已繳費 -->
+<!--                             </button> -->
+<!--                             </a> -->
                             <a href="${pageContext.request.contextPath}/RenConServlet?action=findByStatus&rtct_status=3">
                             <button class="btn-sm btn btn${not empty list && list.get(0).rtct_status==3?'':'-outline'}-info">
                             	不通過
                             </button>
                             </a>
-                            <a href="${pageContext.request.contextPath}/RenConServlet?action=findByStatus&rtct_status=4">
-                            <button class="btn-sm btn btn${not empty list && list.get(0).rtct_status==4?'':'-outline'}-info">
-                            	已解約
-                            </button>
-                            </a>
+<%--                             <a href="${pageContext.request.contextPath}/RenConServlet?action=findByStatus&rtct_status=4"> --%>
+<%--                             <button class="btn-sm btn btn${not empty list && list.get(0).rtct_status==4?'':'-outline'}-info"> --%>
+<!--                             	已解約 -->
+<!--                             </button> -->
+<!--                             </a> -->
                             
                         </div>
                         <div class="card-body">

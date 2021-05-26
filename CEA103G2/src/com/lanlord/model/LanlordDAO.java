@@ -33,14 +33,17 @@ public class LanlordDAO implements LanlordDAO_interface {
 				+ " lld_account, lld_acc_pic) VALUES (?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM LANLORD ORDER BY lld_no";
 	private static final String GET_ONE_STMT = "SELECT * FROM LANLORD WHERE lld_no=?";
-	private static final String UPDATE = "UPDATE LANLORD SET mem_no= ?, lld_bank=?, lld_account=?,"
-				+ " lld_acc_pic=?, lld_status=?, lld_id_isvrfed=?, lld_id_disapprove=?, lld_suspend=? WHERE lld_no =?";
+	private static final String UPDATE = "UPDATE LANLORD SET mem_no=?,lld_bank=?, lld_account=?,"
+				+ " lld_acc_pic=? WHERE lld_no =?";
 	private static final String FIND_BY_MEMTEN = "SELECT * FROM LANLORD WHERE mem_no=?";
 	private static final String FIND_BY_LLDSTATUS = "SELECT * FROM LANLORD WHERE lld_status=? ORDER BY lld_apptime";
 	private static final String UPDATE_LLDSTATUS = "UPDATE LANLORD SET lld_status=?, lld_id_isvrfed=?, "
 				+ "lld_id_disapprove=? WHERE lld_no =?";
 	// 用在帳單上，找房東有幾間審核通過的房子
 	private static final String GET_HOUSES_BY_LANLORD = "SELECT hos_no, hos_city, hos_dist, hos_address, hos_expense FROM HOUSE where lld_no=? and hos_result=1 order by hos_no";
+	// 再次申請，狀態改為未審核
+	private static final String APP_AGAIN = "UPDATE LANLORD SET mem_no=?,lld_bank=?, lld_account=?,"
+			+ " lld_acc_pic=?, lld_status=? WHERE lld_no =?";
 	
 	@Override
 	public void insert(LanlordVO lanlordVO) {
@@ -95,11 +98,11 @@ public class LanlordDAO implements LanlordDAO_interface {
 			pstmt.setString(2, lanlordVO.getLld_bank());
 			pstmt.setString(3, lanlordVO.getLld_account());
 			pstmt.setBytes(4, lanlordVO.getLld_acc_pic());
-			pstmt.setByte(5, lanlordVO.getLld_status());
-			pstmt.setTimestamp(6, lanlordVO.getLld_id_isvrfed());
-			pstmt.setString(7, lanlordVO.getLld_id_disapprove());
-			pstmt.setString(8, lanlordVO.getLld_suspend());
-			pstmt.setInt(9, lanlordVO.getLld_no());
+//			pstmt.setByte(5, lanlordVO.getLld_status());
+//			pstmt.setTimestamp(6, lanlordVO.getLld_id_isvrfed());
+//			pstmt.setString(7, lanlordVO.getLld_id_disapprove());
+//			pstmt.setString(8, lanlordVO.getLld_suspend());
+			pstmt.setInt(5, lanlordVO.getLld_no());
 			
 			pstmt.executeUpdate();
 
@@ -464,6 +467,51 @@ public class LanlordDAO implements LanlordDAO_interface {
 			}
 		}
 		return set;
+	}
+	@Override
+	public void appAgain(LanlordVO lanlordVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(APP_AGAIN);
+
+			pstmt.setInt(1, lanlordVO.getMem_no());
+			pstmt.setString(2, lanlordVO.getLld_bank());
+			pstmt.setString(3, lanlordVO.getLld_account());
+			pstmt.setBytes(4, lanlordVO.getLld_acc_pic());
+			pstmt.setByte(5, lanlordVO.getLld_status());
+//			pstmt.setTimestamp(6, lanlordVO.getLld_id_isvrfed());
+//			pstmt.setString(7, lanlordVO.getLld_id_disapprove());
+//			pstmt.setString(8, lanlordVO.getLld_suspend());
+			pstmt.setInt(6, lanlordVO.getLld_no());
+			
+			pstmt.executeUpdate();
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
 	}
 	
 	

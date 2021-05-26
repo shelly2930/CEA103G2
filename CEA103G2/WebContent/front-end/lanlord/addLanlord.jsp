@@ -29,7 +29,7 @@
 }
 
 .breadcrumb_bg {
-    background-image: url(/CEA103G2/front-end/memTen/images/home.jpg) !important;
+    background-image: url(/CEA103G2/front-end/lanlord/images/lanlord.jpg) !important;
 }
 
 .breadcrumb .breadcrumb_iner .breadcrumb_iner_item h2 {
@@ -66,15 +66,7 @@ h3 {
 <!--================ navbar =================-->
 <%@include file="/front-end/header.file"%>
 
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
+
 
 <section class="breadcrumb breadcrumb_bg rentalbaclground">
         <div class="container">
@@ -121,6 +113,15 @@ h3 {
 <!--         <h5 class="rentalalert"><i class="fas fa-exclamation-circle"></i> 請填真實資料</h5> -->
         <div class="step2">
         	<table class="table">
+				<%-- 錯誤表列 --%>
+<c:if test="${not empty errorMsgs}">
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+		</c:forEach>
+	</ul>
+</c:if>
 				<h3>請填寫以下資料</h3>
 				<tbody>
 					<tr>

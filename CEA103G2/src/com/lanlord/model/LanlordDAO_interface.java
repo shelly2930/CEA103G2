@@ -13,4 +13,5 @@ public interface LanlordDAO_interface {
 	public List<LanlordVO> findByLldstatus(Byte lld_status);
 	public void updatelldstatus(LanlordVO lanlordVO);
 	public Set<HouseVO> getHousesByLanlord(Integer lld_no);
+	public void appAgain(LanlordVO lanlordVO);
 }

@@ -131,6 +131,37 @@ public class LanlordServlet extends HttpServlet {
 			}
 		}
 		
+		if ("getOneForApp".equals(action)) { // 來自listAllEmp.jsp 或  /dept/listEmps_ByDeptno.jsp 的請求
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			/***************************不同****************************************/
+			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】		
+			
+			try {
+				/***************************1.接收請求參數****************************************/
+				Integer lld_no = new Integer(req.getParameter("lld_no"));
+				
+				/***************************2.開始查詢資料****************************************/
+				LanlordService lanlordSvc = new LanlordService();
+				LanlordVO lanlordVO = lanlordSvc.getOneLanlord(lld_no);
+								
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("lanlordVO", lanlordVO); // 資料庫取出的lanlordVO物件,存入req
+				String url = "/front-end/lanlord/getOneForApp.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_lanlord_input.jsp
+				successView.forward(req, res);
+
+				/***************************其他可能的錯誤處理************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料取出時失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher(requestURL);
+				failureView.forward(req, res);
+			}
+		}
+		
 //		// 前台房東
 //		if ("update".equals(action)) { // 來自update_lanlord_input.jsp的請求
 //			
@@ -241,9 +272,21 @@ public class LanlordServlet extends HttpServlet {
 				
 				java.sql.Timestamp lld_apptime = new java.sql.Timestamp(System.currentTimeMillis());
 				
-				String lld_bank = req.getParameter("lld_bank").trim();
+				String lld_bank = req.getParameter("lld_bank");
+				String lld_bankReg = "^[0-9]{3,4}$";
+				if (lld_bankReg == null || lld_bankReg.trim().length() == 0) {
+					errorMsgs.add("銀行代碼: 請勿空白");
+				} else if(!lld_bank.trim().matches(lld_bankReg)) {
+					errorMsgs.add("銀行代碼: 只能是3碼或4碼數字");
+	            }
 				
-				String lld_account = req.getParameter("lld_account").trim();
+				String lld_account = req.getParameter("lld_account");
+				String lld_accountReg = "^[0-9]*$";
+				if (lld_accountReg == null || lld_accountReg.trim().length() == 0) {
+					errorMsgs.add("匯款帳號: 請勿空白");
+				} else if(!lld_account.trim().matches(lld_accountReg)) {
+					errorMsgs.add("匯款帳號: 只能是數字");
+	            }
 				
 				Part part = req.getPart("lld_acc_pic");
 				InputStream lld_acc_picin = part.getInputStream();
@@ -269,7 +312,13 @@ public class LanlordServlet extends HttpServlet {
 				LanlordService lanlordSvc = new LanlordService();
 				lanlordVO = lanlordSvc.addLanlord(mem_no, lld_apptime, lld_bank, lld_account, lld_acc_picBuf);
 				
+				lanlordVO = lanlordSvc.getOneLanlordByMemTen(mem_no);
+//				HttpSession session = req.getSession();
+				req.setAttribute("lanlordVO", lanlordVO);
+				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
+//				String url = "/front-end/lanlord/listOneLanlord.jsp";
+//				String url = "/front-end/lanlord/sucess.jsp";
 				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -302,25 +351,71 @@ public class LanlordServlet extends HttpServlet {
 			}
 		}
 		
-		// 目前沒用到
-		if ("authLanlord".equals(action)) {
+		// 審核不通過，前台房東再次提出申請
+		if ("authagain".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
-			/***************************不同****************************************/
-			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑: 可能為【/emp/listAllEmp.jsp】 或  【/dept/listEmps_ByDeptno.jsp】 或 【 /dept/listAllDept.jsp】		
 			
 			try {
 				/***************************1.接收請求參數****************************************/
 				Integer lld_no = new Integer(req.getParameter("lld_no"));
 				
+				Integer mem_no = new Integer(req.getParameter("mem_no"));
+				
+				java.sql.Timestamp lld_apptime = new java.sql.Timestamp(System.currentTimeMillis());
+				
+				String lld_bank = req.getParameter("lld_bank");
+				String lld_bankReg = "^[0-9]{3,4}$";
+				if (lld_bankReg == null || lld_bankReg.trim().length() == 0) {
+					errorMsgs.add("銀行代碼: 請勿空白");
+				} else if(!lld_bank.trim().matches(lld_bankReg)) {
+					errorMsgs.add("銀行代碼: 只能是3碼或4碼數字");
+	            }
+				
+				String lld_account = req.getParameter("lld_account");
+				System.out.println(lld_account);
+				
+				String lld_accountReg = "^[0-9]*$";
+				if (lld_accountReg == null || lld_accountReg.trim().length() == 0) {
+					errorMsgs.add("匯款帳號: 請勿空白");
+				} else if(!lld_account.trim().matches(lld_accountReg)) {
+					errorMsgs.add("匯款帳號: 只能是數字");
+	            }
+				
+				Part part = req.getPart("lld_acc_pic");
+				InputStream lld_acc_picin = part.getInputStream();
+				byte[] lld_acc_picBuf = new byte[lld_acc_picin.available()];
+				lld_acc_picin.read(lld_acc_picBuf);
+				lld_acc_picin.close();
+				
+				Byte lld_status = Byte.valueOf(req.getParameter("lld_status").trim());
+				
+				LanlordVO lanlordVO = new LanlordVO();
+				lanlordVO.setLld_no(lld_no);
+				lanlordVO.setMem_no(mem_no);
+				lanlordVO.setLld_apptime(lld_apptime);
+				lanlordVO.setLld_bank(lld_bank);
+				lanlordVO.setLld_account(lld_account);
+				lanlordVO.setLld_acc_pic(lld_acc_picBuf);
+				lanlordVO.setLld_status(lld_status);
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("lanlordVO", lanlordVO); // 含有輸入格式錯誤的memTenVO物件,也存入req
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/lanlord/getOneForApp.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
 				/***************************2.開始查詢資料****************************************/
 				LanlordService lanlordSvc = new LanlordService();
-				LanlordVO lanlordVO = lanlordSvc.getOneLanlord(lld_no);
+				lanlordVO = lanlordSvc.appAgain(lld_no, mem_no, lld_bank, lld_account, lld_acc_picBuf, lld_status);
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("lanlordVO", lanlordVO); // 資料庫取出的lanlordVO物件,存入req
-				String url = "/back-end/lanlord/authOneLanlord.jsp";
+//				String url = "/front-end/lanlord/listOneLanlord.jsp"; // 跳回原本的畫面，讀不到圖片
+				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_lanlord_input.jsp
 				successView.forward(req, res);
 
@@ -328,7 +423,7 @@ public class LanlordServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料取出時失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher(requestURL);
+						.getRequestDispatcher("/front-end/lanlord/getOneForApp.jsp");
 				failureView.forward(req, res);
 			}
 		}

@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <%@ page import="com.memTen.model.*"%> --%>
+<%@ page import="com.memTen.model.*"%>
 
 <%
-//   MemTenVO memTenVO = (MemTenVO) request.getAttribute("memTenVO");
+  MemTenVO memTenVO = (MemTenVO) request.getAttribute("memTenVO");
 %>
 
 <html>
@@ -67,7 +67,6 @@ h3 {
 <body>
 
 <!--================ navbar =================-->
-<%@include file="/front-end/header.file"%>
 
 <!-- 地址連動選單 -->
 <script>
@@ -92,117 +91,75 @@ h3 {
 
 <div class="container">
 	<div class="row rentalstep">
-<!--         <div class="step1"> -->
-<!--         	<h3>選擇合約期間</h3> -->
-<!--         	<table class="table"> -->
-<!-- 				<tbody> -->
-<!-- 					<tr> -->
-<!-- 						<th>合約起始日</th> -->
-<!-- 							<td> -->
-<!-- 								<div class="datealert"><i class="fas fa-exclamation-circle"></i> 只能選擇當日起算14天後</div> -->
-<!-- 								<input class="single-input" name="rtct_eff_date" id="rtct_eff_date" type="text" required> -->
-<!-- 							</td> -->
-<!-- 					</tr> -->
-<!-- 					<tr> -->
-<!-- 						<th>合約終止日</th> -->
-<!-- 							<td> -->
-<!-- 								<div class="datealert"><i class="fas fa-exclamation-circle"></i> 租期最短一個月</div> -->
-<!-- 								<input class="single-input" name="rtct_end_date" id="rtct_end_date" type="text" required> -->
-<!-- 							</td> -->
-<!-- 					</tr> -->
-<!-- 				</tbody> -->
-<!-- 			</table>	 -->
-<!--         </div> -->
-        
-<!--         <br> -->
-<!--         <h3>申請會員資料</h3> -->
-<!--         <h5 class="rentalalert"><i class="fas fa-exclamation-circle"></i> 請填真實資料</h5> -->
-        <div class="step2">
+	        <div class="step2">
         	<table class="table">
 				<h3>請填寫以下資料</h3>
-				
-			
-		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath()%>/memTen/memTen.do" name="form1">
-				<tbody>
-					<tr>
-						<th>帳號</th>
-						<td>
-							<input type="text" name="mem_username"  class="single-input" value="${MemTenVO.mem_username}">
-							<p class="errorMsgs" style="color:red">${errorMsgs.mem_username}</p>
-					    </tr>
-					<tr>
-					    <th>密碼</th>
-						<td>
-							<input type="text" name="mem_password"  class="single-input" value="${MemTenVO.mem_password}">
-							<p class="errorMsgs" style="color:red">${errorMsgs.mem_password}</p>
-						</td>
-					</tr>
-					    <tr>
-					    	<th>照片</th>
-							<td>
-								<div id="preview"></div><input type="file" name="mem_pic" id="mem_pic" size="45" />
-							</td>
-					    </tr>
-					    <tr>
-					    	<th>姓名</th>
-							<td>
-			 					<input type="text" name="mem_name"  class="single-input" value="${MemTenVO.mem_name}">
-			 					<p class="errorMsgs" style="color:red">${errorMsgs.mem_name}</p>
-							</td>
-					    </tr>
-					    <tr>
-					    	<th>性別</th>
-					    	<td>
-					    		<select name="mem_gender" size="1" > 
-									<option value="0"${memTenVO.mem_gender == 0}>男</option>
-									<option value="1"${memTenVO.mem_gender == 1}>女</option>		
-								</select>
-					    	</td>
-					    </tr>
-					    <tr>
-					    	<th>身分證字號</th>
-							<td>
-								<input type="text" name="mem_id"  class="single-input" value="${MemTenVO.mem_id}">
-								<p class="errorMsgs" style="color:red">${errorMsgs.mem_id}</p>
-							</td>
-					    </tr>
-					    <tr>
-					    	<th>出生年月日</th>
-							<td>
-								<input class="single-input" name="mem_birthday" id="mem_birthday" type="text">
-								<p class="errorMsgs" style="color:red">${errorMsgs.mem_birthday}</p>
-							</td>
-					    </tr>
-					    <tr>
-					    	<th>連絡電話</th>
-							<td>
-								<input type="text" name="mem_phone"  class="single-input" value="${MemTenVO.mem_phone}">
-							</td>
-					    </tr>
-					    <tr>
-					    	<th>行動電話</th>
-							<td>
-								<input type="text" name="mem_mobile"  class="single-input" value="${MemTenVO.mem_mobile}">
-								<p class="errorMsgs" style="color:red">${errorMsgs.mem_mobile}</p>
-							</td>
-					    </tr>
-					    <tr>
-					    	<th>電子信箱</th>
-							<td>
-								<input type="text" name="mem_email"  class="single-input" value="${MemTenVO.mem_email}">
-								<p class="errorMsgs" style="color:red">${errorMsgs.mem_email}</p>
-							</td>
-					    </tr>
-					    <tr>
-					    	<th>地址</th>
-							<td>
-								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="${MemTenVO.mem_city}"
-						     			data-district-value="${MemTenVO.mem_dist}"></div>
-								<input type="TEXT" name="mem_addr" class="single-input" value="${MemTenVO.mem_addr}"/>
-							</td>
-					    </tr>
-					    
-					    <tr>
+
+<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath()%>/memTen/memTen.do" name="form1">
+<table>
+	<tr>
+		<th>帳號:</th>
+		<td><input type="TEXT" name="mem_username" size="45" 
+			 value="<%= (memTenVO==null)? "" : memTenVO.getMem_username()%>" /></td>
+	</tr>
+	<tr>
+		<th>密碼:</th>
+		<td><input type="TEXT" name="mem_password" size="45"
+			 value="<%= (memTenVO==null)? "" : memTenVO.getMem_password()%>" /></td>
+	</tr>
+	<tr>
+		<th>照片:</th>
+		<td><div id="preview"></div><input type="file" name="mem_pic" id="mem_pic" size="45" /></td>
+	</tr>
+	<tr>
+		<th>姓名:</th>
+		<td><input type="TEXT" name="mem_name" size="45"
+			 value="<%= (memTenVO==null)? "" : memTenVO.getMem_name()%>" /></td>
+	</tr>
+	<tr>
+		<th>性別:</th>
+		<td>
+			<select name="mem_gender" size="1"> 
+				<option value="0"<%= ((memTenVO == null) ? "" : (memTenVO.getMem_gender() == 0 ? "selected" : ""))%>>男</option>
+				<option value="1"<%= ((memTenVO == null) ? "" : (memTenVO.getMem_gender() == 1 ? "selected" : ""))%>>女</option>		
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>身分證字號:</th>
+		<td><input type="TEXT" name="mem_id" size="45"
+			 value="<%= (memTenVO==null)? "" : memTenVO.getMem_id()%>" /></td>
+	</tr>
+	<tr>
+		<th>出生年月日:</th>
+		<td><input name="mem_birthday" id="mem_birthday" type="text"></td>
+	</tr>
+	<tr>
+		<th>連絡電話:</th>
+		<td><input type="TEXT" name="mem_phone" size="45"
+			 value="<%= (memTenVO==null)? "" : memTenVO.getMem_phone()%>" /></td>
+	</tr>
+	<tr>
+		<th>行動電話:</th>
+		<td><input type="TEXT" name="mem_mobile" size="45"
+			 value="<%= (memTenVO==null)? "" : memTenVO.getMem_mobile()%>" /></td>
+	</tr>
+	<tr>
+		<th>電子信箱:</th>
+		<td><input type="TEXT" name="mem_email" size="45"
+			 value="<%= (memTenVO==null)? "" : memTenVO.getMem_email()%>" /></td>
+	</tr>
+	<tr>
+		<th>地址:</th>
+		<td>
+			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="<%= (memTenVO==null)? "" : memTenVO.getMem_city()%>"
+     			data-district-value="<%= (memTenVO==null)? "" : memTenVO.getMem_dist()%>"></div>
+			<input type="TEXT" name="mem_addr" size="45" value="<%= (memTenVO==null)? "" : memTenVO.getMem_addr()%>"/>
+		</td>
+	</tr>
+	
+
+<tr>
 					    	<th></th>
 					    	<td>
 					    		<input type="hidden" name="action" value="insert">
@@ -330,5 +287,4 @@ window.onload=function(){
         
 </script>
 
-</body> 	
 </html>

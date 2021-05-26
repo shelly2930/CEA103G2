@@ -1,134 +1,175 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.memTen.model.*"%>
+
+<%
+MemTenVO memTenVO = (MemTenVO)session.getAttribute("MemTenVO");
+%>
+<jsp:useBean id="lanlordSvc" class="com.lanlord.model.LanlordService"/>
+
 <html>
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
-    <title>房東申請詳情</title>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 
-    <!-- Custom fonts for this template-->
-    <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css" rel="stylesheet">
-
-	<!-- Custom styles for this page -->
-	<link href="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<title></title>
 
 <style>
+body { 
+	background-color: #dddddd !important;
+}
+
 img.lld_acc_pic {
   	height: 200px;
   	width: auto;
-  }
+}
+  
+.table td, .table th {
+    padding: .75rem !important;
+    vertical-align: middle !important;
+    border-top: 2px solid #fff !important;
+}
 </style>
-	
+
 </head>
+<body>
 
-<body id="page-top">
+<!--================ navbar =================-->
+<%@include file="/front-end/header.file"%>
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-
-         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
-                <div class="container-fluid">
+<!--================ Content Area start =================-->
+<section class="cat_product_area section_padding">
+	<div class="container">
+		<div class="row">
+            <!--================ Sidebar =================-->    
+			<%@include file="/front-end/sidebarFront.file"%>
+                
+            <div class="col-lg-9 content">
+                
+                <!--================ 不要的話自己刪掉 =================-->
+                <div class="pagetitle">房東資料查看與修改${memTenVO.mem_username}</div>
+				
+				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
+					<%-- 錯誤表列 --%>
+					<c:if test="${not empty errorMsgs}">
+						<font style="color:red">請修正以下錯誤:</font>
+						<ul>
+							<c:forEach var="message" items="${errorMsgs}">
+								<li style="color:red">${message}</li>
+							</c:forEach>
+						</ul>
+					</c:if>
 					
-					<!-- DataTales Example -->
-					<div class="table-responsive">
-						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-<%-- 							<c:forEach var="lanlordVO" items="${list}"> --%>
-								<tr>
+					
+					<table class="table">
+						<tbody>
+					  		<tr>
 									<th>房東編號</th>
-									<td>${lanlordVO.lld_no}</td>
+									<td>${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_no}</td>
 								</tr>
 								<tr>
 									<th>會員編號</th>
-									<td>${lanlordVO.mem_no}</td>
+									<td>${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).mem_no}</td>
 								</tr>
 								<tr>
 									<th>申請時間</th>
-									<td><fmt:formatDate value="${lanlordVO.lld_apptime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+									<td><fmt:formatDate value="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_apptime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								</tr>
 								<tr>
 									<th>銀行代碼</th>
-									<td>${lanlordVO.lld_bank}</td>
+									<td>${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_bank}</td>
 								</tr>
 								<tr>
 									<th>匯款帳號</th>
-									<td>${lanlordVO.lld_account}</td>
+									<td>${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_account}</td>
 								</tr>
 								<tr>
 									<th>帳戶證明</th>
-									<td><img src="${pageContext.request.contextPath}/LanlordPicReadServlet?lld_no=${lanlordVO.lld_no}"  class="lld_acc_pic"></td>
+									<td><img src="${pageContext.request.contextPath}/LanlordPicReadServlet?lld_no=${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_no}"  class="lld_acc_pic"></td>
 								</tr>
 								<tr>
 									<th>審核狀態</th>
 									<td>
 										<c:choose>
-											<c:when test="${lanlordVO.lld_status == 0}">未審核</c:when>
-											<c:when test="${lanlordVO.lld_status == 1}">審核通過</c:when>
-											<c:when test="${lanlordVO.lld_status == 2}">審核不通過</c:when>
-											<c:when test="${lanlordVO.lld_status == 3}">停權</c:when>
+											<c:when test="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_status == 0}">未審核</c:when>
+											<c:when test="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_status == 1}">審核通過</c:when>
+											<c:when test="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_status == 2}">審核不通過</c:when>
+											<c:when test="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_status == 3}">停權</c:when>
 										</c:choose>
 									</td>
 								</tr>
 								<tr>
 									<th>通過時間</th>
-									<td><fmt:formatDate value="${lanlordVO.lld_id_isvrfed}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+									<td><fmt:formatDate value="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_id_isvrfed}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								</tr>
 								<tr>
 									<th>未通過原因</th>
-									<td>
-										<input type="text" name="lld_id_disapprove" value="${lanlordVO.lld_id_disapprove}">
-									</td>
+									<td>${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_id_disapprove}</td>
 								</tr>
-<%-- 							</c:forEach> --%>
-						</table>
-					</div>
-                </div>
-                <!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
+<%-- 								<c:if test="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_status == 2}"> --%>
+								<tr>
+									<th>再次提出申請</th>
+									<td>
+										<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do" style="margin-bottom: 0px;">
+			     						<input type="submit" value="再次提出申請">
+			     						<input type="hidden" name="lld_no"  value="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_no}">
+			     						<input type="hidden" name="action"	value="getOneForApp"></FORM>
+			     					</td>
+								</tr>
+<%-- 								</c:if> --%>
+								
+					  </tbody>
+					</table>
 
+				<!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
+							
             </div>
-            <!-- End of Main Content -->
-
-
         </div>
-        <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
+</section>
+<!--================ Content Area end =================-->
 
-    
-    <!-- Bootstrap core JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- 上傳圖片可預覽 -->
+<script>
+window.onload=function(){
 
-    <!-- Core plugin JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+	let myFile = document.getElementById("lld_acc_pic");
+    let preview = document.getElementById("previewp");
 
-    <!-- Custom scripts for all pages-->
-    <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
+    myFile.addEventListener('change', function(e) {
+        let files = e.target.files;
+        if (files !== null) {
+            let file = files[0];
+            if (file.type.indexOf('image') > -1) {
+            	let reader = new FileReader();
+                reader.addEventListener('load', function(e) {
+                    let result = e.target.result;
+                    let img = document.getElementById('imgp');
+                    img.src = result;
+                    preview.append(img);
+                    $("imgp:first").remove(); // 預覽只會保留最新上傳的
+                });
+                reader.readAsDataURL(file);
+            } else {
+                alert('請上傳圖片！');
+            }
+        }
+    });
+	
+}
 
-    <!-- Page level plugins -->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-     
+
+</script>
+
 </body>
+
+
+<!--================ footer =================-->
+<%@include file="/front-end/footer.file"%>
 
 </html>

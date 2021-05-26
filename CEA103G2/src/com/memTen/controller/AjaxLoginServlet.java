@@ -56,11 +56,11 @@ public class AjaxLoginServlet extends HttpServlet {
 
 					// 房東
 					LanlordService lanlordSvc = new LanlordService();
-					LanlordVO lanlordSession = lanlordSvc.getOneLanlordByMemTen(memTenVO.getMem_no());
+					LanlordVO lanlordVO = lanlordSvc.getOneLanlordByMemTen(memTenVO.getMem_no());
 
 					// 用會員編號檢查是否有房東編號
-					if(lanlordSession != null) {
-						session.setAttribute("lanlordSession", lanlordSession);
+					if(lanlordVO != null) {
+						session.setAttribute("lanlordVO", lanlordVO);
 					}
 
 					Gson gson =  new Gson();
