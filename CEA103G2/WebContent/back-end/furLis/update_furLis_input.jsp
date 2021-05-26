@@ -163,13 +163,21 @@ Timestamp fnt_unusable_date = null;
 <script>
 // ª¬ºA¨ú­È
 $('#hide').hide();
+$("#update").prop("disabled",true);
+let a = $('input[name=fnt_status]').val();
+alert(a);
 		$('input[name=fnt_status]').change(function(){
 			if($("#unusable").prop('checked')){
-// 				alert("¥´¤Ä¤Ä");
 				$('#hide').show();
 			}else{
 				$('#hide').hide();
 			}
+			if($(this).val() != a){
+				$("#update").prop("disabled",false);
+			}else{
+				$("#update").prop("disabled",true);
+			}
+			alert($(this).val());
 		});
 		
         $.datetimepicker.setLocale('zh');

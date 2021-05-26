@@ -1,5 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="BIG5"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.furIte.model.*"%>
+	<% 	  
+		List<FurIteVO> list =new ArrayList<FurIteVO>();
+			FurIteService furIteSvc = new FurIteService();
+		    list= furIteSvc.getAllGetOnFurIte();
+		    pageContext.setAttribute("list",list);	
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,7 +87,7 @@
 
 
 	<!-- product_list part start-->
-	<section class="product_list best_seller section_padding" style='padding-top:50px !important'>
+	<section class="product_list best_seller section_padding" style='padding-top:50px !important;padding-buttom:0px !important'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
@@ -98,7 +106,7 @@
 
 
 	<!-- product_list2 part start-->
-	<section class="product_list best_seller section_padding fur" style='padding-top:50px !important'>
+	<section class="product_list best_seller section_padding fur" style='padding-top:0px !important;padding-buttom:0px !important'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
@@ -110,41 +118,27 @@
 			<div class="row align-items-center justify-content-between">
 				<div class="col-lg-12">
 					<div class="best_product_slider owl-carousel">
+					<jsp:useBean id="furPhoSvc" scope="page" class="com.furPho.model.FurPhoService" />
+					<c:forEach var="furIteVO" items="${list}">
 						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_1.png" alt="">
+							<a href="<%=request.getContextPath()%>/furIte/furIte.do?fnt_it_no=${furIteVO.fnt_it_no}&action=getOneFurIteToFE" >
+                                <img src="<%=request.getContextPath()%>/furPho/furPhoShow.do?fnt_pic_no=${furPhoSvc.getThisIteFirstFnt_pic_no(furIteVO.fnt_it_no)}"  width="157" height="200">
+                              </a>
 							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
+								<h4 id="${furIteVO.fnt_name}">${furIteVO.fnt_name}</h4>
+									<h3 id="${furIteVO.fnt_price}">$${furIteVO.fnt_price} /月</h3>
 							</div>
 						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_2.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_3.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_4.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="<%=request.getContextPath()%>/images/product/product_5.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
+					</c:forEach>
+<!--   ↓↓↓		測試成功後刪除	↓↓			 -->
+<!-- 						<div class="single_product_item"> -->
+<%-- 							<img src="<%=request.getContextPath()%>/images/product/product_5.png" alt=""> --%>
+<!-- 							<div class="single_product_text"> -->
+<!-- 								<h4>Quartz Belt Watch</h4> -->
+<!-- 								<h3>$150.00</h3> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!--  ↑↑↑	 測試成功後刪除	↑↑			 -->
 					</div>
 				</div>
 			</div>
