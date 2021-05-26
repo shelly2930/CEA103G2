@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.sql.Timestamp"%>
 <%@ page import="com.renFurApp.model.*"%>
-
+<!-- 主管看到的頁面 -->
 <%
    RenFurAppVO renFurAppVO = (RenFurAppVO) request.getAttribute("renFurAppVO");
 //    FurCatService furCatSvc=new FurCatService();
@@ -197,6 +197,7 @@
 								<c:choose>
 									<c:when test="${renFurAppVO.rfa_status==0}">未指派 </c:when>
 									<c:when test="${renFurAppVO.rfa_status==1}">未完成</c:when>
+									<c:when test="${renFurAppVO.rfa_status==3}">提早退租</c:when>
 									<c:otherwise>已完成</c:otherwise>
 								</c:choose>
 								<input type="hidden" name="rfa_status" value="${renFurAppVO.rfa_status}">
@@ -241,9 +242,13 @@
 							</c:forEach>
 							<td>
 								<c:choose>
-									<c:when test="${renFurAppVO.rfa_status != 2}">尚未出租 </c:when>
+<%-- 									<c:when test="${renFurAppVO.rfa_status != 2}">尚未出租 </c:when> --%>
+<%-- 									<c:when test="${isTMT == false}">出租中</c:when> --%>
+<%-- 									<c:when test="${isTMT == true}">已退租</c:when> --%>
+									<c:when test="${renFurAppVO.rfa_status == 3}">出租中 </c:when>
 									<c:when test="${isTMT == false}">出租中</c:when>
 									<c:when test="${isTMT == true}">已退租</c:when>
+									<c:otherwise>尚未出租</c:otherwise>
 								</c:choose>
 							</td>
 						</tr>
