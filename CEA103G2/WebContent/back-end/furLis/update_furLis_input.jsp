@@ -99,7 +99,7 @@
 		<td>
 		         <input type="radio" name="fnt_status" value="0"  ${(furLisVO.fnt_status==0)? 'checked':''}>正常
 		         <input type="radio" name="fnt_status" value="1"  ${(furLisVO.fnt_status==1)? 'checked':''}>維修
-		         <input type="radio" name="fnt_status" value="2"  ${(furLisVO.fnt_status==2)? 'checked':''}>報廢
+		         <input type="radio" name="fnt_status"  id="unusable"  value="2"  ${(furLisVO.fnt_status==2)? 'checked':''}>報廢
 		</td>
 	</tr>
 	
@@ -110,7 +110,7 @@
 		<input type="radio" name="fnt_rent_status" value="1"  ${(furLisVO.fnt_rent_status==1)? 'checked':''}>出租中
 		</td>
 	</tr>
-	<tr>
+	<tr id="hide">
 		<th>報廢日期:</th>
 		<td><input name="fnt_unusable_date" id="f_date2" type="text"></td>
 	</tr>
@@ -145,6 +145,8 @@ Timestamp fnt_unusable_date = null;
 	   e.getMessage();
    }
 %>
+
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
@@ -159,7 +161,16 @@ Timestamp fnt_unusable_date = null;
 </style>
 
 <script>
-
+// 狀態取值
+$('#hide').hide();
+		$('input[name=fnt_status]').change(function(){
+			if($("#unusable").prop('checked')){
+// 				alert("打勾勾");
+				$('#hide').show();
+			}else{
+				$('#hide').hide();
+			}
+		});
 		
         $.datetimepicker.setLocale('zh');
         $('#f_date2').datetimepicker({

@@ -146,10 +146,10 @@
       </div>
       
       <br>
-      	<div class="col-lg-2" style="float:right;"> 
+      	<div class="col-lg-2" style="float:right;postion:fixed;"> 
              	<a class="btn_3" href="#" id="submitRentApp">送出訂單</a> 
         </div> 
-      	<div class="col-lg-2" style="float:right;"> 
+      	<div class="col-lg-2" style="float:right;postion:fixed;"> 
              	<a class="btn_3" href="<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp">上一步</a> 
        	</div> 
              
@@ -158,7 +158,7 @@
   </section>
 
 
-    <%@ include file="/front-end/footer.file"%>
+<%--     <%@ include file="/front-end/footer.file"%> --%>
 <%}%>
 
 <!-- JS ajax -->
