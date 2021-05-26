@@ -230,9 +230,15 @@
 	
 	<script>
 	$("#chat").click(function(e){
+		let havemem = ${empty MemTenVO.mem_no?"null":MemTenVO.mem_no};
+		
 		e.preventDefault();
-		chatconnect();
-		$("#showchat").show();
+		if(havemem!=null){
+			chatconnect();
+			$("#showchat").show();
+		}else{
+			alert("½Ð¥ýµn¤J");
+		}
 	});
 	$("#chatclose").click(function(){
 		chatdisconnect();
