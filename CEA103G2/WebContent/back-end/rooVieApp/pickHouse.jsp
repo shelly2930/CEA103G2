@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>預約時間管理</title>
+    <title>可預約時間-管理</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,7 +44,8 @@
                 <div class="container-fluid">
                 	<div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">物件-預約時間管理</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">可預約時間-管理</h6>
+                            <h6 class="m-0  text-info">點選上架物件-控制可預約時間</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -59,7 +60,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th colspan='6' class="text-center"	>物件</th>
+                                            <th colspan='6' class="text-center"	>控制使用者可以預約的時間</th>
                                         </tr>
                                     </tfoot>
                                     <tbody id="showhouse">
@@ -103,6 +104,7 @@
 			  </div>
 			</div>
             <!-- Footer -->
+            <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
             <%@ include file="/back-end/includeFile/footerBack.file" %>
 
         </div>
@@ -114,7 +116,7 @@
     <%@ include file="/back-end/includeFile/otherBack.file" %>
     
     <!-- Bootstrap core JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+    
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->

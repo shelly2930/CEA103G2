@@ -92,7 +92,7 @@
 	</div>
 	
 	<script>
-	//picktimeSuccess("會員已經租房囉");
+	
 	$(document).ready(function(){
 		connectNotice();
 	})
@@ -118,7 +118,7 @@
 			let notice = JSON.parse(event.data);
 			
 			if(notice.type=="receive"){
-			console.log(parseInt(notice.username))
+			console.log(notice.username)
 				if(parseInt(giveThisMem)==parseInt(JSON.parse(notice.username))){
 					let revJSON = JSON.parse(notice.message);
 					shownotice(revJSON);
@@ -150,7 +150,7 @@
 	function shownotice(mes){
 		let a = $("#shownotice").clone();
 		$("#appendnotice").append($(a));
-		$(a).children().children().eq(0).children().eq(1).text(dateformat(new Date()));
+		$(a).children().children().eq(0).children().eq(1).html(dateformat(new Date()));
 		$(a).children().children().eq(1).text(mes);
 		$(a).show();
 		$(".toast").toast('show',8000);

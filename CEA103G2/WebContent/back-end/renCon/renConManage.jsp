@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	
-    <title>後台空頁</title>
+    <title>合約管理</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,7 +44,8 @@
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
                 <div class="card-header py-3">
-                	<h2><p class='text-gary'>合約管理</p></h2>
+                	<h2><p class='text-gary'>新增合約</p></h2>
+                	<h5 style='font-weight:bold'>-請填寫合約後上傳 ， 提供會員確認後繳費簽約-</h5>
                 </div>
          		<div class="card-body">
          		<div class="card shadow mb-4">
@@ -54,7 +55,7 @@
 							  <thead>
 							 	<tr>
 	                		  		<th  colspan='2' >
-	                		  		<span>選取會員</span>
+	                		  		<span class='text-primary'>請先選取會員</span>
 	                		  		</th>
 	                		  	</tr>
 							    <tr>
@@ -115,7 +116,7 @@
 	                				</th>	
 							  	</tr>
 							  	<tr>
-	                		  		<th  colspan='2' >
+	                		  		<th  colspan='3' >
 	                		  		<a href=''>選取會員<span id='i_no'></span></a> > 
 	                		  		<a href=''>會員編號<span id='m_no'></span></a> > 
 	                		  		<a href=''>物件編號<span id='h_no'></span></a> >
@@ -144,6 +145,7 @@
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h5 class="modal-title" id="exampleModalLabel">合約內容</h5>
+						        
 						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						          <span aria-hidden="true">&times;</span>
 						        </button>
@@ -192,7 +194,7 @@
 											let str="<tr id='mem"+i+"'>";
 											str+="<th scope='row' class='text-center'>"+(count++)+"</th>";
 											str+="<td class='text-center'>";
-											str+="<a href='' class='listmemhou'>"+i+getMem(i);+"</a>";
+											str+="<a href='' style='font-weight:bold' class='listmemhou'>"+"新增-"+getMem(i)+"-合約"+"</a>";
 											str+="</td>";
 											str+="</tr>";  
 											$('#showmem').append(str);
@@ -238,7 +240,7 @@
 										let str="<tr name='"+mem_no+"' id='memhou"+i+"'>";
 										str+="<th scope='row' class='text-center'>"+(count++)+"</th>";
 										str+="<td class='text-center'>";
-										str+="<a href='' class='listmemhoucon'>"+i+getHouse(i)+"</a>";
+										str+="<a href='' style='font-weight:bold;' class='listmemhoucon'>"+getMem(mem_no)+"的申請物件: [ "+getHouse(i)+" ]</a>";
 										str+="</td>";
 										str+="</tr>";  
 										$('#showmemhou').append(str);
@@ -292,7 +294,7 @@
 										let str="<tr name='"+mem_no+"' class='memhou"+hou+"'>";
 										str+="<th scope='row' class='text-center'>"+(count++)+"</th>";
 										str+="<td class='text-center'>";
-										str+="<a href='' id='"+i+"' class='listmemhoucon'>"+i+"</a>";
+										str+="<a href='' style='font-weight:bold' id='"+i+"' class='listmemhoucon'>合約字號: [ "+i+" ]</a>";
 										str+="</td>";
 										str+="</tr>";  
 										$('#showmemhoucon').append(str);
@@ -364,7 +366,6 @@
 									formData.append("mem_no", $("#m_no").text());
 									formData.append("hos_no", $("#h_no").text());
 									formData.append("con_no", $("#c_no").text());
-									console.log(uploadFile);
 										$.ajax({ 
 											type: 'post', 
 											url: "<%=request.getContextPath()%>/RenConAjaxServlet", 
@@ -381,6 +382,7 @@
 														  icon: 'warning',
 													});
 												}
+												picktimeSuccess("您申請的物件，已經新增合約，可以至會員專區簽約",$("#m_no").text());
 												showcon($("#m_no").text(),$("#h_no").text(),$("#c_no").text());
 											}
 										}); 
@@ -397,7 +399,7 @@
 											let str="<tr name='"+mem_no+"' class='"+hou+"'>";										
 											str+="<th scope='row' class='text-center'>"+(count++)+"</th>";
 											str+="<td class='text-center'>";
-											str+="<a href='' name='"+con_no+"' id='"+i+"' class='con'>"+i+"</a>";
+											str+="<a href='' style='font-weight:bold' name='"+con_no+"' id='"+i+"' class='con'>合約文檔: ["+i+" ]</a>";
 											str+="</td>";
 											str+="<td class='text-center'>";
 											str+="<button class='del btn btn-outline-danger' >Deleted</button>";

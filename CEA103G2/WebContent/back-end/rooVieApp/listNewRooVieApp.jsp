@@ -47,21 +47,13 @@
                     <div class="container-fluid">
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">預約申請單</h1>
-                    <p class="mb-4">新案件<a target="_blank" href="https://datatables.net"></a>.</p>
+                    <p class="mb-4">預約看房申請進行指派<a target="_blank" href="https://datatables.net"></a>.</p>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <ul>
                             	<li>
-	                            	<h6 class="h6 mb-6 text-gray-800">List-查看該物件預約申請單且可重新指派
-	                            	</h6>
-                           		</li>
-                            	<li>
-	                            	<h6 class="h6 mb-6 text-gray-800">Assign-查看該物件尚未指派的預約申請單
-	                            	</h6>
-                            	</li>
-                            	<li>
-	                            	<h6 class="h6 mb-6 text-gray-800">點選員工-可查看目前員工已指派時間
+	                            	<h6 class="h6 mb-6 " style='color:red;font-weight:bold'>(提示) 點選員工-可查看目前員工已指派時間
 	                            	</h6>
                             	</li>
                             </ul>
@@ -133,7 +125,6 @@
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Save changes</button>
 				      </div>
 				    </div>
 				  </div>
@@ -756,9 +747,9 @@
             	  success:function(list){
     					for(let key in list){
     						let str = '<tr id=\"'+key+'\">';
-    						str+='<th><button class=\'btn btn-outline-secondary btn-sm reassign\' >List</button></th>';
-    						str+="<th><button class=\'btn btn-outline-secondary btn-sm assign\' >Assign</button></th>";
-    						str+='<th>'+key+'</th>';
+    						str+='<th><button class=\'btn btn-outline-secondary btn-sm reassign\' >所有申請</button></th>';
+    						str+="<th><button class=\'btn btn-outline-secondary btn-sm assign\' >尚未指派預約申請</button></th>";
+    						str+="<th class='text-primary'>"+getHouse(key).hos_name+'</th>';
     						str+='<th>'+dateformat(list[key])+'</th>';
     						str+='<th>'+'<button class=\'btn btn-outline-secondary btn-sm controltime\' >'+'查看預約情況</button></th>';
     		        		str+='</tr>';
@@ -863,10 +854,11 @@
 	    			  		    	},
 	    			  		    	success:function(result){
 	    			  		    		//show change Emp
+	    			  		    		let noticeemp = getEmp($(vi.draggable).children().attr('value'))+"已被指派處理 預約申請"
+	    			  		    		pick(noticeemp);
 	    			  		    		let empkey = $(vi.draggable).children().attr('value');
 	    			  		    		$("#"+result).children().eq(4).html(empMap.get(parseInt(empkey)));
 	    			  		    	}
-	    			  		    	
 	    			  		    });  
 	    			  		  },
 	    			  		 
@@ -984,8 +976,39 @@
 		function compareDate(date1,date2){
 			return new Date(date1).setHours(0, 0, 0, 0)-new Date(date2).setHours(0, 0, 0, 0);
 		}
-		
-
+		function getEmp(emp){
+			let name= '';
+			$.ajax({
+				url:"<%=request.getContextPath()%>/HouseJsonServlet",
+				type:'post',
+				data:{
+					action:'getEmpName',
+					empno:emp,
+				},
+				async:false,
+				success:function(str){
+					name=str.emp_name;
+				}
+					
+			})
+			return name;
+		}
+		function getHouse(hos_no){
+			let hosvo={};
+			$.ajax({
+				url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+				type: 'post',
+				data:{
+					action:'getOneHouse',
+					houseno:hos_no,
+				},
+				async:false,
+				success:function(hos){
+					hosvo= hos;
+				}
+			})
+			return hosvo;
+		}
     </script>	
 </body>
 

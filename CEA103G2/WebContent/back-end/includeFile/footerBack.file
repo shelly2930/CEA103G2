@@ -9,10 +9,9 @@
             </footer>
             
             
-            //通知
             <div id='appendnotice' aria-live="polite" aria-atomic="true" style="position: fixed; top: 10%; left: 84%;min-height: 200px;">
 				   <div id='shownotice' style='display:none'>
-					  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
+					  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:10;">
 				    	<div class="toast-header">
 					      <strong class="mr-auto">通 知</strong>
 					      <small class='noticetime'>11 mins ago</small>
@@ -31,7 +30,6 @@
 			$(document).ready(function(){
 				connectNotice();
 			})
-			//通知
 			let webSocket_notice;	
 			let MyPoint_notice = "/test/${employeeVO.emp_no}/1";
 			let endPointURL1 = "ws://" + window.location.host +  (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1)) + MyPoint_notice;
@@ -75,10 +73,24 @@
 					},1000
 				)
 			}
+			function pick(message){
+				let obj = {
+						type:'send',
+						identity:'0',
+						username:'${employeeVO.emp_no}',
+						currentTime:new Date(),
+						'message':JSON.stringify(message),
+				}
+				setTimeout(function(){
+					webSocket_notice.send(JSON.stringify(obj));
+					},1000
+				)
+			}
+			
 			function shownotice(mes){
 				let a = $("#shownotice").clone();
 				$("#appendnotice").append($(a));
-				$(a).children().children().eq(0).children().eq(1).text(dateformat(new Date()));
+				$(a).children().children().eq(0).children().eq(1).html(dateformat(new Date()));
 				$(a).children().children().eq(1).text(mes);
 				$(a).show();
 				$(".toast").toast('show',8000);

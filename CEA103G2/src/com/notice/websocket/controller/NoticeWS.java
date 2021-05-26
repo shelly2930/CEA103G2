@@ -44,7 +44,7 @@ public class NoticeWS {
 		String mes = notice.getMessage();
 		Notice sendNotice = null;
 		if(notice.getType().equals("send")&&notice.getIdentity().equals("0")) {
-			sendNotice = new Notice("receive",username,identity,curTime,mes);
+			sendNotice = new Notice("receive",identity,username,curTime,mes);
 			String sendNoticeJson = new Gson().toJson(sendNotice);
 			Set<String> total = sessionsMap.keySet();
 			for(String temp : total) {

@@ -1041,6 +1041,7 @@
 // 									"checked":"true",
 // 								}
 								let mess="會員"+mem_no+"在剛剛成功預約"+confirmpicktime+"時段";
+								console.log(mess)
 								picktimeSuccess(mess);
 							}
 						})

@@ -44,8 +44,8 @@
 
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
-					<h1 class="h3 mb-2 text-gray-800">平台管理員</h1>
-                    	<p class="mb-4">物件上下架處理</p>
+					<h1 class="h3 mb-2 text-gray-800">網站物件管理</h1>
+                    	<p class="mb-4"><span style='color:#6E6EFF'>物件上下架</span>  與  <span style='color:#00DBDB'>編輯物件照片、資訊</span></p>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -95,7 +95,7 @@
                                         <tr id="${houseVO.hos_no}" ${not empty param.houseno && (param.houseno==houseVO.hos_no) ?"class='border-left-primary'":""}>
                                             <th>
                                             <a href="" data-toggle="modal" data-target="#a">
-					 						  物件詳請
+					 						  點選查看物件詳請
                                             ${houseVO.hos_no}</a>
                                             </th>
                                             <th ${empty list || list.get(0).hos_state==1 || list.get(0).hos_state==3?"style='display:none'":""}>
@@ -369,6 +369,23 @@
 					}else{
 						$("#hos_gender").text("限制: 男");
 					}
+					
+					if($("#hos_type").text()==0){
+						$("#hos_type").text("不限");
+					}else if($("#hos_type").text()==1){
+						$("#hos_type").text("獨立套房");
+					}else if($("#hos_type").text()==2){
+						$("#hos_type").text("分租套房");
+					}else if($("#hos_type").text()==3){
+						$("#hos_type").text("雅房");
+					}else if($("#hos_type").text()==4){
+						$("#hos_type").text("整層住家");
+					}else if($("#hos_type").text()==5){
+						$("#hos_type").text("車位");
+					}else{
+						$("#hos_type").text("其他");
+					}
+					
 					$("#hos_squares").append("坪");
 					$("#hos_cook").text("可接受");
 					$("#hos_pet").text("可接受");

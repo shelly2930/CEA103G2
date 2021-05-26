@@ -82,7 +82,7 @@
 			</ul>
 			</c:if> 
             <div>
-            <form class="row contact_form" action="<%=request.getContextPath()%>/house/house.do" method="post" novalidate="novalidate" enctype="multipart/form-data" name="form1">
+            <form class="row contact_form" action="<%=request.getContextPath()%>/house/house.do" method="post" novalidate="novalidate" enctype="multipart/form-data" id="form1">
               <div class="col-md-6 check_title text-center" >
               	<h2 style='background-color:#DEFFDE;'>房東編號</h2>
               </div>
@@ -338,9 +338,8 @@
       
   </section>
  	<script>
- 	$("input[type='submit']").click(function(){
- 		picktimeSuccess("剛剛有房東申請租屋");
- 	})
+ 	
+ 	
  	
 	let mem_no = ${MemTenVO.mem_no};
 	if(judge(mem_no)==0){
@@ -527,7 +526,20 @@
 			 let second = new Date(str).getSeconds();
 			 return year+"年"+month+"月"+date+"日" +" "+isAm+hour+"時"
  	}
-	
+	$("input[type='submit']").click(function(e){
+		e.preventDefault();
+ 		picktimeSuccess("剛剛有房東申請租屋");
+ 		Swal.fire({
+			 icon: 'success',
+			 title: '您已成功申請物件代管，請等候專員為您服務',
+			 text:'即將回至首頁',
+			 showConfirmButton: true,
+			 confirmButtonText: "我知道了"
+		})
+ 		setTimeout(function(){
+	 		$("#form1").submit();
+ 		},1000);
+ 	})
 	</script>
 
 </body>
