@@ -254,7 +254,7 @@ public class FurIteServlet extends HttpServlet {
 						fnt_unrent = new Integer(req.getParameter("fnt_unrent").trim());
 					} catch (NumberFormatException e) {
 						fnt_unrent = 0;
-						errorMsgs.add("计秖叫恶计.");
+//						errorMsgs.add("计秖叫恶计.");
 					}
 					
 					//蝴计秖
@@ -263,7 +263,7 @@ public class FurIteServlet extends HttpServlet {
 						fnt_repair = new Integer(req.getParameter("fnt_repair").trim());
 					} catch (NumberFormatException e) {
 						fnt_repair = 0;
-						errorMsgs.add("蝴计秖叫恶计.");
+//						errorMsgs.add("蝴计秖叫恶计.");
 					}
 					
 					//羆计秖
@@ -272,7 +272,7 @@ public class FurIteServlet extends HttpServlet {
 						fnt_total = new Integer(req.getParameter("fnt_total").trim());
 					} catch (NumberFormatException e) {
 						fnt_total = 0;
-						errorMsgs.add("羆计秖叫恶计.");
+//						errorMsgs.add("羆计秖叫恶计.");
 					}
 					
 					//基
@@ -337,7 +337,7 @@ public class FurIteServlet extends HttpServlet {
 						fnt_views = new Integer(req.getParameter("fnt_views").trim());
 					} catch (NumberFormatException e) {
 						fnt_views = 0;
-						errorMsgs.add("聅凝Ω计叫恶计.");
+//						errorMsgs.add("聅凝Ω计叫恶计.");
 					}
 					
 					//祅篈

@@ -11,7 +11,7 @@
             
             //通知
             <div id='appendnotice' aria-live="polite" aria-atomic="true" style="position: fixed; top: 10%; left: 84%;min-height: 200px;">
-				   <div id='shownotice'>
+				   <div id='shownotice' style='display:none'>
 					  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
 				    	<div class="toast-header">
 					      <strong class="mr-auto">通 知</strong>
@@ -27,7 +27,7 @@
 				  </div>
 			</div>
 			<script>
-			picktimeSuccess("2哈哈sss哈",'9');
+			//picktimeSuccess("2哈哈sss哈",'9');
 			$(document).ready(function(){
 				connectNotice();
 			})
@@ -80,6 +80,7 @@
 				$("#appendnotice").append($(a));
 				$(a).children().children().eq(0).children().eq(1).text(dateformat(new Date()));
 				$(a).children().children().eq(1).text(mes);
+				$(a).show();
 				$(".toast").toast('show',8000);
 				setTimeout(function(){
 					$(a).empty();

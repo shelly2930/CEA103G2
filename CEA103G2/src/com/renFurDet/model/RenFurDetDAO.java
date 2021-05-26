@@ -39,12 +39,16 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 		"DELETE FROM " + TABLE + " where " + PK1 + "= ?";
 	private static final String UPDATE = 
 		"UPDATE "+TABLE+" set "+UPDATE_ITEM+" where "+PK1+"= ? and "+PK2+"=?";
-	//更改家具品項的未租數量		
+	//更改家具品項的未租數量	(租時減1)	
 	private static final String UPDATE_FNT_UNRENT="update FURNITURE_ITEM  set  fnt_unrent=fnt_unrent-1 where FNT_IT_NO=?";
 	//取未租家具品項編號
 	private static final String 	GET_UNRENT_FNT_ID="SELECT fnt_id FROM HOWTRUE.FURNITURE_LIST where fnt_it_no=? and fnt_status=0 and fnt_rent_status=0 limit 1";
 	//改家具品項狀態
-	private static final String 	UPDATE_FNTID_STATUS ="update HOWTRUE.FURNITURE_LIST set fnt_rent_status=1 where fnt_id=?";
+	private static final String 	UPDATE_FNTID_STATUS ="update HOWTRUE.FURNITURE_LIST set fnt_rent_status=? where fnt_id=?";
+	//由家具清單編號查品項編號
+	private static final String 	GET_FNT_IT_NO_BY_FNT_ID="SELECT fnt_it_no FROM HOWTRUE.FURNITURE_LIST where fnt_id=?";
+	//更改家具品項的未租數量	(還時加1)	
+	private static final String UPDATE_FNT_UNRENT_RETURN="update FURNITURE_ITEM  set  fnt_unrent=fnt_unrent+1 where FNT_IT_NO=?";
 	// 蔡佳 提前退租更新解約日期
 	private static final String UPDATE_TMT_DATE = "UPDATE RENT_FURNITURE_DETAIL SET rent_tmt_date=? where fnt_id=?";
 	
@@ -69,7 +73,8 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 			renFurDetVO.setFnt_id(getUnrentFntId);
 //				   把拿出的家具品項編號狀態改變為租借中
 			pstmt=con.prepareStatement(UPDATE_FNTID_STATUS);
-			pstmt.setInt(1,getUnrentFntId);
+			pstmt.setInt(1,1);
+			pstmt.setInt(2,getUnrentFntId);
 			pstmt.executeUpdate();
 			   
 			pstmt=con.prepareStatement(UPDATE_FNT_UNRENT);
@@ -400,6 +405,7 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 	public void updateTmtDate(RenFurDetVO renFurDetVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		try {
 
@@ -410,6 +416,29 @@ public class RenFurDetDAO implements RenFurDetDAO_interface {
 //			pstmt.setInt(2, renFurDetVO.getRfa_no());
 			pstmt.setInt(2, renFurDetVO.getFnt_id());
 			pstmt.executeUpdate();
+			
+			//改家具清單編號狀態
+			pstmt=con.prepareStatement(UPDATE_FNTID_STATUS);
+			pstmt.setInt(1, 0);
+			pstmt.setInt(2, renFurDetVO.getFnt_id());
+			pstmt.executeUpdate();
+			
+			//查家具清單編號中的品項編號
+			    Integer getFntItNo=null;
+				pstmt=con.prepareStatement(GET_FNT_IT_NO_BY_FNT_ID);
+				pstmt.setInt(1,renFurDetVO.getFnt_id());
+					   
+				rs=pstmt.executeQuery();
+					   
+				while(rs.next()) {
+					getFntItNo= rs.getInt(1); 
+				}
+			
+			//改家具品項編號數量
+				pstmt=con.prepareStatement(UPDATE_FNT_UNRENT_RETURN);
+				pstmt.setInt(1, getFntItNo);
+				pstmt.executeUpdate();
+			
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "

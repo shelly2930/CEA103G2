@@ -64,7 +64,6 @@
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
 
-                    <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">家具品項管理</h1>
@@ -84,13 +83,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                    <!--                  ↓↓↓       表單擺放位置↓↓↓↓ -->
-                                    <thead>
-                                        <tr>
-                                   
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>     
+                             
 										                                    
 										                                  
                                       <!--                  ↑↑↑       表單擺放位置↑↑↑↑ -->      
@@ -99,7 +92,7 @@
                         </div>
                     </div>
 
-                </div>
+      
                 <!-- /.container-fluid -->
 
                 </div>

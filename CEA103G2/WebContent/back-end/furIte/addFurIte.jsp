@@ -81,20 +81,20 @@
 		<td><input type="TEXT" name="fnt_name" size="45" 
 			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_name()%>" /></td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<td>计秖:</td>
 		<td><input type="TEXT" name="fnt_unrent" size="45"
-			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_unrent()%>" /></td>
+			 value="<%= (furIteVO==null)? "0" : furIteVO.getFnt_unrent()%>" /></td>
 	</tr>
-	<tr>
+	<tr  style="display:none">
 		<td>蝴计秖:</td>
-		<td><input type="TEXT" name="fnt_repair" size="45"
-			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_repair()%>" /></td>
+		<td><input type="hidden" name="fnt_repair" size="45"
+			 value="<%= (furIteVO==null)? "0" : furIteVO.getFnt_repair()%>" /></td>
 	</tr>
-	<tr>
+	<tr  style="display:none">
 		<td>羆计秖:</td>
-		<td><input type="TEXT" name="fnt_total" size="45"
-			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_total()%>" /></td>
+		<td><input type="hidden" name="fnt_total" size="45"
+			 value="<%= (furIteVO==null)? "0" : furIteVO.getFnt_total()%>" /></td>
 	</tr>
 	<tr>
 		<td>基:</td>
@@ -132,10 +132,10 @@
 		<textarea name="fnt_info" cols="43" rows="5"><%= (furIteVO==null)? "" : furIteVO.getFnt_info()%></textarea>
         </td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<td>聅凝Ω计:</td>
 		<td><input type="TEXT" name="fnt_views" size="45"
-			 value="<%= (furIteVO==null)? "" : furIteVO.getFnt_views()%>" /></td>
+			 value="<%= (furIteVO==null)? "0" : furIteVO.getFnt_views()%>" /></td>
 	</tr>
 	<tr>
 		<td>祅篈:</td>
