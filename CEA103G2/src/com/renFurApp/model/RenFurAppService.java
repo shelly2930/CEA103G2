@@ -77,10 +77,8 @@ public class RenFurAppService {
 	public List<RenFurAppVO> getAllByMem(Integer mem_no,Byte rfa_status) {
 		return dao.getAllByMem(mem_no, rfa_status);
 	}
-	// 蔡佳 退租時把申請單狀態改為?
-//	public RenFurAppVO updateStatusByPK(Integer rfa_no) {
-//		RenFurAppVO renFurAppVO = new RenFurAppVO();
-//		renFurAppVO.setRfa_no(rfa_no);
-//		
-//	}
+	// 蔡佳 退租時把申請單狀態改為3提前退租
+	public void updateStatusByPK(Integer rfa_no) {
+		dao.updateStatusByPK(rfa_no);
+	}
 }

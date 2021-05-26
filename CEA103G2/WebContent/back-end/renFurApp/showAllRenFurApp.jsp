@@ -116,6 +116,7 @@ if(request.getAttribute("list") == null){
 						    </c:if>
 							<a class="btn btn-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=1&action=getByRfa_status" role="button">未完成</a>
 							<a class="btn btn-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=2&action=getByRfa_status" role="button">已完成</a>
+							<a class="btn btn-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=3&action=getByRfa_status" role="button">提前退租</a>
 							<a class="btn btn-primary" href="${pageContext.request.contextPath}/back-end/renFurApp/showAllRenFurApp.jsp" role="button">全部</a>
 						</div>
 						<div class="card-body">
@@ -149,6 +150,7 @@ if(request.getAttribute("list") == null){
 													<c:choose>
 														<c:when test="${renFurAppVO.rfa_status==0}">未指派</c:when>
 														<c:when test="${renFurAppVO.rfa_status==1}">未完成</c:when>
+														<c:when test="${renFurAppVO.rfa_status==3}">提前退租 </c:when>
 														<c:otherwise>已完成</c:otherwise>
 													</c:choose>
 												</td>
@@ -174,9 +176,13 @@ if(request.getAttribute("list") == null){
 												</c:forEach>
 												<td>
 													<c:choose>
-														<c:when test="${renFurAppVO.rfa_status != 2}">尚未出租 </c:when>
+<%-- 													<c:when test="${renFurAppVO.rfa_status != 2}">尚未出租 </c:when> --%>
+<%-- 													<c:when test="${isTMT == false}">出租中</c:when> --%>
+<%-- 													<c:when test="${isTMT == true}">已退租</c:when> --%>
+														<c:when test="${renFurAppVO.rfa_status == 3}">出租中 </c:when>
 														<c:when test="${isTMT == false}">出租中</c:when>
 														<c:when test="${isTMT == true}">已退租</c:when>
+														<c:otherwise>尚未出租</c:otherwise>
 													</c:choose>
 												</td>
 												

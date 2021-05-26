@@ -165,7 +165,7 @@ h4 {
             <div id="vertical">
          	<c:forEach var="houPhoVO" items="${listHouPho_ByHouseNo}">
 				<div data-thumb="<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno=${houseVO.hos_no}&hos_pic_no=${houPhoVO.hos_pic_no}">
-                <img src="<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno=${houseVO.hos_no}&hos_pic_no=${houPhoVO.hos_pic_no}" />
+                <img style='width:100%' src="<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno=${houseVO.hos_no}&hos_pic_no=${houPhoVO.hos_pic_no}" />
               </div>
 			</c:forEach> 	
             </div>
@@ -403,6 +403,7 @@ h4 {
             <div class="col-lg-6">
             <div id ="map"></div>
 		     <script>
+		    initMap();
 		    function initMap() {
 		        // 因為JSP優先於html Javascipt等等，所以到了javascript為字串，你要用javascript轉成數字
 		        const city = { lat: parseFloat("${houseVO.hos_lat}"), 

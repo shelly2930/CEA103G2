@@ -66,6 +66,7 @@
 								<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}" class="genric-btn info radius">未處理</a>
 								<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}&rfa_status=1" class="genric-btn info radius">處理中</a>
 								<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}&rfa_status=2" class="genric-btn info radius">已完成</a>
+								<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}&rfa_status=3" class="genric-btn info radius">提早退租</a>
 								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 									<thead>
 										<tr>
@@ -82,6 +83,7 @@
 									</thead>
 									<tbody>
 										<c:forEach var="renFurAppVO" items="${list}">
+<%-- 										${renFurAppVO.rfa_status} --%>
 <%-- 										<c:if test="${renFurAppVO.emp_no == employeeVO.emp_no || employeeVO.emp_job eq '主管'}"> --%>
 
 											<tr>
@@ -93,8 +95,9 @@
 												<td><fmt:formatDate value="${renFurAppVO.rfa_order_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></td>
 												<td class="appProgress${renFurAppVO.rfa_status}">
 													<c:choose>
-														<c:when test="${renFurAppVO.rfa_status==0}">未指派</c:when>
-														<c:when test="${renFurAppVO.rfa_status==1}">未完成</c:when>
+														<c:when test="${renFurAppVO.rfa_status==0}">未處理</c:when>
+														<c:when test="${renFurAppVO.rfa_status==1}">處理中</c:when>
+														<c:when test="${renFurAppVO.rfa_status==3}">提前退租</c:when>
 														<c:otherwise>已完成</c:otherwise>
 													</c:choose>
 												</td>
@@ -120,9 +123,10 @@
 												</c:forEach>
 												<td>
 													<c:choose>
-														<c:when test="${renFurAppVO.rfa_status != 2}">尚未出租 </c:when>
-														<c:when test="${isTMT == false}">出租中</c:when>
+														<c:when test="${renFurAppVO.rfa_status == 3}">租借中 </c:when>
+														<c:when test="${isTMT == false}">租借中</c:when>
 														<c:when test="${isTMT == true}">已退租</c:when>
+														<c:otherwise>已退租</c:otherwise>
 													</c:choose>
 												</td>
 												

@@ -113,6 +113,9 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
+				
+				Integer rfa_no = new Integer(req.getParameter("rfa_no"));
+				System.out.println("rfano"+rfa_no);
 				String[] fntarray = req.getParameterValues("no");
 				
 				Integer fnt_id =  null;
@@ -133,6 +136,10 @@ RenFurDetService renFurDetSvc = new RenFurDetService();
 					RenFurDetVO renFurDetVO = renFurDetSvc.updateTmtDate(fnt_id, rent_tmt_date);
 					req.setAttribute("RenFurDetVO", renFurDetVO);
 				}
+				// 提早退租把申請單狀態改為1
+				RenFurAppService renFurAppSvc = new RenFurAppService();
+				renFurAppSvc.updateStatusByPK(rfa_no);
+				
 				
 				RequestDispatcher successView = req.getRequestDispatcher("/front-end/renFurApp/listRenFurAppByMem.jsp"); 
 				successView.forward(req, res);

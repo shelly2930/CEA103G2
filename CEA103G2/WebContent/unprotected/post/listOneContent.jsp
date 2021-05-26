@@ -24,9 +24,31 @@ h2 {
 	font-size: 1.2em;
 	color: black;
 }
+.breadcrumb_bg {
+	background-image: url('<%=request.getContextPath()%>/index_img/10.jpg')
+		!important;
+	background-position: center;
+	background-repeat: no-repeat !important;
+	background-size: cover;
+}
+.padding_top {
+    padding-top: 10px !important;
+}
 </style>
 </head>
 <body>
+	<!--================Home Banner Area =================-->
+	<section class="breadcrumb breadcrumb_bg">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="breadcrumb_iner">
+						<div class="breadcrumb_iner_item"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<!--================Blog Area =================-->
 	<section class="blog_area single-post-area padding_top">

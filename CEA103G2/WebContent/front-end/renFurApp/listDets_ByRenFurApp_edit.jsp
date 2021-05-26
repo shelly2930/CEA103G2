@@ -76,6 +76,7 @@
 			<c:if test="${renFurAppVO.rfa_no==renFurDetVO.rfa_no}">
 					
 <%-- 	測試用 展開不顯示申請單編號		<td>${renFurDetVO.rfa_no}</td> --%>
+<%-- 			<td>${renFurDetVO.rfa_no}</td> --%>
 			<td>
 				<input type="checkbox" id="${renFurDetVO.fnt_id}input" name="no" value="${renFurDetVO.fnt_id}" ${renFurDetVO.rent_tmt_date!=null? 'disabled':''}>
 			</td>						
@@ -113,6 +114,7 @@
 </div>
 
 <input type="hidden" name="action"  value="renTerminate">
+<input type="hidden" name="rfa_no" value="${renFurAppVO.rfa_no}">
 <input type="submit" class="terminate" value="退租">
 <!-- <input type="button" class="show" value="退租"> -->
 

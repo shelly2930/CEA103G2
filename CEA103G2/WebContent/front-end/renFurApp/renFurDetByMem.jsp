@@ -161,6 +161,7 @@
 		<td><c:choose>
 							<c:when test="${renFurAppVO.rfa_status==0}"> 未處理 </c:when>
 							<c:when test="${renFurAppVO.rfa_status==1}"> 處理中</c:when>
+							<c:when test="${renFurAppVO.rfa_status==3}"> 提前退租</c:when>
 							<c:otherwise> 已完成</c:otherwise>
 						</c:choose>
 				</td>

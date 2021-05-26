@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.renFurApp.model.*"%>
 <%@ page import="java.util.*"%>
-
+<!-- 員工看到的頁面 -->
 
 <%
    RenFurAppVO renFurAppVO = (RenFurAppVO) request.getAttribute("renFurAppVO");

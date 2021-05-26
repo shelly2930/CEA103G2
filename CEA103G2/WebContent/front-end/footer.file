@@ -93,13 +93,16 @@
 	
 	<script>
 	
-	$(document).ready(function(){
-		connectNotice();
-	})
+	
 	//我是前台通知
 	let webSocket_notice;	
 	let MyPoint_notice = "/test/${MemTenVO.mem_no}/0";
-	let giveThisMem =${MemTenVO.mem_no};
+	let giveThisMem =${empty MemTenVO.mem_no?"null":MemTenVO.mem_no};
+	$(document).ready(function(){
+		if(giveThisMem!=null){
+			connectNotice();
+		}
+	})
 	let endPointURL1 = "ws://" + window.location.host + (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1))  + MyPoint_notice;
 	function connectNotice() {
 		webSocket_notice = new WebSocket(endPointURL1);

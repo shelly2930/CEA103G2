@@ -51,7 +51,7 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 	private static final String GET_RENT_CONT="SELECT RTCT_NO FROM RENT_FURNITURE_DETAIL WHERE rfa_no=? limit 0,1";
 	// 蔡佳 查會員的所有申請單
 	private static final String GET_ALL_BY_MEM = "SELECT * FROM RENT_FURNITURE_APPLICATION WHERE mem_no=? and rfa_status=? order by rfa_no desc";
-	private static final String UPDATE_STATUS_BY_PK = "UPDATE RENT_FURNITURE_APPLICATION SET fra_status=1 WHERE fra_no=?";
+	private static final String UPDATE_STATUS_BY_PK = "UPDATE RENT_FURNITURE_APPLICATION SET rfa_status=3 WHERE rfa_no=?";
 	
 	@Override
 	public void insertWithDetail(RenFurAppVO renFurAppVO,List<RenFurDetVO> renFurDetList) {
@@ -514,7 +514,7 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 	}
 
 	@Override
-	public void updateStatusByPK(RenFurAppVO renFurAppVO) {
+	public void updateStatusByPK(Integer rfa_no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -522,8 +522,7 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 		
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STATUS_BY_PK);
-//			pstmt.setByte(1, renFurAppVO.getRfa_status());
-			pstmt.setInt(1, renFurAppVO.getRfa_no());
+			pstmt.setInt(1, rfa_no);
 
 			pstmt.executeUpdate();
 

@@ -8,6 +8,7 @@
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
 <style>
 * {
@@ -42,9 +43,10 @@
 }
 
 .input-area {
-	background: #0078ae;
-	box-shadow: inset 0 0 10px #00568c;
-	float: right;
+	background: var(--white);
+    box-shadow: inset 0 0 10px #00568c;
+    float: left;
+    width: 498.5px;
 }
 
 .input-area input {
@@ -115,6 +117,7 @@ ul li#time {
 	background: #eee;
 	float: left;
 	padding: 20px;
+	font-weight:bold;
 }
 
 .me {
@@ -122,16 +125,17 @@ ul li#time {
 	background: #0084ff;
 	color: #fff;
 	padding: 20px;
+	font-weight:bold;
 }
 
 .friend+.me {
 	border-bottom-right-radius: 5px;
 }
 
-.me+.me {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-}
+/* .me+.me { */
+/* 	border-top-right-radius: 5px; */
+/* 	border-bottom-right-radius: 5px; */
+/* } */
 
 .me:last-of-type {
 	border-bottom-right-radius: 30px;
@@ -140,6 +144,7 @@ ul li#time {
 #time {
 	background: none;
 	color: black;
+	font-weight:bold;
 	/*     padding: inherit; */
 }
 
@@ -156,7 +161,7 @@ ul li#time {
 			<input id="message" class="text-field" type="text-area"
 				placeholder="Message"
 				onkeydown="if (event.keyCode == 13) sendMessage();" /> <input
-				type="submit" id="sendMessage" class="button" value="Send"
+				type="submit" id="sendMessage" class="btn btn-outline-dark" style="border-radius: 50%;" value="Send"
 				onclick="sendMessage();" />
 		</div>
 	</div>

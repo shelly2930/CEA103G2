@@ -35,7 +35,6 @@ public class NoticeWS {
 
 	@OnMessage
 	public void onMessage(Session userSession, String message) {
-		System.out.println("S");
 		System.out.println(message);
 		Notice notice = new Gson().fromJson(message, Notice.class);
 		String username = notice.getUsername();
