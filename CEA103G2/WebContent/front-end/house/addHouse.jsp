@@ -84,10 +84,11 @@
             <div>
             <form class="row contact_form" action="<%=request.getContextPath()%>/house/house.do" method="post" novalidate="novalidate" enctype="multipart/form-data" id="form1">
               <div class="col-md-6 check_title text-center" >
-              	<h2 style='background-color:#DEFFDE;'>房東編號</h2>
+              	<h2 style='background-color:#DEFFDE;'>房東姓名</h2>
               </div>
               <div class="col-md-6 form-group">
-                <input type="text" class="form-control" name="lld_no" value="<%=(houseVO == null) ? "5" : houseVO.getLld_no()%>"/>
+                <input style='display:none' type="text" class="form-control" name="lld_no" />
+                <input type="text" class="form-control" id='showlldname' disabled/>
                 <span class="placeholder" ></span>
               </div>
               
@@ -338,10 +339,28 @@
       
   </section>
  	<script>
- 	
- 	
- 	
+ 	function getMem(mem_no){
+	let mem = {};
+		$.ajax({
+			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+			type: 'post',
+			data:{
+				action:'getOneMemten',
+				mem_no:mem_no,
+			},
+			async:false,
+			success:function(memvo){
+				for(let key in memvo){
+					mem[key]=memvo[key];
+				}
+			}
+		})
+		return mem;
+	}
 	let mem_no = ${MemTenVO.mem_no};
+	let lldname = getMem(mem_no).mem_name;
+ 	$("#showlldname").val(lldname);
+ 	$("input[name='lld_no']").val(getlld(mem_no));
 	if(judge(mem_no)==0){
 		Swal.fire({
 	    	icon:'error',
@@ -368,6 +387,23 @@
 			}
 		})
 		return judge;
+	}
+	
+	function getlld(mem_no){
+		let lld = 0;
+		$.ajax({
+			url:"<%=request.getContextPath()%>/HouseJsonServlet",
+			type:'post',
+			data:{
+				action:'getlld',
+				'mem_no':mem_no
+			},
+			async:false,
+			success:function(e){
+				lld=e.lld_no;
+			}
+		})
+		return lld;
 	}
 	$("#twzipcode").twzipcode({
         countySel: "${houseVO.hos_city}", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
@@ -528,7 +564,7 @@
  	}
 	$("input[type='submit']").click(function(e){
 		e.preventDefault();
- 		picktimeSuccess("剛剛有房東申請租屋");
+ 		picktimeSuccess("剛剛房東:"+lldname+"已申請服務代管");
  		Swal.fire({
 			 icon: 'success',
 			 title: '您已成功申請物件代管，請等候專員為您服務',
@@ -540,6 +576,7 @@
 	 		$("#form1").submit();
  		},1000);
  	})
+ 	
 	</script>
 
 </body>

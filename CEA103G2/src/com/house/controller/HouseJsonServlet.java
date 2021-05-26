@@ -134,6 +134,15 @@ public class HouseJsonServlet extends HttpServlet {
 			res.getWriter().print(new Gson().toJson(status));
 			return;
 		}
+		if("getlld".equals(action)) {
+			Integer mem_no = new Integer(req.getParameter("mem_no"));
+			LanlordService svc = new LanlordService();
+			LanlordVO lldvo = svc.getOneLanlordByMemTen(mem_no);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().print(new Gson().toJson(lldvo));
+			return;
+		}
 	}
 
 }

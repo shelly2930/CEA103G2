@@ -70,7 +70,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            	<form action="<%=request.getContextPath()%>/house/house.do">
+                            	<form id='form1' action="<%=request.getContextPath()%>/house/house.do">
                             	<%@ include file="pages/page1.file"%>	
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
@@ -216,6 +216,40 @@
 
 <!--     Page level custom scripts -->
  	<script>
+ 			$("input[value='確認送出']").click(function(e){
+ 				e.preventDefault();
+ 				$("input[name='houseno']").each(function(index){
+ 					let hs = $(this).val();
+ 					if($(this).prop('checked')){
+ 						let sendmemname = getMem(getlld(getHos(hs).lld_no).mem_no).mem_name;
+ 						let sendmemno = getlld(getHos(hs).lld_no).mem_no;
+ 						picktimeSuccess("房東:"+sendmemname+"您委託的物件編號:"+hs+"已成功代管",sendmemno);
+ 					}
+ 					
+ 				})
+ 				setTimeout(function(){
+ 			 		$("#form1").submit();
+ 		 		},500);
+//  		 		
+ 			})
+ 			$("input[value='案件廢棄']").click(function(e){
+ 				e.preventDefault();
+ 				$("input[name='houseno']").each(function(index){
+ 					let hs = $(this).val();
+ 					if($(this).prop('checked')){
+ 						let sendmemname = getMem(getlld(getHos(hs).lld_no).mem_no).mem_name;
+ 						let sendmemno = getlld(getHos(hs).lld_no).mem_no;
+ 						picktimeSuccess("房東:"+sendmemname+"您委託的物件編號:"+hs+"已失敗，請重新申請",sendmemno);
+ 					}
+ 					
+ 				})
+ 				setTimeout(function(){
+ 			 		$("#form1").submit();
+ 		 		},1000);
+//  		 		
+ 			})
+ 	
+ 	
 			let judge1 = ${empty listAllHouse_Backend_list?param.hos_status:listAllHouse_Backend_list[0].hos_status}; 
 			if(judge1==0){
 				$("#case1").removeClass("btn-outline-info");
