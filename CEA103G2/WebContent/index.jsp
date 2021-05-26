@@ -87,7 +87,7 @@
 
 
 	<!-- product_list part start-->
-	<section class="product_list best_seller section_padding" style='padding-top:50px !important;padding-buttom:0px !important'>
+	<section class="product_list best_seller " style='padding-top:50px !important;'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
@@ -106,7 +106,7 @@
 
 
 	<!-- product_list2 part start-->
-	<section class="product_list best_seller section_padding fur" style='padding-top:0px !important;padding-buttom:0px !important'>
+	<section class="product_list best_seller  fur" style='padding:0px auto !important;'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
@@ -165,7 +165,7 @@
 				let str ="<div class='best_product_slider owl-carousel'>"
 				for(house of list){
 					str += "<div class='single_product_item'>";
-					str+="<img style='height:200px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno='"+house.hos_no+">";
+					str+="<img style='weight:150px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+house.hos_no+"'>";
 					str+="<div class='single_product_text'>";
 					str+="<h4>"+house.hos_name+"</h4>";
 					str+="<h3><span>$"+house.hos_rent+"</span></h3>";
@@ -180,7 +180,9 @@
 				$(".owl-carousel").owlCarousel({
 					  loop: true, // 循環播放
 					  margin: 20, // 外距 10px
-					  nav: true, // 顯示點點
+					  autoplay:true,
+					  autoplayTimeout:1500,
+					  autoplayHoverPause:true,
 					  responsive: {
 					    0: {
 					      items: 1 // 螢幕大小為 0~600 顯示 1 個項目
