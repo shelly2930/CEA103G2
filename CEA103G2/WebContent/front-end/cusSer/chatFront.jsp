@@ -10,161 +10,65 @@
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/chat/chat.css">
+<script src="<%=request.getContextPath()%>/template_front-end/chat/chat.js"></script>
 <style>
-* {
-	box-sizing: border-box;
-}
 
-#chat {
-	position: absolute;
-	font: 15px verdana, Times New Roman, arial, helvetica, sans-serif,
-		Microsoft JhengHei;
-	width: 478px;
-	height: 500px;
-	top: 73px;
-}
-
-.panel {
-	background: white;
-	/* 	border: 2px solid #0078ae; */
-	border-radius: 5px;
-	width: 100%;
-}
-
-#messagesArea {
-	float: right;
-}
-
-.message-area {
-	height: 85%;
-	resize: none;
-	box-sizing: border-box;
-	overflow: auto;
-}
-
-.input-area {
-	background: var(--white);
-    box-shadow: inset 0 0 10px #00568c;
-    float: left;
-    width: 498.5px;
-}
-
-.input-area input {
-	margin: 0.5em 0em 0.5em 0.5em;
-}
-
-.text-field {
-	border: 1px solid grey;
-	padding: 0.5em;
-	box-shadow: 0 0 5px #000000;
-}
-
-h1 {
-	font-size: 1.5em;
-	padding: 5px;
-	margin: 5px;
-}
-
-#userName {
-	width: 20%;
-}
-
-#message {
-	width: 80%;
-}
-
-#sendMessage {
-	padding: 5px;
-	background-color: white;
-	text-align: justify;
-	color: black;
-}
-
-.footer_part {
-	position: relative;
-	top: 500px;
-}
-
-#hide, #show {
-	position: relative;
-	top: 100px;
-	left: 50px;
-}
-
-ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-ul li {
-	display: inline-block;
-	clear: both;
-	border-radius: 30px;
-	margin-bottom: 2px;
-	font-family: Helvetica, Arial, sans-serif;
-}
-
-ul li#time {
-	display: table;
-	margin: 0 auto;
-	float: none;
-	font-size: 0.5em;
-	color: #D3D3D3;
-}
-
-.friend {
-	background: #eee;
-	float: left;
-	padding: 20px;
-	font-weight:bold;
-}
-
-.me {
-	float: right;
-	background: #0084ff;
-	color: #fff;
-	padding: 20px;
-	font-weight:bold;
-}
-
-.friend+.me {
-	border-bottom-right-radius: 5px;
-}
-
-/* .me+.me { */
-/* 	border-top-right-radius: 5px; */
-/* 	border-bottom-right-radius: 5px; */
-/* } */
-
-.me:last-of-type {
-	border-bottom-right-radius: 30px;
-}
-
-#time {
-	background: none;
-	color: black;
-	font-weight:bold;
-	/*     padding: inherit; */
-}
-
-.panel message-area #time {
-	margin: auto;
-}
 </style>
 </head>
 <body onload="connect();" onunload="disconnect();">
-	<div id="chat" class="flex">
-		<div id="row"></div>
-		<div id="messagesArea" class="panel message-area"></div>
-		<div class="panel input-area">
-			<input id="message" class="text-field" type="text-area"
-				placeholder="Message"
-				onkeydown="if (event.keyCode == 13) sendMessage();" /> <input
-				type="submit" id="sendMessage" class="btn btn-outline-dark" style="border-radius: 50%;" value="Send"
-				onclick="sendMessage();" />
-		</div>
-	</div>
+
+			<div id='chatleft' class="answer left">
+			    <div class="avatar">
+			        <div class="status offline"></div>
+			    </div>
+			    <div class="name"></div>
+			    <div class="text">
+			        
+			    </div>
+			    <div class="time"></div>
+			</div>
+			 <div id='chatright' class="answer right">
+			     <div class="avatar">
+			         <div class="status offline"></div>
+			     </div>
+			     <div class="name"></div>
+			     <div class="text">
+			     </div>
+			     <div class="time"></div>
+			 </div>
+
+			<div class=" rounded-top border border-info chat-body panel chat message-area" style='overflow:auto;border:2px solid blue' id="messagesArea" >
+			
+			
+			</div>
+                
+              <div class="answer-add2 ">
+              <div class="row">
+	              <div class="col-sm-12 panel input-group mb-3">
+	               		<input id="message" class="input form-control text-field" type="text"
+						placeholder="Message"
+						onkeydown="if (event.keyCode == 13) sendMessage();" />
+					  <div class="input-group-append">
+					    <input
+						type="submit" id="sendMessage" class="btn btn-outline-primary"  value="Send"
+						onclick="sendMessage();" />
+					  </div>
+					</div>
+				</div>
+			</div>    
+                 
+                     
+                       
+						 
+                    
+                           
+
+
+
 </body>
 
 <script>
@@ -190,12 +94,9 @@ ul li#time {
 			//包裹
 			var jsonObj = JSON.parse(event.data);
 			if ("open" === jsonObj.type) {
+				$("#messagesArea").empty();
 				addListener();
 			} else if ("history" === jsonObj.type) {
-				messagesArea.innerHTML = '';
-				var ul = document.createElement('ul');
-				ul.id = "area";
-				messagesArea.appendChild(ul);
 				// 這行的jsonObj.message是從redis撈出跟好友的歷史訊息，再parse成JSON格式處理
 				//存在redies的歷史訊息 包裹
 				var messages = JSON.parse(jsonObj.message);
@@ -203,50 +104,42 @@ ul li#time {
 					var historyData = JSON.parse(messages[i]);
 					var showMsg = historyData.message;
 					var showDt = historyData.date;
-					var li = document.createElement('li');
-					var liTime = document.createElement('li');
-					liTime.id = 'time';
 					// 根據發送者是自己還是對方來給予不同的class名, 以達到訊息左右區分
 					//CSS檔案中區分
-
-					historyData.sender === self ? li.className += 'me'
-							: li.className += 'friend';
-					historyData.sender === self ? liTime.className += 'me'
-							: liTime.className += 'friend';
-					liTime.innerHTML = showDt;
-					li.innerHTML = showMsg;
-					ul.appendChild(liTime);
-					ul.appendChild(li)
-
+					if(jsonObj.sender === self){
+						var a = $("#chatright").clone(true);
+						$("#messagesArea").append($(a));
+						$(a).children(".name").text("會員編號:"+jsonObj.sender);
+						$(a).children(".text").text(showMsg);
+						$(a).children(".time").text(showDt);
+					}else{
+						var a = $("#chatleft").clone(true);
+						$("#messagesArea").append($(a));
+						$(a).children(".name").text("客服");
+						$(a).children(".text").text(showMsg);
+						$(a).children(".time").text(showDt);
+					}
 				}
-				messagesArea.scrollTop = messagesArea.scrollHeight;
+				let height = $("#messagesArea").prop('scrollHeight');
+				$("#messagesArea").scrollTop(height);
+
 				//接收自己發出去的chat包裹
 			} else if ("chat" === jsonObj.type) {
-				var ul = document.createElement('ul');
-				ul.id = "area";
-				messagesArea.appendChild(ul);
-				var li = document.createElement('li');
-				var liTime = document.createElement('li');
-				liTime.id = 'time';
-				// 				jsonObj.sender === self ? li.innerHTML = "會員" + jsonObj.sender
-				// 						+ ":" + jsonObj.message + "<br>" +jsonObj.date : li.innerHTML = "員工" + ":"
-				// 						+ jsonObj.message + "<br>" +jsonObj.date;
-
-				// 						self ? li.className += 'me' : li.className += 'friend'
-				// 						li.innerHTML = jsonObj.message;
-				jsonObj.sender === self ? li.className += 'me'
-						: li.className += 'friend';
-				jsonObj.sender === self ? liTime.className += 'me'
-						: liTime.className += 'friend';
-				liTime.innerHTML = jsonObj.date;
-				li.innerHTML = jsonObj.message;
-
-				console.log(li);
-				console.log(liTime);
-				//把li加到"area"中
-				document.getElementById("area").appendChild(liTime);
-				document.getElementById("area").appendChild(li);
-				messagesArea.scrollTop = messagesArea.scrollHeight;
+				if(jsonObj.sender === self){
+					var a = $("#chatright").clone(true);
+					$("#messagesArea").append($(a));
+					$(a).children(".name").text("會員編號:"+jsonObj.sender);
+					$(a).children(".text").text(jsonObj.message);
+					$(a).children(".time").text(jsonObj.date);
+				}else{
+					var a = $("#chatleft").clone(true);
+					$("#messagesArea").append($(a));
+					$(a).children(".name").text("客服");
+					$(a).children(".text").text(jsonObj.message);
+					$(a).children(".time").text(jsonObj.date);
+				}
+				let height = $("#messagesArea").prop('scrollHeight');
+				$("#messagesArea").scrollTop(height);
 				//接收server端發出關掉的包裹
 			} else if ("close" === jsonObj.type) {
 				refreshFriendList(jsonObj);//移除會員列表
