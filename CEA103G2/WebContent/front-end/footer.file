@@ -245,24 +245,20 @@
 		$("#showchat").hide();
 	});
 	$("#showchat").hide();
-	var MyPoint = "/chat/${MemTenVO.mem_no}";
+	var MyPoint1 = "/chat/${MemTenVO.mem_no}";
 	var self = '${MemTenVO.mem_no}';
-	var host = window.location.host;
-	var path = window.location.pathname;
-	var webCtx = path.substring(0, path.indexOf('/', 1));
-	var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+	var endPointURLchat = "ws://" + window.location.host + window.location.pathname.substring(0, window.location.pathname.indexOf('/', 1)) + MyPoint1;
 	var statusOutput = document.getElementById("statusOutput");
 	var messagesArea = document.getElementById("messagesArea");
-	var webSocket;
+	var webSocketchat;
 	function chatconnect() {
-		// create a websocket
-		webSocket = new WebSocket(endPointURL);
+		webSocketchat = new WebSocket(endPointURLchat);
 
-		webSocket.onopen = function(event) {
+		webSocketchat.onopen = function(event) {
 			console.log("Connect Success!");
 		};
 
-		webSocket.onmessage = function(event) {
+		webSocketchat.onmessage = function(event) {
 			//¥]»q
 			var jsonObj = JSON.parse(event.data);
 			if ("open" === jsonObj.type) {
@@ -319,7 +315,7 @@
 
 		};
 
-		webSocket.onclose = function(event) {
+		webSocketchat.onclose = function(event) {
 			console.log("Disconnected!");
 		};
 	}
@@ -347,7 +343,7 @@
 			};
 
 			//µo°e!!!!
-			webSocket.send(JSON.stringify(jsonObj));
+			webSocketchat.send(JSON.stringify(jsonObj));
 			inputMessage.value = "";
 			inputMessage.focus();
 		}
@@ -387,12 +383,12 @@
 			"date" : "",
 			"judge" : "",
 		};
-		webSocket.send(JSON.stringify(jsonObj));
+		webSocketchat.send(JSON.stringify(jsonObj));
 
 	}
 
 	function chatdisconnect() {
-		webSocket.close();
+		webSocketchat.close();
 	}
 </script>
 	
