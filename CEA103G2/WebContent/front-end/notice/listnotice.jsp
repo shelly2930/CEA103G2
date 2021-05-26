@@ -86,11 +86,6 @@
 <!-- /****** CONTAINER *****/     -->
 
 
-				
-<!-- /****** CONTAINER *****/     -->	                       
-	
-</body>
-<%@include file="/front-end/footer.file"%>
 
 <script>
 	let mem_no = ${MemTenVO.mem_no};
@@ -182,8 +177,11 @@
 			},
 			async:false,
 			success:function(data){
+				
 				for(let i of data){
-					if(parseInt(JSON.parse(i.username))==parseInt(mem_no)){
+						console.log(parseInt(mem_no));
+						console.log(JSON.parse(i.username))
+						if(parseInt(JSON.parse(i.username))==parseInt(mem_no)){
 						let obj = {};
 						obj.currentTime = i.currentTime;
 						obj.message = i.message;
@@ -204,5 +202,10 @@
 		else
 			return false;
 	}
-</script>
+</script>				
+<!-- /****** CONTAINER *****/     -->	                       
+	
+</body>
+<%@include file="/front-end/footer.file"%>
+
 </html>
