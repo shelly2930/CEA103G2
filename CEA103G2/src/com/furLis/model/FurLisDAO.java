@@ -54,6 +54,7 @@ public class FurLisDAO implements FurLisDAO_interface {
 		private static final String GET_FNT_STATUS_MAP="SELECT FNT_STATUS,count(*) as count FROM HOWTRUE.FURNITURE_LIST where FNT_IT_NO=? group by fnt_status order by FNT_STATUS";
 	//更改品項中各狀態數量
 		private static final String UPDATE_ONE_FUR_INT_COUNT="update FURNITURE_ITEM  set  fnt_unrent=?,fnt_repair=?,fnt_total=? where FNT_IT_NO=?";
+		
 	@Override
 	public void insert(FurLisVO furLisVO) {
 
@@ -494,4 +495,13 @@ public class FurLisDAO implements FurLisDAO_interface {
 		}
 		return list;
 	}
+	//多表格查詢
+//	@Override
+//	public List<FurLisVO> getMultiQuery(Integer furCatSelect,Integer furIteSelect,Integer fntStatusSelect,Integer rentStatusSelect) {
+//		List<FurLisVO> multiQueryList=new ArrayList<>();
+//		
+//		
+//			return multiQueryList;
+//		}
+//		
 }

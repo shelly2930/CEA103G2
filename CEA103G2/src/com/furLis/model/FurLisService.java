@@ -55,6 +55,10 @@ public class FurLisService {
 	public List<FurLisVO> getOneFur_Item_Lis(Integer fnt_it_no) {
 		return dao.getOneFur_Item_Lis(fnt_it_no);
 	}
+	//多表格查詢
+//	public List<FurLisVO> getMultiQuery(Integer furCatSelect,Integer furIteSelect,Integer fntStatusSelect,Integer rentStatusSelect) {
+//		return dao.getMultiQuery(furCatSelect,furIteSelect,fntStatusSelect,rentStatusSelect);
+//	}
 	
 	public List<FurLisVO> getAll(Map<String, String[]> map) {
 		return dao.getAll();

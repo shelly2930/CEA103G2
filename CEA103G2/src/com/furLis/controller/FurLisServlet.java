@@ -12,6 +12,7 @@ import javax.servlet.http.*;
 import com.furCat.model.FurCatService;
 import com.furLis.model.*;
 import com.furPho.model.FurPhoVO;
+import com.lanBill.controller.LanBillServlet;
 
 public class FurLisServlet extends HttpServlet {
 //新增及修改 刪除 查詢DAO待改
@@ -24,7 +25,7 @@ public class FurLisServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		req.setCharacterEncoding("UTF-8");
-
+		res.setContentType("text/html; charset=Big5");
 		String action = req.getParameter("action");
 		
 	//新增資料鈕連結 待處理品項連類別下拉式選單問題 家具大類的下拉式選單的值要存??
@@ -243,47 +244,35 @@ public class FurLisServlet extends HttpServlet {
 			}		
 		 
 //複合查詢
-			if ("listEmps_ByCompositeQuery".equals(action)) { // 來自listAllLis.jsp的複合查詢請求
-				List<String> errorMsgs = new LinkedList<String>();
-				// Store this set in the request scope, in case we need to
-				// send the ErrorPage view.
-				req.setAttribute("errorMsgs", errorMsgs);
-
-				try {
-					
-					/***************************1.將輸入資料轉為Map**********************************/ 
-					//採用Map<String,String[]> getParameterMap()的方法 
-					//注意:an immutable java.util.Map 
-					//Map<String, String[]> map = req.getParameterMap();
-					//官方設計Map 不能存session
-					HttpSession session = req.getSession();
-					Map<String, String[]> map = (Map<String, String[]>)session.getAttribute("map");
-					
-					// 以下的 if 區塊只對第一次執行時有效
-					if (req.getParameter("whichPage") == null){
-						Map<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap());
-					    //此時存假的 因map還沒東西 map.size()=0 用HashMap把Map不能存session的特性洗掉
-						session.setAttribute("map",map1);
-						map = map1;
-					} 
-					
-					/***************************2.開始複合查詢***************************************/
-					FurLisService furLisSvc = new FurLisService();
-					List<FurLisVO> list  = furLisSvc.getAll(map);
-					
-					/***************************3.查詢完成,準備轉交(Send the Success view)************/
-					req.setAttribute("listEmps_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
-					RequestDispatcher successView = req.getRequestDispatcher("/back-end/furLis/listAllFurLis.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
-					successView.forward(req, res);
-					
-					/***************************其他可能的錯誤處理**********************************/
-				} catch (Exception e) {
-					errorMsgs.add(e.getMessage());
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back-end/furLis/listAllFurLis.jsp");
-					failureView.forward(req, res);
-				}
-			}
+//			if ("compositeQuery".equals(action)) { // 來自listAllLis.jsp的複合查詢請求
+//				System.out.println("Enter compositeQuery");
+//				System.out.println("執行到A此");
+//				try {
+//					String furCatSelect=req.getParameter("furCatSelect");
+//					System.out.println("取到的furCatSelect: "+furCatSelect);
+//					Integer furIteSelect=new Integer(req.getParameter("furIteSelect").trim());
+//					Integer fntStatusSelect=new Integer(req.getParameter("fntStatusSelect").trim());
+//					Integer rentStatusSelect=new Integer(req.getParameter("rentStatusSelect").trim());
+//					System.out.println("執行到此");
+//					System.out.println("取到的furCatSelect: "+furCatSelect);
+//					System.out.println("取到的furIteSelect: "+furIteSelect);
+//					System.out.println("取到的fntStatusSelect: "+fntStatusSelect);
+//					System.out.println("取到的rentStatusSelect: "+rentStatusSelect);
+//					
+//					/***************************開始複合查詢***************************************/
+////					FurLisService furLisSvc = new FurLisService();
+////					List<FurLisVO> multiQueryList  = furLisSvc.getMultiQuery(furCatSelect,furIteSelect,fntStatusSelect,rentStatusSelect);
+//					
+//					/***************************查詢完成,準備傳前端************/
+//					
+//					/***************************其他可能的錯誤處理**********************************/
+//				} catch (Exception e) {
+//				
+//					RequestDispatcher failureView = req
+//							.getRequestDispatcher("/back-end/furLis/listAllFurLis.jsp");
+//					failureView.forward(req, res);
+//				}
+//			}
 			
 			
 	}

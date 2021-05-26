@@ -98,7 +98,7 @@
  					</table>
                     <!-- 繼續購物或結帳區塊 開始 -->
                     <div class="checkout_btn_inner float-right">
-                        <a class="btn_1" href="<%=request.getContextPath()%>/furIte/furIte.do?action=listAllGetOnFurIte">繼續瀏覽家具</a>
+                        <a class="btn_1"   style="cursor:pointer;color:white;" href="<%=request.getContextPath()%>/furIte/furIte.do?action=listAllGetOnFurIte">繼續瀏覽家具</a>
                     </div>
                     
 

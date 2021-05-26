@@ -119,7 +119,7 @@
 
 
 	<!-- 左側欄 家具分類 -->
-	<section class="cat_product_area section_padding">
+	<section class="cat_product_area section_padding" style="padding:0px auto !important">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">

@@ -63,8 +63,6 @@
              <a href="<%=request.getContextPath()%>/back-end/furCat/addFurCat.jsp" class="btn btn-warning btn-icon-split">
                                         <span class="text">新增資料</span>
                                     </a>
-                                
-                                    
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
