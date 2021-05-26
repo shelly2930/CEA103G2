@@ -65,13 +65,8 @@ public class FurLisServlet extends HttpServlet {
 						errorMsgs.add("請選擇家具狀態");
 					}
 					//租借狀態
-					Byte fnt_rent_status=null;
-					try {
-						fnt_rent_status = new Byte(req.getParameter("fnt_rent_status").trim());
-					} catch (Exception e) {
-						fnt_rent_status='0';
-						errorMsgs.add("請選擇家具租借狀態");
-					}
+					Byte fnt_rent_status=0;
+					
 				//報廢日期 可為空值	
 					Timestamp fnt_unusable_date = null;
 					try {
@@ -174,13 +169,7 @@ public class FurLisServlet extends HttpServlet {
 						errorMsgs.add("請選擇家具狀態");
 					}
 					//租借狀態
-					Byte fnt_rent_status=null;
-					try {
-						fnt_rent_status = new Byte(req.getParameter("fnt_rent_status").trim());
-					} catch (Exception e) {
-						fnt_rent_status='0';
-						errorMsgs.add("請選擇家具租借狀態");
-					}
+					Byte fnt_rent_status=new Byte(req.getParameter("fnt_rent_status").trim());
 					//後端防呆 當家具狀態不為正常時 租借狀態均為未出租!
 					if(fnt_status!=0) {
 						fnt_rent_status=0;

@@ -1,6 +1,7 @@
 <%@page import="java.sql.Timestamp"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.furLis.model.*"%>
 <%-- <%@ page import="com.furIte.model.*"%> --%>
 <%-- <%@ page import="com.furCat.model.*"%> --%>
@@ -56,12 +57,12 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h3>家具資料修改 - addFurIte.jsp</h3></td><td>
+		 <h3 id="editOrLook">家具資料 - updateFurIte.jsp</h3></td><td>
 		 <h4><a href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp"><img src="images/tomcat.png" width="100" height="100" border="0">返回家具管理</a></h4>
 	</td></tr>
 </table>
 
-<h3>資料修改:</h3>
+<h3>家具資料:</h3>
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -88,22 +89,24 @@
 		<th>家具品項名稱: </th>
 		<td> ${furIteSvc.getOneFurIte(furLisVO.fnt_it_no).fnt_name}</td>
 	</tr>
-	
+<!-- 	狀態非報廢時的顯示 -->
+ <c:if test="${(furLisVO.fnt_status!=2)}">
 	<tr>
 		<th>購置日期:</th>
 		<td><input name="fnt_acq_date" id="f_date1" type="text"></td>
 	</tr>
 	
 	<tr>
-		<th>家具狀態:</th><%=((furLisVO == null) ? "" : (furLisVO.getFnt_status().equals("0") ? "checked=true" : ""))%>
+		<th>家具狀態:</th>
 		<td>
+				<input type="hidden" name="ori_fnt_status"  id="ori_fnt_status"  value="${furLisVO.fnt_status}">
 		         <input type="radio" name="fnt_status" value="0"  ${(furLisVO.fnt_status==0)? 'checked':''}>正常
 		         <input type="radio" name="fnt_status" value="1"  ${(furLisVO.fnt_status==1)? 'checked':''}>維修
 		         <input type="radio" name="fnt_status"  id="unusable"  value="2"  ${(furLisVO.fnt_status==2)? 'checked':''}>報廢
 		</td>
 	</tr>
-	
-	<tr>
+
+	<tr style="display:none">
 		<th>租借狀態:</th>
 		<td>
 		<input type="radio" name="fnt_rent_status" value="0"  ${(furLisVO.fnt_rent_status==0)? 'checked':''}>未出租
@@ -124,6 +127,33 @@
 <input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp-->
 <input type="hidden" name="action"  value="update">
 </FORM>
+</c:if>	
+
+<!-- 報廢時顯示頁面 -->
+<c:if test="${(furLisVO.fnt_status==2)}">
+			<tr>
+				<th>購置日期:</th>
+				<td><fmt:formatDate value="${furLisVO.fnt_acq_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></td>
+			</tr>
+			
+			<tr>
+				<th>家具狀態:</th>
+				<td>${furLisVO.fnt_status}</td>
+			</tr>
+		
+			<tr style="display:none">
+				<th>租借狀態:</th>
+				<td>${furLisVO.fnt_rent_status}</td>
+			</tr>
+			<tr>
+				<th>報廢日期:</th>
+				<td><fmt:formatDate value="${furLisVO.fnt_unusable_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></td>
+			</tr>
+			
+		</table>
+		<br>
+		</FORM>
+</c:if>
 </body>
 
 
@@ -164,8 +194,8 @@ Timestamp fnt_unusable_date = null;
 // 狀態取值
 $('#hide').hide();
 $("#update").prop("disabled",true);
-let a = $('input[name=fnt_status]').val();
-alert(a);
+let a = $("#ori_fnt_status").val();
+	
 		$('input[name=fnt_status]').change(function(){
 			if($("#unusable").prop('checked')){
 				$('#hide').show();
@@ -177,10 +207,9 @@ alert(a);
 			}else{
 				$("#update").prop("disabled",true);
 			}
-			alert($(this).val());
 		});
-		
-        $.datetimepicker.setLocale('zh');
+
+		$.datetimepicker.setLocale('zh');
         $('#f_date2').datetimepicker({
 	       theme: '',              //theme: 'dark',
 	       timepicker:true,       //timepicker:true,

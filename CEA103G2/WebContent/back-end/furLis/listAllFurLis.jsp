@@ -285,7 +285,7 @@ window.addEventListener("load",function (){
 					<FORM METHOD="post"
 						ACTION="<%=request.getContextPath()%>/furLis/furLis.do"
 						style="margin-bottom: 0px;">
-						<input type="submit" value="編輯"> 
+						<input type="submit" value=${furLisVO.fnt_status!=2? "編輯":"查看"}> 
 						<input type="hidden" name="fnt_id" value="${furLisVO.fnt_id}">
 						 <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
 			             <input type="hidden" name="whichPage"	value="<%=whichPage%>">       

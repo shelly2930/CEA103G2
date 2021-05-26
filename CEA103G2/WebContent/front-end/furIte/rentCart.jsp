@@ -33,6 +33,21 @@
       		vertical-align: middle;
      		 text-align: center;
 		}
+.btn_1 {
+    background-color: #61d2b4 !important;
+    border: 1px solid #61d2b4 !important;
+    color: #fff;
+    box-shadow: -1.717px 8.835px 29.76px 2.24px rgb(97 210 180 / 18%) !important;
+    border: 1px solid #61d2b4 !important;
+}
+
+.btn_1:hover {
+    background-color: #fff !important;
+    border: 1px solid #61d2b4 !important;
+    color: #61d2b4 !important;
+    box-shadow: -1.717px 8.835px 29.76px 2.24px rgb(97 210 180 / 18%) !important;
+    border: 1px solid #61d2b4 !important;
+}
 
 </style>
 
@@ -185,8 +200,8 @@
                     <!-- 繼續購物或結帳區塊 開始 -->
 
                     <div class="checkout_btn_inner float-right">
-                        <a class="btn_1" href="<%=request.getContextPath()%>/furIte/furIte.do?action=listAllGetOnFurIte">繼續瀏覽家具</a>
-                        <a class="btn_1 checkout_btn_1" style="cursor:pointer;color:black;"  id="nextStep">下一步</a>
+                        <a class="btn_1" href="<%=request.getContextPath()%>/furIte/furIte.do?action=listAllGetOnFurIte" style="color:white;" >繼續瀏覽家具</a>
+                        <a class="btn_1 checkout_btn_1" style="cursor:pointer;color:white;"  id="nextStep">下一步</a>
                          <jsp:useBean id="renConSvc" scope="page" class="com.renCon.model.RenConService" />
                          <input type="hidden" id="mem_rent_qua" value="${renConSvc.getMemRentQua(MemTenVO.mem_no)}">
                          <input type="hidden" id="rent_mem_no" value="${MemTenVO.mem_no}">
@@ -203,7 +218,7 @@
 
 
 <!-- JS ajax -->
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
+<!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript">
 $(document).ready(function(){
