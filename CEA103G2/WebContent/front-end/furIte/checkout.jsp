@@ -53,6 +53,22 @@
 	           height: 151px;   /* height:  151px; */
 	  }
 
+.btn_3 {
+    background-color: #61d2b4 !important;
+    border: 1px solid #61d2b4 !important;
+    color: #fff;
+    box-shadow: -1.717px 8.835px 29.76px 2.24px rgb(97 210 180 / 18%) !important;
+    border: 1px solid #61d2b4 !important;
+}
+
+.btn_3:hover {
+    background-color: #fff !important;
+    border: 1px solid #61d2b4 !important;
+    color: #61d2b4 !important;
+    box-shadow: -1.717px 8.835px 29.76px 2.24px rgb(97 210 180 / 18%) !important;
+    border: 1px solid #61d2b4 !important;
+}
+
 </style>
 
 </head>
@@ -146,12 +162,14 @@
       </div>
       
       <br>
-      	<div class="col-lg-2" style="float:right;"> 
+      	<div style="text-align:right;"> 
+             	<a class="btn_3" href="<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp">上一步</a>
              	<a class="btn_3" href="#" id="submitRentApp">送出訂單</a> 
-        </div> 
-      	<div class="col-lg-2" style="float:right;"> 
-             	<a class="btn_3" href="<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp">上一步</a> 
-       	</div> 
+        </div>
+      <br> 
+<!--       	<div class="col-lg-2" >  -->
+<%--              	<a class="btn_3" href="<%=request.getContextPath()%>/front-end/furIte/rentCart.jsp">上一步</a>  --%>
+<!--        	</div>  -->
              
     </div>
     
@@ -160,9 +178,8 @@
 
     <%@ include file="/front-end/footer.file"%>
 <%}%>
-
 <!-- JS ajax -->
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
+<!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>

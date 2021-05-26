@@ -15,6 +15,16 @@
 
 <style>
 
+.single-input {
+    display: block;
+    width: 100%;
+    line-height: 40px;
+    border: none;
+    outline: none;
+    background: #ecfdff !important;
+    padding: 0 20px;
+}
+
 .breadcrumb.breadcrumb_bg.rentalbaclground {
 	margin-top:84px;
 }
@@ -49,6 +59,11 @@ div.rentalstep {
 
 .rentalalert {
 	color:red;
+	text-align:center;
+}
+
+h3 {
+	text-align:center;
 }
 </style>
 

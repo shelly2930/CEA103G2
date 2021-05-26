@@ -10,61 +10,61 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
-
-<title>成為房東 - addLanlord.jsp</title>
-
-<style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
-  }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-</style>
+<title>成為房東</title>
 
 <style>
-  form {
+
+.single-input {
     display: block;
-    padding-top:90px;   
+    width: 100%;
+    line-height: 40px;
+    border: none;
+    outline: none;
+    background: #ecfdff !important;
+    padding: 0 20px;
 }
-  table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
-  }
-  img {
-  	width: 200px;
-  	height: auto;
-  }
+
+.breadcrumb.breadcrumb_bg.rentalbaclground {
+	margin-top:84px;
+}
+
+.breadcrumb_bg {
+    background-image: url(/CEA103G2/front-end/memTen/images/home.jpg) !important;
+}
+
+.breadcrumb .breadcrumb_iner .breadcrumb_iner_item h2 {
+    color: white !important;
+    text-align: right !important;
+}
+
+.aaa {
+    color: white !important;
+    font-size:15px !important;
+    text-align: right !important;
+}
+
+div.rentalstep {
+	margin-top:20px;
+}
+
+.row {
+	justify-content: center;
+}
+
+.lld_acc_pic {
+	width:200px;
+}
+
+h3 {
+	text-align:center;
+}
 </style>
 
 </head>
 <body>
 
+<!--================ navbar =================-->
 <%@include file="/front-end/header.file"%>
-
-
-<!-- <table id="table-1"> -->
-<!-- 	<tr><td> -->
-<!-- 		 <h3>成為房東 - addLanlord.jsp</h3></td><td> -->
-<%-- 		 <h4><a href="<%=request.getContextPath()%>/select_page.jsp"><img src="<%=request.getContextPath()%>/images/tomcat.png" width="100" height="100" border="0">回首頁</a></h4> --%>
-<!-- 	</td></tr> -->
-<!-- </table> -->
 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -76,37 +76,104 @@
 	</ul>
 </c:if>
 
+<section class="breadcrumb breadcrumb_bg rentalbaclground">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                        <div class="breadcrumb_iner_item">
+                            <h2>HowTrue</h2>
+                            <h3 class="aaa">成為房東</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
 
-<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath()%>/lanlord/lanlord.do" name="form1">
-<table>
-	<tr>
-		<td>會員編號:</td>
-		<td>${MemTenVO.mem_no}</td>
-	</tr>
-	<tr>
-		<td>銀行代碼:</td>
-		<td><input type="TEXT" name="lld_bank" size="45"
-			 value="<%= (lanlordVO==null)? "012" : lanlordVO.getLld_bank()%>" /></td>
-	</tr>
-	<tr>
-		<td>匯款帳號:</td>
-		<td><input type="TEXT" name="lld_account" size="45"
-			 value="<%= (lanlordVO==null)? "706168803737" : lanlordVO.getLld_account()%>" /></td>
-	</tr>
-	<tr>
-		<td>帳戶證明:</td>
-		<td><div id="preview"></div><input type="file" name="lld_acc_pic" id="lld_acc_pic" size="45" /></td>
-	</tr>
-	
-
-</table>
-<br>
-<input type="hidden" name="action" value="insert">
-<input type="submit" value="送出新增"></FORM>
+<div class="container">
+	<div class="row rentalstep">
+        <FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do" name="form1">
+<!--         <div class="step1"> -->
+<!--         	<h3>選擇合約期間</h3> -->
+<!--         	<table class="table"> -->
+<!-- 				<tbody> -->
+<!-- 					<tr> -->
+<!-- 						<th>合約起始日</th> -->
+<!-- 							<td> -->
+<!-- 								<div class="datealert"><i class="fas fa-exclamation-circle"></i> 只能選擇當日起算14天後</div> -->
+<!-- 								<input class="single-input" name="rtct_eff_date" id="rtct_eff_date" type="text" required> -->
+<!-- 							</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<th>合約終止日</th> -->
+<!-- 							<td> -->
+<!-- 								<div class="datealert"><i class="fas fa-exclamation-circle"></i> 租期最短一個月</div> -->
+<!-- 								<input class="single-input" name="rtct_end_date" id="rtct_end_date" type="text" required> -->
+<!-- 							</td> -->
+<!-- 					</tr> -->
+<!-- 				</tbody> -->
+<!-- 			</table>	 -->
+<!--         </div> -->
+        
+<!--         <br> -->
+<!--         <h3>申請會員資料</h3> -->
+<!--         <h5 class="rentalalert"><i class="fas fa-exclamation-circle"></i> 請填真實資料</h5> -->
+        <div class="step2">
+        	<table class="table">
+				<h3>請填寫以下資料</h3>
+				<tbody>
+					<tr>
+						<th>會員編號</th>
+							<td>
+								${MemTenVO.mem_no}
+							</td>
+					    </tr>
+					    <tr>
+					    	<th>姓名</th>
+							<td>
+								${MemTenVO.mem_name}
+							</td>
+					    </tr>
+					    <tr>
+					    	<th>銀行代碼</th>
+							<td>
+								<input type="text" name="lld_bank" placeholder="請填寫銀行代碼" required class="single-input" value="${lanlordVO.lld_bank}">
+							</td>
+					    </tr>
+					    <tr>
+					    	<th>匯款帳號</th>
+							<td>
+								<input type="TEXT" name="lld_account" placeholder="請填寫匯款帳號" required class="single-input" value="${lanlordVO.lld_account}"/>
+							</td>
+					    </tr>
+					    <tr>
+					    	<th>帳戶證明</th>
+					    	<td>
+					    		<div id="preview"></div>
+					    		<img id="imgf" class="lld_acc_pic">
+					    		<input type="file" name="lld_acc_pic" id="lld_acc_pic" size="45" required>
+					    	</td>
+					    </tr>
+					    <tr>
+					    	<th></th>
+					    	<td>
+					    		<input type="hidden" name="action" value="insert">
+								<input type="submit" value="送出申請">
+					    	</td>
+					    </tr>
+					</tbody>
+				</table>
+          	</div>
+        </form>
+    </div>
+</div>
+<!--================ footer =================-->
+<%@include file="/front-end/footer.file"%>
 
 <!-- 上傳圖片可預覽 -->
 <script>
-function init() {
+window.onload=function(){
 
     let myFile = document.getElementById("lld_acc_pic");
     let preview = document.getElementById("preview");
@@ -119,31 +186,20 @@ function init() {
             	let reader = new FileReader();
                 reader.addEventListener('load', function(e) {
                     let result = e.target.result;
-                    let img = document.createElement('img');
+                    let img = document.getElementById('imgf');
                     img.src = result;
                     preview.append(img);
-                    $("img:first").remove(); // 預覽只會保留最新上傳的
+                    $("imgf:first").remove(); // 預覽只會保留最新上傳的
                 });
                 reader.readAsDataURL(file);
             } else {
                 alert('請上傳圖片！');
             }
         }
-    });
+    });    
 }
-
-window.onload = init;
 </script>
 
-</body>
 
-
-<!-- Required source start -->
-	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
-
-<!-- 要放在最下面 -->
-<%@include file="/front-end/footer.file"%>
-
+</body> 	
 </html>

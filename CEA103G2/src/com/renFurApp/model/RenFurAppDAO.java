@@ -50,7 +50,8 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
     //找租屋合約編號用
 	private static final String GET_RENT_CONT="SELECT RTCT_NO FROM RENT_FURNITURE_DETAIL WHERE rfa_no=? limit 0,1";
 	// 蔡佳 查會員的所有申請單
-	private static final String GET_ALL_BY_MEM = "SELECT * FROM RENT_FURNITURE_APPLICATION WHERE mem_no=? and rfa_status=?";
+	private static final String GET_ALL_BY_MEM = "SELECT * FROM RENT_FURNITURE_APPLICATION WHERE mem_no=? and rfa_status=? order by rfa_no desc";
+	private static final String UPDATE_STATUS_BY_PK = "UPDATE RENT_FURNITURE_APPLICATION SET fra_status=1 WHERE fra_no=?";
 	
 	@Override
 	public void insertWithDetail(RenFurAppVO renFurAppVO,List<RenFurDetVO> renFurDetList) {
@@ -510,6 +511,44 @@ public class RenFurAppDAO implements RenFurAppDAO_interface {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void updateStatusByPK(RenFurAppVO renFurAppVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+		
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_STATUS_BY_PK);
+//			pstmt.setByte(1, renFurAppVO.getRfa_status());
+			pstmt.setInt(1, renFurAppVO.getRfa_no());
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
 	}
 	
 

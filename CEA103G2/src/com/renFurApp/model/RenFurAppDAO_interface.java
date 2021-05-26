@@ -20,4 +20,5 @@ public interface RenFurAppDAO_interface {
 	public Integer getRentCon(Integer rfa_no);
 	// 蔡佳 查會員的所有申請單
 	public List<RenFurAppVO> getAllByMem(Integer mem_no,Byte rfa_status);
+	public void updateStatusByPK(RenFurAppVO renFurAppVO);
 }

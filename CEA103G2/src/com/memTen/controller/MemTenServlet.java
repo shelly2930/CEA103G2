@@ -347,7 +347,7 @@ public class MemTenServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 		
-//			try {
+			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				Integer mem_no = new Integer(req.getParameter("mem_no"));
 				
@@ -513,12 +513,12 @@ public class MemTenServlet extends HttpServlet {
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理*************************************/
-//			} catch (Exception e) {	
-//				errorMsgs.add("修改資料失敗:"+e.getMessage());
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher("/front-end/memTen/update_memTen_input.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {	
+				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/memTen/update_memTen_input.jsp");
+				failureView.forward(req, res);
+			}
 		}
 		
 		// 租房時確認資料
