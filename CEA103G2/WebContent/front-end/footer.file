@@ -67,13 +67,6 @@
 	</footer>
 <!--::footer_part end::-->
 
-
-
-
-
-
-
-
 	<div id='appendnotice' aria-live="polite" aria-atomic="true" style="position: fixed;z-index:9; top:12%; left: 84%;min-height: 200px;">
 	    <div id='shownotice' style='display:none'>
 		  <div class="toast" data-animation='true' data-delay='3000' style="position: relative; z-index:3;">
@@ -101,6 +94,7 @@
 	$(document).ready(function(){
 		if(giveThisMem!=null){
 			connectNotice();
+			
 		}
 	})
 	let endPointURL1 = "ws://" + window.location.host + (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1))  + MyPoint_notice;
@@ -177,7 +171,230 @@
  	}
 	</script>
 
+	
+	
+			
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
+			 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/chat/chat.css">
+			<script src="<%=request.getContextPath()%>/template_front-end/chat/chat.js"></script>
+			
+			
+			<a class="ml-3 order-xl-last btn btn-warning" style='opacity:0.8;position:fixed;right:0;top:576px;z-index:2;float:left;' id="chat"  href="" ><i class="fas fa-comments"><br><hr>客服</i></a>
+			
+			
+			<div id='chatleft' class="answer left">
+			    <div class="avatar">
+			        <div class="status offline"></div>
+			    </div>
+			    <div class="name"></div>
+			    <div class="text">
+			        
+			    </div>
+			    <div class="time"></div>
+			</div>
+			 <div id='chatright' class="answer right">
+			     <div class="avatar">
+			         <div class="status offline"></div>
+			     </div>
+			     <div class="name"></div>
+			     <div class="text">
+			     </div>
+			     <div class="time"></div>
+			 </div>
 
+			<div id='showchat'>
+			<div class="text-center rounded-top border  border-info chat-body panel chat message-area" style='background-color:#9999FF;height:40px;border:2px solid blue;z-index:39;position:fixed;top:30%;right:0%'  >
+				<span style='color:#6363FF;font-size:32px;font-weight:bold'>Chat</span>
+			<button id='chatclose' type="button" class="close" data-dismiss="modal" aria-label="Close">
+          		<span aria-hidden="true" style='font-size:30px;'>&times;&nbsp;&nbsp;</span>
+        	</button>
+			</div>
+			<div class=" rounded-top border border-info chat-body panel chat message-area" style='background-color:#DEFFFF;overflow:auto;border:2px solid blue;z-index:29;position:fixed;top:33%;right:0%' id="messagesArea" >
+			</div>
+                
+              <div class="answer-add2 rounded-bottom  border" style='z-index:29;right:0%;'>
+              <div class="row">
+	              <div class="col-sm-12 panel input-group mb-3">
+	               		<input id="message" class="input form-control text-field" type="text"
+						placeholder="Message"
+						onkeydown="if (event.keyCode == 13) sendMessage();" />
+					  <div class="input-group-append">
+					    <input
+						type="submit" id="sendMessage" class="btn btn-outline-primary"  value="Send"
+						onclick="sendMessage();" />
+					  </div>
+					</div>
+				</div>
+			</div> 
+	</div>
+	
+	<script>
+	$("#chat").click(function(e){
+		let havemem = ${empty MemTenVO.mem_no?"null":MemTenVO.mem_no};
+		
+		e.preventDefault();
+		if(havemem!=null){
+			chatconnect();
+			$("#showchat").show();
+		}else{
+			alert("請先登入");
+		}
+	});
+	$("#chatclose").click(function(){
+		chatdisconnect();
+		$("#showchat").hide();
+	});
+	$("#showchat").hide();
+	var MyPoint1 = "/chat/${MemTenVO.mem_no}";
+	var self = '${MemTenVO.mem_no}';
+	var endPointURLchat = "ws://" + window.location.host + window.location.pathname.substring(0, window.location.pathname.indexOf('/', 1)) + MyPoint1;
+	var statusOutput = document.getElementById("statusOutput");
+	var messagesArea = document.getElementById("messagesArea");
+	var webSocketchat;
+	function chatconnect() {
+		webSocketchat = new WebSocket(endPointURLchat);
+
+		webSocketchat.onopen = function(event) {
+			console.log("Connect Success!");
+		};
+
+		webSocketchat.onmessage = function(event) {
+			//包裹
+			var jsonObj = JSON.parse(event.data);
+			if ("open" === jsonObj.type) {
+				$("#messagesArea").empty();
+				addListener();
+			} else if ("history" === jsonObj.type) {
+				// 這行的jsonObj.message是從redis撈出跟好友的歷史訊息，再parse成JSON格式處理
+				//存在redies的歷史訊息 包裹
+				var messages = JSON.parse(jsonObj.message);
+				for (var i = 0; i < messages.length; i++) {
+					var historyData = JSON.parse(messages[i]);
+					var showMsg = historyData.message;
+					var showDt = historyData.date;
+					// 根據發送者是自己還是對方來給予不同的class名, 以達到訊息左右區分
+					//CSS檔案中區分
+					if(jsonObj.sender === self){
+						var a = $("#chatright").clone(true);
+						$("#messagesArea").append($(a));
+						$(a).children(".name").text("會員編號:"+jsonObj.sender);
+						$(a).children(".text").text(showMsg);
+						$(a).children(".time").text(showDt);
+					}else{
+						var a = $("#chatleft").clone(true);
+						$("#messagesArea").append($(a));
+						$(a).children(".name").text("客服");
+						$(a).children(".text").text(showMsg);
+						$(a).children(".time").text(showDt);
+					}
+				}
+				let height = $("#messagesArea").prop('scrollHeight');
+				$("#messagesArea").scrollTop(height);
+
+				//接收自己發出去的chat包裹
+			} else if ("chat" === jsonObj.type) {
+				if(jsonObj.sender === self){
+					var a = $("#chatright").clone(true);
+					$("#messagesArea").append($(a));
+					$(a).children(".name").text("會員編號:"+jsonObj.sender);
+					$(a).children(".text").text(jsonObj.message);
+					$(a).children(".time").text(jsonObj.date);
+				}else{
+					var a = $("#chatleft").clone(true);
+					$("#messagesArea").append($(a));
+					$(a).children(".name").text("客服");
+					$(a).children(".text").text(jsonObj.message);
+					$(a).children(".time").text(jsonObj.date);
+				}
+				let height = $("#messagesArea").prop('scrollHeight');
+				$("#messagesArea").scrollTop(height);
+				//接收server端發出關掉的包裹
+			} else if ("close" === jsonObj.type) {
+				refreshFriendList(jsonObj);//移除會員列表
+			}
+
+		};
+
+		webSocketchat.onclose = function(event) {
+			console.log("Disconnected!");
+		};
+	}
+
+	function sendMessage() {
+		var inputMessage = document.getElementById("message");
+		var now = new Date();
+		var message = inputMessage.value.trim();//抓取輸入的文字
+		//存進去囉1100519
+		var nowTime = timeFormat(now);
+
+		if (message === "") {
+			alert("Input a message");
+			inputMessage.focus();
+		} else {
+			//像server端 送出聊天包裹
+			var jsonObj = {
+				"type" : "chat",
+				"sender" : self,
+				"friend" : "",
+				"key" : self,
+				"message" : message,
+				"date" : nowTime,
+				"judge" : "0",
+			};
+
+			//發送!!!!
+			webSocketchat.send(JSON.stringify(jsonObj));
+			inputMessage.value = "";
+			inputMessage.focus();
+		}
+	}
+
+	function timeFormat(now) {
+		return now.getFullYear() + '/' + (now.getMonth() + 1) + '/'
+				+ now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes();
+	}
+
+	// 有好友上線或離線就更新列表
+	function refreshFriendList(jsonObj) {
+		//51行， 當open包裹拿到  拆解包裹，把裡面的朋友  更新到頁面上
+		var friends = jsonObj.users;
+		var row = document.getElementById("row");
+		row.innerHTML = '';
+		for (var i = 0; i < friends.length; i++) {
+			if (friends[i] === self) {
+				continue;
+			}
+			row.innerHTML += '<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>'
+					+ friends[i] + '</h2></div>';
+		}
+	}
+
+	//$(註冊某個click事件) 我去點選 抓到那個會員  當下呼叫addListener();
+
+	// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
+	function addListener() {
+
+		var jsonObj = {
+			"type" : "history",
+			"sender" : self,
+			"friend" : "click",
+			"key" : self,
+			"message" : "",
+			"date" : "",
+			"judge" : "",
+		};
+		webSocketchat.send(JSON.stringify(jsonObj));
+
+	}
+
+	function chatdisconnect() {
+		webSocketchat.close();
+	}
+</script>
+	
+	
+	
+	
 
 
 
