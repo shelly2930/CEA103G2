@@ -45,7 +45,8 @@ public class HouseJsonServlet extends HttpServlet {
 		if("getAllHouseOnLine".equals(action)) {
 			HouseService svc = new HouseService();
 			List<HouseVO> list = new ArrayList<HouseVO>(); 
-			list =	svc.getAll();
+			Map<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap());
+			list =	svc.getAll(map1);
 			String str = new Gson().toJson(list);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");

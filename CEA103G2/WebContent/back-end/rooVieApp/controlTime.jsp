@@ -55,9 +55,10 @@
                 
                 	<div class='row'>
 	                	<div class='col-12'>
-			                 <div class="card shadow mb-3" style="margin:auto; width: 50rem;">
+			                 <div class="card shadow mb-3" style="margin:auto; width: 100%;">
 				                 <div class="card-header py-3">
-				                     <h6 id='total_roovieapp_title' class="m-0 font-weight-bold text-primary">所有物件預約時間設定</h6>
+				                     <h5 id='total_roovieapp_title' class="m-0 font-weight-bold text-primary">所有物件可預約時間初始設定</h5>
+				                     <h6 id='total_roovieapp_title' class="m-0 font-weight-bold text-ino">主管可以針對所有上架物件，設定初始可預約的時間</h6>
 				                 </div>
 				                 <div id='total_roovieapp_content' class="card-body">
 				                 </div>
@@ -66,8 +67,8 @@
 		            </div>
 		            <hr>
 		            <div class='row'>
-			                <div class="card-columns card-deck" style="margin:auto;">
-				                <div class="card shadow mb-2">
+			                <div class="card-columns card-deck" style="margin:auto;width: 100%;">
+				                <div class="card shadow mb-2"  style="margin:auto; width: 100%;">
 				                      <div class="card-header py-2">
 				                          <h6 id='roovieapp_title' class="m-0 font-weight-bold text-primary">物件預約狀況</h6>
 				                      </div>
@@ -76,7 +77,7 @@
 				               	</div>
 		                
 				                <div class="card shadow mb-2">
-				                      <div class="card-header py-2">
+				                      <div class="card-header py-2"  style="margin:auto; width: 100%;">
 				                          <h6 id='roovieapp_title2' class="m-0 font-weight-bold text-primary">設定 預約時間</h6>
 				                      </div>
 				                      <div id='roovieapp_content' class="card-body">
@@ -674,7 +675,6 @@
 
     <!-- Page level custom scripts -->
 	<script>
-	
 ////找到上一個網頁傳的querystring 目前只帶houseno 若要增加請處理
 	let queryString=location.search;
 	let firstequalindex = queryString.indexOf("=");
@@ -707,9 +707,9 @@
 	    		obj.gooffwork= gooffwork;
 	    		//set
 	    		let freedate = jsonobj.freedate;
-	    		$("#roovieapp_title").text("物件編號: "+houseno+" 預約設定");
-	    		$("#roovieapp_title2").text("物件編號: "+houseno+" 預約設定");
-	    		let text = "<p> 負責員工 : "+empno+"</p>"+
+	    		$("#roovieapp_title").text("物件編號: "+houseno+" 目前設定的可預約時間");
+	    		$("#roovieapp_title2").text("物件編號: "+houseno+" 可預約時間設定");
+	    		let text = "<p> 負責員工 : "+"${employeeVO.emp_name}"+"</p>"+
 	    		"<p> 目前設定現在時間 : "+freeTimeToSee+" 小時以後不可以預約</p>"+
 	    		"<p> 員工上班時間 : "+gotowork+" 時 - "+gooffwork+" 時</p>";
 	    		for(let x in freedate){

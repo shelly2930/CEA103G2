@@ -62,7 +62,8 @@
                 <div class="container-fluid">
                 	<div class="card shadow mb-4">
                 		<div class="card-header py-3">
-                			<h2 class="text-gray">照片管理</h2>
+                			<h2 class="text-gray">物件照片管理</h2>
+                			<h4 class="text-primary">新增與修改 前台展示物件照片</h4>
                 		</div>
                 		<div class="card-body showerror">
 							<form method="post" action="<%=request.getContextPath()%>/houPho/houPho.do">
@@ -113,7 +114,7 @@
 							<input type="hidden" name="action"  value="insert">
 							<input type="hidden" name="houseno" value="${param.houseno}">
 							<br>
-							<input type="submit" class="btn btn-secondary btn-sm" value="送出新增">
+							<input type="submit" class="btn btn-secondary btn-sm" value="上架物件照片">
 							</FORM>
 						</div>	
 					</div>		
@@ -187,7 +188,7 @@
 // 		顯示選取幾張
 		$("input[type='file']").change(function(){
 			let size = $(this).prop('files').length;
-			$("#showsize").html("<p style='color:purple'>已選"+size+"張...還沒做預覽拉QQ</p>");
+			$("#showsize").html("<p style='color:purple'>已選取"+size+"張</p>");
 		})
 // 		重要!更換參數
 		$(document).ready(function(){

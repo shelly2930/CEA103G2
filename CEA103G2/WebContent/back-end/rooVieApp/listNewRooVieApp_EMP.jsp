@@ -164,7 +164,7 @@
 			        		let str = "<tr>";
 			        		str+="<td>"+ap.hos_no+"</td>";
 			        		str+="<td>"+getHos(ap.hos_no).hos_name+"</td>";
-			        		str+="<td>"+getMem(ap.mem_no).mem_name+"</td>";
+			        		str+="<td name='"+ap.mem_no+"'>"+getMem(ap.mem_no).mem_name+"</td>";
 			        		str+="<td>"+dateformat(ap.rva_order_time)+"</td>";
 			        		str+="<td>"+getHos(ap.hos_no).hos_address+"</td>";
 			        		str+="<td >"+getMem(ap.mem_no).mem_mobile+"</td>";
@@ -188,7 +188,7 @@
 			        		if(sameMem==ap.mem_no){
 			        			let catchid = "#"+ap.rva_no;
 	        					$(catchid).parent().css('background','#FFDEDE')
-	        					$(catchid).parent().children().eq(2).append("<br><p style='color:#FF7878'>(重複)</p>");
+	        					$(catchid).parent().children().eq(2).append("<br><p style='color:#FF7878'>(重複申請)</p>");
 	        				}
 	        				sameMem = ap.mem_no;
 	        			}
@@ -198,6 +198,8 @@
 	        				let status = 2;
 	        				updateStatus(empno,rva_no,status);
 	        				listTheEmpApp(empno,nowStatus);
+	        				let who = $(this).parents('td').prev().prev().prev().prev().attr('name');
+	        				picktimeSuccess("您的預約看房已取消，請查看或致電查詢",who);
 	        			})
 	        			$(".end").click(function(){
 	        				let rva_no = $(this).parent().attr('id');
@@ -205,6 +207,8 @@
 	        				updateStatus(empno,rva_no,status);
 	        				updateEndTime(rva_no);
 	        				listTheEmpApp(empno,nowStatus);
+	        				let who = $(this).parent().prev().prev().prev().prev().attr('name');
+	        				picktimeSuccess("您的預約看房已經結案",who);
 	        			})
 	        		}
 	        		$("#app").slideDown();

@@ -26,7 +26,7 @@ public class CQ_house_back {
 		Set<String> keys = map.keySet();
 		StringBuffer whereCondition = new StringBuffer();
 		int count = 0;
-		String your_Init_Order_Col = "hos_no";
+		String your_Init_Order_Col = "HOS_APPTIME";
 		String orderCol = null;
 		String orderType = null;
 		String value = null;
@@ -53,9 +53,8 @@ public class CQ_house_back {
 		}if(orderCol!=null && orderType!=null) {
 			whereCondition.append(" order by "+orderCol+" "+orderType);
 		}else {
-			whereCondition.append(" order by "+your_Init_Order_Col);
+			whereCondition.append(" order by "+your_Init_Order_Col +" DESC");
 		}
-		
 		return whereCondition.toString();
 	}
 

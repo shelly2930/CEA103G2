@@ -202,8 +202,13 @@
 			    				pullorpush(hos,"2");
 			    				updateTheHouseStatus(hos);
 			    				console.log("繳費成功");
+			    				let mm = ${MemTenVO.mem_no};
+			    				let mes ="會員:"+mm+"對物件"+hos+"已經簽約並繳費完成";
+			    				picktimeSuccess(mes);
 			    			}
-			    		})
+			    		});
+		    			 
+		    			
 			    		Swal.fire({
 									  title: '已成功租屋!',
 									  html:'將可在預定日期入住<br>將再5秒後回首頁',

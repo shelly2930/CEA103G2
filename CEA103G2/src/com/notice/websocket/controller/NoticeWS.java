@@ -35,7 +35,6 @@ public class NoticeWS {
 
 	@OnMessage
 	public void onMessage(Session userSession, String message) {
-		System.out.println("S");
 		System.out.println(message);
 		Notice notice = new Gson().fromJson(message, Notice.class);
 		String username = notice.getUsername();
@@ -44,7 +43,7 @@ public class NoticeWS {
 		String mes = notice.getMessage();
 		Notice sendNotice = null;
 		if(notice.getType().equals("send")&&notice.getIdentity().equals("0")) {
-			sendNotice = new Notice("receive",username,identity,curTime,mes);
+			sendNotice = new Notice("receive",identity,username,curTime,mes);
 			String sendNoticeJson = new Gson().toJson(sendNotice);
 			Set<String> total = sessionsMap.keySet();
 			for(String temp : total) {

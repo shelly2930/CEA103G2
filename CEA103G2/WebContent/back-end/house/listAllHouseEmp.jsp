@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>後台空頁</title>
+    <title>服務代管-申請處理</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -52,20 +52,21 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            
                             <a href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend_Emp&hos_status=0&hos_state=0">
-			   				 <button type="button" class="btn-sm btn btn-outline-info">員工-未處理案件</button>
+			   				 <button type="button" id='case1' class="btn-sm btn btn-outline-info">員工-未處理案件</button>
 							</a>
 							<a href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend_Emp&hos_status=1&hos_state=0">
-			    			 <button type="button" class="btn-sm btn btn-outline-info">員工-處理中案件</button>
+			    			 <button type="button" id='case2' class="btn-sm btn btn-outline-info">員工-處理中案件</button>
 							</a>
 							<a href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend_Emp&hos_status=2">
-			     			<button type="button" class="btn-sm btn btn-outline-info">員工-已結束案件</button>
+			     			<button type="button" id='case3' class="btn-sm btn btn-outline-info">員工-已結束案件</button>
 							</a>
 							<a href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend_Emp&hos_status=3&hos_state=0">
-			   				 <button type="button" class="btn-sm btn btn-outline-info">員工-已廢棄案件</button>
+			   				 <button type="button" id='case4' class="btn-sm btn btn-outline-info">員工-已廢棄案件</button>
 							</a>
-                         
+                        </div>
+                        <div class="card-header py-3">
+							<span id='showtext'></span>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -93,7 +94,7 @@
 											<c:if test="${houseVO.emp_no == employeeVO.emp_no}">
 												<tr id ="${houseVO.hos_no}">
 													<td  style="${houseVO.hos_status == 0 || houseVO.hos_status == 2 || houseVO.hos_status == 3 ?'display:none':''}">
-														<label for="${houseVO.hos_no}input">CLICK ME!
+														<label style='cursor:pointer' for="${houseVO.hos_no}input">點選提交
 														<input type="checkbox" id="${houseVO.hos_no}input" name="houseno" value="${houseVO.hos_no}">
 														</label>
 													</td>
@@ -117,7 +118,7 @@
 													
 													<td class='time'>${houseVO.hos_order_date}</td>
 													
-													<td>
+													<td class='judgestatus'>
 														<c:choose>
 															<c:when test="${houseVO.hos_status==0}">未處理案件</c:when>
 															<c:when test="${houseVO.hos_status==1}">處理中案件</c:when>
@@ -162,7 +163,7 @@
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <h5 class="modal-title" id="exampleModalLabel">聯絡資訊</h5>
+			        <h5 class="modal-title" id="exampleModalLabel">房東聯絡資訊</h5>
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          <span aria-hidden="true">&times;</span>
 			        </button>
@@ -214,7 +215,26 @@
    
 
 <!--     Page level custom scripts -->
- <script>
+ 	<script>
+			let judge1 = ${empty listAllHouse_Backend_list?param.hos_status:listAllHouse_Backend_list[0].hos_status}; 
+			if(judge1==0){
+				$("#case1").removeClass("btn-outline-info");
+				$("#case1").addClass("btn-info");
+				$("#showtext").html("<p style='color:#FF7878;font-weight:bold'>請先連絡房東，確認物件資料!!</p>");
+			}else if(judge1==1){
+				$("#case2").removeClass("btn-outline-info");
+				$("#case2").addClass("btn-info");
+				$("#showtext").html("<p style='color:#FF7878;font-weight:bold'>再次確認物件資料正確，如果正確提交給平台管理員進行上架!!</p>");
+			}else if(judge1==2){
+				$("#case3").removeClass("btn-outline-info");
+				$("#case3").addClass("btn-info");
+				$("#showtext").html("<p>查看結束案件</p>");
+			}else if(judge1==3){
+				$("#case4").removeClass("btn-outline-info");
+				$("#case4").addClass("btn-info");
+				$("#showtext").html("<p>查看申請失敗案件</p>");
+			}
+ 
  			$(".contact").click(function(){
  				$("#showcontract").empty();
  				let hosnum = $(this).parents('tr').attr('id');
