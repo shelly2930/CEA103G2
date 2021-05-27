@@ -72,12 +72,19 @@ td.result {
 			</tr>
 			<tr>
 				<td class="result">	
+					<input type="text" id="mem_username" placeholder="請輸入帳號" required autofocus autocomplete="off" name="mem_username">
+					<p class="errorMsgs" style="color:red">${errorMsgs.mem_username}</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="result">	
 					<input type="email" id="mem_email" placeholder="請輸入電子信箱" required autofocus autocomplete="off" name="mem_email">
-				<input type="hidden" name="action" value="forgetPwd">
+					<p class="errorMsgs" style="color:red">${errorMsgs.mem_email}</p>
 				</td>
 			</tr>
 			<tr>
 				<td>
+					<input type="hidden" name="action" value="forgetPwd">
 					<button id="success" class="btn btn-lg btn-primary" type="submit">送出</button>	
         		</td>
         	</tr>

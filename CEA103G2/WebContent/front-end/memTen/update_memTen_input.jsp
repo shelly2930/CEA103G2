@@ -26,6 +26,12 @@ img.mem_pic {
   	height: 200px;
   	width: auto;
   }
+
+.table td, .table th {
+    padding: .75rem !important;
+    vertical-align: middle !important;
+    border-top: 2px solid #fff !important;
+}
 </style>
 
 </head>
@@ -112,7 +118,7 @@ new TwCitySelector();
 					    <tr>
 					    	<th>出生年月日</th>
 							<td>
-								<input type="text" name="mem_birthday" id="birthday_date" placeholder="birthday" required class="single-input" value="${MemTenVO.mem_birthday}">
+								<input type="text" name="mem_birthday" id="birthday_date" placeholder="birthday" required class="single-input">
 							</td>
 					    </tr>
 					    <tr>
@@ -162,6 +168,7 @@ new TwCitySelector();
 							<td>
 								<input type="hidden" name="action" value="update">
 								<input type="hidden" name="mem_no" value="<%=memTenVO.getMem_no()%>">
+								<input type="hidden" name="mem_username" value="<%=memTenVO.getMem_username()%>">
 								<input type="submit" value="送出修改">
 							</td>
 						</tr>

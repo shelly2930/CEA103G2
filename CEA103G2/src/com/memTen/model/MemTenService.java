@@ -37,7 +37,7 @@ public class MemTenService {
 		return memTenVO;
 	}
 	
-	public MemTenVO updateMemTen(Integer mem_no, String mem_password, byte[] mem_pic,
+	public MemTenVO updateMemTen(Integer mem_no,String mem_username, String mem_password, byte[] mem_pic,
 			String mem_name, Byte mem_gender, String mem_id, Date mem_birthday, String mem_phone,
 			String mem_mobile, String mem_email, String mem_city, String mem_dist, String mem_addr,
 			byte[] mem_idcard_f, byte[] mem_idcard_r) {
@@ -45,7 +45,7 @@ public class MemTenService {
 		MemTenVO memTenVO = new MemTenVO();
 		
 		memTenVO.setMem_no(mem_no);		
-//		memTenVO.setMem_username(mem_username);
+		memTenVO.setMem_username(mem_username);
 		memTenVO.setMem_password(mem_password);
 		memTenVO.setMem_pic(mem_pic);
 		memTenVO.setMem_name(mem_name);
@@ -89,8 +89,8 @@ public class MemTenService {
 		dao.updateMemStatus(mem_username, mem_status);
 	}
 	
-	public MemTenVO findByEmail(String mem_email) {
-		return dao.findByEmail(mem_email);
+	public MemTenVO findByEmail(String mem_username,String mem_email) {
+		return dao.findByEmail(mem_username,mem_email);
 	}
 	
 	public void updatePwd(String mem_email, String mem_password) {
