@@ -38,7 +38,7 @@
 #chat {
 	position: absolute;
 	left: 30% !important;
-    top: 45% !important;
+    top: 40% !important;
 	font: 15px verdana, Times New Roman, arial, helvetica, sans-serif,
 		Microsoft JhengHei;
 	width: 400px;
