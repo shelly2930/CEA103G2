@@ -903,7 +903,7 @@
 							str+="</div>";
 							str+="<div class='list-group mb-5'>";
 							str+="<a href='<%=request.getContextPath()%>/house/house.do?houseno="+jsonStr.hos_no+"&action=listHouPho_ByHouseA'>"
-							str+="<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno='"+jsonStr.hos_no+" class='card-img-top' alt='收藏照片'>";
+							str+="<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+jsonStr.hos_no+"' class='card-img-top' alt='收藏照片'>";
 							str+="</a>";
 							str+="<div class='card-body'>";
 							
