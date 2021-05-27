@@ -619,7 +619,7 @@ h4 {
 					let str = "<div class='card' style='width: 18rem;'>";
 					str+="<div class='list-group mb-5'>";
 					str+="<a href='<%=request.getContextPath()%>/house/house.do?houseno="+jsonStr.hos_no+"&action=listHouPho_ByHouseA'>"
-					str+="<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno='"+jsonStr.hos_no+" class='card-img-top' alt='收藏照片'>";
+					str+="<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+jsonStr.hos_no+"' class='card-img-top' alt='收藏照片'>";
 					str+="</a>";
 					str+="<div class='card-body'>";
 					str+="<p class='card-text text-secondary'>租金: "+jsonStr.hos_rent+"</p>";
