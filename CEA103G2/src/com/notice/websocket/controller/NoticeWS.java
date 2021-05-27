@@ -46,10 +46,10 @@ public class NoticeWS {
 			sendNotice = new Notice("receive",identity,username,curTime,mes);
 			String sendNoticeJson = new Gson().toJson(sendNotice);
 			Set<String> total = sessionsMap.keySet();
+			HandleNotice.saveHistory(identity, sendNoticeJson);
 			for(String temp : total) {
 				if("1".equals(judge.get(temp))&&sessionsMap.get(temp).isOpen()) {
 					System.out.println("SAAA");
-					HandleNotice.saveHistory(identity, sendNoticeJson);
 					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);//前台
 				}
 			}
@@ -57,9 +57,9 @@ public class NoticeWS {
 			sendNotice = new Notice("receive",identity,username,curTime,mes);
 			String sendNoticeJson = new Gson().toJson(sendNotice);
 			Set<String> total = sessionsMap.keySet();
+			HandleNotice.saveHistory(identity, sendNoticeJson);
 			for(String temp : total) {
 				if("0".equals(judge.get(temp))&&sessionsMap.get(temp).isOpen()) {
-					HandleNotice.saveHistory(identity, sendNoticeJson);
 					sessionsMap.get(temp).getAsyncRemote().sendText(sendNoticeJson);//後台
 					System.out.println(sendNoticeJson+"TEST");
 				}

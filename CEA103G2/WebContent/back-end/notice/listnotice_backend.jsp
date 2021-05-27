@@ -106,7 +106,6 @@
 
 </body>
 <script>
-	let mem_no = ${MemTenVO.mem_no};
 	let data = mydata();
 	data.sort(function(a,b){
 		if(new Date(a['currentTime']).getTime() < new Date(b['currentTime']).getTime()){
