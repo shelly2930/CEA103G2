@@ -155,7 +155,7 @@ if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("furCatVO", furCatVO); // 資料庫update成功後,正確的的furCatVO物件,存入req
-				String url = "/back-end/furCat/listOneFurCat.jsp";
+				String url = "/back-end/furCat/listAllFurCat.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneFurCat.jsp
 				successView.forward(req, res);
 

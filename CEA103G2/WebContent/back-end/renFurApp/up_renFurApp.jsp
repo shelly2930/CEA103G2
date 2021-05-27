@@ -87,14 +87,14 @@
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
 
-                    <table id="table-1">
-						<tr><td>
-							 <h3>租家具申請單資料修改 -update_renFurApp_input.jsp</h3></td><td><br>
-							 <h4><a href="<%=request.getContextPath()%>/back-end/renFurApp/showAllRenFurApp.jsp">返回租家具申請單管理</a></h4>
-						</td></tr>
-					</table>
+<!--                     <table id="table-1"> -->
+<!-- 						<tr><td> -->
+<!-- 							 <h3>租家具申請單資料修改 -update_renFurApp_input.jsp</h3></td><td><br> -->
+<%-- 							 <h4><a href="<%=request.getContextPath()%>/back-end/renFurApp/showAllRenFurApp.jsp">返回租家具申請單管理</a></h4> --%>
+<!-- 						</td></tr> -->
+<!-- 					</table> -->
 					
-					<h3>資料修改:</h3>
+					<h3>資料查看:</h3>
 					
 					<%-- 錯誤表列 --%>
 					<c:if test="${not empty errorMsgs}">
@@ -173,7 +173,12 @@
 						<th>預約時間:</th>
 						    <td>
 						    	<c:if test="${employeeVO.emp_job eq '主管'}">
-						    	<input name="rfa_order_date" id="f_date1" type="text">
+						    	<div class="col-md-12 form-group">
+						             <div class="col-sm-12">
+						   					  <input type="text" class="form-control" name="rfa_order_date"  id="f_date1" placeholder="" >
+						              </div>			             
+									</div>	
+<!-- 						    	<input name="rfa_order_date" id="f_date1" type="text"> -->
 						    	</c:if>
 						    	
 						    	<c:if test="${employeeVO.emp_job eq '一般員工'}">
@@ -203,27 +208,60 @@
 								<input type="hidden" name="rfa_status" value="${renFurAppVO.rfa_status}">
 								</c:if>
 							
-								<c:if test="${employeeVO.emp_job eq '一般員工'}">
-								<select size="1" name="rfa_status"  id="rfa_status" ${renFurAppVO.rfa_status==2 ? 'disabled':''}>
-									<option value="1" ${renFurAppVO.rfa_status==1 ? 'selected':''}>未完成</option>
-									<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option>
-								</select>
-								</c:if>
+									 
+				
+								    <c:if test="${employeeVO.emp_job eq '一般員工'}"> 
+						             <div class="col-md-7 form-group">
+						             <div class="col-sm-10">
+						                <select class="form-control" name="rfa_status" id="rfa_status"  ${renFurAppVO.rfa_status==2 ? 'disabled':''}>
+				        				<option value="1" ${renFurAppVO.rfa_status==1 ? 'selected':''}>未完成</option>
+				        					<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option> --%>
+								       </select>
+						              </div>			             
+									</div>
+							</c:if>
 							</td>
-							<th>負責員工:</th>
+							
+								<th>負責員工:</th>
 							<jsp:useBean id="empSvc" scope="page" class="com.employee.model.EmployeeService" />
 							<td>
-								<c:if test="${employeeVO.emp_job eq '主管'}">
-								<select size="1" name="emp_no"  id="empSelect">
-									<option value="0" ${(renFurAppVO.emp_no == null)? 'selected':''}>尚未指派</option>
+							<c:if test="${employeeVO.emp_job eq '主管'}">
+							         <div class="col-md-12 form-group">
+						             <div class="col-sm-12">
+<!-- 						             <select size="1" name="emp_no"  id="empSelect"> -->
+						                <select class="form-control" name="emp_no" id="empSelect" >
+				        			<option value="0" ${(renFurAppVO.emp_no == null)? 'selected':''}>尚未指派</option> 
 									<c:forEach var="empVO" items="${empSvc.all}">
 										<c:if test="${empVO.emp_job eq '一般員工'}">
 										<option value="${empVO.emp_no}" ${(renFurAppVO.emp_no==empVO.emp_no)? 'selected':'' } >${empVO.emp_name}
 										</c:if>
 									</c:forEach>
-								</select>
-								</c:if>
-								
+								       </select>
+						              </div>			             
+									</div>
+										</c:if>
+<!-- 東緯原始碼 ↓↓↓-->
+<%-- 								<c:if test="${employeeVO.emp_job eq '一般員工'}"> --%>
+<%-- 								<select size="1" name="rfa_status"  id="rfa_status" ${renFurAppVO.rfa_status==2 ? 'disabled':''}> --%>
+<%-- 									<option value="1" ${renFurAppVO.rfa_status==1 ? 'selected':''}>未完成</option> --%>
+<%-- 									<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option> --%>
+<!-- 								</select> -->
+<%-- 								</c:if> --%>
+<!-- 							</td> -->
+<!-- 							<th>負責員工:</th> -->
+<%-- 							<jsp:useBean id="empSvc" scope="page" class="com.employee.model.EmployeeService" /> --%>
+<!-- 							<td> -->
+<%-- 								<c:if test="${employeeVO.emp_job eq '主管'}"> --%>
+<!-- 								<select size="1" name="emp_no"  id="empSelect"> -->
+<%-- 									<option value="0" ${(renFurAppVO.emp_no == null)? 'selected':''}>尚未指派</option> --%>
+<%-- 									<c:forEach var="empVO" items="${empSvc.all}"> --%>
+<%-- 										<c:if test="${empVO.emp_job eq '一般員工'}"> --%>
+<%-- 										<option value="${empVO.emp_no}" ${(renFurAppVO.emp_no==empVO.emp_no)? 'selected':'' } >${empVO.emp_name} --%>
+<%-- 										</c:if> --%>
+<%-- 									</c:forEach> --%>
+<!-- 								</select> -->
+<%-- 								</c:if> --%>
+	<!-- 東緯原始碼↑↑↑ -->							
 								<c:if test="${employeeVO.emp_job eq '一般員工'}">
 									${empSvc.getOneEmp(renFurAppVO.emp_no).emp_name}
 									<input type="hidden" name="emp_no" value="${renFurAppVO.emp_no}">
@@ -255,11 +293,23 @@
 						
 					</table>
 					<br>
-					<input type="hidden" name="action"  value="update">
-					<input type="button" value="送出修改"  id="update">
-					<input type="hidden" name="rfa_no" value="<%=renFurAppVO.getRfa_no()%>">
-					<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
-					<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp-->
+					
+							 <div class="col-lg-12">
+										 <div class="col-lg-10">
+										<input type="hidden" name="action" value="update" >
+										<input type="hidden" name="rfa_no"  value="<%=renFurAppVO.getRfa_no()%>">
+										<input type="hidden" name="requestURL"  value="<%=request.getParameter("requestURL")%>">
+										<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">
+										<button	class="btn btn-info btn-icon-split" type="submit" value="update"> <span class="text">送出修改</span></button>
+								</div>
+								</div>
+					
+					
+<!-- 					<input type="hidden" name="action"  value="update"> -->
+<!-- 					<input type="button" value="送出修改"  id="update"> -->
+<%-- 					<input type="hidden" name="rfa_no" value="<%=renFurAppVO.getRfa_no()%>"> --%>
+<%-- 					<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用--> --%>
+<%-- 					<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp--> --%>
 					
                 </div>
                 <!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
