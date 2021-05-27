@@ -12,6 +12,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <title></title>
 
@@ -20,7 +21,7 @@ body {
 	background-color: #dddddd !important;
 }
 
-img.mem_pic {
+img.lld_acc_pic {
   	height: 200px;
   	width: auto;
   }
@@ -56,7 +57,7 @@ img.mem_pic {
 						</ul>
 					</c:if>
 					
-					<FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do" name="form1">
+					<FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do" id="form1">
 					<table class="table">
 					  <tbody>
 					  	<tr>
@@ -107,6 +108,9 @@ img.mem_pic {
 </section>
 <!--================ Content Area end =================-->
 
+<!--================ footer =================-->
+<%@include file="/front-end/footer.file"%>
+
 <!-- 上傳圖片可預覽 -->
 <script>
 window.onload=function(){
@@ -135,12 +139,53 @@ window.onload=function(){
     });
 }
 
+
+let mem_no = ${MemTenVO.mem_no};
+$("input[type='submit']").click(function(e1){
+	e1.preventDefault();
+		picktimeSuccess("剛剛會員:"+mem_no+"再次提出房東申請");
+		Swal.fire({
+		 icon: 'success',
+		 title: '您已成功申請，我們將盡快為您審核',
+		 text:'即將回至首頁',
+		 showConfirmButton: true,
+		 confirmButtonText: "我知道了"
+	})
+		setTimeout(function(){
+ 		$("#form1").submit();
+		},1000);
+	})
+
+
+
+
+
+
+
+
+// let mem_no = ${MemTenVO.mem_no};
+// $("input[type='submit']").click(function(e1){
+// 	e1.preventDefault();
+// 		picktimeSuccess("剛剛會員:"+mem_no+"再次提出房東申請");
+// 		Swal.fire({
+// 		 icon: 'success',
+// 		 title: '您已成功申請，我們將盡快為您審核',
+// 		 text:'回至首頁',
+// 		 showConfirmButton: true,
+// 		 confirmButtonText: "我知道了"
+// 	}).then((result) => {
+// 		  if (result.isConfirmed) {
+// 			  $("#form1").submit();
+// 		  }
+// 	});
+// })
+	
+
 </script>
 
 </body>
 
 
-<!--================ footer =================-->
-<%@include file="/front-end/footer.file"%>
+
 
 </html>

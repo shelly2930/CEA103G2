@@ -193,7 +193,6 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <%@ include file="/back-end/includeFile/footerBack.file" %>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -201,7 +200,6 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <%@ include file="/back-end/includeFile/otherBack.file" %>
 
 	<!-- Bootstrap core JavaScript-->
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
@@ -219,6 +217,8 @@
     <!-- Page level custom scripts -->
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
+            <%@ include file="/back-end/includeFile/footerBack.file" %>
+		    <%@ include file="/back-end/includeFile/otherBack.file" %>
 	
 <script>
 show(new Date());

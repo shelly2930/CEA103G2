@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <title>會員註冊</title>
 
@@ -127,13 +128,13 @@ h3 {
 					<tr>
 						<th>帳號</th>
 						<td>
-							<input type="text" name="mem_username"  class="single-input" value="${MemTenVO.mem_username}">
-							<p class="errorMsgs" style="color:red">${errorMsgs.mem_username}</p>
+							<input type="text" name="mem_username"  class="single-input" value="${requestScope.memVO.mem_username}">
+							<p class="errorMsgs" id="username" style="color:red">${errorMsgs.mem_username}</p>
 					    </tr>
 					<tr>
 					    <th>密碼</th>
 						<td>
-							<input type="text" name="mem_password"  class="single-input" value="${MemTenVO.mem_password}">
+							<input type="text" name="mem_password"  class="single-input" value="${requestScope.memVO.mem_password}">
 							<p class="errorMsgs" style="color:red">${errorMsgs.mem_password}</p>
 						</td>
 					</tr>
@@ -146,7 +147,7 @@ h3 {
 					    <tr>
 					    	<th>姓名</th>
 							<td>
-			 					<input type="text" name="mem_name"  class="single-input" value="${MemTenVO.mem_name}">
+			 					<input type="text" name="mem_name"  class="single-input" value="${requestScope.memVO.mem_name}">
 			 					<p class="errorMsgs" style="color:red">${errorMsgs.mem_name}</p>
 							</td>
 					    </tr>
@@ -154,51 +155,51 @@ h3 {
 					    	<th>性別</th>
 					    	<td>
 					    		<select name="mem_gender" size="1" > 
-									<option value="0"${memTenVO.mem_gender == 0}>男</option>
-									<option value="1"${memTenVO.mem_gender == 1}>女</option>		
+									<option value="0"${requestScope.memTenVO.mem_gender == 0}>男</option>
+									<option value="1"${requestScope.memTenVO.mem_gender == 1}>女</option>		
 								</select>
 					    	</td>
 					    </tr>
 					    <tr>
 					    	<th>身分證字號</th>
 							<td>
-								<input type="text" name="mem_id"  class="single-input" value="${MemTenVO.mem_id}">
+								<input type="text" name="mem_id"  class="single-input" value="${requestScope.memVO.mem_id}">
 								<p class="errorMsgs" style="color:red">${errorMsgs.mem_id}</p>
 							</td>
 					    </tr>
 					    <tr>
 					    	<th>出生年月日</th>
 							<td>
-								<input class="single-input" name="mem_birthday" id="mem_birthday" type="text">
+								<input class="single-input" name="mem_birthday" id="f_date1" type="text">
 								<p class="errorMsgs" style="color:red">${errorMsgs.mem_birthday}</p>
 							</td>
 					    </tr>
 					    <tr>
 					    	<th>連絡電話</th>
 							<td>
-								<input type="text" name="mem_phone"  class="single-input" value="${MemTenVO.mem_phone}">
+								<input type="text" name="mem_phone"  class="single-input" value="${requestScope.memVO.mem_phone}">
 							</td>
 					    </tr>
 					    <tr>
 					    	<th>行動電話</th>
 							<td>
-								<input type="text" name="mem_mobile"  class="single-input" value="${MemTenVO.mem_mobile}">
+								<input type="text" name="mem_mobile"  class="single-input" value="${requestScope.memVO.mem_mobile}">
 								<p class="errorMsgs" style="color:red">${errorMsgs.mem_mobile}</p>
 							</td>
 					    </tr>
 					    <tr>
 					    	<th>電子信箱</th>
 							<td>
-								<input type="text" name="mem_email"  class="single-input" value="${MemTenVO.mem_email}">
+								<input type="text" name="mem_email"  class="single-input" value="${requestScope.memVO.mem_email}">
 								<p class="errorMsgs" style="color:red">${errorMsgs.mem_email}</p>
 							</td>
 					    </tr>
 					    <tr>
 					    	<th>地址</th>
 							<td>
-								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="${MemTenVO.mem_city}"
-						     			data-district-value="${MemTenVO.mem_dist}"></div>
-								<input type="TEXT" name="mem_addr" class="single-input" value="${MemTenVO.mem_addr}"/>
+								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="${requestScope.memVO.mem_city}"
+						     			data-district-value="${requestScope.memVO.mem_dist}"></div>
+								<input type="TEXT" name="mem_addr" class="single-input" value="${requestScope.memVO.mem_addr}"/>
 							</td>
 					    </tr>
 					    
@@ -217,6 +218,41 @@ h3 {
 </div>
 <!--================ footer =================-->
 <%@include file="/front-end/footer.file"%>
+
+<script>
+// $("#username").change(function(e){
+// 	alert("aaaaaaaaaaa");
+// })
+// $("#username").blur(function(e1){
+// 	$.ajax({
+<%-- 		url:"<%=request.getContextPath()%>/AjaxLoginServlet", --%>
+// 		  type:"POST", 
+// 		  data:{
+// 			  "mem_username":$("#mem_username").val(),
+// 			  "action": "usernameCheck"
+// 		  },
+// 		  success: function(str) {
+// 			  if (str.length !== 0){
+// 				  Swal.fire({
+// 		  			  icon: 'error',
+// 		  			  title: '此帳號已被使用',
+// 		  			  showConfirmButton: true,
+// 		  			  confirmButtonText: "我知道了"
+// 		  		});
+// 			  }
+// 		  }
+		
+// 	})
+	
+// })
+	
+	
+	
+	
+	
+
+</script>
+
 
 <!-- 上傳圖片可預覽 -->
 <script>
@@ -266,12 +302,12 @@ window.onload=function(){
 
 <script>
         $.datetimepicker.setLocale('zh');
-        $('#mem_birthday').datetimepicker({
+        $('#f_date1').datetimepicker({
 	       theme: '',              //theme: 'dark',
 	       timepicker:false,       //timepicker:true,
 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
-		   value: '${mem_birthday}', // value:   new Date(),
+		   value: '${requestScope.memVO.mem_birthday}', // value:   new Date(),
            //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
            //startDate:	            '2017/07/10',  // 起始日
            //minDate:               '-1970-01-01', // 去除今日(不含)之前

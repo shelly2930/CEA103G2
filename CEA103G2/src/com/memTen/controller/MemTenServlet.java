@@ -663,7 +663,7 @@ public class MemTenServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-//			try {
+			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/				
 				String mem_username = req.getParameter("mem_username");
 				String mem_usernameReg = "^[a-zA-Z0-9_]{2,20}$";
@@ -741,24 +741,24 @@ public class MemTenServlet extends HttpServlet {
 				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 
-				MemTenVO memTenVO = new MemTenVO();
-				memTenVO.setMem_username(mem_username);
-				memTenVO.setMem_password(mem_password);
-				memTenVO.setMem_pic(mem_picBuf);
-				memTenVO.setMem_name(mem_name);
-				memTenVO.setMem_gender(mem_gender);
-				memTenVO.setMem_id(mem_id);
-				memTenVO.setMem_birthday(mem_birthday);
-				memTenVO.setMem_phone(mem_phone);
-				memTenVO.setMem_mobile(mem_mobile);
-				memTenVO.setMem_email(mem_email);
-				memTenVO.setMem_city(mem_city);
-				memTenVO.setMem_dist(mem_dist);
-				memTenVO.setMem_addr(mem_addr);
+				MemTenVO memVO = new MemTenVO();
+				memVO.setMem_username(mem_username);
+				memVO.setMem_password(mem_password);
+				memVO.setMem_pic(mem_picBuf);
+				memVO.setMem_name(mem_name);
+				memVO.setMem_gender(mem_gender);
+				memVO.setMem_id(mem_id);
+				memVO.setMem_birthday(mem_birthday);
+				memVO.setMem_phone(mem_phone);
+				memVO.setMem_mobile(mem_mobile);
+				memVO.setMem_email(mem_email);
+				memVO.setMem_city(mem_city);
+				memVO.setMem_dist(mem_dist);
+				memVO.setMem_addr(mem_addr);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("memTenVO", memTenVO); // 含有輸入格式錯誤的memTenVO物件,也存入req
+					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的memTenVO物件,也存入req
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
 					failureView.forward(req, res);
@@ -767,7 +767,7 @@ public class MemTenServlet extends HttpServlet {
 
 				/***************************2.開始新增資料***************************************/
 				MemTenService memTenSvc = new MemTenService();
-				memTenVO = memTenSvc.addMemTen(mem_username, mem_password, mem_picBuf, mem_name, mem_gender, mem_id,
+				memVO = memTenSvc.addMemTen(mem_username, mem_password, mem_picBuf, mem_name, mem_gender, mem_id,
 						mem_birthday, mem_phone, mem_mobile, mem_email, mem_city, mem_dist, mem_addr);
 				
 				// 寄送驗證信件
@@ -795,12 +795,12 @@ public class MemTenServlet extends HttpServlet {
 				successView.forward(req, res);				
 				
 				/***************************其他可能的錯誤處理**********************************/
-//			} catch (Exception e) {
-//				errorMsgs.add(e.getMessage());
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.put("errorMsgs",e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
+				failureView.forward(req, res);
+			}
 		}
 		
 		if("verify".equals(action)) {

@@ -40,7 +40,7 @@ td.title {
 }
 
 td.result {
-	font-size:30px;
+	font-size:20px;
 }
 
 .btn-primary {
@@ -68,6 +68,9 @@ td.result {
         <form method="post" action="<%=request.getContextPath()%>/memTen/memTen.do">
         <table>
         	<tr>
+        		<td class="title"></td>
+			</tr>
+        	<tr>
         		<td class="title">§Ñ°O±K½X</td>
 			</tr>
 			<tr>
@@ -85,9 +88,12 @@ td.result {
 			<tr>
 				<td>
 					<input type="hidden" name="action" value="forgetPwd">
-					<button id="success" class="btn btn-lg btn-primary" type="submit">°e¥X</button>	
+					<button id="success" class="btn btn-sm btn-primary" type="submit">°e¥X</button>	
         		</td>
         	</tr>
+        	<tr>
+        		<td class="title"></td>
+			</tr>
         </table>
         </form>
     </div>
