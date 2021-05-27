@@ -36,7 +36,7 @@
 			color: #1cc88a;
 		}
 		.pageTitle{
-			color: #4165ae;
+			color: #d4dedd;
 			letter-spacing: 1rem;
 			text-shadow: 1px 1px 2px #233559;
 		}
@@ -44,7 +44,26 @@
 </head>
 
 <body id="page-top">
+	
+	<!-- Bootstrap core JavaScript-->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Core plugin JavaScript-->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -329,25 +348,6 @@ ${errorMsgs.Exception}
     <!-- End of Page Wrapper -->
 
     <%@ include file="/back-end/includeFile/otherBack.file" %>
-    
-    <!-- Bootstrap core JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     
     <script>
 		let emp_pic = document.getElementsByName("emp_pic")[0];

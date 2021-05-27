@@ -51,12 +51,36 @@
 	th:hover{
 		background-color: #aaaaaa;
 	}
+	.pageTitle{
+		color: #d4dedd;
+		letter-spacing: 1rem;
+		text-shadow: 1px 1px 2px #233559;
+	}
 </style>
 	
 </head>
 
 <body id="page-top">
+	
+	<!-- Bootstrap core JavaScript-->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Core plugin JavaScript-->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -75,14 +99,17 @@
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
 					
+					<div class="mx-auto pageTitle">
+				        <h1 class="mx-auto mb-4 text-uppercase">房客帳單</h1>
+				    </div>
+				    
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-<!-- 							<h6 class="m-0 font-weight-bold text-primary">所有房客帳單</h6> -->
-<!-- 							<ul> -->
-<!--   								<li><a href='addBill.jsp'>Add</a> a new Bill.</li> -->
-  								<button type="button" class="btn btn-outline-danger auto-insert">自動新增帳單</button>
-<!-- 							</ul> -->
+  							<button type="button" class="btn btn-danger auto-insert">新增帳單</button>
+  							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0'">未發送</button>
+  							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=1'">未繳費</button>
+							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=2'">已繳費</button>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -93,7 +120,7 @@
 											<th>會員姓名</th>
 											<th>繳費期限</th>
 											<th>房客繳費狀態</th>
-											<th>房東撥款狀態</th>
+<!-- 											<th>房東撥款狀態</th> -->
 											<th>發送帳單</th>
 											<th style="display:none;">查看</th>
 										</tr>
@@ -103,8 +130,19 @@
 										BillService billSvc = new BillService();
 										List<BillVO> list = billSvc.getAll();
 										Set<String> set = new LinkedHashSet<String>();
+										int status = Integer.parseInt(request.getParameter("status"));
 										for(BillVO billVO : list){
-											set.add(billVO.getMem_no() + "," + billVO.getBill_date().toString());
+											if(status == 0){
+												if(billVO.getBill_p_status() == 0 && billVO.getBill_due() == null)
+													set.add(billVO.getMem_no() + "," + billVO.getBill_date().toString());
+											}else if(status == 1){
+												if(billVO.getBill_p_status() == 0 && billVO.getBill_due() != null)
+													set.add(billVO.getMem_no() + "," + billVO.getBill_date().toString());
+											}else if(status == 2){
+												if(billVO.getBill_p_status() == 1)
+													set.add(billVO.getMem_no() + "," + billVO.getBill_date().toString());
+											}
+												
 										}
 										int i = 0;
 										for(String str : set){ i++;
@@ -117,7 +155,7 @@
 												<td class="view"><%=new MemTenService().getOneMemTen(mem_no).getMem_name()%></td>
 												<td class="view" id="<%=mem_no+"-"+bill_date%>"><%=billVOs.get(0).getBill_due() == null ? "" : billVOs.get(0).getBill_due()%></td>
 												<td class="view"><%=billVOs.get(0).getBill_p_status() == 0 ? "未繳費" : "已繳費"%></td>
-												<td class="view"><%=billVOs.get(0).getBill_r_status() == 0 ? "未撥款" : "已撥款"%></td>
+<%-- 												<td class="view"><%=billVOs.get(0).getBill_r_status() == 0 ? "未撥款" : "已撥款"%></td> --%>
 												<td class="text-center">
 													<button type="button" class="btn btn-outline-secondary fill-in <%=mem_no+"-"+bill_date%>" data-toggle="modal" 
 														data-target="#exampleModalCenter" <%=billVOs.get(0).getBill_due()==null?"":"disabled"%>>
@@ -129,6 +167,7 @@
 														<button type="submit" class="btn btn-outline-danger">查看</button>
 														<input type="hidden" name="mem_no" value="<%=mem_no%>">
 														<input type="hidden" name="bill_date" value="<%=bill_date%>">
+														<input type="hidden" name="bill_due" value="<%=billVOs.get(0).getBill_due()%>">
 														<input type="hidden" name="action" value="get_A_Bill">
 													</FORM>
 												</td>
@@ -157,8 +196,8 @@
 				      </div>
 
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">關閉</button>
 				        <button type="button" class="btn btn-primary send-bill">送出帳單</button>
+				        <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">關閉</button>
 				      </div>
 				      
 				    </div>
@@ -180,25 +219,6 @@
 
     <%@ include file="/back-end/includeFile/otherBack.file" %>
     
-    <!-- Bootstrap core JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
     <script>
     	$(".auto-insert").click(function(){
     		$.ajax({
@@ -208,7 +228,22 @@
     				action:'autoInsert'
     			},
     			success:function(amountOfInsert){
-    				alert("成功新增" + amountOfInsert + "筆帳單");
+    				if(amountOfInsert == 0){
+    					Swal.fire({
+	    					icon:'info',
+	    					title:'尚無新帳單',
+	    					showConfirmButton: false,
+	    					timer: 1000
+	    				});
+    				}else{
+	    				Swal.fire({
+	    					icon:'success',
+	    					title:'成功新增'+ amountOfInsert + '筆帳單',
+	    					showConfirmButton: false,
+	    					timer: 1000
+	    				});
+	    				$(location).prop('href', '<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0');
+    				}
     			}
     		});
     	});
@@ -220,6 +255,7 @@
     	let mem_no;
     	let bill_date;
     	$(".fill-in").click(function(e){
+    		$(".modal-body").empty();
     		mem_no = $(this).parent().next().find("input[name='mem_no']").val();
     		bill_date = $(this).parent().next().find("input[name='bill_date']").val();
 
@@ -282,13 +318,7 @@
     			}
     		});
 		});
-    	
-    	$("#close").click(function(){
-    		$(".modal-body").empty();
-    	});
-    	$("#span_x").click(function(){
-    		$(".modal-body").empty();
-    	});
+
     	
     	$(".send-bill").click(function(){
     		if($(".deadline").val() != '' && $(".power").val() != '' && $(".water").val() != ''){
@@ -321,21 +351,14 @@
 		    				});
 	    				}
 	    				
-	//     				if(data_json.success){
-							Swal.fire({
-						    	icon:'success',
-						    	title:'帳單已發送'
-						    });
-							$("#close").click();
-	// 					} else{
-	// 						Swal.fire({
-	// 							icon:'warning',
-	// 					    	title:'資料有誤'
-	// 					    });
-	// 					}
+						Swal.fire({
+					    	icon:'success',
+					    	title:'帳單已發送'
+					    });
+						$("#close").click();
+// 						'<fmt:formatDate value="${list.get(0).bill_date}" pattern="yyyyMM"/>'
 						
-// 						$("."+mem_no+"-"+bill_date).prop("disabled",true);
-// 						$("."+mem_no+"-"+bill_date).text("已發送");
+						picktimeSuccess(bill_date + '期帳單待繳費', mem_no);
 	    			}
 	    		});
     		}else{
