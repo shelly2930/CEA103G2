@@ -10,6 +10,8 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <title>成為房東</title>
 
 <style>
@@ -85,7 +87,7 @@ h3 {
 
 <div class="container">
 	<div class="row rentalstep">
-        <FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do" name="form1">
+        <FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/lanlord/lanlord.do" id="form1">
 <!--         <div class="step1"> -->
 <!--         	<h3>選擇合約期間</h3> -->
 <!--         	<table class="table"> -->
@@ -199,7 +201,25 @@ window.onload=function(){
         }
     });    
 }
+
+let mem_no = ${MemTenVO.mem_no};
+$("input[type='submit']").click(function(e){
+	e.preventDefault();
+		picktimeSuccess("剛剛會員:"+mem_no+"已申請成為房東");
+		Swal.fire({
+		 icon: 'success',
+		 title: '您已成功申請成為房東，我們將盡快為您審核',
+		 text:'即將回至首頁',
+		 showConfirmButton: true,
+		 confirmButtonText: "我知道了"
+	})
+		setTimeout(function(){
+ 		$("#form1").submit();
+		},1000);
+	})
+
 </script>
+
 
 
 </body> 	

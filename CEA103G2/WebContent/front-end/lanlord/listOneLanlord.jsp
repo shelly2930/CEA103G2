@@ -110,7 +110,7 @@ img.lld_acc_pic {
 									<th>未通過原因</th>
 									<td>${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_id_disapprove}</td>
 								</tr>
-<%-- 								<c:if test="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_status == 2}"> --%>
+								<c:if test="${lanlordSvc.getOneLanlordByMemTen(MemTenVO.mem_no).lld_status != 0}">
 								<tr>
 									<th>再次提出申請</th>
 									<td>
@@ -120,7 +120,7 @@ img.lld_acc_pic {
 			     						<input type="hidden" name="action"	value="getOneForApp"></FORM>
 			     					</td>
 								</tr>
-<%-- 								</c:if> --%>
+								</c:if>
 								
 					  </tbody>
 					</table>
