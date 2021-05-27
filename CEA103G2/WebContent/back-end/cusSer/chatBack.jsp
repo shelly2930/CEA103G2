@@ -37,8 +37,8 @@
 
 #chat {
 	position: absolute;
-	left: 50%;
-	top: 200px;
+	left: 30% !important;
+    top: 45% !important;
 	font: 15px verdana, Times New Roman, arial, helvetica, sans-serif,
 		Microsoft JhengHei;
 	width: 400px;
@@ -46,7 +46,7 @@
 }
 
 .panel {
-	border: 2px solid #0078ae;
+	border: 2px solid #ced4da;
 	border-radius: 5px;
 	width: 100%;
 }
@@ -59,8 +59,7 @@
 }
 
 .input-area {
-	background: #0078ae;
-	box-shadow: inset 0 0 10px #00568c;
+	background: #fff;
 }
 
 .input-area input {
@@ -84,8 +83,9 @@ h1 {
 }
 
 #message {
-	min-width: 50%;
-	max-width: 60%;
+    position: relative;
+    flex: 1 1 auto;
+    width: 80%;
 }
 
 .statusOutput {
@@ -336,6 +336,7 @@ ul li#time {
 					$(this).prop('disabled',true);
 					console.log("H2");
 				})
+				addListener(test);
 			}
 			
 		};
@@ -380,16 +381,16 @@ ul li#time {
 	
 	
 	// 有好友上線或離線就更新列表
-	function refreshFriendList(jsonObj) {
-		//把所有使用者抓出來 append在div裡面
-		var friends = jsonObj.users;
-		var row = document.getElementById("row");
-		row.innerHTML = '';
-		for (var i = 0; i < friends.length; i++) {
-			if (friends[i] === self) { continue; }
-			row.innerHTML +='<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
-		}
-	}
+// 	function refreshFriendList(jsonObj) {
+// 		//把所有使用者抓出來 append在div裡面
+// 		var friends = jsonObj.users;
+// 		var row = document.getElementById("row");
+// 		row.innerHTML = '';
+// 		for (var i = 0; i < friends.length; i++) {
+// 			if (friends[i] === self) { continue; }
+// 			row.innerHTML +='<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
+// 		}
+// 	}
 	
 	//$(註冊某個click事件) 我去點選 抓到那個會員  當下呼叫addListener();
 	
@@ -429,6 +430,12 @@ ul li#time {
 		
 		
 // 	})
+	$("#chat").hide();
+	$("#point").click(function(){
+		$("#chat").show();
+	});
+	
+
 	
 </script>
 </html>
