@@ -71,7 +71,7 @@
 		background-color: #aaaaaa;
 	}
 	.pageTitle{
-		color: #4165ae;
+		color: #d4dedd;
 		letter-spacing: 1rem;
 		text-shadow: 1px 1px 2px #233559;
 	}
@@ -82,6 +82,29 @@
 
 <body id="page-top">
 
+	<!-- Bootstrap core JavaScript-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
+
+	<!-- Page level plugins -->
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
@@ -101,7 +124,7 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<div class="mx-auto text-center pageTitle">
+					<div class="mx-auto pageTitle">
 				        <h1 class="mx-auto mb-4 text-uppercase">員工資料</h1>
 				    </div>
 				    
@@ -197,29 +220,6 @@
 	<!-- End of Page Wrapper -->
 
 	<%@ include file="/back-end/includeFile/otherBack.file" %>
-
-	<!-- Bootstrap core JavaScript-->
-	<script
-		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Core plugin JavaScript-->
-	<script
-		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script
-		src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
-
-	<!-- Page level plugins -->
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="<%=request.getContextPath()%>/template_back-end/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 	<script>
 		$("tr").click(function(){

@@ -34,10 +34,17 @@ public class RenFurAppService {
 		if(rfa_status == 2) {
 			RenFurDetDAO renFurDetDAO = new RenFurDetDAO();
 			List<RenFurDetVO> list = renFurDetDAO.getOneList(rfa_no);
+			boolean haveTmt = false;
 			for(RenFurDetVO renFurDetVO : list) {
-				renFurDetVO.setRent_date(new Timestamp(System.currentTimeMillis()));
-				renFurDetDAO.update(renFurDetVO);
-				System.out.println("³o!!!!!!");
+				if(renFurDetVO.getRent_tmt_date() != null) {
+					haveTmt = true;
+				}
+			}
+			if(!haveTmt) {
+				for(RenFurDetVO renFurDetVO : list) {
+					renFurDetVO.setRent_date(new Timestamp(System.currentTimeMillis()));
+					renFurDetDAO.update(renFurDetVO);
+				}
 			}
 		} else {
 			if(emp_no == 0)

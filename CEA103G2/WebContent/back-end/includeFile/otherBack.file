@@ -17,11 +17,11 @@
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <form method="post" action="<%=request.getContextPath()%>/employee/employee.do">
-                    	<button class="btn btn-primary" type="submit">Logout</button>
+                    	<button class="btn btn-primary" type="submit">µn¥X</button>
                     	<input type="hidden" name="action" value="logout">
 					</form>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">¨ú®ø</button>
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=request.getContextPath()%>/back-end/indexBack.jsp">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fab fa-jenkins"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">HowTrue <sup>好厝</sup></div>
             </a>
@@ -89,7 +89,7 @@
 
 <% if(list_Fun_no.indexOf(7) != -1) {%>
             <li class="nav-item">
-             	<a class="nav-link" href="<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp">
+             	<a class="nav-link" href="<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0">
                     <i class="fas fa-fw fa-hand-holding-usd"></i>
                     <span>出納管理</span></a>
             </li>
