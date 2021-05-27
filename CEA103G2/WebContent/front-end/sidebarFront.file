@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/sidebar.css">
 
 
-<div class="col-2 side">
+<div class="col-lg-2 side">
                     <div class="left_sidebar_area">
                         <aside class="left_widgets p_filter_widgets bb">
                             <nav id="sidebar">
