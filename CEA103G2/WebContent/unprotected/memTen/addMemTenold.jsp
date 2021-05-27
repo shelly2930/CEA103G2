@@ -6,6 +6,8 @@
   MemTenVO memTenVO = (MemTenVO) request.getAttribute("memTenVO");
 %>
 
+<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -152,8 +154,8 @@ h3 {
 	<tr>
 		<th>地址:</th>
 		<td>
-			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="<%= (memTenVO==null)? "" : memTenVO.getMem_city()%>"
-     			data-district-value="<%= (memTenVO==null)? "" : memTenVO.getMem_dist()%>"></div>
+			<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-county-value="台北市"
+     			data-district-value="中山區"></div>
 			<input type="TEXT" name="mem_addr" size="45" value="<%= (memTenVO==null)? "" : memTenVO.getMem_addr()%>"/>
 		</td>
 	</tr>
@@ -173,7 +175,38 @@ h3 {
     </div>
 </div>
 <!--================ footer =================-->
-<%@include file="/front-end/footer.file"%>
+<%-- <%@include file="/front-end/footer.file"%> --%>
+
+<!-- jQuery -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+	<!-- popper js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/popper.min.js"></script>
+	<!-- bootstrap js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/bootstrap.min.js"></script>
+	<!-- easing js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery.magnific-popup.js"></script>
+	<!-- swiper js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/lightslider.min.js"></script>
+	<!-- swiper js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/masonry.pkgd.js"></script>
+	<!-- particles js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery.nice-select.min.js"></script>
+	<!-- slick js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/slick.min.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/swiper.jquery.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery.counterup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/waypoints.min.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/contact.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery.ajaxchimp.min.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery.form.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery.validate.min.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/mail-script.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/stellar.js"></script>
+	<!-- custom js -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/theme.js"></script>
+	<script src="<%=request.getContextPath()%>/template_front-end/js/custom.js"></script>
+
 
 <!-- 上傳圖片可預覽 -->
 <script>
@@ -286,5 +319,7 @@ window.onload=function(){
         //      }});
         
 </script>
+
+
 
 </html>

@@ -274,9 +274,46 @@ img.mem_pic {
 				},
 				success:function(jsonStr){
 					for(let i =0;i<house_key.length;i++){
-						$("#showOneHouse tr:last-child").after('<tr><th>'+house_key[i]+'</th><td>'+jsonStr[house_value[i]]+'</td></tr>');
+						$("#showOneHouse tr:last-child").after("<tr scope='col'><th >"+house_key[i]+"</th><th id='"+house_value[i]+"'>"+jsonStr[house_value[i]]+"</th></tr>");
 					}
-				}
+					$("#hos_internet").text("有提供");
+					$("#hos_power").append("元");
+					$("#hos_water").append("元");
+					if($("#hos_gender").text()==0){
+						$("#hos_gender").text("不拘");
+					}else if($("#hos_gender").text()==1){
+						$("#hos_gender").text("限制: 女");
+					}else{
+						$("#hos_gender").text("限制: 男");
+					}
+					
+					if($("#hos_type").text()==0){
+						$("#hos_type").text("不限");
+					}else if($("#hos_type").text()==1){
+						$("#hos_type").text("獨立套房");
+					}else if($("#hos_type").text()==2){
+						$("#hos_type").text("分租套房");
+					}else if($("#hos_type").text()==3){
+						$("#hos_type").text("雅房");
+					}else if($("#hos_type").text()==4){
+						$("#hos_type").text("整層住家");
+					}else if($("#hos_type").text()==5){
+						$("#hos_type").text("車位");
+					}else{
+						$("#hos_type").text("其他");
+					}
+					
+					$("#hos_squares").append("坪");
+					$("#hos_cook").text("可接受");
+					$("#hos_pet").text("可接受");
+					$("#hos_parking").text("有提供");
+					$("#hos_ele").text("有提供");
+					$("#hos_age").append("年");
+					$("#hos_floor").append("樓");
+					$("#hos_date").text(dateformat($("#hos_date").text()));
+					$("#hos_rent").append("元");
+					$("#lld_no").text(getMem(getlld($("#lld_no").text()).mem_no).mem_name);
+					}
 				});
 		})
 		

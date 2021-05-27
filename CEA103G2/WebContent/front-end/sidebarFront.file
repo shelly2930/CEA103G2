@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/sidebar.css">
 
 
-<div class="col-lg-2 side">
+<div class="col-2 side">
                     <div class="left_sidebar_area">
                         <aside class="left_widgets p_filter_widgets bb">
                             <nav id="sidebar">
@@ -14,7 +14,7 @@
 	           	 							<a href="#memberSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">個人資料</a>
 	            							<ul class="collapse list-unstyled" id="memberSubmenu">
 		                						<li>
-		                    						<a class="second" href="<%=request.getContextPath()%>/memTen/memTen.do?action=getOne_For_Update&mem_no=${MemTenVO.mem_no}">會員資料</a>
+		                    						<a class="second" href="<%=request.getContextPath()%>/front-end/memTen/listOneMemTen.jsp">會員資料</a>
 		                						</li>
 								                <li>
 								                	<a class="second" href="<%=request.getContextPath()%>/front-end/lanlord/listOneLanlord.jsp">房東資料</a>

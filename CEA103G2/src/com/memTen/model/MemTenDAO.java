@@ -34,12 +34,12 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String GET_ALL_STMT = "SELECT * FROM MEMBER_TENANT ORDER BY mem_no";
 		private static final String GET_ONE_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_no = ?";
 		private static final String DELETE = "DELETE FROM MEMBER_TENANT WHERE mem_no = ?";
-		private static final String UPDATE = "UPDATE MEMBER_TENANT SET mem_password=?, mem_pic=?,"
+		private static final String UPDATE = "UPDATE MEMBER_TENANT SET mem_username=?,mem_password=?, mem_pic=?,"
 									+ " mem_name=?, mem_gender=?, mem_id=?, mem_birthday=?, mem_phone=?,"
 									+ " mem_mobile=?, mem_email=?, mem_city=?, mem_dist=?, mem_addr=?, mem_idcard_f=?,"
 									+ " mem_idcard_r=? WHERE mem_no=?";
 		private static final String LOGIN_STMT = "SELECT * FROM MEMBER_TENANT WHERE mem_username=?";
-		private static final String FIND_BY_EMAIL = "SELECT * FROM MEMBER_TENANT WHERE mem_email=?";
+		private static final String FIND_BY_EMAIL = "SELECT * FROM MEMBER_TENANT WHERE mem_username=? and mem_email=?";
 		private static final String UPDATE_PWD_BY_EMAIL = "UPDATE MEMBER_TENANT set mem_password=? WHERE mem_email=?";
 		private static final String UPDATE_MEMSTATUS = "UPDATE MEMBER_TENANT SET mem_status=? WHERE mem_username=?";
 		private static final String RENTAL_CONFIRM = "UPDATE MEMBER_TENANT SET mem_name=?, mem_id=?, mem_mobile=?, mem_city=?, mem_dist=?,"
@@ -146,7 +146,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(UPDATE);
 
-//				pstmt.setString(1, memTenVO.getMem_username());
+				pstmt.setString(1, memTenVO.getMem_username());
 				pstmt.setString(1, memTenVO.getMem_password());
 				pstmt.setBytes(2, memTenVO.getMem_pic());
 				pstmt.setString(3, memTenVO.getMem_name());
@@ -403,7 +403,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 			return memTenVO;
 		}
 		
-		public MemTenVO findByEmail(String mem_email) {
+		public MemTenVO findByEmail(String mem_username,String mem_email) {
 			MemTenVO memTenVO = null;
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -414,7 +414,8 @@ public class MemTenDAO implements MemTenDAO_interface {
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(FIND_BY_EMAIL);
 	
-				pstmt.setString(1, mem_email);
+				pstmt.setString(1, mem_username);
+				pstmt.setString(2, mem_email);
 	
 				rs = pstmt.executeQuery();
 

@@ -125,23 +125,27 @@ public class MemTenServlet extends HttpServlet {
 		// 忘記密碼
 		if ("forgetPwd".equals(action)) {
 
-			List<String> errorMsgs = new LinkedList<String>();
+			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+			String mem_username = req.getParameter("mem_username").trim();
+			
 			String mem_email = req.getParameter("mem_email").trim();
 			/*************************** 2.開始查詢資料 *****************************************/
 			MemTenService memTenSvc = new MemTenService();
 			MemMailService mms = new MemMailService();
 			
-			MemTenVO memTenVO = memTenSvc.findByEmail(mem_email);
+			MemTenVO memTenVO = memTenSvc.findByEmail(mem_username,mem_email);
 			
-			if (memTenVO != null) {
-			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				
+			if(memTenVO == null || mem_username.length() == 0 || mem_email.length() == 0) {
+				errorMsgs.put("mem_username", "帳號或電子信箱錯誤");
+				RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/forgetPwd.jsp");
+				failureView.forward(req, res);
+			}else {
 				String to = mem_email;
 				String subject = "HowTrue好厝臨時密碼";
 				
@@ -157,12 +161,6 @@ public class MemTenServlet extends HttpServlet {
 				
 				RequestDispatcher SuccessView = req.getRequestDispatcher("/unprotected/memTen/forgetPwd_email_send.jsp");
 				SuccessView.forward(req, res);
-				return;
-			
-			} else {
-				errorMsgs.add("信箱不存在");
-				RequestDispatcher failureView = req.getRequestDispatcher("/unprotected/memTen/forgetPwd.jsp");
-				failureView.forward(req, res);
 				return;
 			}
 		}
@@ -351,7 +349,7 @@ public class MemTenServlet extends HttpServlet {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				Integer mem_no = new Integer(req.getParameter("mem_no"));
 				
-//				String mem_username = req.getParameter("mem_username");
+				String mem_username = req.getParameter("mem_username");
 //				String mem_usernameReg = "^[a-zA-Z0-9_]{2,20}$";
 //				if (mem_username == null || mem_username.trim().length() == 0) {
 //					errorMsgs.add("會員帳號: 請勿空白");
@@ -471,7 +469,7 @@ public class MemTenServlet extends HttpServlet {
 
 				MemTenVO memTenVO = new MemTenVO();
 				memTenVO.setMem_no(mem_no);
-//				memTenVO.setMem_username(mem_username);
+				memTenVO.setMem_username(mem_username);
 				memTenVO.setMem_password(mem_password);
 				memTenVO.setMem_pic(mem_picBuf);
 				memTenVO.setMem_name(mem_name);
@@ -502,13 +500,13 @@ public class MemTenServlet extends HttpServlet {
 				
 				/***************************2.開始修改資料*****************************************/
 				MemTenService memTenSvc = new MemTenService();
-				memTenVO = memTenSvc.updateMemTen(mem_no, mem_password, mem_picBuf, mem_name,
+				memTenVO = memTenSvc.updateMemTen(mem_no,mem_username, mem_password, mem_picBuf, mem_name,
 								mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email, mem_city,
 								mem_dist, mem_addr, mem_idcard_fBuf, mem_idcard_rBuf);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
-				String url = "/front-end/memTen/update_memTen_input.jsp";
+				String url = "/front-end/memTen/listOneMemTen.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMemTen.jsp
 				successView.forward(req, res);
 
@@ -736,7 +734,7 @@ public class MemTenServlet extends HttpServlet {
 				} else if(!mem_email.trim().matches(mem_emailReg)) {
 					errorMsgs.put("mem_email", "信箱格式不符");
 	            }
-				
+				System.out.println("aaaaaaaaaaa");
 				String mem_city = req.getParameter(("county").trim());
 				
 				String mem_dist = req.getParameter(("district").trim());
