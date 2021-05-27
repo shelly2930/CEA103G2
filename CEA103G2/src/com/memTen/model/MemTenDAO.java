@@ -45,8 +45,6 @@ public class MemTenDAO implements MemTenDAO_interface {
 		private static final String RENTAL_CONFIRM = "UPDATE MEMBER_TENANT SET mem_name=?, mem_id=?, mem_mobile=?, mem_city=?, mem_dist=?,"
 									+ " mem_addr=?, mem_idcard_f=?, mem_idcard_r=?, mem_id_status=? WHERE mem_no=?";
 		private static final String UPDATE_MEM_ID_STATUS = "UPDATE MEMBER_TENANT SET mem_id_status=? WHERE mem_no=?";
-		private static final String FIND_BY_ACCPWD = "SELECT * FROM MEMBER_TENANT WHERE mem_username=? and password=?";
-		private static final String UPDATEPWD = "UPDATE MEMBER_TENANT set mem_password=? WHERE mem_username=?";
 		//·q¹F¼W¥[
 		private static final String JUDGELLD = "SELECT COUNT(*) AS JUDGE FROM HOWTRUE.MEMBER_TENANT M LEFT JOIN LANLORD L ON M.MEM_NO = L.MEM_NO WHERE M.MEM_NO=? AND LLD_STATUS =1";
 		
@@ -646,112 +644,6 @@ public class MemTenDAO implements MemTenDAO_interface {
 			return lld_status;
 		}
 
-		@Override
-		public MemTenVO findbyaccpwd(String mem_username, String mem_password) {
-			MemTenVO memTenVO = null;
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
 
-			try {
-
-				con = ds.getConnection();
-				pstmt = con.prepareStatement(FIND_BY_ACCPWD);
-	
-				pstmt.setString(1, mem_username);
-				pstmt.setString(2, mem_password);
-	
-				rs = pstmt.executeQuery();
-
-				while (rs.next()) {
-					memTenVO = new MemTenVO();
-					memTenVO.setMem_no(rs.getInt("mem_no"));
-					memTenVO.setMem_username(rs.getString("mem_username"));
-					memTenVO.setMem_password(rs.getString("mem_password"));
-					memTenVO.setMem_pic(rs.getBytes("mem_pic"));
-					memTenVO.setMem_name(rs.getString("mem_name"));
-					memTenVO.setMem_gender(rs.getByte("mem_gender"));
-					memTenVO.setMem_id(rs.getString("mem_id"));
-					memTenVO.setMem_birthday(rs.getDate("mem_birthday"));
-					memTenVO.setMem_phone(rs.getString("mem_phone"));
-					memTenVO.setMem_mobile(rs.getString("mem_mobile"));
-					memTenVO.setMem_email(rs.getString("mem_email"));
-					memTenVO.setMem_city(rs.getString("mem_city"));
-					memTenVO.setMem_dist(rs.getString("mem_dist"));
-					memTenVO.setMem_addr(rs.getString("mem_addr"));
-					memTenVO.setMem_status(rs.getByte("mem_status"));
-					memTenVO.setMem_idcard_f(rs.getBytes("mem_idcard_f"));
-					memTenVO.setMem_idcard_r(rs.getBytes("mem_idcard_r"));
-					memTenVO.setMem_id_status(rs.getByte("mem_id_status"));
-					memTenVO.setMem_suspend(rs.getString("mem_suspend"));
-					memTenVO.setMem_refuse(rs.getString("mem_refuse"));
-				}
-
-				// Handle any driver errors
-			} catch (SQLException se) {
-				throw new RuntimeException("A database error occured. "
-						+ se.getMessage());
-				// Clean up JDBC resources
-			} finally {
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-						e.printStackTrace(System.err);
-					}
-				}
-			}
-			return memTenVO;
-		}
-
-		@Override
-		public void updatePwdByUsername(String mem_username, String mem_password) {
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			
-			try {
-				
-				con = ds.getConnection();
-				pstmt = con.prepareStatement(UPDATEPWD);
-
-				pstmt.setString(1, mem_password);
-				pstmt.setString(2, mem_username);
-				
-				pstmt.executeUpdate();
-
-			} catch (SQLException se) {
-				throw new RuntimeException("A database error occured. " + se.getMessage());
-			} finally {
-				if (pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-						e.printStackTrace(System.err);
-					}
-				}
-			}
-			
-		}
 
 }

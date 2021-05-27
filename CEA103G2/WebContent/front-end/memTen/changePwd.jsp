@@ -32,21 +32,36 @@ background-color: #dddddd !important;
 				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
 
 				<table class="table">
-	
+					<FORM METHOD="post" enctype="multipart/form-data" ACTION="<%=request.getContextPath()%>/memTen/memTen.do" id="form1">
 					<tbody>
 						<tr>
 							<th>請輸入舊密碼</th>
-						    <td><input type="text" name="mem_password" placeholder="password" required class="single-input" value="${memTenVO.mem_username}"></td>
+						    <td>
+						    	<input type="text" name="mem_password" required class="single-input" value="">
+						    	<p class="errorMsgs" style="color:red">${errorMsgs.mem_password}</p>
+						    </td>
 						</tr>
 						<tr>
 							<th>請輸入新密碼</th>
-						    <td></td>
+						    <td><input type="text" name="newpwd" required class="single-input" value=""></td>
 						</tr>
 						<tr>
 							<th>請再次輸入新密碼</th>
-						    <td></td>
+						    <td>
+						    	<input type="text" name="insertstr" required class="single-input" value="">
+						    	<p class="errorMsgs" style="color:red">${errorMsgs.insertstr}</p>
+						    </td>
 						</tr>
-					</tbody>	
+						<tr>
+					    	<th></th>
+					    	<td>
+					    		<input type="hidden" name="action" value="changepwd">
+					    		<input type="hidden" name="mem_username" value="${MemTenVO.mem_username}">
+								<input type="submit" value="確認">
+					    	</td>
+					    </tr>
+					</tbody>
+					</form>	
 				</table>
 
 
@@ -60,10 +75,7 @@ background-color: #dddddd !important;
 
 </body>
 
-<!-- Required source start -->
-	<!-- jquery 這行有需要的人再加 -->
-	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
-<!-- Required source end -->
+
 
 <!--================ footer =================-->
 <%@include file="/front-end/footer.file"%>

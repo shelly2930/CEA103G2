@@ -118,13 +118,6 @@ public class MemTenService {
 		return memTenVO;
 	}
 	
-	public MemTenVO findbyaccpwd(String mem_username,String mem_password) {
-		return dao.findbyaccpwd(mem_username,mem_password);
-	}
-	
-	public void updatePwdByUsername(String mem_username, String mem_password) {
-		dao.updatePwdByUsername(mem_username,mem_password);
-	}
 	
 	//¹F
 	public Byte judgelld(Integer mem_no) {
