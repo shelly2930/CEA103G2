@@ -29,7 +29,7 @@ padding: 36px 23px;
 font-family: 'Josefin Sans', 'Noto Sans TC';
 text-transform: capitalize;
 line-height: 12px;
-font-weight: 500;
+font-weight: 900 ; !important
 }
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
   /* line 143, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_blog_part.scss */
@@ -40,7 +40,7 @@ font-weight: 500;
 	font-family: 'Josefin Sans', 'Noto Sans TC';
 	text-transform: capitalize;
 	line-height: 12px;
-	font-weight: 500;
+	font-weight: 900 ;!important
   }
 }
 
