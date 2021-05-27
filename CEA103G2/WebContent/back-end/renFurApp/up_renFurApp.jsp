@@ -201,9 +201,9 @@
 								<c:if test="${employeeVO.emp_job eq '主管'}">
 								<c:choose>
 									<c:when test="${renFurAppVO.rfa_status==0}">未指派 </c:when>
-									<c:when test="${renFurAppVO.rfa_status==1}">未完成</c:when>
+									<c:when test="${renFurAppVO.rfa_status==2}">已完成</c:when>
 									<c:when test="${renFurAppVO.rfa_status==3}">提早退租</c:when>
-									<c:otherwise>已完成</c:otherwise>
+									<c:otherwise>未完成</c:otherwise>
 								</c:choose>
 								<input type="hidden" name="rfa_status" value="${renFurAppVO.rfa_status}">
 								</c:if>
@@ -211,11 +211,12 @@
 									 
 				
 								    <c:if test="${employeeVO.emp_job eq '一般員工'}"> 
-						             <div class="col-md-7 form-group">
-						             <div class="col-sm-10">
+						             <div class="col-md-12 form-group">
+						             <div class="col-sm-12">
 						                <select class="form-control" name="rfa_status" id="rfa_status"  ${renFurAppVO.rfa_status==2 ? 'disabled':''}>
 				        				<option value="1" ${renFurAppVO.rfa_status==1 ? 'selected':''}>未完成</option>
-				        					<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option> --%>
+				        					<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option>
+				        					<option value="3" ${renFurAppVO.rfa_status==3 ? 'selected':''}>提前退租</option>
 								       </select>
 						              </div>			             
 									</div>
@@ -300,7 +301,7 @@
 										<input type="hidden" name="rfa_no"  value="<%=renFurAppVO.getRfa_no()%>">
 										<input type="hidden" name="requestURL"  value="<%=request.getParameter("requestURL")%>">
 										<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">
-										<button	class="btn btn-info btn-icon-split" type="submit" value="update"> <span class="text">送出修改</span></button>
+										<button	class="btn btn-info btn-icon-split" type="submit" id="update"> <span class="text">送出修改</span></button>
 								</div>
 								</div>
 					
@@ -374,6 +375,8 @@
 // 		maxDate:               '+1970-01-01'  // 去除今日(不含)之後
     });
     
+    if($("#rfa_status").val() == 2){$("#update").prop("disabled",true);}
+
     if($("#rfa_status").val() == 1){
     	$("#update").prop("disabled",true);
     }
