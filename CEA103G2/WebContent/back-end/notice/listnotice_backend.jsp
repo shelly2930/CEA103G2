@@ -61,7 +61,7 @@
                                       <th class="text-center">µo°e®É¶¡</th>
                                   </tr>
                               </thead>
-                              <tbody id='shownotice'>
+                              <tbody id='shownotice1'>
                               </tbody>
                               <tfoot>
                                   <tr>
@@ -106,7 +106,6 @@
 
 </body>
 <script>
-	let mem_no = ${MemTenVO.mem_no};
 	let data = mydata();
 	data.sort(function(a,b){
 		if(new Date(a['currentTime']).getTime() < new Date(b['currentTime']).getTime()){
@@ -164,14 +163,14 @@
 	
 	show(page,1,showpen);
 	function show(page,whichpage,showpen){
-		$("#shownotice").empty();
+		$("#shownotice1").empty();
 		for(let i= page[whichpage] ; i<(page[whichpage]+showpen);i++){
 			let str = "<tr >";
 			str += "<th class='text-center'>"+ (i+1) +"</th>";
 			str += "<th class='text-center'>"+JSON.parse(data[i].message)+"</th>";
 			str += "<th class='text-center'>"+dateformat1(data[i].currentTime)+"</th>";
 			str +="</tr>";
-			$("#shownotice").append(str);
+			$("#shownotice1").append(str);
 		}
 	}
 	function dateformat1(str){

@@ -165,7 +165,7 @@
 				let str ="<div class='best_product_slider owl-carousel'>"
 				for(house of list){
 					str += "<div class='single_product_item'>";
-					str+="<img style='weight:150px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+house.hos_no+"'>";
+					str+="<img style='weight:157px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+house.hos_no+"'>";
 					str+="<div class='single_product_text'>";
 					str+="<h4>"+house.hos_name+"</h4>";
 					str+="<h3><span>$"+house.hos_rent+"</span></h3>";
@@ -188,10 +188,10 @@
 					      items: 1 // 螢幕大小為 0~600 顯示 1 個項目
 					    },
 					    600: {
-					      items: 3 // 螢幕大小為 600~1000 顯示 3 個項目
+					      items: 2 // 螢幕大小為 600~1000 顯示 3 個項目
 					    },
 					    1000: {
-					      items: 5 // 螢幕大小為 1000 以上 顯示 5 個項目
+					      items: 4 // 螢幕大小為 1000 以上 顯示 5 個項目
 					    }
 					  }
 				});

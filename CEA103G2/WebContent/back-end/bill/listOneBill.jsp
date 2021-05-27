@@ -71,7 +71,6 @@
 	<tr>
 		<td><%=billVO.getBill_no()%></td>
 		<td><%=billVO.getMem_no()%></td>		
-		<td><%=billVO.getHos_no()%></td>
 		<td><fmt:formatDate value="<%=billVO.getBill_date()%>" pattern="yyyy-MM"/></td>
 		<td><%=billVO.getBill_due()%></td>
 		<td><%=billVO.getBill_power()%></td>

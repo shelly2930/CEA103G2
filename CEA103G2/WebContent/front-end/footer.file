@@ -201,7 +201,7 @@
 			     <div class="time"></div>
 			 </div>
 
-			<div id='showchat'>
+			<div id='showchat' style='display:none'>
 			<div class="text-center rounded-top border  border-info chat-body panel chat message-area" style='background-color:#9999FF;height:40px;border:2px solid blue;z-index:39;position:fixed;top:30%;right:0%'  >
 				<span style='color:#6363FF;font-size:32px;font-weight:bold'>Chat</span>
 			<button id='chatclose' type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -243,9 +243,8 @@
 		chatdisconnect();
 		$("#showchat").hide();
 	});
-	$("#showchat").hide();
-	var MyPoint1 = "/chat/${MemTenVO.mem_no}";
-	var self = '${MemTenVO.mem_no}';
+	var MyPoint1 = "/chat/${empty MemTenVO.mem_no?"null":MemTenVO.mem_no}";
+	var self = '${empty MemTenVO.mem_no?"null":MemTenVO.mem_no}';
 	var endPointURLchat = "ws://" + window.location.host + window.location.pathname.substring(0, window.location.pathname.indexOf('/', 1)) + MyPoint1;
 	var statusOutput = document.getElementById("statusOutput");
 	var messagesArea = document.getElementById("messagesArea");
@@ -273,7 +272,7 @@
 					var showDt = historyData.date;
 					// 根據發送者是自己還是對方來給予不同的class名, 以達到訊息左右區分
 					//CSS檔案中區分
-					if(jsonObj.sender === self){
+					if(historyData.sender === self){
 						var a = $("#chatright").clone(true);
 						$("#messagesArea").append($(a));
 						$(a).css('display','block');
