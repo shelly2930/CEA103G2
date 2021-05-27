@@ -112,7 +112,7 @@
 													
 													<td class='lld'>${houseVO.lld_no}</td>
 													
-													<td>${'所有權狀照片'}<img src="<%=request.getContextPath()%>/house/houseImg.do?action=getOneContractImg&houseno=${houseVO.hos_no}" width="100px"></td>
+													<td class='houpic'>${'所有權狀照片'}<img src="<%=request.getContextPath()%>/house/houseImg.do?action=getOneContractImg&houseno=${houseVO.hos_no}" width="100px"></td>
 													
 													<td class='time'>${houseVO.hos_apptime}</td>
 													
@@ -192,8 +192,44 @@
 			</div>
             <!-- Footer -->
             <%@include file="/back-end/includeFile/footerBack.file"%>
-
+			
         </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        	<div class="modal fade" id="ck" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">所有權照片</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body" >
+			      			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th id='textpic' scope="col">房東編號</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='showtextpic'>
+                                    	
+                                    </tbody>
+                          </table>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
         <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
@@ -216,6 +252,13 @@
 
 <!--     Page level custom scripts -->
  	<script>
+ 			$(".houpic").click(function(){
+ 				let hn = $(this).parents('tr').attr('id');
+ 				$("#textpic").html('物件編號'+hn+"所有權狀");
+ 				$("#showtextpic").html("<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneContractImg&houseno=${houseVO.hos_no}' width='100%'>")
+	 			$("#ck").modal('show');
+ 				
+ 			})
  			$("input[value='確認送出']").click(function(e){
  				e.preventDefault();
  				$("input[name='houseno']").each(function(index){
