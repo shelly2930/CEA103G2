@@ -91,13 +91,13 @@
 		        </button>
 		      </div>
 		      <div class="modal-body">
-		        <div class='card-wrapper'></div>
+		        <div class='card-wrapper'><span id='money'></span></div>
 		    	<hr>
 		    	<form>
 				    <div class="row a align-items-center">
 				    	<div class="col-2"></div>
-				    	<div class="col-4 align-items-center"><span>信用卡名稱:</span></div>
-				    	<div class="col-4 align-items-center"><input type="text" name="name" placeholder="信用卡名稱"/></div>
+				    	<div style='display:none' class="col-4 align-items-center"><span>信用卡名稱:</span></div>
+				    	<div style='display:none' class="col-4 align-items-center"><input type="text" name="name" placeholder="信用卡名稱"/></div>
 				    </div>
 				    <div class="row  align-items-center">
 				    	<div class="col-2"></div>
@@ -184,6 +184,10 @@
 		    				console.log($(this).status)
 		    			}
 		    		})
+		    		let str = "請再次確認以下，確認後繳費<br><p style='color:red;font-weight:bold'>物件名稱: "+getHouse(getCon(con_no).hos_no).hos_name+"</p>";
+		    		str+="<p style='color:red;font-weight:bold'>物件金額: "+getHouse(getCon(con_no).hos_no).hos_rent+" 元</p>";
+		    		
+		    		$("#money").html(str);
 		    		$('#showcard').modal('show');
 		    		$('#cancelcard').click(function(){
 		    			document.location.href = "<%=request.getContextPath()%>/index.jsp";
@@ -258,7 +262,41 @@
     		})
     		return convo;
     	}
-    	
+    	function getMem(mem_no){
+    		let mem = {};
+    		$.ajax({
+    			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+    			type: 'post',
+    			data:{
+    				action:'getOneMemten',
+    				mem_no:mem_no,
+    			},
+    			async:false,
+    			success:function(memvo){
+    				for(let key in memvo){
+    					mem[key]=memvo[key];
+    				}
+    				console.log(memvo)
+    			}
+    		})
+    		return mem;
+    	}
+    	function getHouse(hos_no){
+    		let hosvo={};
+    		$.ajax({
+    			url:'<%=request.getContextPath()%>/RenConCRUDServlet',
+    			type: 'post',
+    			data:{
+    				action:'getOneHouse',
+    				houseno:hos_no,
+    			},
+    			async:false,
+    			success:function(hos){
+    				hosvo= hos;
+    			}
+    		})
+    		return hosvo;
+    	}
     	function updateTheHouseStatus(hos_no){
     		$.ajax({
     			url:"<%=request.getContextPath()%>/rooVieApp/rooVieApp.do",
