@@ -324,38 +324,9 @@ img.mem_pic {
 		let member_key = ['會員編號','帳號','姓名','性別','身分證字號','出生年月日','連絡電話','行動電話',
 							'電子信箱','縣市','鄉鎮市區','地址','身分證正面','身分證背面','身份審核狀態'];
 	
-// 		$("button[id='member']").click(function(e){
-// 			e.preventDefault();
-// 			$("#c").text('編號'+$(this).parent().attr('id')+'會員資料');
-// 			$.ajax({
-<%-- 				url:"<%=request.getContextPath()%>/MemTenJsonServlet", --%>
-// 				type:"post",
-// 				data:{
-// 					action:'getOneMember',
-// 					mem_no:$(this).parent().attr('id'),
-// 				},
-// 				success:function(jsonStr){
-// 					for(let i =0;i<member_key.length;i++){
-// 						 if(i==12){
-// 						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
-<%-- 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td></tr>'); --%>
-// 						 }else if(i==13){
-// 						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
-<%-- 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td></tr>'); --%>
-// 						 }else{
-// 						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td></tr>');
-// 						 }
-// 					}
-				
-// 				}
-// 			});
-			
-// 		})
-		
 		$("button[id='member']").click(function(e){
 			e.preventDefault();
 			$("#c").text('編號'+$(this).parent().attr('id')+'會員資料');
-			
 			$.ajax({
 				url:"<%=request.getContextPath()%>/MemTenJsonServlet",
 				type:"post",
@@ -364,61 +335,90 @@ img.mem_pic {
 					mem_no:$(this).parent().attr('id'),
 				},
 				success:function(jsonStr){
-// 					$("#showOneMember").empty();
-
-// 					for(let mem of jsonStr){
-// 						let str = "<tr id='"+con.mem_no+"' class='"+con.hos_no+"'>";
-// 						str+="<th>";
-// 						str+=""+getMem(con.mem_no);
-// 						str+="</th>";
-// 						str+="<td>";
-// 						str+=""+getHouse(con.hos_no).hos_address;
-// 						str+="</td>";
-// 						str+="<td id='"+con.rtct_no+"'>";
-// 						str+="<a href='' style='color:#8C8CFF;font-weight:bold;' class='contract'>"+con.rtct_no+"合約</a>";
-// 						str+="</td>";
-// 						str+="<td>";
-// 						str+="<a href='' style='color:#A1A1A1;font-weight:bold;' class='signature'>Click</a>";
-// 						str+="</td>";
-// 						str+="<td>";
-// 						str+=""+con.rtct_eff_date;
-// 						str+="</td>";
-// 						str+="<td>";
-// 						str+=""+con.rtct_end_date;
-// 						str+="</td>";
-// 						if(con.rtct_status==4 && status!=999){
-// 							str+="<td>";
-// 							str+="<a href='' class='cancelcon' style='color:#FF8C8C;font-weight:bold;'>結案</a>";
-// 							str+="</td>";
-// 							$("#cancelheader").show();
-// 							$("#cancelfooter").attr('colspan','7');
-// 						}else{
-// 							$("#cancelheader").hide();
-// 							$("#cancelfooter").attr('colspan','6');
-// 						}
-// 						str+="</tr>";
-// 						$("#showcon").append(str);
-// 					}
-						
-						$("#showOneMember tr:last-child").empty();
-						str="";
-						for(let i =0;i<member_key.length;i++){
-							 if(i==12){
-							  str+='<tr><th>'+member_key[i]+
-									  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td></tr>';
-							 }else if(i==13){
-							  str+='<tr><th>'+member_key[i]+
-									  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td></tr>';
-							 }else{
-							  str+='<tr><th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td></tr>';
-							 }
-						}
-					
-						 $("#showOneMember tr:last-child").append(str);
+					for(let i =0;i<member_key.length;i++){
+						 if(i==12){
+						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
+								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td></tr>');
+						 }else if(i==13){
+						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
+								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td></tr>');
+						 }else{
+						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td></tr>');
+						 }
+					}
+				
 				}
 			});
 			
 		})
+		
+// 		$("button[id='member']").click(function(e){
+// 			e.preventDefault();
+// 			$("#c").text('編號'+$(this).parent().attr('id')+'會員資料');
+			
+// 			$.ajax({
+<%-- 				url:"<%=request.getContextPath()%>/MemTenJsonServlet", --%>
+// 				type:"post",
+// 				data:{
+// 					action:'getOneMember',
+// 					mem_no:$(this).parent().attr('id'),
+// 				},
+// 				success:function(jsonStr){
+// // 					$("#showOneMember").empty();
+
+// // 					for(let mem of jsonStr){
+// // 						let str = "<tr id='"+con.mem_no+"' class='"+con.hos_no+"'>";
+// // 						str+="<th>";
+// // 						str+=""+getMem(con.mem_no);
+// // 						str+="</th>";
+// // 						str+="<td>";
+// // 						str+=""+getHouse(con.hos_no).hos_address;
+// // 						str+="</td>";
+// // 						str+="<td id='"+con.rtct_no+"'>";
+// // 						str+="<a href='' style='color:#8C8CFF;font-weight:bold;' class='contract'>"+con.rtct_no+"合約</a>";
+// // 						str+="</td>";
+// // 						str+="<td>";
+// // 						str+="<a href='' style='color:#A1A1A1;font-weight:bold;' class='signature'>Click</a>";
+// // 						str+="</td>";
+// // 						str+="<td>";
+// // 						str+=""+con.rtct_eff_date;
+// // 						str+="</td>";
+// // 						str+="<td>";
+// // 						str+=""+con.rtct_end_date;
+// // 						str+="</td>";
+// // 						if(con.rtct_status==4 && status!=999){
+// // 							str+="<td>";
+// // 							str+="<a href='' class='cancelcon' style='color:#FF8C8C;font-weight:bold;'>結案</a>";
+// // 							str+="</td>";
+// // 							$("#cancelheader").show();
+// // 							$("#cancelfooter").attr('colspan','7');
+// // 						}else{
+// // 							$("#cancelheader").hide();
+// // 							$("#cancelfooter").attr('colspan','6');
+// // 						}
+// // 						str+="</tr>";
+// // 						$("#showcon").append(str);
+// // 					}
+						
+// 						$("#showOneMember tr:last-child").empty();
+// 						str="";
+// 						for(let i =0;i<member_key.length;i++){
+// 							 if(i==12){
+// 							  str+='<th>'+member_key[i]+
+<%-- 									  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td>'; --%>
+// 							 }else if(i==13){
+// 							  str+='<th>'+member_key[i]+
+<%-- 									  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td>'; --%>
+// 							 }else{
+// 							  str+='<th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td>';
+// 							 }
+// 						}
+					
+// 						 $("#showOneMember tr:last-child").append(str);
+// 				}
+// 			});
+			
+// 		})
 		
 		// 讓checkbox的td消失
 		if(${(empty list)||(list[0].rtct_status!= 0)}){
