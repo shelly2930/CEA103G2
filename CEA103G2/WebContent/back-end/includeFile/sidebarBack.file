@@ -43,12 +43,12 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Escrow Management:</h6>
-                        <% if(list_Fun_no.indexOf(1) != -1) {%>
+<% if(list_Fun_no.indexOf(1) != -1) {%>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend_Emp&hos_status=0&hos_state=0">代管申請</a>
-                        <% } %>
-                        <% if(list_Fun_no.indexOf(2) != -1) {%>	
+<% } %>
+<% if(list_Fun_no.indexOf(2) != -1) {%>	
                         <a class="collapse-item" href="<%=request.getContextPath()%>/house/houseAdm.do?action=listAllHouseByState">上下架處理</a>
-                        <% } %>
+<% } %>
                     </div>
                 </div>
             </li>
@@ -88,12 +88,7 @@
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/back-end/repApp/addRepApp.jsp">
-                    <i class="fas fa-fw fa-faucet"></i>
-                    <span>修繕管理</span></a>
-            </li>
-
+<% if(list_Fun_no.indexOf(2) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRepair"
                     aria-expanded="true" aria-controls="collapseRepair">
@@ -103,19 +98,21 @@
                 <div id="collapseRepair" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Cashier Management:</h6>
-                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/bill/listAllBill.jsp">房客帳單</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp">房客帳單</a>
                         <a class="collapse-item" href="register.html">房東帳單</a>
                         <a class="collapse-item" href="register.html">房東租金撥款</a>
                     </div>
                 </div>
             </li>
-
+<% } %>
+<% if(list_Fun_no.indexOf(2) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/back-end/cusSer/chatBack.jsp">
                     <i class="fas fa-fw fa-comments"></i>
                     <span>客服管理</span></a>
             </li>
-
+<% } %>
+<% if(list_Fun_no.indexOf(2) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePost"
                     aria-expanded="true" aria-controls="collapsePost">
@@ -130,7 +127,8 @@
                     </div>
                 </div>
             </li>
-
+<% } %>
+<% if(list_Fun_no.indexOf(2) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember"
                     aria-expanded="true" aria-controls="collapseMember">
@@ -146,7 +144,8 @@
                     </div>
                 </div>
             </li>
-            
+<% } %>
+<% if(list_Fun_no.indexOf(1) != -1) {%>	
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmployee"
                     aria-expanded="true" aria-controls="collapseEmployee">
@@ -162,7 +161,9 @@
                     </div>
                 </div>
             </li>
+<% } %>
 
+<% if(list_Fun_no.indexOf(1) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAssign"
                     aria-expanded="true" aria-controls="collapseAssign">
@@ -179,6 +180,7 @@
                     </div>
                 </div>
             </li>
+<% } %>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

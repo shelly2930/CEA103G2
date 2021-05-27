@@ -48,13 +48,7 @@
 							            	<a href="#billSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">帳務管理</a>
 							              	<ul class="collapse list-unstyled" id="billSubmenu">
 							                	<li>
-							                    	<a class="second" href="#">我的帳單</a>
-							                	</li>
-							                	<li>
-							                    	<a class="second" href="<%=request.getContextPath()%>/front-end/creCarInf/addCreditcard.jsp">我的信用卡</a>
-							                	</li>
-							                	<li>
-							                    	<a class="second" href="#">Page 3</a>
+							                    	<a class="second" href="<%=request.getContextPath()%>/front-end/bill/memAllBill.jsp?bill_p_status=0">我的帳單</a>
 							                	</li>
 							              	</ul>
 								        </li>	          				

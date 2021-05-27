@@ -572,6 +572,14 @@ public class EmployeeServlet extends HttpServlet {
 				for(EmployeeVO employeeVO : list) {
 					if(employeeVO.getEmp_username().equals(emp_username)) {
 						if(employeeVO.getEmp_password().equals(emp_password)) {
+							
+							if(employeeVO.getEmp_quitdate() != null) {
+								messages.put("failure", "已離職無法登入");
+								RequestDispatcher failureView = req.getRequestDispatcher("/loginBack.jsp");
+								failureView.forward(req, res);
+								return;
+							}
+							
 							session.setAttribute("employeeVO", employeeVO);
 							
 							StaRigService staRigService = new StaRigService();

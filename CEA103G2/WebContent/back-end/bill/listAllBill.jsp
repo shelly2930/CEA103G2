@@ -88,7 +88,7 @@
 									<thead>
 										<tr>
 											<th>帳單編號</th>
-											<th>會員編號</th>
+											<th>會員姓名</th>
 											<th>帳單日期</th>
 											<th>繳費期限</th>
 											<th>租金</th>
@@ -97,12 +97,20 @@
 											<th>租家具總費用</th>
 											<th>房客繳費狀態</th>
 											<th>房東撥款狀態</th>
+											<th style="display:none;">查看</th>
 										</tr>
 									</thead>
 									<tbody>
 										<%
 										BillService billSvc = new BillService();
 										List<BillVO> list = billSvc.getAll();
+// 										Set<String> set = new LinkedHashSet<String>();
+// 										for(BillVO billVO : list){
+// 											set.add(billVO.getMem_no() + "," + billVO.getBill_date().toString());
+// 											System.out.println(billVO.getMem_no() + "," + billVO.getBill_date().toString());
+// 										}
+// 										System.out.println(list.size());
+// 										System.out.println(set.size());
 										int i = 0;
 										for(BillVO billVO : list){ i++;
 											Calendar cal = Calendar.getInstance();
@@ -113,7 +121,7 @@
 											<tr>
 												<td><%=billVO.getBill_no()%></td>
 												<td><%=new MemTenService().getOneMemTen(billVO.getMem_no()).getMem_name()%></td>
-												<td><fmt:formatDate value="<%=billVO.getBill_date()%>" pattern="yyyy-MM"/></td>
+												<td><fmt:formatDate value="<%=billVO.getBill_date()%>" pattern="yyyyMM"/></td>
 												<td><fmt:formatDate value="<%=billVO.getBill_due()%>" pattern="yyyy-MM-dd"/></td>
 												<%
 												RenConService renConSvc = new RenConService();
@@ -246,6 +254,14 @@
 												<td><%=raf_total%> 元</td>
 												<td><%=billVO.getBill_p_status() == 0 ? "未繳費" : "已繳費"%></td>
 												<td><%=billVO.getBill_p_status() == 0 ? "未繳費" : "已繳費"%></td>
+												<td style="display:none;">
+													<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/bill/bill.do">
+														<button type="submit" class="btn btn-outline-danger">查看</button>
+														<input type="hidden" name="mem_no" value="<%=new MemTenService().getOneMemTen(billVO.getMem_no()).getMem_no()%>">
+														<input type="hidden" name="bill_date" value="<%=billVO.getBill_date()%>">
+														<input type="hidden" name="action" value="get_A_Bill">
+													</FORM>
+												</td>
 											</tr>
 										<%}%>
 									</tbody>
@@ -299,9 +315,14 @@
     			},
     			success:function(amountOfInsert){
     				alert("成功新增" + amountOfInsert + "筆帳單");
+    				window.location.reload();
     			}
     		});
     	});
+    	
+    	$("tr").click(function(){
+			$(this).find("form").submit();
+		});
     </script>
      
 </body>
