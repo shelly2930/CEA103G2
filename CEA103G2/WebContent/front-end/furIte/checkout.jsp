@@ -239,6 +239,9 @@ $(document).ready(function(){
 									setTimeout(function(){
 										$(location).prop('href', '<%=request.getContextPath()%>/index.jsp'); 
 										},1500);
+									setTimeout(function(){
+										alert("SUSUS");
+										},2000);
 					   			 }
 				  			})
 						 }
@@ -275,6 +278,7 @@ $(document).ready(function(){
         $.datetimepicker.setLocale('zh');
         var appStartDate = new Date();
         appStartDate.setTime(appStartDate.getTime()+2*24*60*60*1000);
+
         var appDueDate = new Date();
         appDueDate.setTime(appDueDate.getTime()+7*24*60*60*1000);
         $('#rfa_order_date').datetimepicker({
@@ -284,9 +288,9 @@ $(document).ready(function(){
  	       format:'Y-m-d H:i:s',      //format:'Y-m-d H:i:s',
 <%--  		   value: '<%=memTenVO.getMem_birthday()%>', // value:   new Date(), --%>
            //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-           startDate:	           appStartDate,  // 起始日
-           minDate:               appStartDate, // 去除今日(不含)之前
-           maxDate:               appDueDate // 去除今日(不含)之後
+//            startDate: appStartDate,  // 起始日
+           minDate:  appStartDate, // 去除今日(不含)之前
+           maxDate: appDueDate, // 去除今日(不含)之後
         });
         
 </script>

@@ -734,14 +734,22 @@ public class MemTenServlet extends HttpServlet {
 				} else if(!mem_email.trim().matches(mem_emailReg)) {
 					errorMsgs.put("mem_email", "信箱格式不符");
 	            }
-				System.out.println("aaaaaaaaaaa");
-				String mem_city = req.getParameter(("county"));
-				System.out.println(mem_city);
-				String mem_dist = req.getParameter(("district"));
-				System.out.println(mem_dist);
+//				System.out.println("aaaaaaaaaaa");
+//				String mem_city = req.getParameter(("county"));
+//				System.out.println(mem_city);
+//				String mem_dist = req.getParameter(("district"));
+//				System.out.println(mem_dist);
 				
-//				String mem_city = req.getParameter(("mem_city"));
-//				String mem_dist = req.getParameter(("mem_dist"));
+				String mem_city = req.getParameter(("mem_city"));
+				if (mem_city == null || mem_city.trim().length() == 0) {
+					errorMsgs.put("mem_city", "請勿空白");
+				}
+				
+				String mem_dist = req.getParameter(("mem_dist"));
+				if (mem_dist == null || mem_dist.trim().length() == 0) {
+					errorMsgs.put("mem_dist", "請勿空白");
+				}
+				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 
 				MemTenVO memVO = new MemTenVO();
@@ -862,6 +870,9 @@ public class MemTenServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		
+		
 	}
 	
 	

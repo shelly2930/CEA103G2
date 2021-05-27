@@ -171,10 +171,7 @@ img.mem_pic {
 					      <div class="modal-body">
 					      <table class="table table-bordered">
 					      	<thead>
-                            <tr>
-                               <th>物件編號</th>
-                               <td>刊登狀態</td>
-                            </tr>
+                            
                             </thead>
 					        <tbody id="showOneMember">
                             <tr>
@@ -318,11 +315,11 @@ img.mem_pic {
 		})
 		
 		
-		let member_value = ['mem_no','mem_username','mem_name','mem_gender','mem_id','mem_birthday','mem_phone','mem_mobile','mem_email',
-							'mem_city','mem_dist','mem_addr','mem_idcard_f','mem_idcard_r','mem_id_status'];
+		let member_value = ['mem_no','mem_username','mem_name','mem_id','mem_birthday','mem_phone','mem_mobile','mem_email',
+							'mem_city','mem_dist','mem_addr','mem_idcard_f','mem_idcard_r'];
 		
-		let member_key = ['會員編號','帳號','姓名','性別','身分證字號','出生年月日','連絡電話','行動電話',
-							'電子信箱','縣市','鄉鎮市區','地址','身分證正面','身分證背面','身份審核狀態'];
+		let member_key = ['會員編號','帳號','姓名','身分證字號','出生年月日','連絡電話','行動電話',
+							'電子信箱','縣市','鄉鎮市區','地址','身分證正面','身分證背面'];
 	
 		$("button[id='member']").click(function(e){
 			e.preventDefault();
@@ -337,17 +334,16 @@ img.mem_pic {
 				},
 				success:function(jsonStr){
 					for(let i =0;i<member_key.length;i++){
-						 if(i==12){
+						 if(i==11){
 						  $("#showOneMember").append('<tr><th>'+member_key[i]+
 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td></tr>');
-						 }else if(i==13){
+						 }else if(i==12){
 						  $("#showOneMember").append('<tr><th>'+member_key[i]+
 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td></tr>');
 						 }else{
 						  $("#showOneMember").append('<tr><th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td></tr>');
 						 }
 					}
-				
 				}
 			});
 			

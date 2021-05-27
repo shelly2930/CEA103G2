@@ -31,7 +31,8 @@
 </head>
 <body bgcolor='white'>
 
-<h4 style="color:black;text-align:left;">申請單明細: </h4>
+<!-- <h4 style="color:black;text-align:left;">申請單明細: </h4> -->
+<h3 style="text-align:left;">申請單明細: </h3>
 
 
 <%-- 錯誤表列 --%>
@@ -72,24 +73,6 @@
 			<td><fmt:formatDate value="${renFurDetVO.rent_date}"	pattern="yyyy-MM-dd" /></td>
 			<td><fmt:formatDate value="${renFurDetVO.rent_end_date}"	pattern="yyyy-MM-dd" /></td>
 			<td><fmt:formatDate value="${renFurDetVO.rent_tmt_date}"	pattern="yyyy-MM-dd " /></td>
-<!-- 			<td>  -->
-<%-- 			         <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurDet/renFurDet.do" style="margin-bottom: 0px;"> --%>
-<!-- 		             <input type="submit" value="編輯"> -->
-<%-- 			         <input type="hidden" name="rfa_no"  value="${renFurDetVO.rfa_no}"> --%>
-<%-- 			         <input type="hidden" name="fnt_id"  value="${renFurDetVO.fnt_id}"> --%>
-<%-- 			         <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
-<%-- 			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">        --%>
-<!--  			         <input type="hidden" name="action2" value="getOne_For_Update"></FORM>  -->
-<!-- 		   </td>  -->
-<!-- 		   <td>  -->
-<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurDet/renFurDet.do" style="margin-bottom: 0px;"> --%>
-<!-- 		          <input type="submit" value="刪除"> -->
-<%-- 			     <input type="hidden" name="rfa_no"  value="${renFurDetVO.rfa_no}"> --%>
-<%-- 			      <input type="hidden" name="fnt_id"  value="${renFurDetVO.fnt_id}"> --%>
-<%-- 			      <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
-<%-- 			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">        --%>
-<!--  			     <input type="hidden" name="action2" value="delete"></FORM>  -->
-<!-- 			</td> -->
 		</c:if>
 	</c:forEach>
 	</tr>

@@ -147,25 +147,25 @@ public class MemTenDAO implements MemTenDAO_interface {
 				pstmt = con.prepareStatement(UPDATE);
 
 				pstmt.setString(1, memTenVO.getMem_username());
-				pstmt.setString(1, memTenVO.getMem_password());
-				pstmt.setBytes(2, memTenVO.getMem_pic());
-				pstmt.setString(3, memTenVO.getMem_name());
-				pstmt.setByte(4, memTenVO.getMem_gender());
-				pstmt.setString(5, memTenVO.getMem_id());
-				pstmt.setDate(6, memTenVO.getMem_birthday());
-				pstmt.setString(7, memTenVO.getMem_phone());
-				pstmt.setString(8, memTenVO.getMem_mobile());
-				pstmt.setString(9, memTenVO.getMem_email());
-				pstmt.setString(10, memTenVO.getMem_city());
-				pstmt.setString(11, memTenVO.getMem_dist());
-				pstmt.setString(12, memTenVO.getMem_addr());
+				pstmt.setString(2, memTenVO.getMem_password());
+				pstmt.setBytes(3, memTenVO.getMem_pic());
+				pstmt.setString(4, memTenVO.getMem_name());
+				pstmt.setByte(5, memTenVO.getMem_gender());
+				pstmt.setString(6, memTenVO.getMem_id());
+				pstmt.setDate(7, memTenVO.getMem_birthday());
+				pstmt.setString(8, memTenVO.getMem_phone());
+				pstmt.setString(9, memTenVO.getMem_mobile());
+				pstmt.setString(10, memTenVO.getMem_email());
+				pstmt.setString(11, memTenVO.getMem_city());
+				pstmt.setString(12, memTenVO.getMem_dist());
+				pstmt.setString(13, memTenVO.getMem_addr());
 //				pstmt.setByte(12, memTenVO.getMem_status());
-				pstmt.setBytes(13, memTenVO.getMem_idcard_f());
-				pstmt.setBytes(14, memTenVO.getMem_idcard_r());
+				pstmt.setBytes(14, memTenVO.getMem_idcard_f());
+				pstmt.setBytes(15, memTenVO.getMem_idcard_r());
 //				pstmt.setByte(13, memTenVO.getMem_id_status());
 //				pstmt.setString(12, memTenVO.getMem_suspend());
 //				pstmt.setString(13, memTenVO.getMem_refuse());
-				pstmt.setInt(15, memTenVO.getMem_no());
+				pstmt.setInt(16, memTenVO.getMem_no());
 				
 				pstmt.executeUpdate();
 
@@ -643,5 +643,7 @@ public class MemTenDAO implements MemTenDAO_interface {
 			}
 			return lld_status;
 		}
+
+
 
 }

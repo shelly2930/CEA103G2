@@ -98,7 +98,7 @@ public class HouseImgServlet extends HttpServlet {
 				HouseVO houseVO = houseSvc.getOneHouse(houseno);
 				byte[] img = houseVO.getHos_loc_pic();
 				if(img.length == 0 || img == null) {
-					File file = new File(req.getServletContext().getRealPath("/")+"errorImg/error.png");
+					File file = new File(req.getServletContext().getRealPath("/")+"errorImg/error01.jpg");
 					System.out.println(file);
 					InputStream is = new FileInputStream(file);
 					byte[] b = new byte[is.available()];
@@ -110,7 +110,7 @@ public class HouseImgServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 ***********************************/
 			} catch (Exception e) {
 				OutputStream output = res.getOutputStream();
-				File file = new File(req.getServletContext().getRealPath("/")+"errorImg/error.png");
+				File file = new File(req.getServletContext().getRealPath("/")+"errorImg/error01.jpg");
 				InputStream is = new FileInputStream(file);
 				byte[] b = new byte[is.available()];
 				is.read(b);

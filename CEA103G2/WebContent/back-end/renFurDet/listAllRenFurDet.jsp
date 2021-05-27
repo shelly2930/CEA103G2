@@ -8,7 +8,7 @@
  <jsp:useBean id="furIteSvc" scope="page" class="com.furIte.model.FurIteService" />
  <jsp:useBean id="furCatSvc" scope="page" 	class="com.furCat.model.FurCatService" />
 <%-- <jsp:useBean id="furIteDAO" scope="page" 	class="com.furIte.model.FurIteDAO" /> --%>
-待處理值會顯示毫秒.0問題 (處理複合查詢的list值)
+
 <% 	  
 List<RenFurDetVO> list =null;
 RenFurDetService renFurDetSvc = new RenFurDetService();

@@ -106,7 +106,7 @@ img.mem_pic {
 												<th>羆<br>计秖</th>
 												<th><br>基</th>
 												<th>砏</th>
-												<th>聅凝<br>Ω计</th>
+												<th style="display:none;">聅凝<br>Ω计</th>
 												<th>祅<br>篈</th>
 												<th>絪胯</th>
 <!-- 												<th>埃</th> -->
@@ -130,7 +130,7 @@ img.mem_pic {
 													<td>${furIteVO.fnt_total}</td>
 													<td>${furIteVO.fnt_price}</td>
 													<td>${furIteVO.fnt_standard}</td>
-													<td>${furIteVO.fnt_views}</td>	
+													<td style="display:none;">${furIteVO.fnt_views}</td>	
 													<td><c:choose>
 																<c:when test="${furIteVO.fnt_post_status==0}"> 琜</c:when>
 																<c:otherwise> 琜</c:otherwise>

@@ -99,7 +99,7 @@ FurIteVO furIteVO = (FurIteVO) request.getAttribute("furIteVO");
 
 
   <!--================Single Product Area =================-->
-  <div class="product_image_area section_padding">
+  <div class="product_image_area section_padding"  style='padding:0px auto !important;'>
     <div class="container">
       <div class="row s_product_inner justify-content-between">
         <div class="col-lg-7 col-xl-7">
@@ -141,7 +141,7 @@ FurIteVO furIteVO = (FurIteVO) request.getAttribute("furIteVO");
 					<c:when test="${furIteVO.fnt_unrent<=0}">無</c:when>			
 					</c:choose>
               </li>
-                          <li>
+                          <li style="display:none;">
 <!--               瀏覽次數 -->
                  <span>瀏覽次數</span> : ${furIteVO.fnt_views} 次
               </li>
@@ -667,6 +667,7 @@ $(".btn_3").click(function(e){
 			"quantity":$("input[type='text']").val(),
 		},
 		success:function(data){
+			$(".fa-cart-plus").attr("data-count",data);
 			$(".cartQuantity").html(data);
 			Swal.fire({
 				 position:'center',	 
