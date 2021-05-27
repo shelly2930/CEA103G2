@@ -207,8 +207,6 @@ img.mem_pic {
                             </tr>
                             </thead>
 					        <tbody id="showOneHouse">
-                            <tr>
-                            </tr>
                             </tbody>
                            </table>
 					      </div>
@@ -326,6 +324,7 @@ img.mem_pic {
 	
 		$("button[id='member']").click(function(e){
 			e.preventDefault();
+			$("#showOneMember").empty();
 			$("#c").text('編號'+$(this).parent().attr('id')+'會員資料');
 			$.ajax({
 				url:"<%=request.getContextPath()%>/MemTenJsonServlet",
@@ -337,13 +336,13 @@ img.mem_pic {
 				success:function(jsonStr){
 					for(let i =0;i<member_key.length;i++){
 						 if(i==12){
-						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
+						  $("#showOneMember").append('<tr><th>'+member_key[i]+
 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td></tr>');
 						 }else if(i==13){
-						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+
+						  $("#showOneMember").append('<tr><th>'+member_key[i]+
 								  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td></tr>');
 						 }else{
-						  $("#showOneMember tr:last-child").after('<tr><th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td></tr>');
+						  $("#showOneMember").append('<tr><th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td></tr>');
 						 }
 					}
 				
