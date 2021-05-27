@@ -15,6 +15,8 @@ public interface MemTenDAO_interface {
 	public MemTenVO findByEmail(String mem_username,String mem_email); // 忘記密碼
 	public void updatePwd(String mem_email, String mem_password); // 改密碼
 	public void rentalConfirm(MemTenVO memTenVO);
+	public MemTenVO findbyaccpwd(String mem_username,String mem_password);
+	public void updatePwdByUsername(String mem_username, String mem_password);
 	//敬達增加
 	public Byte judgelld(Integer mem_no);
 }

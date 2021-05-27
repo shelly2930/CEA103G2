@@ -58,6 +58,7 @@ div.rentalstep {
 
 .mem_pic {
 	width:200px;
+	height:auto;
 }
 
 h3 {
@@ -200,8 +201,8 @@ h3 {
 					    <tr>
 					    	<th>地址</th>
 							<td>
-								<div id='myaddress' role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="台北市"
-						     			data-district-value="松山區"></div>
+								<div id='myaddress' role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="${requestScope.memVO.mem_city}"
+						     			data-district-value="${requestScope.memVO.mem_dist}"></div>
 <!-- 								<select size="1" name="mem_city" id="mem_city"> -->
 <!-- 									<option value="no">請選擇縣市 -->
 <!-- 								</select> -->

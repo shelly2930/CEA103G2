@@ -87,43 +87,43 @@ public class AjaxLoginServlet extends HttpServlet {
 			}
 		}
 		
-//		if (("usernameCheck".equals(action)))  {
-//
-//			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
-//			// Store this set in the request scope, in case we need to
-//			// send the ErrorPage view.
-//			req.setAttribute("errorMsgs", errorMsgs);	
-//			
-//			try {
-//				String mem_username = req.getParameter("mem_username").trim();
-//
-//				MemTenService memTenSvc = new MemTenService();
-//				MemTenVO memTenVO = memTenSvc.loginCheck(mem_username);
-//
-//				if(memTenVO!=null) {
-//					Gson gson =  new Gson();
-//					String str = gson.toJson(memTenVO);
-//					
-//					System.out.println("str:" + str);
-//					
-//					res.setContentType("application/json");
-//					res.setCharacterEncoding("UTF-8");
-//					
-//					PrintWriter out = res.getWriter();
-//					
-//					out.println(str);
-//						out.flush();
-//						out.close();
-//						
-//				}else {
-//					return;
-//				}
-//
-//			}catch (Exception e) {
-//				System.out.println("8");
-//				return;
-//			}
-//		}
+		if (("usernameCheck".equals(action)))  {
+
+			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);	
+			
+			try {
+				String mem_username = req.getParameter("mem_username").trim();
+
+				MemTenService memTenSvc = new MemTenService();
+				MemTenVO memTenVO = memTenSvc.loginCheck(mem_username);
+
+				if(memTenVO!=null) {
+					Gson gson =  new Gson();
+					String str = gson.toJson(memTenVO);
+					
+					System.out.println("str:" + str);
+					
+					res.setContentType("application/json");
+					res.setCharacterEncoding("UTF-8");
+					
+					PrintWriter out = res.getWriter();
+					
+					out.println(str);
+						out.flush();
+						out.close();
+						
+				}else {
+					return;
+				}
+
+			}catch (Exception e) {
+				System.out.println("8");
+				return;
+			}
+		}
 		
 	}
 

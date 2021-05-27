@@ -202,7 +202,7 @@ window.onload=function(){
                     let img = document.getElementById('imgp');
                     img.src = result;
                     preview.append(img);
-                    $("imgp:first").remove(); // 預覽只會保留最新上傳的
+//                     $("imgp:first").remove(); // 預覽只會保留最新上傳的
                 });
                 reader.readAsDataURL(file);
             } else {

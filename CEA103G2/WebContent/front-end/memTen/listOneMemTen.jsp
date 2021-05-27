@@ -60,7 +60,7 @@ img.mem_pic {
 					    <tr>
 					    	<th>±K½X</th>
 					    	<td>
-					    		${MemTenVO.mem_password}
+					    		<input type="button" value="­×§ï±K½X" onclick="location.href='<%=request.getContextPath()%>/front-end/memTen/changePwd.jsp'">
 							</td>
 					    </tr>
 					    <tr>

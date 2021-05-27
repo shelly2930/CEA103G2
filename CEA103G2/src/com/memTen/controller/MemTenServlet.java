@@ -734,14 +734,22 @@ public class MemTenServlet extends HttpServlet {
 				} else if(!mem_email.trim().matches(mem_emailReg)) {
 					errorMsgs.put("mem_email", "信箱格式不符");
 	            }
-				System.out.println("aaaaaaaaaaa");
-				String mem_city = req.getParameter(("county"));
-				System.out.println(mem_city);
-				String mem_dist = req.getParameter(("district"));
-				System.out.println(mem_dist);
+//				System.out.println("aaaaaaaaaaa");
+//				String mem_city = req.getParameter(("county"));
+//				System.out.println(mem_city);
+//				String mem_dist = req.getParameter(("district"));
+//				System.out.println(mem_dist);
 				
-//				String mem_city = req.getParameter(("mem_city"));
-//				String mem_dist = req.getParameter(("mem_dist"));
+				String mem_city = req.getParameter(("mem_city"));
+				if (mem_city == null || mem_city.trim().length() == 0) {
+					errorMsgs.put("mem_city", "請勿空白");
+				}
+				
+				String mem_dist = req.getParameter(("mem_dist"));
+				if (mem_dist == null || mem_dist.trim().length() == 0) {
+					errorMsgs.put("mem_dist", "請勿空白");
+				}
+				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 
 				MemTenVO memVO = new MemTenVO();
@@ -862,6 +870,68 @@ public class MemTenServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		if("changepwd".equals(action)) {
+			
+			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				String mem_username = req.getParameter("mem_username").trim();
+				
+				String mem_password = req.getParameter("mem_password").trim();
+				
+				String newpwd = req.getParameter("newpwd").trim();
+				// 再次輸入的新密碼
+				String insertstr = req.getParameter("insertstr").trim();
+				
+				MemTenService memTenSvc = new MemTenService();
+				MemTenVO memTenVO = memTenSvc.findbyaccpwd(mem_username,mem_password);
+				
+				if(memTenVO == null) {
+					errorMsgs.put("user_pwd","密碼錯誤");
+					String url = "/front-end/memTen/changePwd.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url); 
+					successView.forward(req, res);
+					return;
+				}
+
+				if(!(insertstr.equals(newpwd))) {
+					errorMsgs.put("newpwd","與新密碼不同");
+					req.setAttribute("memTenVO", memTenVO); // 含有輸入格式錯誤的userVO物件,也存入req
+					String url = "/front-end/memTen/changePwd.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url); 
+					successView.forward(req, res);
+					return;
+				}
+				
+				memTenSvc.updatePwdByUsername(mem_username,mem_password);
+				
+				RequestDispatcher SuccessView = req.getRequestDispatcher("/index.jsp");
+				SuccessView.forward(req, res);
+				
+				
+//				HttpSession session = req.getSession();
+//				if(!session.isNew()) {
+//			        session.invalidate();
+//				}
+//				/***************************4.修改完成,準備轉交(Send the Success view)***********/
+//				notifyMsgs.put("changePwd", "更改密碼成功！請重新登入~");
+//				req.setAttribute("userVO", userVO);// 資料庫insert成功後,正確的userVO物件,存入req
+//				String url = "/front-end/userLogin.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交userLogin.jsp
+//				successView.forward(req, res);
+//				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				errorMsgs.put("Exception",e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/memTen/changePwd.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 	}
 	
 	
