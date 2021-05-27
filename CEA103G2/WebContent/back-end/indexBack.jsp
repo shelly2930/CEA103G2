@@ -137,9 +137,9 @@
 	.done{
 		filter: brightness(0.7);
 	}
-	.unassigned{
-		border: 2px black solid;
-	}
+/* 	.unassigned{ */
+/* 		border: 2px black solid; */
+/* 	} */
 </style>
 </head>
 
@@ -379,8 +379,8 @@ function addRooVieApp() {
 				let hour = d.getHours();
 				let min = d.getMinutes();
 				$("."+year+"-"+month+"-"+date).append
-					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-warning text-white' href='<%=request.getContextPath()%>/renFurApp/renFurApp.do?rfa_no="
-						+RooVieAppVO.rva_no+"&action=getOne_For_Update'>預約看房申請 "+hour+":00</a>");
+					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-warning text-white'" +
+							"href='<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp_EMP.jsp'>預約看房申請 "+hour+":00</a>");
 				if(${employeeVO.emp_job != "主管"} && RooVieAppVO.emp_no != ${employeeVO.emp_no}){
 					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
 				}

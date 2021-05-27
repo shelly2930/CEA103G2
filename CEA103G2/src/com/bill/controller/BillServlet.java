@@ -412,16 +412,16 @@ public class BillServlet extends HttpServlet {
 
 				Byte bill_r_status = Byte.valueOf("0");
 							
-				BillVO billVO = new BillVO();
-				billVO.setBill_no(bill_no);
-				billVO.setBill_due(bill_due);
-				billVO.setBill_power(bill_power);
-				billVO.setBill_water(bill_water);
-				billVO.setBill_p_status(bill_p_status);
-				billVO.setBill_r_status(bill_r_status);
+//				BillVO billVO = new BillVO();
+//				billVO.setBill_no(bill_no);
+//				billVO.setBill_due(bill_due);
+//				billVO.setBill_power(bill_power);
+//				billVO.setBill_water(bill_water);
+//				billVO.setBill_p_status(bill_p_status);
+//				billVO.setBill_r_status(bill_r_status);
 				
 				BillService billSvc = new BillService();
-				billVO = billSvc.updateBill(bill_no, bill_due, bill_power, bill_water, bill_p_status, bill_r_status);
+				billSvc.updateBill(bill_no, bill_due, bill_power, bill_water, bill_p_status, bill_r_status);
 				
 				res.setCharacterEncoding("UTF-8");
 				res.getWriter().print(bill_due);
@@ -446,6 +446,31 @@ public class BillServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();;
 				res.sendRedirect(req.getContextPath() + "/front-end/bill/memAllBill.jsp");
+			}
+		}
+		
+		if ("pay_bill".equals(action)) {
+			
+			try {
+				Integer bill_no = new Integer(req.getParameter("bill_no").trim());
+				
+				BillService billSvc = new BillService();
+				BillVO billVO = billSvc.getOneBill(bill_no);
+				
+				java.sql.Date bill_due = billVO.getBill_due();
+				Integer bill_power = billVO.getBill_power();
+				Integer bill_water = billVO.getBill_water();
+				Byte bill_p_status = Byte.valueOf("1");
+				Byte bill_r_status = Byte.valueOf("0");
+				
+				billSvc.updateBill(bill_no, bill_due, bill_power, bill_water, bill_p_status, bill_r_status);
+				
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().print("Ãº¶O¦¨¥\");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.sendRedirect(req.getContextPath() + "/back-end/bill/showAllBill.jsp");
 			}
 		}
 	}

@@ -242,18 +242,18 @@ $("#emp_job").change(function(){
 	if($("#emp_job").val() === "一般員工"){
 		$("input[name='staFun']").prop("checked", false);
 		$("#staFun1").prop("checked", true);
-		$("#staFun4").prop("checked", true);
-		$("#staFun7").prop("checked", true);
-		$("#staFun8").prop("checked", true);
-		$("#staFun9").prop("checked", true);
-		$("#staFun10").prop("checked", true);
+		$("#staFun3").prop("checked", true);
+		$("#staFun5").prop("checked", true);
 	}
 	if($("#emp_job").val() === "平台管理員"){
 		$("input[name='staFun']").prop("checked", false);
 		$("#staFun2").prop("checked", true);
-		$("#staFun3").prop("checked", true);
-		$("#staFun5").prop("checked", true);
+		$("#staFun4").prop("checked", true);
 		$("#staFun6").prop("checked", true);
+		$("#staFun7").prop("checked", true);
+		$("#staFun8").prop("checked", true);
+		$("#staFun9").prop("checked", true);
+		$("#staFun10").prop("checked", true);
 	}
 	if($("#emp_job").val() === "主管"){
 		$("input[name='staFun']").prop("checked", true);

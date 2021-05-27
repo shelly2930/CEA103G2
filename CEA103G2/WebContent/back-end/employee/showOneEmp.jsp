@@ -67,7 +67,7 @@
 ${errorMsgs.Exception}
 					<div class="mx-auto text-center pageTitle">
 						<c:if test="${sessionScope.employeeVO.emp_id != null}">
-				        <h1 class="mx-auto mb-4 text-uppercase">基本資料</h1>
+				        <h1 class="mx-auto mb-4 text-uppercase">個人資料</h1>
 				        </c:if>
 						<c:if test="${sessionScope.employeeVO.emp_id == null}">
 				        <h1 class="mx-auto mb-4 text-uppercase">請完成基本資料填寫</h1>
@@ -376,7 +376,7 @@ ${errorMsgs.Exception}
 			$("input").prop("readonly", false);
 			$("select").prop("disabled", false);
 			$("#emp_pic").prop("disabled", false);
-			$("#emp_pic").css("display", "inline-block");
+// 			$("#emp_pic").css("display", "inline-block");
 			$("#updateInfo").css("display", "none");
 			$("#updateSubmit").css("display", "inline-block");
 		}

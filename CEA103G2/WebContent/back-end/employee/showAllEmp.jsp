@@ -8,7 +8,24 @@
 <%
 	EmployeeService employeeSvc = new EmployeeService();
 	List<EmployeeVO> list = employeeSvc.getAll();
-	pageContext.setAttribute("list", list);
+	int status = Integer.parseInt(request.getParameter("status"));
+	int size = list.size();
+	List<EmployeeVO> newList = new ArrayList<EmployeeVO>();
+	if(status == 1){
+		for(int i = 0; i < size; i++){
+			EmployeeVO emp = list.get(i);
+			if(emp.getEmp_quitdate() == null)
+				newList.add(list.get(i));
+		}
+	}else if(status == 0){
+		for(int i = 0; i < size; i++){
+			EmployeeVO emp = list.get(i);
+			if(emp.getEmp_quitdate() != null)
+				newList.add(list.get(i));
+		}
+	}
+	
+	pageContext.setAttribute("list", newList);
 %>
 
 <!DOCTYPE html>
@@ -53,6 +70,12 @@
 	th:hover{
 		background-color: #aaaaaa;
 	}
+	.pageTitle{
+		color: #4165ae;
+		letter-spacing: 1rem;
+		text-shadow: 1px 1px 2px #233559;
+	}
+	
 </style>
 
 </head>
@@ -78,18 +101,15 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">Tables</h1>
-					<p class="mb-4">
-						DataTables is a third party plugin that is used to generate the
-						demo table below. For more information about DataTables, please
-						visit the <a target="_blank" href="https://datatables.net">official
-							DataTables documentation</a>.
-					</p>
-
+					<div class="mx-auto text-center pageTitle">
+				        <h1 class="mx-auto mb-4 text-uppercase">員工資料</h1>
+				    </div>
+				    
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/employee/showAllEmp.jsp?status=1'">在職員工</button>
+							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/employee/showAllEmp.jsp?status=0'">離職員工</button>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive-lg">
@@ -111,7 +131,7 @@
 									</thead>
 									<tbody>
 										<c:forEach var="employeeVO" items="${list}">
-
+<%-- 										<c:if test="${employeeVO.emp_quitdate == null}"> --%>
 											<tr name="${employeeVO.emp_no}">
 												<td>${employeeVO.emp_no}</td>
 												<td>${employeeVO.emp_username}</td>
@@ -153,6 +173,7 @@
 													</FORM>
 												</td>
 											</tr>
+<%-- 											</c:if> --%>
 										</c:forEach>
 									</tbody>
 								</table>
