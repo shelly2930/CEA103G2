@@ -56,6 +56,7 @@
 	resize: none;
 	box-sizing: border-box;
 	overflow: auto;
+	background-color: rgb(222, 255, 255);
 }
 
 .input-area {
@@ -114,19 +115,20 @@ ul li#time {
 	display: table;
 	margin: 0 auto;
 	float: none;
-	font-size:0.5em;
-	color:#D3D3D3;
+	font-size: 0.7em;
+    font-weight: bolder;
+    color: #8b8383;
 }
 
 .friend{
-  background: #eee;
+  background: #ebebeb;
   float: left;
   padding: 20px;
 }
 
 .me{
   float: right;
-  background: #0084ff;
+  background: #7266ba;
   color: #fff;
   padding: 20px;
 }
@@ -134,10 +136,10 @@ ul li#time {
   border-bottom-right-radius: 5px;
 }
 
-.me + .me{
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
+/* .me + .me{ */
+/*   border-top-right-radius: 5px; */
+/*   border-bottom-right-radius: 5px; */
+/* } */
 
 .me:last-of-type {
   border-bottom-right-radius: 30px;
@@ -171,6 +173,7 @@ ul li#time {
 
 
 				<!--                 傳訊息的會員 -->
+				<div id = 'description'>待回復訊息的會員</div>
 				<div id='point'></div>
 				<!--                 傳訊息的會員 -->
 

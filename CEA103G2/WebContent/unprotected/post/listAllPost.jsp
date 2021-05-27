@@ -11,6 +11,7 @@
 
 <html>
 <head>
+<title>公告專區</title>
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 <%@include file="/front-end/header.file"%>
 <link rel="stylesheet"
