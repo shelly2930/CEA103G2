@@ -255,7 +255,7 @@
  			$(".houpic").click(function(){
  				let hn = $(this).parents('tr').attr('id');
  				$("#textpic").html('物件編號'+hn+"所有權狀");
- 				$("#showtextpic").html("<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneContractImg&houseno=${houseVO.hos_no}' width='100%'>")
+ 				$("#showtextpic").html("<img src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneContractImg&houseno="+hn+"' width='100%'>")
 	 			$("#ck").modal('show');
  				
  			})
