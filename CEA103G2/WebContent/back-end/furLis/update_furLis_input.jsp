@@ -1,165 +1,272 @@
-<%@page import="java.sql.Timestamp"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.sql.Timestamp"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.furLis.model.*"%>
-<%-- <%@ page import="com.furIte.model.*"%> --%>
-<%-- <%@ page import="com.furCat.model.*"%> --%>
-
-	<jsp:useBean id="furCatSvc" scope="page" class="com.furCat.model.FurCatService" />
-	 <jsp:useBean id="furIteSvc" scope="page" class="com.furIte.model.FurIteService" />
-
 <%
-   FurLisVO furLisVO = (FurLisVO) request.getAttribute("furLisVO");
-//    FurCatService furCatSvc=new FurCatService();
-//    FurIteService furIteSvc=new FurIteService();
-//    FurIteVO furIteVO=furIteSvc.getOneFurIte(furLisVO.fnt_it_no);
-//    String fnt_ctgr_name=furCatSvc.getOneFurCat(furIteVO.fnt_ctgr_no).fnt_ctgr_name;
+	FurLisVO furLisVO = (FurLisVO) request.getAttribute("furLisVO");
 %>
 
-<!-- 從套日期開始 -->
-<html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<title>家具資料修改 - update_furLis_input.jsp</title>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>家具資料修改</title>
+
+<!-- Custom fonts for this template-->
+<link
+	href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link
+	href="<%=request.getContextPath()%>/template_back-end/css/sb-admin-2.min.css"
+	rel="stylesheet">
 <style>
-  table#table-1 {
-	background-color: #CCCCFF;
-    border: 2px solid black;
-    text-align: center;
+  .xdsoft_datetimepicker .xdsoft_datepicker {
+           width:  300px;   /* width:  300px; */
   }
-  table#table-1 h4 {
-    color: red;
-    display: block;
-    margin-bottom: 1px;
-  }
-  h4 {
-    color: blue;
-    display: inline;
-  }
-  table {
-	width: 600px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-  }
-  table, th, td {
-    border: 0px solid #CCCCFF;
-  }
-  th, td {
-    padding: 1px;
+  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+           height: 151px;   /* height:  151px; */
   }
 </style>
 
+
+
 </head>
-<body bgcolor='white'>
 
-<table id="table-1">
-	<tr><td>
-		 <h3 id="editOrLook">家具資料 - updateFurIte.jsp</h3></td><td>
-		 <h4><a href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp"><img src="images/tomcat.png" width="100" height="100" border="0">返回家具管理</a></h4>
-	</td></tr>
-</table>
+<body id="page-top"> 
 
-<h3>家具資料:</h3>
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
+		<!-- Sidebar -->
+		<%@ include file="/back-end/includeFile/sidebarBack.file"%>
 
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/furLis/furLis.do" name="form1">
-<table>
-	<tr>
-		<th>家具編號:</th>
-		<td><%=furLisVO.getFnt_id()%></td>
-	</tr>
-	<tr>
-  		<th>家具類別名稱:</th>
-		<td>${furCatSvc.getOneFurCat(furIteSvc.getOneFurIte(furLisVO.fnt_it_no).fnt_ctgr_no).fnt_ctgr_name}
-		</td>
-	</tr>
-	<tr>
-		<th>家具品項名稱: </th>
-		<td> ${furIteSvc.getOneFurIte(furLisVO.fnt_it_no).fnt_name}</td>
-	</tr>
-<!-- 	狀態非報廢時的顯示 -->
- <c:if test="${(furLisVO.fnt_status!=2)}">
-	<tr>
-		<th>購置日期:</th>
-		<td><input name="fnt_acq_date" id="f_date1" type="text"></td>
-	</tr>
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<%@ include file="/back-end/includeFile/topbarBack.file"%>
+
+				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
+				<div class="container-fluid">
+
+							<div class="card-body">
+								<div class="table-responsive">
+									<%-- 錯誤表列 --%>
+									<c:if test="${not empty errorMsgs}">
+										<font style="color: red">請修正以下錯誤:</font>
+										<ul>
+											<c:forEach var="message" items="${errorMsgs}">
+												<li style="color: red">${message}</li>
+											</c:forEach>
+										</ul>
+									</c:if>
+									
+										<div class="col-lg-12">
+										<table class="table table-bordered" id="dataTable"
+											width="100%" cellspacing="0">
+											<!--                  ↓↓↓       表單擺放位置↓↓↓↓ -->
+					  <section class="checkout_area padding_top">
+						    <div class="container">
+						
+						      <div class="billing_details">
+						        <div class="row">
+						          <div class="col-lg-12">
+						            <h3>家具資料</h3>
+						 <FORM class="row contact_form"  ACTION="<%=request.getContextPath()%>/furLis/furLis.do" name="form1" method="post" novalidate="novalidate">
+									<jsp:useBean id="furCatSvc" scope="page" class="com.furCat.model.FurCatService" />
+										 <jsp:useBean id="furIteSvc" scope="page" class="com.furIte.model.FurIteService" />
+								<table>
+								
+								<div class="col-md-12 form-group" >
+								     <label for="fnt_unrent"  class="col-md-5 col-form-lgroup" >家具編號：<%=furLisVO.getFnt_id()%></label>
+						             <div class="col-sm-10">
+						   					  <span></span>
+						              </div>			             
+								</div>
+								<div class="col-md-12 form-group" >
+								     <label for="fnt_unrent"  class="col-md-12 col-form-lgroup" >類別名稱：${furCatSvc.getOneFurCat(furIteSvc.getOneFurIte(furLisVO.fnt_it_no).fnt_ctgr_no).fnt_ctgr_name}</label>
+								</div>
+								<div class="col-md-12 form-group" >
+								     <label for="fnt_unrent"  class="col-md-12 col-form-lgroup" >品項名稱：${furIteSvc.getOneFurIte(furLisVO.fnt_it_no).fnt_name}</label>
+								</div>
+								
+								<!-- 	狀態非報廢時的顯示 -->
+								 <c:if test="${(furLisVO.fnt_status!=2)}">
+									<div class="col-md-7 form-group">
+								     <label for=fnt_name  class="col-md-5 col-form-lgroup" >購置日期：</label>
+						             <div class="col-sm-10">
+						   					  <input type="text" class="form-control" name="fnt_acq_date"  id="f_date1" placeholder="" >
+						              </div>			             
+									</div>	
+											
+										<div class="col-md-7 form-group" >
+								     <label for="fnt_status"  class="col-md-5 col-form-lgroup" >家具狀態：</label>
+						             <div class="col-sm-10">
+								   		   <div class="radion_btn">
+						                  <input type="radio" name="fnt_status" value="0"  ${(furLisVO.fnt_status==0)? 'checked':''}>
+						                  <label for="f-option6">正常 </label>
+						                  <img src="img/product/single-product/card.jpg" alt="">
+						                  <div class="check"></div>
+						                </div>
+						                   <div class="radion_btn">
+						                  <input type="radio" name="fnt_status" value="1"  ${(furLisVO.fnt_status==1)? 'checked':''}>
+						                  <label for="f-option6">維修 </label>
+						                  <img src="img/product/single-product/card.jpg" alt="">
+						                  <div class="check"></div>
+						                </div>
+						                   <div class="radion_btn">
+						                  <input type="radio"  name="fnt_status"   id="unusable"  value="2"   ${(furLisVO.fnt_status==2)? 'checked':''}>
+						                  <label for="f-option6">報廢 </label>
+						                  <img src="img/product/single-product/card.jpg" alt="">
+						                  <div class="check"></div>
+						                </div>
+						              </div>			             
+								</div>	
+										<div class="col-md-7 form-group"  style="display:none">
+								     <label for="fnt_rent_status"  class="col-md-5 col-form-lgroup" >租借狀態：</label>
+						             <div class="col-sm-10">
+								   		   <div class="radion_btn">
+						                  <input type="radio" name="fnt_rent_status" value="0"   ${(furLisVO.fnt_status==0)? 'checked':''}>
+						                  <label for="f-option6">未出租 </label>
+						                  <img src="img/product/single-product/card.jpg" alt="">
+						                  <div class="check"></div>
+						                </div>
+						                   <div class="radion_btn">
+						                  <input type="radio"  name="fnt_rent_status" value="1"  ${(furLisVO.fnt_status==1)? 'checked':''}>
+						                  <label for="f-option6">出租中</label>
+						                  <img src="img/product/single-product/card.jpg" alt="">
+						                  <div class="check"></div>
+						                </div>
+						              </div>			             
+								</div>
+								<div class="col-md-7 form-group" id="hide">
+								     <label for="fnt_name"  class="col-md-5 col-form-lgroup" >報廢日期：</label>
+						             <div class="col-sm-10">
+						   					  <input type="text" class="form-control" name="fnt_unusable_date"  id="f_date2" placeholder="" >
+						              </div>			             
+									</div>	
+								 <div class="col-lg-12">
+										 <div class="col-lg-10">
+										 <a href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp" 	class="btn btn-light btn-icon-split"  style="background-color:#F5E5AE">
+                                        <span class="text">返回上頁</span>
+                                    </a>
+										<input type="hidden" name="action" value="update" >
+										<input type="hidden" name="fnt_id" value="<%=furLisVO.getFnt_id()%>">
+										<input type="hidden" name="fnt_it_no" value="<%=furLisVO.getFnt_it_no()%>">
+										<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
+										<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp-->
+										<button	class="btn btn-info btn-icon-split" type="submit"> <span class="text">送出修改</span></button>
+								</div>
+								</div>
+				           </table>
+				            </form>
+								</c:if>
+								<!-- 報廢時顯示頁面 -->
+							<c:if test="${(furLisVO.fnt_status==2)}">
+							<div class="col-md-12 form-group" >
+								     <label for="fnt_unrent"  class="col-md-5 col-form-lgroup" >購置日期：<fmt:formatDate value="${furLisVO.fnt_acq_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></label>
+								</div>
+							<div class="col-md-12 form-group" >
+								     <label for="fnt_unrent"  class="col-md-5 col-form-lgroup" >家具狀態：
+								     		<c:choose>
+												<c:when test="${furLisVO.fnt_status==0}"> 正常 </c:when>
+												<c:when test="${furLisVO.fnt_status==0}"> 維修 </c:when>
+												<c:otherwise> 報廢</c:otherwise>
+											</c:choose>
+								     </label>
+								</div>
+							<div class="col-md-7 form-group"  style="display:none">
+								     <label for="fnt_unrent"  class="col-md-5 col-form-lgroup" >租借狀態：<span>${furLisVO.fnt_rent_status}</span></label>
+								</div>
+									<div class="col-md-12 form-group" >
+								     <label for="fnt_unrent"  class="col-md-5 col-form-lgroup" >報廢日期：<fmt:formatDate value="${furLisVO.fnt_unusable_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></label>
+								</div>
+	 							<div class="col-lg-12">
+										 <div class="col-lg-10">
+										 <a href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp" 	class="btn btn-light btn-icon-split"  style="background-color:#F5E5AE">
+                                        <span class="text">返回上頁</span>
+                                    </a>
+								</div>
+								</div>
+									</FORM>
+							</c:if>
+				          </div>
+				        
+				        </div>
+				      </div>
+				    </div>
+<!--   </section> -->
+											      
+											<!--                  ↑↑↑       表單擺放位置↑↑↑↑ -->
+
+										</table>
+										 </div>
+									</FORM>
+									  </section>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- /.container-fluid -->
+				
+				<!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
+
+			</div>
+			<!-- End of Main Content -->
+<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+			<!-- Footer -->
+			<%@ include file="/back-end/includeFile/footerBack.file"%>
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<%@ include file="/back-end/includeFile/otherBack.file"%>
+
+	<!-- Bootstrap core JavaScript-->
 	
-	<tr>
-		<th>家具狀態:</th>
-		<td>
-				<input type="hidden" name="ori_fnt_status"  id="ori_fnt_status"  value="${furLisVO.fnt_status}">
-		         <input type="radio" name="fnt_status" value="0"  ${(furLisVO.fnt_status==0)? 'checked':''}>正常
-		         <input type="radio" name="fnt_status" value="1"  ${(furLisVO.fnt_status==1)? 'checked':''}>維修
-		         <input type="radio" name="fnt_status"  id="unusable"  value="2"  ${(furLisVO.fnt_status==2)? 'checked':''}>報廢
-		</td>
-	</tr>
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-	<tr style="display:none">
-		<th>租借狀態:</th>
-		<td>
-		<input type="radio" name="fnt_rent_status" value="0"  ${(furLisVO.fnt_rent_status==0)? 'checked':''}>未出租
-		<input type="radio" name="fnt_rent_status" value="1"  ${(furLisVO.fnt_rent_status==1)? 'checked':''}>出租中
-		</td>
-	</tr>
-	<tr id="hide">
-		<th>報廢日期:</th>
-		<td><input name="fnt_unusable_date" id="f_date2" type="text"></td>
-	</tr>
-	
-</table>
-<br>
-<input type="submit" value="送出修改"  id="update">
-<input type="hidden" name="fnt_id" value="<%=furLisVO.getFnt_id()%>">
-<input type="hidden" name="fnt_it_no" value="<%=furLisVO.getFnt_it_no()%>">
-<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
-<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp-->
-<input type="hidden" name="action"  value="update">
-</FORM>
-</c:if>	
+	<!-- Core plugin JavaScript-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- 報廢時顯示頁面 -->
-<c:if test="${(furLisVO.fnt_status==2)}">
-			<tr>
-				<th>購置日期:</th>
-				<td><fmt:formatDate value="${furLisVO.fnt_acq_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></td>
-			</tr>
-			
-			<tr>
-				<th>家具狀態:</th>
-				<td>${furLisVO.fnt_status}</td>
-			</tr>
-		
-			<tr style="display:none">
-				<th>租借狀態:</th>
-				<td>${furLisVO.fnt_rent_status}</td>
-			</tr>
-			<tr>
-				<th>報廢日期:</th>
-				<td><fmt:formatDate value="${furLisVO.fnt_unusable_date}"	pattern="yyyy-MM-dd HH:mm:ss" /></td>
-			</tr>
-			
-		</table>
-		<br>
-		</FORM>
-</c:if>
+	<!-- Custom scripts for all pages-->
+	<script
+		src="<%=request.getContextPath()%>/template_back-end/js/sb-admin-2.min.js"></script>
+
+	<!-- Page level plugins -->
+<!-- 	<script -->
+<%-- 		src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script> --%>
+
+	<!-- Page level custom scripts -->
+<!-- 	<script -->
+<%-- 		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script> --%>
+<!-- 	<script -->
+<%-- 		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script> --%>
+
 </body>
-
-
-
-<!-- =========================================以下為 datetimepicker 之相關設定========================================== -->
-
 <% 
 Timestamp fnt_acq_date = null;
 try {
@@ -176,51 +283,86 @@ Timestamp fnt_unusable_date = null;
    }
 %>
 
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> 
+<script>
+
+$('#hide').hide();
+$('input[name=fnt_status]').change(function(){
+	if($("#unusable").prop('checked')){
+		$('#hide').show();
+	}else{
+		$('#hide').hide();
+	}
+});
+</script>
+
+<!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>  -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 
-<style>
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }
-</style>
+<script type="text/javascript">
 
-<script>
-// 狀態取值
-$('#hide').hide();
-$("#update").prop("disabled",true);
-let a = $("#ori_fnt_status").val();
-	
-		$('input[name=fnt_status]').change(function(){
-			if($("#unusable").prop('checked')){
-				$('#hide').show();
-			}else{
-				$('#hide').hide();
-			}
-			if($(this).val() != a){
-				$("#update").prop("disabled",false);
-			}else{
-				$("#update").prop("disabled",true);
-			}
-		});
 
-		$.datetimepicker.setLocale('zh');
+
+function getFurCat(e){ 
+    $("#furIteSelect option:not(:first)").remove();
+    var fnt_ctgr_no=(e.target.value);
+    console.log(fnt_ctgr_no);
+    if(fnt_ctgr_no !="" && fnt_ctgr_no !="家具類別"){
+        $.ajax({
+            url:"<%=request.getContextPath()%>/furIte/furIte.do",
+            type:"POST",
+            data:{
+            	"action":"getFurIteSelect",
+            	"fnt_ctgr_no":fnt_ctgr_no,
+           },
+            success: function(data){
+            	 console.log(data);
+               showFurItes(data);
+                }
+            });
+    }else {
+    	  $.ajax({
+              url:"<%=request.getContextPath()%>/furIte/furIte.do",
+              type:"POST",
+              data:{
+              	"action":"getFurIteSelect",
+             },
+              success: function(data){
+              	 console.log(data);
+                 showFurItes(data);
+                  }
+              });
+    }
+}
+
+function showFurItes(data){
+    var fnt_data=data.split(",");
+    var txt="";
+
+    if(fnt_data===""){
+    	txt+="<option value=\"none\">此類別尚無家具品項</option>";
+    
+    }else{
+    	for(i in fnt_data){
+       	 var cut = fnt_data[i].indexOf('-');
+        	 txt+="<option value="+fnt_data[i].slice(0,cut)+">"+fnt_data[i].slice(cut+1)+"</option>";
+        }  
+    }
+    $("#furIteSelect").append(txt); 
+}
+
+window.addEventListener("load",function (){
+ document.getElementById("furCatSelect").onchange=getFurCat;}, false);
+
+		
+        $.datetimepicker.setLocale('zh');
         $('#f_date2').datetimepicker({
 	       theme: '',              //theme: 'dark',
 	       timepicker:true,       //timepicker:true,
 	       step: 30,                //step: 60 (這是timepicker的預設間隔60分鐘)
 	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
 		   value:  '${empty furLisVO ? '' :furLisVO.fnt_unusable_date}', 
-		   // value:   new Date(),
-           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-           //startDate:	            '2017/07/10',  // 起始日
-           //minDate:               '-1970-01-01', // 去除今日(不含)之前
-//            maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
 
         $('#f_date1').datetimepicker({
@@ -229,14 +371,7 @@ let a = $("#ori_fnt_status").val();
 	       step: 30,                //step: 60 (這是timepicker的預設間隔60分鐘)
 	       format:'Y-m-d H:i:s',         //format:'Y-m-d H:i:s',
 		   value: '${empty furLisVO ? '' :furLisVO.fnt_acq_date}', 
-// 		   // value:   new Date(),
-//            //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
-//            //startDate:	            '2017/07/10',  // 起始日
-//            //minDate:               '-1970-01-01', // 去除今日(不含)之前
-// //            maxDate:               '+1970-01-01'  // 去除今日(不含)之後
         });
-        
-
         
 </script>
 </html>

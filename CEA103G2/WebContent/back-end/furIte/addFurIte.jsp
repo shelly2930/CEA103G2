@@ -182,13 +182,13 @@
 								     <label for="fnt_post_status"  class="col-md-5 col-form-lgroup" >¥Zµnª¬ºA¡G</label>
 						             <div class="col-sm-10">
 								   		   <div class="radion_btn">
-						                  <input type="radio" id="f-option6" name="fnt_post_status" value="0"  ${(furIteVO.fnt_post_status==0)? 'checked':''}>
+						                  <input type="radio" id="f-option6" name="fnt_post_status" value="1"  ${(furIteVO.fnt_post_status==1)? 'checked':''}>
 						                  <label for="f-option6">¤W¬[ </label>
 						                  <img src="img/product/single-product/card.jpg" alt="">
 						                  <div class="check"></div>
 						                </div>
 						                   <div class="radion_btn">
-						                  <input type="radio" id="f-option6" name="fnt_post_status" value="1"  ${(furIteVO.fnt_post_status==1)? 'checked':''}>
+						                  <input type="radio" id="f-option6" name="fnt_post_status" value="0"  ${(furIteVO.fnt_post_status==0)? 'checked':''}>
 						                  <label for="f-option6">¤U¬[ </label>
 						                  <img src="img/product/single-product/card.jpg" alt="">
 						                  <div class="check"></div>
