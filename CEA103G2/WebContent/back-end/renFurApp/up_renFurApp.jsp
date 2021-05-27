@@ -425,7 +425,7 @@
     	title:'н╫зяжие\'
     });
 	</c:if>
-<!-- 	</script> -->
+ 	</script>
 
 </body>
 
