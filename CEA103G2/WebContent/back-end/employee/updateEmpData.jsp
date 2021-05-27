@@ -64,7 +64,8 @@
 						<div class="form-group row">
 							<label for="emp_username" class="col-md-4 col-form-label">員工代號</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" id="emp_username" name="emp_username" value="${employeeVO.emp_username}"  readonly>
+<%-- 								<input type="text" class="form-control" id="emp_username" name="emp_username" value="${employeeVO.emp_username}"  readonly> --%>
+								<div class="form-control" id="emp_username" name="emp_username">${employeeVO.emp_username}</div>
 							</div>
 							<div class="col-md-4"></div>
 						</div>
