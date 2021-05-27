@@ -207,6 +207,8 @@ img.mem_pic {
                             </tr>
                             </thead>
 					        <tbody id="showOneHouse">
+                            <tr>
+                            </tr>
                             </tbody>
                            </table>
 					      </div>
