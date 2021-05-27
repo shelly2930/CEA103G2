@@ -79,10 +79,10 @@ img.mem_pic {
 						<div class="card-header py-3">
 							    <a href="<%=request.getContextPath()%>/back-end/furLis/addFurLis.jsp"  class="btn btn-warning btn-icon-split">
                                         <span class="text">新增資料</span>
-                                    </a>
+                                </a>
 							    <a href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp"  class="btn btn-warning btn-icon-split">
                                         <span class="text">全部</span>
-                                    </a>
+                                 </a>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
