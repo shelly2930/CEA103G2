@@ -91,9 +91,9 @@
 	let MyPoint_notice = "/test/${MemTenVO.mem_no}/0";
 	let giveThisMem =${empty MemTenVO.mem_no?"null":MemTenVO.mem_no};
 	$(document).ready(function(){
+		$("#showchat").hide();
 		if(giveThisMem!=null){
 			connectNotice();
-			
 		}
 	})
 	let endPointURL1 = "ws://" + window.location.host + (window.location.pathname).substring(0, (window.location.pathname).indexOf('/', 1))  + MyPoint_notice;
@@ -203,7 +203,7 @@
 
 			<div id='showchat'>
 			<div class="text-center rounded-top border  border-info chat-body panel chat message-area" style='background-color:#9999FF;height:40px;border:2px solid blue;z-index:39;position:fixed;top:30%;right:0%'  >
-				<span style='color:#6363FF;font-size:32px;font-weight:bold'>Chat</span>
+				<span style='color:#6363FF;font-size:32px;font-weight:bold'>Online Service</span>
 			<button id='chatclose' type="button" class="close" data-dismiss="modal" aria-label="Close">
           		<span aria-hidden="true" style='font-size:30px;'>&times;&nbsp;&nbsp;</span>
         	</button>
@@ -243,7 +243,7 @@
 		chatdisconnect();
 		$("#showchat").hide();
 	});
-	$("#showchat").hide();
+	
 	var MyPoint1 = "/chat/${MemTenVO.mem_no}";
 	var self = '${MemTenVO.mem_no}';
 	var endPointURLchat = "ws://" + window.location.host + window.location.pathname.substring(0, window.location.pathname.indexOf('/', 1)) + MyPoint1;
