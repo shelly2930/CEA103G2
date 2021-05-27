@@ -168,7 +168,7 @@
 				if(memhou=="none"){
 					let str="<tr>";
 					str+="<th colspan='3' class='text-center'>";
-					str+="沒有歷史合約</th>";
+					str+="現在尚未簽約</th>";
 					str+="</tr>"; 
 					$('#showhou').append(str);
 				}else{
@@ -302,6 +302,7 @@
 										    				console.log("提前解約");
 										    				$('#con').slideUp();
 										    				showmemhou(mem_no);
+										    				picktimeSuccess("會員:"+mem_no+"對合約編號"+contract+"提出解約");
 										    			}
 										    		})
 										    		Swal.fire({
