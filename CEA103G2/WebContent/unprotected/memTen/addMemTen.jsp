@@ -200,13 +200,15 @@ h3 {
 					    <tr>
 					    	<th>地址</th>
 							<td>
-								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="台北市"
+								<div id='myaddress' role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="台北市"
 						     			data-district-value="松山區"></div>
 <!-- 								<select size="1" name="mem_city" id="mem_city"> -->
 <!-- 									<option value="no">請選擇縣市 -->
 <!-- 								</select> -->
 <!-- 								<select size="1" name="mem_dist" id="mem_dist" style="width:5em;"></select> -->
-<%-- 					<input type="text" name="mem_addr" value="${memTenVO.mem_addr}" style="width:19.5em;"> --%>
+<%-- 						<input type="text" name="mem_addr" value="${memTenVO.mem_addr}" style="width:19.5em;"> --%>
+<input type="hidden" name="mem_city"  class="single-input" value=""/>
+<input type="hidden" name="mem_dist" class="single-input" value=""/>
 								<input type="TEXT" name="mem_addr" class="single-input" value="${requestScope.memVO.mem_addr}"/>
 							</td>
 					    </tr>
@@ -231,6 +233,10 @@ h3 {
 
 <!-- 上傳圖片可預覽 -->
 <script>
+$("#myaddress").change(function(){
+	$("input[name='mem_city']").val($(this).children().eq(0).children().val());
+	$("input[name='mem_dist']").val($(this).children().eq(1).children().val());
+})
 window.onload=function(){
 
     let myFile = document.getElementById("mem_pic");
