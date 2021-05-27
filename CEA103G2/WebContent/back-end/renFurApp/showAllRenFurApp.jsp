@@ -237,7 +237,8 @@ if(request.getAttribute("list") == null){
 
 			</div>
 			<!-- End of Main Content -->
-
+<script
+		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
 			<!-- Footer -->
 			<%@ include file="/back-end/includeFile/footerBack.file" %>
 
@@ -250,8 +251,7 @@ if(request.getAttribute("list") == null){
 	<%@ include file="/back-end/includeFile/otherBack.file" %>
 
 	<!-- Bootstrap core JavaScript-->
-	<script
-		src="<%=request.getContextPath()%>/template_back-end/vendor/jquery/jquery.min.js"></script>
+	
 	<script
 		src="<%=request.getContextPath()%>/template_back-end/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

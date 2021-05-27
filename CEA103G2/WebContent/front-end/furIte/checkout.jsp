@@ -228,6 +228,7 @@ $(document).ready(function(){
 						        	"rtct_no":rtct_no,
 								},
 								success:function(){
+// 									picktimeSuccess("房客："+memTenNo+"已申請租借家具！");
 									Swal.fire({
 										position:'center',	 
 							   		    icon:'success',
@@ -235,13 +236,11 @@ $(document).ready(function(){
 							   			showConfirmButton:false,
 							   			timer:1500
 							   			});
-									
+			
 									setTimeout(function(){
 										$(location).prop('href', '<%=request.getContextPath()%>/index.jsp'); 
 										},1500);
-									setTimeout(function(){
-										alert("SUSUS");
-										},2000);
+								
 					   			 }
 				  			})
 						 }
