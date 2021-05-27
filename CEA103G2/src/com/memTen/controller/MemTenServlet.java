@@ -429,9 +429,9 @@ public class MemTenServlet extends HttpServlet {
 					errorMsgs.add("會員信箱格式不符");
 	            }
 				
-				String mem_city = req.getParameter(("county").trim());
+				String mem_city = req.getParameter(("county"));
 				
-				String mem_dist = req.getParameter(("district").trim());
+				String mem_dist = req.getParameter(("district"));
 				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 				
@@ -641,7 +641,7 @@ public class MemTenServlet extends HttpServlet {
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
 				req.setAttribute("renConVO", renConVO);
 				
-				String url = "/front-end/memTen/confirmSuccess.jsp";
+				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneMemTen.jsp
 				successView.forward(req, res);
 
@@ -663,7 +663,7 @@ public class MemTenServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			try {
+//			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/				
 				String mem_username = req.getParameter("mem_username");
 				String mem_usernameReg = "^[a-zA-Z0-9_]{2,20}$";
@@ -734,10 +734,21 @@ public class MemTenServlet extends HttpServlet {
 				} else if(!mem_email.trim().matches(mem_emailReg)) {
 					errorMsgs.put("mem_email", "信箱格式不符");
 	            }
-				System.out.println("aaaaaaaaaaa");
-				String mem_city = req.getParameter(("county").trim());
+//				System.out.println("aaaaaaaaaaa");
+//				String mem_city = req.getParameter(("county"));
+//				System.out.println(mem_city);
+//				String mem_dist = req.getParameter(("district"));
+//				System.out.println(mem_dist);
 				
-				String mem_dist = req.getParameter(("district").trim());
+				String mem_city = req.getParameter(("mem_city"));
+				if (mem_city == null || mem_city.trim().length() == 0) {
+					errorMsgs.put("mem_city", "請勿空白");
+				}
+				
+				String mem_dist = req.getParameter(("mem_dist"));
+				if (mem_dist == null || mem_dist.trim().length() == 0) {
+					errorMsgs.put("mem_dist", "請勿空白");
+				}
 				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 
@@ -795,12 +806,12 @@ public class MemTenServlet extends HttpServlet {
 				successView.forward(req, res);				
 				
 				/***************************其他可能的錯誤處理**********************************/
-			} catch (Exception e) {
-				errorMsgs.put("errorMsgs",e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.put("errorMsgs",e.getMessage());
+//				RequestDispatcher failureView = req
+//						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 		
 		if("verify".equals(action)) {
@@ -859,6 +870,9 @@ public class MemTenServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		
+		
 	}
 	
 	

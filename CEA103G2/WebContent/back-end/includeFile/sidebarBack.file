@@ -22,15 +22,6 @@
                 <div class="sidebar-brand-text mx-3">HowTrue <sup>好厝</sup></div>
             </a>
 
-			<hr class="sidebar-divider my-0">
-
-            <!-- 前台首頁 -->
-            <li class="nav-item active">
-                <a class="nav-link" href="<%=request.getContextPath()%>/index.jsp">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>前台首頁</span></a>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -62,11 +53,15 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Rental Management:</h6>
+<% if(list_Fun_no.indexOf(3) != -1) {%>	
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/pickHouse.jsp">預約時間管理</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp_EMP.jsp">預約看房申請</a>
+<% } %>
+<% if(list_Fun_no.indexOf(4) != -1) {%>	
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/rentalAuth.jsp">租屋前審核</a>
-                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/renConManage.jsp">合約管理</a>
-                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/listRenCon.jsp">查看已繳費合約</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/renConManage.jsp">上傳合約</a>
+<% } %>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renCon/listRenCon.jsp">查看合約</a>
                     </div>
                 </div>
             </li>
@@ -80,39 +75,33 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Furniture Management:</h6>
+<% if(list_Fun_no.indexOf(5) != -1) {%>	
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/renFurApp/showAllRenFurApp.jsp">租家具申請</a>
+<% } %>
+<% if(list_Fun_no.indexOf(6) != -1) {%>	
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furCat/listAllFurCat.jsp">家具類別</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furIte/listAllFurIte.jsp">家具品項</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/furLis/listAllFurLis.jsp">家具清單</a>
+<% } %>
                     </div>
                 </div>
             </li>
 
-<% if(list_Fun_no.indexOf(2) != -1) {%>
+<% if(list_Fun_no.indexOf(7) != -1) {%>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRepair"
-                    aria-expanded="true" aria-controls="collapseRepair">
+             	<a class="nav-link" href="<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp">
                     <i class="fas fa-fw fa-hand-holding-usd"></i>
-                    <span>出納管理</span>
-                </a>
-                <div id="collapseRepair" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Cashier Management:</h6>
-                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp">房客帳單</a>
-                        <a class="collapse-item" href="register.html">房東帳單</a>
-                        <a class="collapse-item" href="register.html">房東租金撥款</a>
-                    </div>
-                </div>
+                    <span>出納管理</span></a>
             </li>
 <% } %>
-<% if(list_Fun_no.indexOf(2) != -1) {%>
+<% if(list_Fun_no.indexOf(8) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/back-end/cusSer/chatBack.jsp">
                     <i class="fas fa-fw fa-comments"></i>
                     <span>客服管理</span></a>
             </li>
 <% } %>
-<% if(list_Fun_no.indexOf(2) != -1) {%>
+<% if(list_Fun_no.indexOf(9) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePost"
                     aria-expanded="true" aria-controls="collapsePost">
@@ -128,7 +117,7 @@
                 </div>
             </li>
 <% } %>
-<% if(list_Fun_no.indexOf(2) != -1) {%>
+<% if(list_Fun_no.indexOf(10) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember"
                     aria-expanded="true" aria-controls="collapseMember">
@@ -145,7 +134,7 @@
                 </div>
             </li>
 <% } %>
-<% if(list_Fun_no.indexOf(1) != -1) {%>	
+<% if(list_Fun_no.indexOf(11) != -1) {%>	
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmployee"
                     aria-expanded="true" aria-controls="collapseEmployee">
@@ -156,14 +145,12 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Member Management:</h6>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/employee/addNewEmp.jsp">新增員工</a>
-                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/employee/showAllEmp.jsp">員工清單</a>
-                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/employee/select_page.jsp">舊版連結</a>
+                        <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/employee/showAllEmp.jsp?status=1">員工清單</a>
                     </div>
                 </div>
             </li>
 <% } %>
-
-<% if(list_Fun_no.indexOf(1) != -1) {%>
+<% if(list_Fun_no.indexOf(12) != -1) {%>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAssign"
                     aria-expanded="true" aria-controls="collapseAssign">
@@ -176,7 +163,6 @@
                         <a class="collapse-item" href="<%=request.getContextPath()%>/house/house.do?action=listAllHouse_Backend">代管申請指派</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp.jsp">預約看房申請指派</a>
                         <a class="collapse-item" href="<%=request.getContextPath()%>/renFurApp/renFurApp.do?rfa_status=0&action=getByRfa_status">租家具申請指派</a>
-                        <a class="collapse-item" href="register.html">修繕申請指派</a>
                     </div>
                 </div>
             </li>

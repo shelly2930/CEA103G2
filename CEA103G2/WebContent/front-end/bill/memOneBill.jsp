@@ -162,7 +162,7 @@ background-color: #dddddd !important;
 				<div class="row mb-4">
                 	<div class="col text-center">
 <!--                 		<button type="button" class="btn btn-outline-secondary send-bill">繳費</button> -->
-                		<button type="button" class="btn btn-outline-secondary" data-toggle="modal" 
+                		<button type="button" class="btn btn-outline-secondary want-pay" data-toggle="modal" 
 							data-target="#exampleModalCenter">
 							繳費
 						</button>
@@ -217,8 +217,8 @@ background-color: #dddddd !important;
 						</form>
 				      </div>
 				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">取消</button>
 				        <button type="button" class="btn btn-primary pay-bill">繳費</button>
+				      	<button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">取消</button>
 				      </div>
 				    </div>
 				  </div>
@@ -253,6 +253,11 @@ $(".rentfur-subtotal").text(rentfur_subtotal);
 let total = house_subtotal + rentfur_subtotal;
 $(".total").children().text("總計：" + total + " 元");
 
+if(${list.get(0).bill_p_status == 1}){
+	$(".want-pay").text("已繳費");
+	$(".want-pay").prop("disabled",true);
+}
+
 var card = new Card({
 	form: 'form',
 	container: '.card-wrapper',
@@ -263,40 +268,59 @@ var card = new Card({
 	cvc: '***'
 	}
 });
-console.log("123");
-picktimeSuccess("123");
-// picktimeSuccess("要死啦", "1");
-// pick("要死啦");
-// $(".pay-bill").click(function(){
-// 	console.log("123");
-// 	Swal.fire({
-// 		title: '確定要送出帳單？',
-// 		text: "送出後將不能再修改",
-// 		icon: 'question',
-// 		showCancelButton: true,
-// //			confirmButtonColor: '#d33',
-// //			cancelButtonColor: '#3085d6',
-// 		confirmButtonText: '確定',
-// 		cancelButtonText: '取消'
-// 	}).then((result) => {
-// 		if (result.isConfirmed) {
-// // 			$.ajax({
-<%-- 				url:"<%=request.getContextPath()%>/FurColServlet", --%>
-// // 				type:'post',
-// // 				data:{
-// // 					action:'delete_furCol',
-// // 					mem_no:mem_no,
-// // 					fnt_it_no:$(this).parent().attr('id')
-// // 				},
-// // 				async: false,
-// // 				success:function(str){
-// // 					console.log(str);
-// // 					refreshFurColBar(getFurCol(mem_no));
-// // 				}
-// // 			});
-// 		}
-// 	});
-// });
+// picktimeSuccess("前送後");
+// picktimeSuccess("後送前會員", "會員編號");
+// pick("後送後");
+
+$(".pay-bill").click(function(){
+	if($("input[name='number']").val() != '' && $("input[name='expiry']").val() != '' && $("input[name='cvc']").val() != ''){
+		Swal.fire({
+			title: '確定繳交帳單金額 $' + total +' ?',
+	// 		text: "總金額 $" + total,
+			icon: 'info',
+			showCancelButton: true,
+	//			confirmButtonColor: '#d33',
+	//			cancelButtonColor: '#3085d6',
+			confirmButtonText: '確定',
+			cancelButtonText: '取消'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				<c:forEach var="billVO" items="${list}">
+				$.ajax({
+					url: "${pageContext.request.contextPath}/bill/bill.do",
+					type: "post",
+					data: {
+						action: "pay_bill",
+						bill_no: ${billVO.bill_no}
+					},
+					success: function(data){
+						console.log(data);
+					}
+				});
+				</c:forEach>
+	
+				Swal.fire({
+					icon:'success',
+					title:'繳費成功',
+					showConfirmButton: false,
+					timer: 1000
+				});
+				
+				$(".want-pay").text("已繳費");
+				$(".want-pay").prop("disabled",true);
+				$("#close").click();
+				
+				picktimeSuccess('${MemTenVO.mem_name}' +　'已完成'　+ 
+						'<fmt:formatDate value="${list.get(0).bill_date}" pattern="yyyyMM"/>' + '期帳單繳費');
+			}
+		});
+	}else{
+		Swal.fire({
+			icon:'warning',
+			title:'請完成信用卡填寫'
+		});
+	}
+});
 
 </script>
 

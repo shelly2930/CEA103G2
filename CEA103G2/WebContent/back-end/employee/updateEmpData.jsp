@@ -36,6 +36,11 @@
 	 		text-align: right;
 		}
 	}
+	.pageTitle{
+		color: #4165ae;
+		letter-spacing: 1rem;
+		text-shadow: 1px 1px 2px #233559;
+	}
 </style>
 </head>
 
@@ -58,6 +63,10 @@
 
 				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
 				<div class="container-fluid">
+					
+					<div class="mx-auto text-center pageTitle">
+				        <h1 class="mx-auto mb-4 text-uppercase">修改員工資料</h1>
+				    </div>
 
 					<form method="post" action="<%=request.getContextPath()%>/employee/employee.do">
 
@@ -244,18 +253,18 @@ $("#emp_job").change(function(){
 	if($("#emp_job").val() === "一般員工"){
 		$("input[name='staFun']").prop("checked", false);
 		$("#staFun1").prop("checked", true);
-		$("#staFun4").prop("checked", true);
-		$("#staFun7").prop("checked", true);
-		$("#staFun8").prop("checked", true);
-		$("#staFun9").prop("checked", true);
-		$("#staFun10").prop("checked", true);
+		$("#staFun3").prop("checked", true);
+		$("#staFun5").prop("checked", true);
 	}
 	if($("#emp_job").val() === "平台管理員"){
 		$("input[name='staFun']").prop("checked", false);
 		$("#staFun2").prop("checked", true);
-		$("#staFun3").prop("checked", true);
-		$("#staFun5").prop("checked", true);
+		$("#staFun4").prop("checked", true);
 		$("#staFun6").prop("checked", true);
+		$("#staFun7").prop("checked", true);
+		$("#staFun8").prop("checked", true);
+		$("#staFun9").prop("checked", true);
+		$("#staFun10").prop("checked", true);
 	}
 	if($("#emp_job").val() === "主管"){
 		$("input[name='staFun']").prop("checked", true);

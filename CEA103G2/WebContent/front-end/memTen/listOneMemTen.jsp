@@ -57,12 +57,12 @@ img.mem_pic {
 					    	<th>±b¸¹</th>
 					    	<td>${MemTenVO.mem_username}</td>
 					    </tr>
-					    <tr>
-					    	<th>±K½X</th>
-					    	<td>
-					    		${MemTenVO.mem_password}
-							</td>
-					    </tr>
+<!-- 					    <tr> -->
+<!-- 					    	<th>±K½X</th> -->
+<!-- 					    	<td> -->
+<%-- 					    		<input type="button" value="­×§ï±K½X" onclick="location.href='<%=request.getContextPath()%>/front-end/memTen/changePwd.jsp'"> --%>
+<!-- 							</td> -->
+<!-- 					    </tr> -->
 					    <tr>
 					    	<th>·Ó¤ù</th>
 					    	<td>

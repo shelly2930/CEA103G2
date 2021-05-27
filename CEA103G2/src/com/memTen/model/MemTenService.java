@@ -118,6 +118,7 @@ public class MemTenService {
 		return memTenVO;
 	}
 	
+	
 	//¹F
 	public Byte judgelld(Integer mem_no) {
 		return dao.judgelld(mem_no);
