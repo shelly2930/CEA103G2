@@ -9,7 +9,8 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-
+<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
+<script src="<%=request.getContextPath()%>/template_front-end/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -72,7 +73,7 @@ h3 {
 
 <!-- 地址連動選單 -->
 <script>
-  new TwCitySelector();
+	new TwCitySelector();	
 </script>
 
 
@@ -134,14 +135,16 @@ h3 {
 					<tr>
 					    <th>密碼</th>
 						<td>
-							<input type="text" name="mem_password"  class="single-input" value="${requestScope.memVO.mem_password}">
+							<input type="password" name="mem_password"  class="single-input" value="${requestScope.memVO.mem_password}">
 							<p class="errorMsgs" style="color:red">${errorMsgs.mem_password}</p>
 						</td>
 					</tr>
 					    <tr>
 					    	<th>照片</th>
 							<td>
-								<div id="preview"></div><input type="file" name="mem_pic" id="mem_pic" size="45" />
+								<div id="preview"></div>
+<!-- 								<img id="imgf" class="lld_acc_pic"> -->
+								<input type="file" name="mem_pic" id="mem_pic" size="45" />
 							</td>
 					    </tr>
 					    <tr>
@@ -197,8 +200,15 @@ h3 {
 					    <tr>
 					    	<th>地址</th>
 							<td>
-								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="${requestScope.memVO.mem_city}"
-						     			data-district-value="${requestScope.memVO.mem_dist}"></div>
+								<div id='myaddress' role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="台北市"
+						     			data-district-value="松山區"></div>
+<!-- 								<select size="1" name="mem_city" id="mem_city"> -->
+<!-- 									<option value="no">請選擇縣市 -->
+<!-- 								</select> -->
+<!-- 								<select size="1" name="mem_dist" id="mem_dist" style="width:5em;"></select> -->
+<%-- 						<input type="text" name="mem_addr" value="${memTenVO.mem_addr}" style="width:19.5em;"> --%>
+<input type="hidden" name="mem_city"  class="single-input" value=""/>
+<input type="hidden" name="mem_dist" class="single-input" value=""/>
 								<input type="TEXT" name="mem_addr" class="single-input" value="${requestScope.memVO.mem_addr}"/>
 							</td>
 					    </tr>
@@ -216,60 +226,36 @@ h3 {
           	</div>
     </div>
 </div>
+
+
 <!--================ footer =================-->
-<%@include file="/front-end/footer.file"%>
-
-<script>
-// $("#username").change(function(e){
-// 	alert("aaaaaaaaaaa");
-// })
-// $("#username").blur(function(e1){
-// 	$.ajax({
-<%-- 		url:"<%=request.getContextPath()%>/AjaxLoginServlet", --%>
-// 		  type:"POST", 
-// 		  data:{
-// 			  "mem_username":$("#mem_username").val(),
-// 			  "action": "usernameCheck"
-// 		  },
-// 		  success: function(str) {
-// 			  if (str.length !== 0){
-// 				  Swal.fire({
-// 		  			  icon: 'error',
-// 		  			  title: '此帳號已被使用',
-// 		  			  showConfirmButton: true,
-// 		  			  confirmButtonText: "我知道了"
-// 		  		});
-// 			  }
-// 		  }
-		
-// 	})
-	
-// })
-	
-	
-	
-	
-	
-
-</script>
 
 
 <!-- 上傳圖片可預覽 -->
 <script>
+$("#myaddress").change(function(){
+	$("input[name='mem_city']").val($(this).children().eq(0).children().val());
+	$("input[name='mem_dist']").val($(this).children().eq(1).children().val());
+})
 window.onload=function(){
 
     let myFile = document.getElementById("mem_pic");
     let preview = document.getElementById("preview");
 
-    myFile.addEventListener('change', function(e) {
-        let files = e.target.files;
+    myFile.addEventListener('change', function(e1) {
+        let files = e1.target.files;
+        console.log(files);
         if (files !== null) {
             let file = files[0];
             if (file.type.indexOf('image') > -1) {
+            	console.log(-1);
             	let reader = new FileReader();
-                reader.addEventListener('load', function(e) {
-                    let result = e.target.result;
-                    let img = document.getElementById('img');
+            	console.log(reader);
+                reader.addEventListener('load', function(e1) {
+                	console.log("load");
+                	let result = e1.target.result;
+                	console.log(result);
+                	let img = document.createElement('img');
                     img.src = result;
                     preview.append(img);
                     $("img:first").remove(); // 預覽只會保留最新上傳的
@@ -282,6 +268,12 @@ window.onload=function(){
     });    
 }
 </script>
+
+
+
+
+
+
 
 
 <!-- =========================================以下為 datetimepicker 之相關設定========================================== -->

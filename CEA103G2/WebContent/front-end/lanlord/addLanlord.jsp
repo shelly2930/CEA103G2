@@ -55,6 +55,7 @@ div.rentalstep {
 
 .lld_acc_pic {
 	width:200px;
+	height:auto;
 }
 
 h3 {

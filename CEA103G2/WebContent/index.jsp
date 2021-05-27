@@ -17,7 +17,7 @@
 <style type="text/css">
 
 .subscribe_area {
-    background-image: url(/CEA103G2/index_img/danger.jpg) !important;
+    background-image: url(/CEA103G2/index_img/danger04.jpg) !important;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

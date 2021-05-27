@@ -268,6 +268,7 @@
 			})
 		})
 		$("button[id='content']").click(function(){
+			$("#show").empty();
 			let hos_no = $(this).parents("tr").attr("id");
 			$.get({
 				url:"<%=request.getContextPath()%>/HouseJsonServlet",
@@ -284,6 +285,7 @@
 		})
 		
 		$("button[id='title']").click(function(){
+			$("#show").empty();
 			let hos_no = $(this).parents("tr").attr("id");
 			$.get({
 				url:"<%=request.getContextPath()%>/HouseJsonServlet",
