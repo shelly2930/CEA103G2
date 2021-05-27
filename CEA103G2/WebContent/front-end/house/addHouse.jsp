@@ -400,7 +400,11 @@
 			},
 			async:false,
 			success:function(e){
-				lld=e.lld_no;
+				if(e==null){
+					lld==0;
+				}else{
+					lld=e.lld_no;
+				}
 			}
 		})
 		return lld;

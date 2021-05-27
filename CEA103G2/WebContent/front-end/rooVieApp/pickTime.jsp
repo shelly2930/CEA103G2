@@ -1076,7 +1076,6 @@
 							"picktime":confirmpicktime,
 							"checked":"false",
 						}
-						picktimeSuccess(JSON.stringify(sendobj));
 						let mess="會員"+mem_no+"在剛剛取消預約"+confirmpicktime+"時段";
 						picktimeSuccess(mess);
 						console.log("取消預約");
