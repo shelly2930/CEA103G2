@@ -242,7 +242,9 @@
 	    					showConfirmButton: false,
 	    					timer: 1000
 	    				});
-	    				$(location).prop('href', '<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0');
+	    				setTimeout(function(){
+	    					$(location).prop('href', '<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0');
+	    			  	},1000);
     				}
     			}
     		});
