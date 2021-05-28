@@ -430,8 +430,18 @@ public class MemTenServlet extends HttpServlet {
 	            }
 				
 				String mem_city = req.getParameter(("county"));
-				
+//				System.out.println(mem_city);
 				String mem_dist = req.getParameter(("district"));
+				
+//				String mem_city = req.getParameter(("mem_city"));
+//				if (mem_city == null || mem_city.trim().length() == 0) {
+//					errorMsgs.add("請勿空白");
+//				}
+//				
+//				String mem_dist = req.getParameter(("mem_dist"));
+//				if (mem_dist == null || mem_dist.trim().length() == 0) {
+//					errorMsgs.add("請勿空白");
+//				}
 				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 				
@@ -504,6 +514,10 @@ public class MemTenServlet extends HttpServlet {
 								mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email, mem_city,
 								mem_dist, mem_addr, mem_idcard_fBuf, mem_idcard_rBuf);
 				
+				HttpSession session = req.getSession();
+				
+				session.setAttribute("MemTenVO", memTenVO);
+				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
 				String url = "/front-end/memTen/listOneMemTen.jsp";
@@ -573,8 +587,18 @@ public class MemTenServlet extends HttpServlet {
 	            }
 				
 				String mem_city = req.getParameter(("county"));
-				
+//				System.out.println(mem_city);
 				String mem_dist = req.getParameter(("district"));
+				
+//				String mem_city = req.getParameter(("mem_city"));
+//				if (mem_city == null || mem_city.trim().length() == 0) {
+//					errorMsgs.add("請勿空白");
+//				}
+//				
+//				String mem_dist = req.getParameter(("mem_dist"));
+//				if (mem_dist == null || mem_dist.trim().length() == 0) {
+//					errorMsgs.add("請勿空白");
+//				}
 				
 				String mem_addr = req.getParameter(("mem_addr").trim());
 				
@@ -637,6 +661,10 @@ public class MemTenServlet extends HttpServlet {
 				RenConService renConSvc = new RenConService();
 				renConVO = renConSvc.addRenCon2(hos_no, mem_no, rtct_eff_date, rtct_end_date, rtct_apptime, rtct_deposit);
 				
+				HttpSession session = req.getSession();
+				
+				session.setAttribute("MemTenVO", memTenVO);
+				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("memTenVO", memTenVO); // 資料庫update成功後,正確的的memTenVO物件,存入req
 				req.setAttribute("renConVO", renConVO);
@@ -663,7 +691,7 @@ public class MemTenServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-//			try {
+			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/				
 				String mem_username = req.getParameter("mem_username");
 				String mem_usernameReg = "^[a-zA-Z0-9_]{2,20}$";
@@ -806,12 +834,12 @@ public class MemTenServlet extends HttpServlet {
 				successView.forward(req, res);				
 				
 				/***************************其他可能的錯誤處理**********************************/
-//			} catch (Exception e) {
-//				errorMsgs.put("errorMsgs",e.getMessage());
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.put("errorMsgs",e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
+				failureView.forward(req, res);
+			}
 		}
 		
 		if("verify".equals(action)) {

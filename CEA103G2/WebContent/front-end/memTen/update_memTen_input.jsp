@@ -11,6 +11,7 @@
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
+<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
@@ -144,6 +145,8 @@ new TwCitySelector();
 							<td>
 								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="<%=memTenVO.getMem_city()%>"
 						     			data-district-value="<%=memTenVO.getMem_dist()%>"></div>
+						     	<input type="hidden" name="mem_city"  class="single-input" value=""/>
+<input type="hidden" name="mem_dist" class="single-input" value=""/>		
 								<input type="TEXT" name="mem_addr" class="single-input" value="<%=memTenVO.getMem_addr()%>"/>
 							</td>
 					    </tr>
@@ -184,8 +187,16 @@ new TwCitySelector();
 </section>
 <!--================ Content Area end =================-->
 
+<!--================ footer =================-->
+<%@include file="/front-end/memTen/footer2.file"%>
+
 <!-- 上傳圖片可預覽 -->
 <script>
+$("#myaddress").change(function(){
+	$("input[name='mem_city']").val($(this).children().eq(0).children().val());
+	$("input[name='mem_dist']").val($(this).children().eq(1).children().val());
+})
+
 window.onload=function(){
 
 	let myFile = document.getElementById("mempic");
@@ -305,6 +316,6 @@ window.onload=function(){
 
 
 <!--================ footer =================-->
-<%@include file="/front-end/footer.file"%>
+<%-- <%@include file="/front-end/footer.file"%> --%>
 
 </html>
