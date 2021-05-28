@@ -119,7 +119,7 @@ img.lld_acc_pic {
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <%@ include file="/back-end/includeFile/footerBack.file" %>
+<%--             <%@ include file="/back-end/includeFile/footerBack.file" %> --%>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -145,6 +145,8 @@ img.lld_acc_pic {
 
     <!-- Page level custom scripts -->
     <script src="<%=request.getContextPath()%>/template_back-end/js/demo/datatables-demo.js"></script>
+
+<%@ include file="/back-end/includeFile/footerBack.file" %>
      
 </body>
 

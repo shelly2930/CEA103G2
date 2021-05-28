@@ -201,9 +201,9 @@
 								<c:if test="${employeeVO.emp_job eq '主管'}">
 								<c:choose>
 									<c:when test="${renFurAppVO.rfa_status==0}">未指派 </c:when>
-									<c:when test="${renFurAppVO.rfa_status==2}">已完成</c:when>
+									<c:when test="${renFurAppVO.rfa_status==1}">未完成</c:when>
 									<c:when test="${renFurAppVO.rfa_status==3}">提早退租</c:when>
-									<c:otherwise>未完成</c:otherwise>
+									<c:otherwise>已完成</c:otherwise>
 								</c:choose>
 								<input type="hidden" name="rfa_status" value="${renFurAppVO.rfa_status}">
 								</c:if>
@@ -374,7 +374,6 @@
 // 		minDate:               '-1970-01-01', // 去除今日(不含)之前
 // 		maxDate:               '+1970-01-01'  // 去除今日(不含)之後
     });
-    
     if($("#rfa_status").val() == 2){$("#update").prop("disabled",true);}
 
     if($("#rfa_status").val() == 1){

@@ -222,7 +222,7 @@ img.mem_pic {
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <%@include file="/back-end/includeFile/footerBack.file"%>
+<%--             <%@include file="/back-end/includeFile/footerBack.file"%> --%>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -244,7 +244,8 @@ img.mem_pic {
 
 <!--     Page level plugins -->
     <script src="<%=request.getContextPath()%>/template_back-end/vendor/chart.js/Chart.min.js"></script>
-    
+
+<%@include file="/back-end/includeFile/footerBack.file"%>    
 	
 	<script>
 		let house_value = ['hos_no','lld_no','hos_name','hos_rent','hos_expense','hos_date','hos_city',
@@ -349,73 +350,6 @@ img.mem_pic {
 			
 		})
 		
-// 		$("button[id='member']").click(function(e){
-// 			e.preventDefault();
-// 			$("#c").text('編號'+$(this).parent().attr('id')+'會員資料');
-			
-// 			$.ajax({
-<%-- 				url:"<%=request.getContextPath()%>/MemTenJsonServlet", --%>
-// 				type:"post",
-// 				data:{
-// 					action:'getOneMember',
-// 					mem_no:$(this).parent().attr('id'),
-// 				},
-// 				success:function(jsonStr){
-// // 					$("#showOneMember").empty();
-
-// // 					for(let mem of jsonStr){
-// // 						let str = "<tr id='"+con.mem_no+"' class='"+con.hos_no+"'>";
-// // 						str+="<th>";
-// // 						str+=""+getMem(con.mem_no);
-// // 						str+="</th>";
-// // 						str+="<td>";
-// // 						str+=""+getHouse(con.hos_no).hos_address;
-// // 						str+="</td>";
-// // 						str+="<td id='"+con.rtct_no+"'>";
-// // 						str+="<a href='' style='color:#8C8CFF;font-weight:bold;' class='contract'>"+con.rtct_no+"合約</a>";
-// // 						str+="</td>";
-// // 						str+="<td>";
-// // 						str+="<a href='' style='color:#A1A1A1;font-weight:bold;' class='signature'>Click</a>";
-// // 						str+="</td>";
-// // 						str+="<td>";
-// // 						str+=""+con.rtct_eff_date;
-// // 						str+="</td>";
-// // 						str+="<td>";
-// // 						str+=""+con.rtct_end_date;
-// // 						str+="</td>";
-// // 						if(con.rtct_status==4 && status!=999){
-// // 							str+="<td>";
-// // 							str+="<a href='' class='cancelcon' style='color:#FF8C8C;font-weight:bold;'>結案</a>";
-// // 							str+="</td>";
-// // 							$("#cancelheader").show();
-// // 							$("#cancelfooter").attr('colspan','7');
-// // 						}else{
-// // 							$("#cancelheader").hide();
-// // 							$("#cancelfooter").attr('colspan','6');
-// // 						}
-// // 						str+="</tr>";
-// // 						$("#showcon").append(str);
-// // 					}
-						
-// 						$("#showOneMember tr:last-child").empty();
-// 						str="";
-// 						for(let i =0;i<member_key.length;i++){
-// 							 if(i==12){
-// 							  str+='<th>'+member_key[i]+
-<%-- 									  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardf"></td>'; --%>
-// 							 }else if(i==13){
-// 							  str+='<th>'+member_key[i]+
-<%-- 									  '</th><td><img class="mem_pic" src="<%=request.getContextPath()%>/memTen/memPicReadServlet.do?mem_no='+jsonStr[member_value[0]]+'&action=getidcardr"></td>'; --%>
-// 							 }else{
-// 							  str+='<th>'+member_key[i]+'</th><td>'+jsonStr[member_value[i]]+'</td>';
-// 							 }
-// 						}
-					
-// 						 $("#showOneMember tr:last-child").append(str);
-// 				}
-// 			});
-			
-// 		})
 		
 		// 讓checkbox的td消失
 		if(${(empty list)||(list[0].rtct_status!= 0)}){

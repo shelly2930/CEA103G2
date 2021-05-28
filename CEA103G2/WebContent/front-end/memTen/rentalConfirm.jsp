@@ -7,6 +7,7 @@
 
 <!-- Required source start -->
 	<!-- jquery 這行有需要的人再加 -->
+	<script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/template_front-end/css/nice-select.css">
 <script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -156,8 +157,10 @@ h3 {
 					    <tr>
 					    	<th>地址</th>
 							<td>
-								<div role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="${MemTenVO.mem_city}"
+								<div id='myaddress' role="tw-city-selector" data-has-zipcode data-hidden-zipcode data-bootstrap-style data-county-value="${MemTenVO.mem_city}"
 						     			data-district-value="${MemTenVO.mem_dist}"></div>
+						     	<input type="hidden" name="mem_city"  class="single-input" value=""/>
+								<input type="hidden" name="mem_dist" class="single-input" value=""/>
 								<input type="TEXT" name="mem_addr" class="single-input" value="${MemTenVO.mem_addr}"/>
 							</td>
 					    </tr>
@@ -198,6 +201,12 @@ h3 {
 
 <!-- 上傳圖片可預覽 -->
 <script>
+$("#myaddress").change(function(){
+	$("input[name='mem_city']").val($(this).children().eq(0).children().val());
+	$("input[name='mem_dist']").val($(this).children().eq(1).children().val());
+})
+
+
 window.onload=function(){
 
     let myFile = document.getElementById("idcardf");
@@ -226,14 +235,14 @@ window.onload=function(){
     let myFiler = document.getElementById("idcardr");
     let previewr = document.getElementById("previewr");
 
-    myFiler.addEventListener('change', function(e) {
-        let files = e.target.files;
+    myFiler.addEventListener('change', function(e1) {
+        let files = e1.target.files;
         if (files !== null) {
             let file = files[0];
             if (file.type.indexOf('image') > -1) {
             	let reader = new FileReader();
-                reader.addEventListener('load', function(e) {
-                    let result = e.target.result;
+                reader.addEventListener('load', function(e1) {
+                    let result = e1.target.result;
                     let img = document.getElementById('imgr');
                     img.src = result;
                     previewr.append(img);
@@ -248,8 +257,8 @@ window.onload=function(){
 }
 
 let mem_no = ${MemTenVO.mem_no};
-$("input[type='submit']").click(function(e){
-	e.preventDefault();
+$("input[type='submit']").click(function(e2){
+	e2.preventDefault();
 		picktimeSuccess("剛剛會員:"+mem_no+"已提出租房申請");
 		Swal.fire({
 		 icon: 'success',
