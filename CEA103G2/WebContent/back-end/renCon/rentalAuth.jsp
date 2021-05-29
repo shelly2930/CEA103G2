@@ -260,6 +260,7 @@ img.mem_pic {
 		
 		$("button[id='house']").click(function(e1){
 			e1.preventDefault();
+			$("#showOneHouse").children().empty();
 			$("#b").text('編號'+$(this).parent().parent().attr('id')+'物件詳情');
 			$.ajax({
 				url:"<%=request.getContextPath()%>/HouseJsonServlet",
