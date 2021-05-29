@@ -145,7 +145,9 @@ public class BillService {
 							billVO.setBill_date(bill_date);
 //							billVO.setBill_due(bill_due);
 							dao.autoInsert(billVO);
-							amountOfInsert++;
+							if(getMemMonthlyBill(mem_no, bill_date).size() == 1) {
+								amountOfInsert++;
+							}
 						}
 					}
 				}

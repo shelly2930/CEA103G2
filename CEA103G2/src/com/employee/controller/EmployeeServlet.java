@@ -33,7 +33,7 @@ import com.rooVieApp.model.RooVieAppVO;
 import com.staRig.model.StaRigService;
 import com.staRig.model.StaRigVO;
 
-@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 10 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class EmployeeServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -593,11 +593,11 @@ public class EmployeeServlet extends HttpServlet {
 								
 							if(rememberMe != null) {
 								Cookie cookie = new Cookie("emp_username", emp_username);
-								cookie.setMaxAge(600);
+								cookie.setMaxAge(12*60*60);
 								cookie.setPath("/");
 								res.addCookie(cookie);
 								cookie = new Cookie("emp_no", employeeVO.getEmp_no().toString());
-								cookie.setMaxAge(600);
+								cookie.setMaxAge(12*60*60);
 								cookie.setPath("/");
 								res.addCookie(cookie);
 								

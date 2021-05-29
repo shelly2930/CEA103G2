@@ -48,7 +48,7 @@ public class LanlordPicReadServlet extends HttpServlet {
 				in.close();
 			} else {
 //				res.sendError(HttpServletResponse.SC_NOT_FOUND);
-				InputStream in = getServletContext().getResourceAsStream("/images/none2.jpg");
+				InputStream in = getServletContext().getResourceAsStream("/front-end/lanlord/images/none2.jpg");
 				byte[] b = new byte[in.available()];
 				in.read(b);
 				out.write(b);
@@ -58,7 +58,7 @@ public class LanlordPicReadServlet extends HttpServlet {
 			pstmt.close();
 		} catch (Exception e) {
 //			System.out.println(e);
-			InputStream in = getServletContext().getResourceAsStream("/images/null2.jpg");
+			InputStream in = getServletContext().getResourceAsStream("/front-end/lanlord/images/null2.jpg");
 			byte[] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);

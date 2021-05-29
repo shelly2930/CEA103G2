@@ -41,7 +41,12 @@
 								        </li>
 	          				
 	          							<li>
-							            	<a href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}">租家具管理</a>
+							            	<a href="#renFurSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">租家具管理</a>
+							              	<ul class="collapse list-unstyled" id="renFurSubmenu">
+							                	<li>
+							                    	<a class="second" href="<%=request.getContextPath()%>/MemRenFurAppServlet?action=listRenFurAppByMem&mem_no=${MemTenVO.mem_no}">我的申請單</a>
+							                	</li>
+							              	</ul>
 								        </li>
 	          				
 										<li>

@@ -100,7 +100,9 @@ tr:hover{
 							List<BillVO> list = billSvc.getAll();
 							Set<String> set = new LinkedHashSet<String>();
 							MemTenVO memTenVO = (MemTenVO)session.getAttribute("MemTenVO");
-							Byte bill_p_status = new Byte(request.getParameter("bill_p_status"));
+							Byte bill_p_status = new Byte("0");
+							if(request.getParameter("bill_p_status") != null)
+								bill_p_status = new Byte(request.getParameter("bill_p_status"));
 							for(BillVO billVO : list){
 								if(billVO.getMem_no().equals(memTenVO.getMem_no()) && billVO.getBill_due() != null){
 									if(billVO.getBill_p_status().equals(bill_p_status)){

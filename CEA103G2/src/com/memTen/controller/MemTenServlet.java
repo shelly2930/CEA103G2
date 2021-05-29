@@ -694,7 +694,7 @@ public class MemTenServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-//			try {
+			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/				
 				String mem_username = req.getParameter("mem_username");
 				String mem_usernameReg = "^[a-zA-Z0-9_]{2,20}$";
@@ -848,12 +848,12 @@ public class MemTenServlet extends HttpServlet {
 				successView.forward(req, res);				
 				
 				/***************************其他可能的錯誤處理**********************************/
-//			} catch (Exception e) {
-//				errorMsgs.put("errorMsgs",e.getMessage());
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.put("errorMsgs",e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/unprotected/memTen/addMemTen.jsp");
+				failureView.forward(req, res);
+			}
 		}
 		
 		if("verify".equals(action)) {
