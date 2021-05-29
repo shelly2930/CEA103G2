@@ -268,7 +268,7 @@
 			height: 100%;
 			display: flex;
 			background: linear-gradient(45deg, #dddddd, #B3B3B3);
-			background-image: url('<%=request.getContextPath()%>/images/LoginBack.jpg');
+			background-image: url('<%=request.getContextPath()%>/index_img/LoginBack.jpg');
 			background-size: cover;
 			background-position:center;
 		}
