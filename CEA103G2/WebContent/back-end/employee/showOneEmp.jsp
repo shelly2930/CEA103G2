@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>後台空頁</title>
+    <title>個人資料</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -311,8 +311,8 @@ ${errorMsgs.Exception}
 											</div>
 									      </div>
 									      <div class="modal-footer">
-									        <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									        <button id="updatePassword" type="button" class="btn btn-primary">Save changes</button>
+									        <button id="updatePassword" type="button" class="btn btn-primary">確定</button>
+									        <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
 									      </div>
 									    </div>
 									  </div>
@@ -522,14 +522,18 @@ ${errorMsgs.Exception}
 		<c:if test="${not empty requestScope.employeeVO && not empty errorMsgs}">
 		Swal.fire({
 	    	icon:'warning',
-	    	title:'資料有誤'
+	    	title:'資料有誤',
+	    	showConfirmButton: false,
+			timer: 1000
 	    });
     	</c:if>
     	
     	<c:if test="${not empty requestScope.updateSuccess}">
 		Swal.fire({
 	    	icon:'success',
-	    	title:'修改成功'
+	    	title:'修改成功',
+	    	showConfirmButton: false,
+			timer: 1000
 	    });
     	</c:if>
 		

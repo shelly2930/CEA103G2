@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>後台首頁</title>
+    <title>HowTrue後台首頁</title>
 
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +27,7 @@
 			font-size: 1.5rem;
 		}
 		.day h5 {
-			background-color: #d6f8ff;
+			background-color: #aefff5;
 			padding: 3px 5px 5px;
 			margin: -8px -8px 8px -8px;
 		}
@@ -37,7 +37,9 @@
 	}
 	@media (min-width: 576px) {
 		.day {
-/* 			height: 8vw; */
+ 			height: 7.5vw;
+ 			overflow: auto;
+ 			overflow-x:hidden;
 		}
 	}
 

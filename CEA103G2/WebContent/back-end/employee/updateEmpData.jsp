@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>後台空頁</title>
+<title>修改員工資料</title>
 
 <!-- Custom fonts for this template-->
 <link
@@ -69,6 +69,8 @@
 		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-area-demo.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/template_back-end/js/demo/chart-pie-demo.js"></script>
+		
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
@@ -92,13 +94,13 @@
 				        <h1 class="mx-auto mb-4 text-uppercase">修改員工資料</h1>
 				    </div>
 
-					<form method="post" action="<%=request.getContextPath()%>/employee/employee.do">
+					<form method="post" action="<%=request.getContextPath()%>/employee/employee.do" id="form1">
 
 						<div class="form-group row">
 							<label for="emp_username" class="col-md-4 col-form-label">員工代號</label>
 							<div class="col-md-4">
-<%-- 								<input type="text" class="form-control" id="emp_username" name="emp_username" value="${employeeVO.emp_username}"  readonly> --%>
-								<div class="form-control" id="emp_username" name="emp_username">${employeeVO.emp_username}</div>
+								<input type="text" class="form-control" id="emp_username" name="emp_username" value="${employeeVO.emp_username}"  readonly>
+<%-- 								<div class="form-control" id="emp_username" name="emp_username">${employeeVO.emp_username}</div> --%>
 							</div>
 							<div class="col-md-4"></div>
 						</div>
@@ -186,11 +188,11 @@
 						</div>
 						
 						<div class="form-group row justify-content-center mt-3">
-							<button id="sub" type="submit" class="btn btn-success btn-icon-split">
+							<button id="sub" type="button" class="btn btn-success btn-icon-split">
 	                            <span class="icon text-white-50">
 	                                <i class="fas fa-check"></i>
 	                            </span>
-	                            <span class="text">更新員工資料</span>
+	                            <span class="text">修改員工資料</span>
 	                        </button>
                         </div>
 
@@ -275,6 +277,41 @@ $("#emp_job").change(function(){
 <c:forEach var="StaRigVO" items="${list_StaRigVO}">
 	$("#staFun${StaRigVO.fun_no}").prop("checked", true);
 </c:forEach>
+
+$("#sub").click(function(){
+	Swal.fire({
+		  title: '確定修改？',
+// 		  text: "此修改送出將無法復原！",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '確定',
+		  cancelButtonText: '取消'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				$("#form1").submit();
+			}
+		})
+})
+
+<c:if test="${errorMsgs.size() != 0}">
+	Swal.fire({
+    	icon:'warning',
+    	title:'資料有誤',
+    	showConfirmButton: false,
+		timer: 1000
+    });
+</c:if>
+   	
+<c:if test="${not empty requestScope.updateSuccess}">
+	Swal.fire({
+    	icon:'success',
+    	title:'修改成功',
+    	showConfirmButton: false,
+		timer: 1000
+    });
+</c:if>
 
 </script>
 </body>
