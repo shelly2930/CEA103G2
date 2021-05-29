@@ -106,7 +106,7 @@
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-  							<button type="button" class="btn btn-danger auto-insert">新增帳單</button>
+  							<button type="button" class="btn btn-danger auto-insert mr-1">新增帳單</button>
   							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0'">未發送</button>
   							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=1'">未繳費</button>
 							<button type="button" class="btn btn-outline-primary" onclick="location.href='<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=2'">已繳費</button>
@@ -130,7 +130,9 @@
 										BillService billSvc = new BillService();
 										List<BillVO> list = billSvc.getAll();
 										Set<String> set = new LinkedHashSet<String>();
-										int status = Integer.parseInt(request.getParameter("status"));
+										int status = 0;
+										if(request.getParameter("status") != null)
+											status = Integer.parseInt(request.getParameter("status"));
 										for(BillVO billVO : list){
 											if(status == 0){
 												if(billVO.getBill_p_status() == 0 && billVO.getBill_due() == null)
@@ -141,6 +143,8 @@
 											}else if(status == 2){
 												if(billVO.getBill_p_status() == 1)
 													set.add(billVO.getMem_no() + "," + billVO.getBill_date().toString());
+											}else{
+												set.add(billVO.getMem_no() + "," + billVO.getBill_date().toString());
 											}
 												
 										}
@@ -285,6 +289,7 @@
     				);
 					for(let billVO of data){
 						$(".modal-body").append(
+							"<hr>" +
 							"<div class='row justify-content-center mt-4 mb-4'>" +
 					      	 	"<div class='col-3'>物件編號</div>" +
 							  	"<div class='col-7 text-center'>" + billVO.hos_no + "</div>" +

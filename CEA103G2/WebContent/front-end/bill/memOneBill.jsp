@@ -59,7 +59,7 @@ background-color: #dddddd !important;
                 	<div class="col"><h4>會員姓名 : ${memTenSvc.getOneMemTen(list.get(0).mem_no).mem_name}</h4></div>
                 </div>
                 <div class="row pl-4 pr-4">
-                	<table class="table table-bordered">
+                	<table class="table table-bordered" style="background-color: #eeecec;">
                 		<thead>
 							<tr>
 								<th colspan="5"><p class="font-weight-bold display-4 text-primary">租屋費用</p></th>
@@ -161,8 +161,7 @@ background-color: #dddddd !important;
                 </div>
 				<div class="row mb-4">
                 	<div class="col text-center">
-<!--                 		<button type="button" class="btn btn-outline-secondary send-bill">繳費</button> -->
-                		<button type="button" class="btn btn-outline-secondary want-pay" data-toggle="modal" 
+                		<button type="button" class="btn btn-outline-secondary btn-lg want-pay" data-toggle="modal" 
 							data-target="#exampleModalCenter">
 							繳費
 						</button>

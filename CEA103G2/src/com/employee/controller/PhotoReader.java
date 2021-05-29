@@ -49,6 +49,13 @@ public class PhotoReader extends HttpServlet {
 			}
 			rs.close();
 			stmt.close();
+			
+//			!!!!!!!!!!!
+//			EmployeeService svc = new EmployeeService();
+//			EmployeeVO vo = svc.getOneEmp(Integer.parseInt(emp_no));
+//			out.write(vo.getEmp_pic());
+			
+			
 		} catch (Exception e) {
 //			System.out.println(e);
 //			System.out.println("沒員工編號的例外");

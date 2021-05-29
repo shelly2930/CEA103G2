@@ -32,7 +32,7 @@
 <body bgcolor='white'>
 
 <!-- <h4 style="color:black;text-align:left;">申請單明細: </h4> -->
-<h3 style="text-align:left;">申請單明細: </h3>
+<h3 style="text-align:left;">申請單明細</h3>
 
 
 <%-- 錯誤表列 --%>

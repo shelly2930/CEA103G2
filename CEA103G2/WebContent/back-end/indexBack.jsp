@@ -123,13 +123,13 @@
 		cursor: pointer;
 	}
 	.bg-light {
-    	background-color: #eaefff!important;
+    	background-color: #aefff5!important;
 	}
 	.bg-dark {
-	    background-color: #485189!important;
+	    background-color: #fba19e!important;
 	}
 	.text-muted {
-	    color: #858796!important;
+	    color: #c1c2c8!important;
 	}
 	.this-month{
 		color: #133331;
@@ -349,7 +349,7 @@ function addRenFurApp() {
 				let min = d.getMinutes();
 				$("."+year+"-"+month+"-"+date).append
 					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-info text-white' href='<%=request.getContextPath()%>/renFurApp/renFurApp.do?rfa_no="
-						+renFurAppVO.rfa_no+"&action=getOne_For_Update'>租家具申請 "+hour+":00</a>");
+						+renFurAppVO.rfa_no+"&action=getOne_For_Update'>"+hour+":00 租家具申請</a>");
 				if(${employeeVO.emp_job != "主管"} && renFurAppVO.emp_no != ${employeeVO.emp_no}){
 					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
 				}
@@ -380,7 +380,7 @@ function addRooVieApp() {
 				let min = d.getMinutes();
 				$("."+year+"-"+month+"-"+date).append
 					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-warning text-white'" +
-							"href='<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp_EMP.jsp'>預約看房申請 "+hour+":00</a>");
+							"href='<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp_EMP.jsp'>"+hour+":00 預約看房申請</a>");
 				if(${employeeVO.emp_job != "主管"} && RooVieAppVO.emp_no != ${employeeVO.emp_no}){
 					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
 				}
@@ -411,7 +411,7 @@ function addHouse() {
 				let min = d.getMinutes();
 				$("."+year+"-"+month+"-"+date).append
 					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-success text-white' href='<%=request.getContextPath()%>/house/house.do?houseno="
-						+HouseVO.hos_no+"&action=getOneHouseForUpdate'>預約代管申請 "+hour+":00</a>");
+						+HouseVO.hos_no+"&action=getOneHouseForUpdate'>"+hour+":00 預約代管申請</a>");
 				if(${employeeVO.emp_job != "主管"} && HouseVO.emp_no != ${employeeVO.emp_no}){
 					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
 				}

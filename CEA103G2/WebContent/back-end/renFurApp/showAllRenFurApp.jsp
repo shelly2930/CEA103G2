@@ -81,6 +81,11 @@ if(request.getAttribute("list") == null){
 /* 	th:hover{ */
 /* 		background-color: #aaaaaa; */
 /* 	} */
+  	.pageTitle{
+		color: #d4dedd;
+		letter-spacing: 1rem;
+		text-shadow: 1px 1px 2px #233559;
+	}
 </style>
 
 </head>
@@ -105,19 +110,20 @@ if(request.getAttribute("list") == null){
 				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
 				<div class="container-fluid">
 
-					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">租家具申請單</h1>
+					<div class="mx-auto text-left pageTitle">
+				        <h1 class="mx-auto mb-4 text-uppercase">租家具申請單</h1>
+				    </div>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<c:if test="${employeeVO.emp_job eq '主管'}">
-							<a class="btn btn-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=0&action=getByRfa_status" role="button">未指派</a>
+							<a class="btn btn-outline-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=0&action=getByRfa_status" role="button">未指派</a>
 						    </c:if>
-							<a class="btn btn-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=1&action=getByRfa_status" role="button">未完成</a>
-							<a class="btn btn-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=2&action=getByRfa_status" role="button">已完成</a>
-							<a class="btn btn-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=3&action=getByRfa_status" role="button">提前退租</a>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/back-end/renFurApp/showAllRenFurApp.jsp" role="button">全部</a>
+							<a class="btn btn-outline-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=1&action=getByRfa_status" role="button">未完成</a>
+							<a class="btn btn-outline-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=2&action=getByRfa_status" role="button">已完成</a>
+							<a class="btn btn-outline-primary mr-1" href="${pageContext.request.contextPath}/renFurApp/renFurApp.do?rfa_status=3&action=getByRfa_status" role="button">提前退租</a>
+							<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/back-end/renFurApp/showAllRenFurApp.jsp" role="button">全部</a>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive-lg">
@@ -176,13 +182,9 @@ if(request.getAttribute("list") == null){
 												</c:forEach>
 												<td>
 													<c:choose>
-<%-- 													<c:when test="${renFurAppVO.rfa_status != 2}">尚未出租 </c:when> --%>
-<%-- 													<c:when test="${isTMT == false}">出租中</c:when> --%>
-<%-- 													<c:when test="${isTMT == true}">已退租</c:when> --%>
-														<c:when test="${renFurAppVO.rfa_status == 3}">出租中 </c:when>
+														<c:when test="${renFurAppVO.rfa_status == 0 || renFurAppVO.rfa_status == 1}">尚未出租 </c:when>
 														<c:when test="${isTMT == false}">出租中</c:when>
 														<c:when test="${isTMT == true}">已退租</c:when>
-														<c:otherwise>尚未出租</c:otherwise>
 													</c:choose>
 												</td>
 												

@@ -63,6 +63,11 @@
     padding: 1px;
     text-align: left;
   }
+  	.pageTitle{
+		color: #d4dedd;
+		letter-spacing: 1rem;
+		text-shadow: 1px 1px 2px #233559;
+	}
 </style>
 
 </head>
@@ -86,16 +91,12 @@
 
                 <!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
                 <div class="container-fluid">
-
-<!--                     <table id="table-1"> -->
-<!-- 						<tr><td> -->
-<!-- 							 <h3>租家具申請單資料修改 -update_renFurApp_input.jsp</h3></td><td><br> -->
-<%-- 							 <h4><a href="<%=request.getContextPath()%>/back-end/renFurApp/showAllRenFurApp.jsp">返回租家具申請單管理</a></h4> --%>
-<!-- 						</td></tr> -->
-<!-- 					</table> -->
 					
-					<h3>資料查看:</h3>
-					
+					<div class="mx-auto text-left pageTitle" style="display:inline-block;">
+				        <h1 class="mx-auto mb-4 text-uppercase">租家具申請單</h1>
+				    </div>
+					<a class="btn btn-primary ml-5 btn-lg" href="${pageContext.request.contextPath}/back-end/renFurApp/showAllRenFurApp.jsp" 
+						role="button" style="display:inline-block;">返回</a>
 					<%-- 錯誤表列 --%>
 					<c:if test="${not empty errorMsgs}">
 						<font style="color:red">請修正以下錯誤:</font>
@@ -105,6 +106,7 @@
 							</c:forEach>
 						</ul>
 					</c:if>
+					
 					
 					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/renFurApp/renFurApp.do" id="form1">
 					<table>
@@ -140,11 +142,8 @@
 							 <jsp:useBean id="renFurAppSvc" scope="page" class="com.renFurApp.model.RenFurAppService" />
 							 <jsp:useBean id="renConSvc" scope="page" class="com.renCon.model.RenConService" />
 							 <td colspan="3">
-					<%-- 		${houseSvc.getOneHouse(renConSvc.getOneRenCon(renFurAppSvc.getRentCon(renFurAppVO.rfa_no)).hos_no).hos_city} --%>
-					<%-- 				${houseSvc.getOneHouse(renConSvc.getOneRenCon(renFurAppSvc.getRentCon(renFurAppVO.rfa_no)).hos_no).hos_dist}		 --%>
-									${houseSvc.getOneHouse(renConSvc.getOneRenCon(renFurAppSvc.getRentCon(renFurAppVO.rfa_no)).hos_no).hos_address}${
-									houseSvc.getOneHouse(renConSvc.getOneRenCon(renFurAppSvc.getRentCon(renFurAppVO.rfa_no)).hos_no).hos_floor}樓		
-					
+								${houseSvc.getOneHouse(renConSvc.getOneRenCon(renFurAppSvc.getRentCon(renFurAppVO.rfa_no)).hos_no).hos_address}${
+								houseSvc.getOneHouse(renConSvc.getOneRenCon(renFurAppSvc.getRentCon(renFurAppVO.rfa_no)).hos_no).hos_floor}樓		
 							</td>
 						</tr>
 						<tr>
@@ -173,12 +172,11 @@
 						<th>預約時間:</th>
 						    <td>
 						    	<c:if test="${employeeVO.emp_job eq '主管'}">
-						    	<div class="col-md-12 form-group">
-						             <div class="col-sm-12">
-						   					  <input type="text" class="form-control" name="rfa_order_date"  id="f_date1" placeholder="" >
-						              </div>			             
-									</div>	
-<!-- 						    	<input name="rfa_order_date" id="f_date1" type="text"> -->
+						    	<div class="col-md-12 form-group" style="margin-bottom: 0;">
+						            <div class="col-sm-12">
+						   				<input type="text" class="form-control" name="rfa_order_date"  id="f_date1" placeholder="" >
+						            </div>			             
+								</div>	
 						    	</c:if>
 						    	
 						    	<c:if test="${employeeVO.emp_job eq '一般員工'}">
@@ -210,59 +208,41 @@
 							
 									 
 				
-								    <c:if test="${employeeVO.emp_job eq '一般員工'}"> 
-						             <div class="col-md-12 form-group">
-						             <div class="col-sm-12">
-						                <select class="form-control" name="rfa_status" id="rfa_status"  ${renFurAppVO.rfa_status==2 ? 'disabled':''}>
-				        				<option value="1" ${renFurAppVO.rfa_status==1 ? 'selected':''}>未完成</option>
-				        					<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option>
-				        					<option value="3" ${renFurAppVO.rfa_status==3 ? 'selected':''}>提前退租</option>
-								       </select>
-						              </div>			             
-									</div>
-							</c:if>
+								<c:if test="${employeeVO.emp_job eq '一般員工'}"> 
+								<div class="col-md-12 form-group" style="margin-bottom: 0;">
+									<div class="col-sm-12">
+									   <select class="form-control" name="rfa_status" id="rfa_status"  ${renFurAppVO.rfa_status==2 ? 'disabled':''}>
+											<c:if test="${renFurAppVO.rfa_status==1}">
+											<option value="1" ${renFurAppVO.rfa_status==1 ? 'selected':''}>未完成</option>
+											</c:if>
+											<c:if test="${renFurAppVO.rfa_status==3}">
+											<option value="3" ${renFurAppVO.rfa_status==3 ? 'selected':''}>提前退租</option>
+											</c:if>
+											<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option>
+								      </select>
+									</div>			             
+								</div>
+								</c:if>
 							</td>
 							
-								<th>負責員工:</th>
 							<jsp:useBean id="empSvc" scope="page" class="com.employee.model.EmployeeService" />
+							<th>負責員工:</th>
 							<td>
-							<c:if test="${employeeVO.emp_job eq '主管'}">
-							         <div class="col-md-12 form-group">
-						             <div class="col-sm-12">
-<!-- 						             <select size="1" name="emp_no"  id="empSelect"> -->
+								<c:if test="${employeeVO.emp_job eq '主管'}">
+						        <div class="col-md-12 form-group" style="margin-bottom: 0;">
+						            <div class="col-sm-12">
 						                <select class="form-control" name="emp_no" id="empSelect" >
-				        			<option value="0" ${(renFurAppVO.emp_no == null)? 'selected':''}>尚未指派</option> 
-									<c:forEach var="empVO" items="${empSvc.all}">
-										<c:if test="${empVO.emp_job eq '一般員工'}">
-										<option value="${empVO.emp_no}" ${(renFurAppVO.emp_no==empVO.emp_no)? 'selected':'' } >${empVO.emp_name}
-										</c:if>
-									</c:forEach>
+				        					<option value="0" ${(renFurAppVO.emp_no == null)? 'selected':''}>尚未指派</option> 
+											<c:forEach var="empVO" items="${empSvc.all}">
+											<c:if test="${empVO.emp_job eq '一般員工' && empVO.emp_quitdate == null}">
+											<option value="${empVO.emp_no}" ${(renFurAppVO.emp_no==empVO.emp_no)? 'selected':'' } >${empVO.emp_name}
+											</c:if>
+											</c:forEach>
 								       </select>
-						              </div>			             
-									</div>
-										</c:if>
-<!-- 東緯原始碼 ↓↓↓-->
-<%-- 								<c:if test="${employeeVO.emp_job eq '一般員工'}"> --%>
-<%-- 								<select size="1" name="rfa_status"  id="rfa_status" ${renFurAppVO.rfa_status==2 ? 'disabled':''}> --%>
-<%-- 									<option value="1" ${renFurAppVO.rfa_status==1 ? 'selected':''}>未完成</option> --%>
-<%-- 									<option value="2" ${renFurAppVO.rfa_status==2 ? 'selected':''}>已完成</option> --%>
-<!-- 								</select> -->
-<%-- 								</c:if> --%>
-<!-- 							</td> -->
-<!-- 							<th>負責員工:</th> -->
-<%-- 							<jsp:useBean id="empSvc" scope="page" class="com.employee.model.EmployeeService" /> --%>
-<!-- 							<td> -->
-<%-- 								<c:if test="${employeeVO.emp_job eq '主管'}"> --%>
-<!-- 								<select size="1" name="emp_no"  id="empSelect"> -->
-<%-- 									<option value="0" ${(renFurAppVO.emp_no == null)? 'selected':''}>尚未指派</option> --%>
-<%-- 									<c:forEach var="empVO" items="${empSvc.all}"> --%>
-<%-- 										<c:if test="${empVO.emp_job eq '一般員工'}"> --%>
-<%-- 										<option value="${empVO.emp_no}" ${(renFurAppVO.emp_no==empVO.emp_no)? 'selected':'' } >${empVO.emp_name} --%>
-<%-- 										</c:if> --%>
-<%-- 									</c:forEach> --%>
-<!-- 								</select> -->
-<%-- 								</c:if> --%>
-	<!-- 東緯原始碼↑↑↑ -->							
+						            </div>			             
+								</div>
+								</c:if>
+								
 								<c:if test="${employeeVO.emp_job eq '一般員工'}">
 									${empSvc.getOneEmp(renFurAppVO.emp_no).emp_name}
 									<input type="hidden" name="emp_no" value="${renFurAppVO.emp_no}">
@@ -272,45 +252,37 @@
 						<tr>
 							<th>租金合計:</th>
 							<td>${renFurAppVO.rfa_total} 元</td>
-							<th>租借狀態:</th>
 							
 							<jsp:useBean id="renFurDetSvc" scope="page" class="com.renFurDet.model.RenFurDetService" />
+							<th>租借狀態:</th>
+							
 							<c:set var="isTMT" value="true" />
 							<c:forEach var="renFurDetVO" items="${renFurDetSvc.getOneList(renFurAppVO.rfa_no)}">
 								<c:if test="${renFurDetVO.rent_tmt_date == null}"><c:set var="isTMT" value="false" /></c:if>
 							</c:forEach>
+							
 							<td>
 								<c:choose>
-<%-- 									<c:when test="${renFurAppVO.rfa_status != 2}">尚未出租 </c:when> --%>
-<%-- 									<c:when test="${isTMT == false}">出租中</c:when> --%>
-<%-- 									<c:when test="${isTMT == true}">已退租</c:when> --%>
-									<c:when test="${renFurAppVO.rfa_status == 3}">出租中 </c:when>
+									<c:when test="${renFurAppVO.rfa_status == 0 || renFurAppVO.rfa_status == 1}">尚未出租 </c:when>
 									<c:when test="${isTMT == false}">出租中</c:when>
 									<c:when test="${isTMT == true}">已退租</c:when>
-									<c:otherwise>尚未出租</c:otherwise>
 								</c:choose>
 							</td>
 						</tr>
-						
 					</table>
 					<br>
-					
-							 <div class="col-lg-12">
-										 <div class="col-lg-10">
-										<input type="hidden" name="action" value="update" >
-										<input type="hidden" name="rfa_no"  value="<%=renFurAppVO.getRfa_no()%>">
-										<input type="hidden" name="requestURL"  value="<%=request.getParameter("requestURL")%>">
-										<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">
-										<button	class="btn btn-info btn-icon-split" type="submit" id="update"> <span class="text">送出修改</span></button>
-								</div>
-								</div>
-					
-					
-<!-- 					<input type="hidden" name="action"  value="update"> -->
-<!-- 					<input type="button" value="送出修改"  id="update"> -->
-<%-- 					<input type="hidden" name="rfa_no" value="<%=renFurAppVO.getRfa_no()%>"> --%>
+					<div class="col-lg-12">
+						<div class="col-lg-10">
+							<button	class="btn btn-info btn-icon-split" type="button" id="update"> <span class="text">送出修改</span></button>
+						</div>
+					</div>
+					<input type="hidden" name="action" value="update" >
+					<input type="hidden" name="rfa_no"  value="<%=renFurAppVO.getRfa_no()%>">
+					<input type="hidden" name="requestURL"  value="<%=request.getParameter("requestURL")%>">
+					<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">
 <%-- 					<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用--> --%>
 <%-- 					<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp--> --%>
+					</FORM>
 					
                 </div>
                 <!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
@@ -374,7 +346,10 @@
 // 		minDate:               '-1970-01-01', // 去除今日(不含)之前
 // 		maxDate:               '+1970-01-01'  // 去除今日(不含)之後
     });
-    if($("#rfa_status").val() == 2){$("#update").prop("disabled",true);}
+    
+    if($("#rfa_status").val() == 2){
+    	$("#update").prop("disabled",true);
+    }
 
     if($("#rfa_status").val() == 1){
     	$("#update").prop("disabled",true);
@@ -401,29 +376,57 @@
     	}
     });
     
+    let emp_name;
+    $("option").each(function(){
+		if($(this).prop("selected")){
+			emp_name = $(this).text();
+		}
+	});
+    $("#empSelect").change(function(){
+    	$("option").each(function(){
+    		if($(this).prop("selected")){
+    			emp_name = $(this).text();
+    		}
+    	})
+    });
     $("#update").click(function() {
 		Swal.fire({
+			<c:if test="${employeeVO.emp_job eq '主管'}">
+			  title: '確定送出指派？',
+			  text: "指派員工：" + emp_name,
+			  icon: 'question',
+			</c:if>
+			<c:if test="${employeeVO.emp_job eq '一般員工'}">
 			  title: '確定修改？',
 			  text: "此修改送出將無法復原！",
 			  icon: 'warning',
+			</c:if>
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
 			  cancelButtonColor: '#d33',
 			  confirmButtonText: '確定',
 			  cancelButtonText: '取消'
 			}).then((result) => {
-			  if (result.isConfirmed) {
-				 $("#form1").submit();
-			  }
+				if (result.isConfirmed) {
+				Swal.fire({
+				   	icon:'success',
+				   	title:'修改成功',
+				   	showConfirmButton: false,
+					timer: 1000
+				   });
+				}
+				setTimeout(function(){
+					$("#form1").submit();
+			  	},1000);
 			})
 	});
     
-    <c:if test="${not empty requestScope.updateSuccess}">
-	Swal.fire({
-    	icon:'success',
-    	title:'修改成功'
-    });
-	</c:if>
+//     <c:if test="${not empty requestScope.updateSuccess}">
+// 	Swal.fire({
+//     	icon:'success',
+//     	title:'修改成功'
+//     });
+// 	</c:if>
  	</script>
 
 </body>

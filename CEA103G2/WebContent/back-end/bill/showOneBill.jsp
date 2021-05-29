@@ -35,7 +35,7 @@
 
 	<style>
 	th{
-		background-color: #ffd5f1;
+		background-color: #d2eeff;
 	}
 	</style>
 </head>
