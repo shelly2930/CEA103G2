@@ -63,7 +63,7 @@ public class FurIteDAO implements FurIteDAO_interface {
 //<前台用>依家具分類查上架品項
 	private static final String GET_GETON_ITEM_ByCATNO_STMT= 
 			"SELECT * FROM FURNITURE_ITEM where fnt_post_status=1 and fnt_ctgr_no=? order by fnt_it_no";
-	
+	//查上架中的同大類品項有幾個(前台瀏覽家具頁面用)
 	private static final String	GET_COUNT_SAME_CTGR="SELECT count(*) FROM FURNITURE_ITEM where fnt_post_status=1 and fnt_ctgr_no=?";
 	//關鍵字查詢
 //	private static final String GET_FurItes_ByKW_STMT="SELECT * FROM FURNITURE_ITEM where fnt_name=? or fnt_standard=? or fnt_info=? order by fnt_it_no";
