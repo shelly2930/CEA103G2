@@ -748,8 +748,8 @@
 					url:"<%=request.getContextPath()%>/HouseJsonServlet",
 					type:'post',
 					data:{
-						action:'findhouse',
-						keyword:city,
+						action:'mapsearch',
+						hos_city:city,
 					},
 					async: false,
 					success:function(str){
