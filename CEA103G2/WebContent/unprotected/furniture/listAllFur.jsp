@@ -115,10 +115,11 @@
 							<div class="widgets_inner">
 								<ul class="list">
 									<!--        此動態產生分類選項 ↓↓↓ -->
+									<jsp:useBean id="furIteSvc" scope="page" class="com.furIte.model.FurIteService" />
 									<c:forEach var="furCatVO" items="${furCatSvc.all}">
 										<li><a
 											href="<%=request.getContextPath()%>/furIte/furIte.do?action=listGetOnFurIteByCat&fnt_ctgr_no=${furCatVO.fnt_ctgr_no}">${furCatVO.fnt_ctgr_name}</a>
-											<!--                                         <span>(250)</span> -->
+											                                        <span>(${furIteSvc.countSameFnt_ctgr_no(furCatVO.fnt_ctgr_no)})</span>
 										</li>
 									</c:forEach>
 									<!--        此動態產生分類選項↑↑↑-->

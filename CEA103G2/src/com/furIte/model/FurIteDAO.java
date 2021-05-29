@@ -9,6 +9,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.furPho.model.FurPhoVO;
+import com.renFurDet.model.RenFurDetDAO;
+import com.renFurDet.model.RenFurDetVO;
 
 public class FurIteDAO implements FurIteDAO_interface {
 
@@ -61,6 +63,8 @@ public class FurIteDAO implements FurIteDAO_interface {
 //<前台用>依家具分類查上架品項
 	private static final String GET_GETON_ITEM_ByCATNO_STMT= 
 			"SELECT * FROM FURNITURE_ITEM where fnt_post_status=1 and fnt_ctgr_no=? order by fnt_it_no";
+	
+	private static final String	GET_COUNT_SAME_CTGR="SELECT count(*) FROM FURNITURE_ITEM where fnt_post_status=1 and fnt_ctgr_no=?";
 	//關鍵字查詢
 //	private static final String GET_FurItes_ByKW_STMT="SELECT * FROM FURNITURE_ITEM where fnt_name=? or fnt_standard=? or fnt_info=? order by fnt_it_no";
 	
@@ -1133,6 +1137,50 @@ public class FurIteDAO implements FurIteDAO_interface {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public Integer countSameFnt_ctgr_no(Integer fnt_ctgr_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer getCountSameNum = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(GET_COUNT_SAME_CTGR);
+			pstmt.setInt(1, fnt_ctgr_no);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				getCountSameNum = rs.getInt(1); 
+			}
+			
+			
+
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+			return getCountSameNum;
+		}
+		
 	}
 	
 	

@@ -36,4 +36,6 @@ public interface FurIteDAO_interface {
 	
 	//前台模糊查詢
 	public List<FurIteVO> getOneFurIteByKWtoFE(String keyword);
+	//查同大類品項有幾個(前台瀏覽家具頁面用)
+	public Integer countSameFnt_ctgr_no(Integer fnt_ctgr_no);
 	}

@@ -125,4 +125,7 @@ public class FurIteService {
 	public Integer GetLastFnt_it_no(){
 		return dao.GetLastFnt_it_no();
 	}
+	public Integer countSameFnt_ctgr_no(Integer fnt_ctgr_no){
+		return dao.countSameFnt_ctgr_no(fnt_ctgr_no);
+	}
 }
