@@ -66,7 +66,7 @@ public class FurLisServlet extends HttpServlet {
 						errorMsgs.add("請選擇家具狀態");
 					}
 					//租借狀態
-					Byte fnt_rent_status=0;
+					Byte fnt_rent_status=new Byte("0");
 					
 				//報廢日期 可為空值	
 					Timestamp fnt_unusable_date = null;
@@ -166,15 +166,17 @@ public class FurLisServlet extends HttpServlet {
 					try {
 						fnt_status = new Byte(req.getParameter("fnt_status").trim());
 					} catch (Exception e) {
-						fnt_status=0;
+						fnt_status=new Byte("0");
 						errorMsgs.add("請選擇家具狀態");
 					}
 					//租借狀態
 					Byte fnt_rent_status=new Byte(req.getParameter("fnt_rent_status").trim());
+					System.out.println("取到的參數fnt_rent_status: "+fnt_rent_status);
 					//後端防呆 當家具狀態不為正常時 租借狀態均為未出租!
-					if(fnt_status!=0) {
-						fnt_rent_status=0;
-					}
+					
+					if(fnt_rent_status==new Byte("1")) {
+						fnt_rent_status=new Byte("1");
+					}else {fnt_rent_status=new Byte("0");}
 				//報廢日期 可為空值	
 					Timestamp fnt_unusable_date = null;
 					try {
@@ -189,6 +191,7 @@ public class FurLisServlet extends HttpServlet {
 					furLisVO.setFnt_acq_date(fnt_acq_date);
 					furLisVO.setFnt_status(fnt_status);
 					furLisVO.setFnt_rent_status(fnt_rent_status);
+					System.out.println("放入furLisVO內的租借狀態: "+furLisVO.getFnt_rent_status());
 					furLisVO.setFnt_unusable_date(fnt_unusable_date);
 									
 					// Send the use back to the form, if there were errors
@@ -202,6 +205,7 @@ public class FurLisServlet extends HttpServlet {
 					
 					/***************************2.開始新增資料***************************************/
 					FurLisService furLisSvc = new FurLisService();
+					System.out.println("進service前的租借狀態: "+fnt_rent_status);
 					furLisVO = furLisSvc.updateFurLis(fnt_id,fnt_it_no, fnt_acq_date,fnt_status, fnt_rent_status,fnt_unusable_date);
 					/***************************3.新增完成,準備轉交(Send the Success view)***********/
 					String url = requestURL;

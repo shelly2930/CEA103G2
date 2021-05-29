@@ -114,7 +114,7 @@ public class FurLisDAO implements FurLisDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+		System.out.println("進DAO時的租家具狀態為:"+furLisVO.getFnt_rent_status());
 		try {
 
 			con = ds.getConnection();
