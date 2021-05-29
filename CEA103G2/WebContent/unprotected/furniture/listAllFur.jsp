@@ -8,26 +8,10 @@
 	pageContext.setAttribute("list", list);
 	int listSize = list.size();
 %>
-<%
-	// 		List<FurIteVO> list =new ArrayList<FurIteVO>();
-	// 		if(request.getParameter("fnt_ctgr_no")==null){
-	// 				FurIteService furIteSvc = new FurIteService();
-	// 			    list= furIteSvc.getAll();
-	// 			    pageContext.setAttribute("list",list);
-	// 		}else {
-	// 			FurIteService furIteSvc = new FurIteService(); 
-	// 			Integer fnt_ctgr_no = new Integer(request.getParameter("fnt_ctgr_no"));
-	// 			 list = furIteSvc.getOneFurCat_Item(fnt_ctgr_no); 
-	// 			pageContext.setAttribute("list",list);
-	// 		}
-%>
 
-<jsp:useBean id="furCatSvc" scope="page"
-	class="com.furCat.model.FurCatService" />
-<jsp:useBean id="furCatSvc2" scope="page"
-	class="com.furCat.model.FurCatService" />
-<jsp:useBean id="furPhoSvc" scope="page"
-	class="com.furPho.model.FurPhoService" />
+<jsp:useBean id="furCatSvc" scope="page" class="com.furCat.model.FurCatService" />
+<jsp:useBean id="furCatSvc2" scope="page" 	class="com.furCat.model.FurCatService" />
+<jsp:useBean id="furPhoSvc" scope="page"  class="com.furPho.model.FurPhoService" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -254,18 +238,6 @@
                         </div>
               </c:forEach>          
                         <!-- 各小塊內容 此塊循環列出結果 ↑↑↑ -->
-<!-- 此塊看規律用 待刪 ↓↓↓ -->
-<!--                         <div class="col-lg-4 col-sm-6"> -->
-<!--                             <div class="single_product_item"> -->
-<!--                                 <img src="img/product/product_2.png" alt=""> -->
-<!--                                 <div class="single_product_text"> -->
-<!--                                     <h4>Quartz Belt Watch</h4> -->
-<!--                                     <h3>$150.00</h3> -->
-<!--                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!-- 此塊看規律用 待刪↑↑↑ -->
                         <!-- 下方分頁 ↓↓↓-->
 <!--                         <div class="col-lg-12"> -->
 <!--                             <div class="pageination"> -->

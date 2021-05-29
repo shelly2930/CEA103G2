@@ -655,7 +655,6 @@ $(".number-increment").click(function(e){
 });
 $(".btn_3").click(function(e){
 	e.preventDefault();
-	
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/rentCart/rentCart.do",
@@ -667,6 +666,7 @@ $(".btn_3").click(function(e){
 			"quantity":$("input[type='text']").val(),
 		},
 		success:function(data){
+			document.styleSheets[0].addRule('.main_menu .cart i::after','visibility: visible');
 			$(".fa-cart-plus").attr("data-count",data);
 			$(".cartQuantity").html(data);
 			Swal.fire({
