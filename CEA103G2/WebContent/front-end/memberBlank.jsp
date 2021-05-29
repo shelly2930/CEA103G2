@@ -27,11 +27,11 @@ background-color: #dddddd !important;
             <div class="col-lg-10 content">
                 
                 <!--================ 不要的話自己刪掉 =================-->
-                <div class="pagetitle">會員專區</div>
+                <div class="pagetitle"></div>
 				
 				<!--　　　↓↓↓↓↓↓↓↓↓↓內容↓↓↓↓↓↓↓↓↓↓　　　-->
 
-					內容放這裡
+					
 
 
 				<!--　　　↑↑↑↑↑↑↑↑↑↑內容↑↑↑↑↑↑↑↑↑↑　　　-->
