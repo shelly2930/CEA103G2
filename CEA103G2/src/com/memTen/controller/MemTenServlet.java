@@ -110,11 +110,12 @@ public class MemTenServlet extends HttpServlet {
 			
 			/***************************開始查詢資料 ***************************/
 			HttpSession session = req.getSession();
-			if (session != null) {
-				session.removeAttribute("MemTenVO");
-				session.removeAttribute("lanlordSession");
-				session.removeAttribute("rentCartList");
-			}
+			session.invalidate();
+//			if (session != null) {
+//				session.removeAttribute("MemTenVO");
+//				session.removeAttribute("lanlordSession");
+//				session.removeAttribute("rentCartList");
+//			}
 			
 			/****************查詢完成,準備轉交(Send the Success view)***************/
 			String url = req.getContextPath()+"/index.jsp";
@@ -374,14 +375,16 @@ public class MemTenServlet extends HttpServlet {
 				// 若無選擇圖片，則會抓原本的圖
 				Part part = req.getPart("mem_pic");
 				InputStream mem_picin = part.getInputStream();
-				byte[] mem_picBuf = null;
+				byte[] mem_pic = null;
 				if(mem_picin.available() == 0) {
-					mem_picBuf = new MemTenService().getOneMemTen(mem_no).getMem_pic();
+					mem_pic = new MemTenService().getOneMemTen(mem_no).getMem_pic();
 			    } else {
-			    	mem_picBuf = new byte[mem_picin.available()];
-			    	mem_picin.read(mem_picBuf);
+			    	mem_pic = new byte[mem_picin.available()];
+			    	mem_picin.read(mem_pic);
 			    }
 				mem_picin.close();
+				
+				
 				
 				String mem_name = req.getParameter("mem_name");
 				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{1,60}$";
@@ -450,23 +453,23 @@ public class MemTenServlet extends HttpServlet {
 				
 				Part idcard_fpart = req.getPart("mem_idcard_f");
 				InputStream mem_idcard_fin = idcard_fpart.getInputStream();
-				byte[] mem_idcard_fBuf = null;
+				byte[] mem_idcard_f = null;
 				if(mem_idcard_fin.available() == 0) {
-					mem_idcard_fBuf = new MemTenService().getOneMemTen(mem_no).getMem_idcard_f();
+					mem_idcard_f = new MemTenService().getOneMemTen(mem_no).getMem_idcard_f();
 			    } else {
-			    	mem_idcard_fBuf = new byte[mem_idcard_fin.available()];
-			    	mem_idcard_fin.read(mem_idcard_fBuf);
+			    	mem_idcard_f = new byte[mem_idcard_fin.available()];
+			    	mem_idcard_fin.read(mem_idcard_f);
 			    }
 				mem_idcard_fin.close();
 				
 				Part idcard_rpart = req.getPart("mem_idcard_r");
 				InputStream mem_idcard_rin = idcard_rpart.getInputStream();
-				byte[] mem_idcard_rBuf = null;
+				byte[] mem_idcard_r = null;
 				if(mem_idcard_rin.available() == 0) {
-					mem_idcard_rBuf = new MemTenService().getOneMemTen(mem_no).getMem_idcard_r();
+					mem_idcard_r = new MemTenService().getOneMemTen(mem_no).getMem_idcard_r();
 			    } else {
-			    	mem_idcard_rBuf = new byte[mem_idcard_rin.available()];
-			    	mem_idcard_rin.read(mem_idcard_rBuf);
+			    	mem_idcard_r = new byte[mem_idcard_rin.available()];
+			    	mem_idcard_rin.read(mem_idcard_r);
 			    }
 				mem_idcard_rin.close();
 				
@@ -481,7 +484,7 @@ public class MemTenServlet extends HttpServlet {
 				memTenVO.setMem_no(mem_no);
 				memTenVO.setMem_username(mem_username);
 				memTenVO.setMem_password(mem_password);
-				memTenVO.setMem_pic(mem_picBuf);
+				memTenVO.setMem_pic(mem_pic);
 				memTenVO.setMem_name(mem_name);
 				memTenVO.setMem_gender(mem_gender);
 				memTenVO.setMem_id(mem_id);
@@ -493,8 +496,8 @@ public class MemTenServlet extends HttpServlet {
 				memTenVO.setMem_dist(mem_dist);
 				memTenVO.setMem_addr(mem_addr);
 //				memTenVO.setMem_status(mem_status);
-				memTenVO.setMem_idcard_f(mem_idcard_fBuf);
-				memTenVO.setMem_idcard_r(mem_idcard_rBuf);
+				memTenVO.setMem_idcard_f(mem_idcard_f);
+				memTenVO.setMem_idcard_r(mem_idcard_r);
 //				memTenVO.setMem_id_status(mem_id_status);
 //				memTenVO.setMem_suspend(mem_suspend);
 //				memTenVO.setMem_refuse(mem_refuse);
@@ -510,9 +513,9 @@ public class MemTenServlet extends HttpServlet {
 				
 				/***************************2.開始修改資料*****************************************/
 				MemTenService memTenSvc = new MemTenService();
-				memTenVO = memTenSvc.updateMemTen(mem_no,mem_username, mem_password, mem_picBuf, mem_name,
+				memTenVO = memTenSvc.updateMemTen(mem_no,mem_username, mem_password, mem_pic, mem_name,
 								mem_gender, mem_id, mem_birthday, mem_phone, mem_mobile, mem_email, mem_city,
-								mem_dist, mem_addr, mem_idcard_fBuf, mem_idcard_rBuf);
+								mem_dist, mem_addr, mem_idcard_f, mem_idcard_r);
 				
 				HttpSession session = req.getSession();
 				
@@ -714,9 +717,20 @@ public class MemTenServlet extends HttpServlet {
 				
 				Part part = req.getPart("mem_pic");
 				InputStream mem_picin = part.getInputStream();
-				byte[] mem_picBuf = new byte[mem_picin.available()];
-				mem_picin.read(mem_picBuf);
+				byte[] mem_pic = new byte[mem_picin.available()];
+				mem_picin.read(mem_pic);
 				mem_picin.close();
+				
+//				Part part = req.getPart("mem_pic");
+//				InputStream mem_picin = part.getInputStream();
+//				byte[] mem_picBuf = null;
+//				if(mem_picin.available() == 0) {
+//					mem_picBuf = new MemTenService().getOneMemTen(mem_no).getMem_pic();
+//			    } else {
+//			    	mem_picBuf = new byte[mem_picin.available()];
+//			    	mem_picin.read(mem_picBuf);
+//			    }
+//				mem_picin.close();
 				
 				String mem_name = req.getParameter("mem_name");
 				String mem_nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{1,60}$";
@@ -783,7 +797,7 @@ public class MemTenServlet extends HttpServlet {
 				MemTenVO memVO = new MemTenVO();
 				memVO.setMem_username(mem_username);
 				memVO.setMem_password(mem_password);
-				memVO.setMem_pic(mem_picBuf);
+				memVO.setMem_pic(mem_pic);
 				memVO.setMem_name(mem_name);
 				memVO.setMem_gender(mem_gender);
 				memVO.setMem_id(mem_id);
@@ -806,7 +820,7 @@ public class MemTenServlet extends HttpServlet {
 
 				/***************************2.開始新增資料***************************************/
 				MemTenService memTenSvc = new MemTenService();
-				memVO = memTenSvc.addMemTen(mem_username, mem_password, mem_picBuf, mem_name, mem_gender, mem_id,
+				memVO = memTenSvc.addMemTen(mem_username, mem_password, mem_pic, mem_name, mem_gender, mem_id,
 						mem_birthday, mem_phone, mem_mobile, mem_email, mem_city, mem_dist, mem_addr);
 				
 				// 寄送驗證信件

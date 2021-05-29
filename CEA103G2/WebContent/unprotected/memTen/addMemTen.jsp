@@ -144,7 +144,7 @@ h3 {
 					    	<th>照片</th>
 							<td>
 								<div id="preview"></div>
-<!-- 								<img id="imgf" class="lld_acc_pic"> -->
+								<img id="img" class="mem_pic">
 								<input type="file" name="mem_pic" id="mem_pic" size="45" />
 							</td>
 					    </tr>
@@ -243,8 +243,8 @@ window.onload=function(){
     let myFile = document.getElementById("mem_pic");
     let preview = document.getElementById("preview");
 
-    myFile.addEventListener('change', function(e1) {
-        let files = e1.target.files;
+    myFile.addEventListener('change', function(e) {
+        let files = e.target.files;
         console.log(files);
         if (files !== null) {
             let file = files[0];
@@ -252,11 +252,12 @@ window.onload=function(){
             	console.log(-1);
             	let reader = new FileReader();
             	console.log(reader);
-                reader.addEventListener('load', function(e1) {
+                reader.addEventListener('load', function(e) {
                 	console.log("load");
-                	let result = e1.target.result;
+                	let result = e.target.result;
                 	console.log(result);
-                	let img = document.createElement('img');
+                	let img = document.getElementById('img');
+//                 	let img = document.createElement('img');
                     img.src = result;
                     preview.append(img);
                     $("img:first").remove(); // 預覽只會保留最新上傳的

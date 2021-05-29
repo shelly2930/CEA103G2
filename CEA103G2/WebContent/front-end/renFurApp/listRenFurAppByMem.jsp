@@ -123,10 +123,13 @@
 												</c:forEach>
 												<td>
 													<c:choose>
-														<c:when test="${renFurAppVO.rfa_status == 3}">¯²­É¤¤ </c:when>
+<%-- 														<c:when test="${renFurAppVO.rfa_status == 3}">¯²­É¤¤ </c:when> --%>
+<%-- 														<c:when test="${isTMT == false}">¯²­É¤¤</c:when> --%>
+<%-- 														<c:when test="${isTMT == true}">¤w°h¯²</c:when> --%>
+<%-- 														<c:otherwise>¤w°h¯²</c:otherwise> --%>
+														<c:when test="${renFurAppVO.rfa_status == 0 || renFurAppVO.rfa_status == 1}">¯²­É¤¤ </c:when>
 														<c:when test="${isTMT == false}">¯²­É¤¤</c:when>
 														<c:when test="${isTMT == true}">¤w°h¯²</c:when>
-														<c:otherwise>¤w°h¯²</c:otherwise>
 													</c:choose>
 												</td>
 												

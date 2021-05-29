@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import com.memTen.model.MemTenService;
+import com.memTen.model.MemTenVO;
+
 @WebServlet("/MemberPicServlet")
 public class MemberPicServlet extends HttpServlet {
 	
@@ -39,11 +42,9 @@ public class MemberPicServlet extends HttpServlet {
 			
 			Integer mem_no = new Integer(req.getParameter("mem_no"));
 			pstmt.setInt(1, mem_no);
-			System.out.println("AAAAAAa");
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				System.out.println("BBBBBB");
 				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("mem_pic"));
 				byte[] buf = new byte[4 * 1024]; // 4K buffer
 				int len;
@@ -53,7 +54,7 @@ public class MemberPicServlet extends HttpServlet {
 				in.close();
 			} else {
 //				res.sendError(HttpServletResponse.SC_NOT_FOUND);
-				InputStream in = getServletContext().getResourceAsStream("/images/none2.jpg");
+				InputStream in = getServletContext().getResourceAsStream("/unprotected/memTen/images/none2.jpg");
 				byte[] b = new byte[in.available()];
 				in.read(b);
 				out.write(b);
@@ -61,9 +62,13 @@ public class MemberPicServlet extends HttpServlet {
 			}
 			rs.close();
 			pstmt.close();
+			
+//			MemTenService svc = new MemTenService();
+//			MemTenVO vo = svc.getOneMemTen(mem_no);
+//			out.write(vo.getMem_pic());
 		} catch (Exception e) {
 //			System.out.println(e);
-			InputStream in = getServletContext().getResourceAsStream("/images/null2.jpg");
+			InputStream in = getServletContext().getResourceAsStream("/unprotected/memTen/images/null2.jpg");
 			byte[] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);

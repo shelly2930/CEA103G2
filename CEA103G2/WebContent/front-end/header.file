@@ -50,7 +50,7 @@
 				<div class="col-lg-12">
 					<nav class="navbar navbar-expand-lg navbar-light">
 						<a class="navbar-brand" href="<%=request.getContextPath()%>/index.jsp">
-							<img src="<%=request.getContextPath()%>/images/logo.png"></a>
+							<img src="<%=request.getContextPath()%>/index_img/logo.png"></a>
 						<button class="navbar-toggler" type="button"
 							data-toggle="collapse" data-target="#navbarSupportedContent"
 							aria-controls="navbarSupportedContent" aria-expanded="false"
