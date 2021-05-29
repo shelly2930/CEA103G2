@@ -67,6 +67,11 @@ div.rentalstep {
 h3 {
 	text-align:center;
 }
+
+.mem_pic {
+	width:400px;
+	height:auto;
+}
 </style>
 
 </head>

@@ -29,7 +29,7 @@ input.btn.btn-primary {
 }
 
 img.mem_pic {
-	width:200px;
+	width:300px;
 	height:auto;
 }
 </style>
@@ -251,14 +251,12 @@ img.mem_pic {
 		let house_value = ['hos_no','lld_no','hos_name','hos_rent','hos_expense','hos_date','hos_city',
 							'hos_dist','hos_address','hos_type','hos_info','hos_age','hos_floor','hos_ele',
 							'hos_parking','hos_pet','hos_cook','hos_squares','hos_gender','hos_water','hos_power',
-							'hos_internet','emp_no',
-							'hos_state'];
+							'hos_internet'];
 		
 		let house_key = ['物件編號','房東編號','物件名稱','物件租金','管理費','刊登日期','縣市',
 							'鄉鎮[市]區','地址','房型','介紹','屋齡','樓層','電梯與否',
 							'停車位與否','寵物與否','煮飯與否','坪數','性別限制','水費/一度','電費/一度',
-							'網路費','員工編號',
-							'刊登狀態'];
+							'網路費'];
 		
 		$("button[id='house']").click(function(e1){
 			e1.preventDefault();
