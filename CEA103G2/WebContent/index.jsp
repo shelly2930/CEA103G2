@@ -106,7 +106,7 @@
 
 
 	<!-- product_list2 part start-->
-	<section class="product_list best_seller  fur" style='padding:0px auto !important;'>
+	<section class="product_list best_seller  fur" style='padding:100px !important;'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
@@ -155,6 +155,7 @@
 			let word = $("#searchhouse").val();
 			$(location).attr('href',"<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&keyword="+word);
 		})
+		
 		$.ajax({
 			url:"<%=request.getContextPath()%>/HouseJsonServlet",
 			type:'post',
@@ -162,10 +163,12 @@
 				action:'getAllHouseOnLine',
 			},
 			success:function(list){
-				let str ="<div class='best_product_slider owl-carousel'>"
+				let str ="<div id='xx' class='best_product_slider owl-carousel'>"
 				for(house of list){
 					str += "<div class='single_product_item'>";
+					str+="<a href='<%=request.getContextPath()%>/house/house.do?houseno="+house.hos_no+"&action=listHouPho_ByHouseA'>";
 					str+="<img style='weight:157px' src='<%=request.getContextPath()%>/house/houseImg.do?action=getOneImg&houseno="+house.hos_no+"'>";
+					str+="</a>";
 					str+="<div class='single_product_text'>";
 					str+="<h4>"+house.hos_name+"</h4>";
 					str+="<h3><span>$"+house.hos_rent+"</span></h3>";
@@ -176,19 +179,18 @@
 				str+="</div>";
 				$("#showhouse").append(str);
 				
-				
-				$(".owl-carousel").owlCarousel({
+				$("#xx").owlCarousel({
 					  loop: true, // 循環播放
 					  margin: 20, // 外距 10px
 					  autoplay:true,
-					  autoplayTimeout:1500,
+					  autoplayTimeout:2500,
 					  autoplayHoverPause:true,
 					  responsive: {
 					    0: {
 					      items: 1 // 螢幕大小為 0~600 顯示 1 個項目
 					    },
 					    600: {
-					      items: 2 // 螢幕大小為 600~1000 顯示 3 個項目
+					      items: 3 // 螢幕大小為 600~1000 顯示 3 個項目
 					    },
 					    1000: {
 					      items: 4 // 螢幕大小為 1000 以上 顯示 5 個項目
@@ -199,12 +201,12 @@
 					'height': '10rem',
 					'background': '#4dc7a0',
 					'padding': '1rem'
-				})
+				});
 				$(".owl-carousel .item h4").css({
 					'color': '10rem',
 					'font-weight': '400',
 					'marginTop': '0rem'
-				})
+				});
 				$(".owl-prev").each(function(){
 					$(this).text("prev");
 					$(this).css('font-size','22px');
@@ -213,7 +215,6 @@
 					$(this).text("next");
 					$(this).css('font-size','22px');
 				});
-				
 			}
 		})
 			
