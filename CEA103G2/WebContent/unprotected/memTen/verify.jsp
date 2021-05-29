@@ -88,9 +88,15 @@ td.result {
 						<button id="success" class="btn btn-lg btn-primary" 
 							onclick="location='<%=request.getContextPath()%>/unprotected/memTen/login.jsp'">返回登入頁
 						</button>
-						<button id="failure" class="btn btn-lg btn-primary" 
-							onclick="location='<%=request.getContextPath()%>/unprotected/memTen/unverified.jsp?memEmail=${param.memEmail}'">重寄驗證信
-						</button>
+						<form action="<%=request.getContextPath()%>/memTen/memTen.do" class="" name="">
+						<input type="hidden" name="action" value="sendAuthMail">
+						<input type="hidden" name="mem_username" value="${param.mem_username}"> 
+						<input type="submit" value="重寄驗證信" id="failure" class="btn btn-sm btn-primary">
+						</form>
+						
+<!-- 						<button id="failure" class="btn btn-lg btn-primary"  -->
+<%-- 							onclick="location='<%=request.getContextPath()%>/unprotected/memTen/unverify.jsp?memEmail=${param.memEmail}'">重寄驗證信 --%>
+<!-- 						</button> -->
         		</td>
         	</tr>
         </table>

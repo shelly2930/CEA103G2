@@ -23,6 +23,7 @@ import com.house.model.HouseService;
 import com.house.model.HouseVO;
 import com.lanlord.model.LanlordService;
 import com.lanlord.model.LanlordVO;
+import com.memTen.model.MemTenService;
 import com.memTen.model.MemTenVO;
 
 @MultipartConfig
@@ -290,15 +291,15 @@ public class LanlordServlet extends HttpServlet {
 				
 				Part part = req.getPart("lld_acc_pic");
 				InputStream lld_acc_picin = part.getInputStream();
-				byte[] lld_acc_picBuf = new byte[lld_acc_picin.available()];
-				lld_acc_picin.read(lld_acc_picBuf);
+				byte[] lld_acc_pic = new byte[lld_acc_picin.available()];
+				lld_acc_picin.read(lld_acc_pic);
 				lld_acc_picin.close();
 				
 				LanlordVO lanlordVO = new LanlordVO();
 				lanlordVO.setLld_apptime(lld_apptime);
 				lanlordVO.setLld_bank(lld_bank);
 				lanlordVO.setLld_account(lld_account);
-				lanlordVO.setLld_acc_pic(lld_acc_picBuf);
+				lanlordVO.setLld_acc_pic(lld_acc_pic);
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -310,7 +311,7 @@ public class LanlordServlet extends HttpServlet {
 				}
 				/***************************2.開始新增資料***************************************/
 				LanlordService lanlordSvc = new LanlordService();
-				lanlordVO = lanlordSvc.addLanlord(mem_no, lld_apptime, lld_bank, lld_account, lld_acc_picBuf);
+				lanlordVO = lanlordSvc.addLanlord(mem_no, lld_apptime, lld_bank, lld_account, lld_acc_pic);
 				
 				lanlordVO = lanlordSvc.getOneLanlordByMemTen(mem_no);
 //				HttpSession session = req.getSession();
@@ -382,11 +383,23 @@ public class LanlordServlet extends HttpServlet {
 					errorMsgs.add("匯款帳號: 只能是數字");
 	            }
 				
+				// 若無選擇圖片，則會抓原本的圖
 				Part part = req.getPart("lld_acc_pic");
-				InputStream lld_acc_picin = part.getInputStream();
-				byte[] lld_acc_picBuf = new byte[lld_acc_picin.available()];
-				lld_acc_picin.read(lld_acc_picBuf);
-				lld_acc_picin.close();
+				InputStream mem_picin = part.getInputStream();
+				byte[] lld_acc_pic = null;
+				if(mem_picin.available() == 0) {
+					lld_acc_pic = new LanlordService().getOneLanlord(lld_no).getLld_acc_pic();
+			    } else {
+			    	lld_acc_pic = new byte[mem_picin.available()];
+			    	mem_picin.read(lld_acc_pic);
+			    }
+				mem_picin.close();
+				
+//				Part part = req.getPart("lld_acc_pic");
+//				InputStream lld_acc_picin = part.getInputStream();
+//				byte[] lld_acc_picBuf = new byte[lld_acc_picin.available()];
+//				lld_acc_picin.read(lld_acc_picBuf);
+//				lld_acc_picin.close();
 				
 				Byte lld_status = Byte.valueOf(req.getParameter("lld_status").trim());
 				
@@ -396,7 +409,7 @@ public class LanlordServlet extends HttpServlet {
 				lanlordVO.setLld_apptime(lld_apptime);
 				lanlordVO.setLld_bank(lld_bank);
 				lanlordVO.setLld_account(lld_account);
-				lanlordVO.setLld_acc_pic(lld_acc_picBuf);
+				lanlordVO.setLld_acc_pic(lld_acc_pic);
 				lanlordVO.setLld_status(lld_status);
 				
 				// Send the use back to the form, if there were errors
@@ -410,7 +423,7 @@ public class LanlordServlet extends HttpServlet {
 				
 				/***************************2.開始查詢資料****************************************/
 				LanlordService lanlordSvc = new LanlordService();
-				lanlordVO = lanlordSvc.appAgain(lld_no, mem_no, lld_bank, lld_account, lld_acc_picBuf, lld_status);
+				lanlordVO = lanlordSvc.appAgain(lld_no, mem_no, lld_bank, lld_account, lld_acc_pic, lld_status);
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("lanlordVO", lanlordVO); // 資料庫取出的lanlordVO物件,存入req

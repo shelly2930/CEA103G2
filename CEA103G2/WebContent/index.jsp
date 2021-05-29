@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="BIG5">
-<title>index</title>
+<title>HowTrue好厝</title>
 
 <style type="text/css">
 
