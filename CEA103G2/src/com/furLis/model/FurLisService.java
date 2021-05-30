@@ -34,7 +34,7 @@ public class FurLisService {
 		furLisVO.setFnt_status(fnt_status);
 		furLisVO.setFnt_rent_status(fnt_rent_status);
 		furLisVO.setFnt_unusable_date(fnt_unusable_date);
-
+		System.out.println("¶iserviceªº¯²­Éª¬ºA:"+fnt_rent_status);
 		dao.update(furLisVO);
 
 		return furLisVO;

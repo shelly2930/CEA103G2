@@ -85,7 +85,8 @@
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Welcome  好厝家具專區</h2>
+                             <h2>HowTrue</h2>
+                            <p style="color:white;">Rent Furniture<span style="color:white;">-</span> for Your House</p>
                         </div>
                     </div>
                 </div>

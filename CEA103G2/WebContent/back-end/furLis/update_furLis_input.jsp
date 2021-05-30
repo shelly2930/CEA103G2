@@ -114,7 +114,7 @@
 						   					  <input type="text" class="form-control" name="fnt_acq_date"  id="f_date1" placeholder="" >
 						              </div>			             
 									</div>	
-											
+										<input type="hidden" name="ori_fnt_status"  id="ori_fnt_status"  value="${furLisVO.fnt_status}">
 										<div class="col-md-7 form-group" >
 								     <label for="fnt_status"  class="col-md-5 col-form-lgroup" >家具狀態：</label>
 						             <div class="col-sm-10">
@@ -138,6 +138,7 @@
 						                </div>
 						              </div>			             
 								</div>	
+									<input type="hidden" name="ori_fnt_status"  id="fnt_rent_status"  value="${furLisVO.fnt_rent_status}">
 										<div class="col-md-7 form-group"  style="display:none">
 								     <label for="fnt_rent_status"  class="col-md-5 col-form-lgroup" >租借狀態：</label>
 						             <div class="col-sm-10">
@@ -171,7 +172,7 @@
 										<input type="hidden" name="fnt_it_no" value="<%=furLisVO.getFnt_it_no()%>">
 										<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
 										<input type="hidden" name="whichPage"  value="<%=request.getParameter("whichPage")%>">  <!--只用於:istAllEmp.jsp-->
-										<button	class="btn btn-info btn-icon-split" type="submit"> <span class="text">送出修改</span></button>
+										<button	class="btn btn-info btn-icon-split" type="submit"  id="update"> <span class="text">送出修改</span></button>
 								</div>
 								</div>
 				           </table>
@@ -186,7 +187,7 @@
 								     <label for="fnt_unrent"  class="col-md-5 col-form-lgroup" >家具狀態：
 								     		<c:choose>
 												<c:when test="${furLisVO.fnt_status==0}"> 正常 </c:when>
-												<c:when test="${furLisVO.fnt_status==0}"> 維修 </c:when>
+												<c:when test="${furLisVO.fnt_status==1}"> 維修 </c:when>
 												<c:otherwise> 報廢</c:otherwise>
 											</c:choose>
 								     </label>
@@ -286,13 +287,24 @@ Timestamp fnt_unusable_date = null;
 <script>
 
 $('#hide').hide();
-$('input[name=fnt_status]').change(function(){
-	if($("#unusable").prop('checked')){
-		$('#hide').show();
-	}else{
-		$('#hide').hide();
-	}
-});
+$("#update").prop("disabled",true);
+let a = $("#ori_fnt_status").val();
+let b = $('#fnt_rent_status').val();
+		$('input[name=fnt_status]').change(function(){
+			if($("#unusable").prop('checked')){
+				$('#hide').show();
+			}else{
+				$('#hide').hide();
+			}
+			if($(this).val() == a || $('#fnt_rent_status').val()==1){
+				$("#update").prop("disabled",true);
+			}else{
+				$("#update").prop("disabled",false);
+			}
+		});
+if(b == 1){
+	$("input[name='fnt_status']").prop("disabled",true);
+}
 </script>
 
 <!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>  -->

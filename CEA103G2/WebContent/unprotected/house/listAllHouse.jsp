@@ -11,7 +11,7 @@
 
 <html>
 <head>
-<title>瀏覽所有物件(訪客看到的頁面)</title>
+<title>瀏覽所有物件</title>
 <script src="<%=request.getContextPath()%>/template_front-end/js/jquery-1.12.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- =========icon fontawesome -->
@@ -154,7 +154,7 @@
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台北">台北</a>
+                                        <a class='num' href="<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=臺北">臺北</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
@@ -651,7 +651,7 @@
 			})
 			let str ="";
 			for(let dist of dist1){
-				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=新北市&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=臺北&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
 			}
 			$(this).parents('li').after(str);
 			$(".hide").hide();
@@ -664,7 +664,7 @@
 			})
 			let str ="";
 			for(let dist of dist2){
-				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=台北市&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
+				str+="<li class=\'hide\'><a style=\'color:#828282\' href='<%=request.getContextPath()%>/house/house.do?action=listHouse_AllOrQuery&hos_city=新北&hos_dist="+dist+"'>&nbsp;&nbsp;&nbsp;"+dist+"</li>";
 			}
 			$(this).parents('li').after(str);
 			$(".hide").hide();
@@ -895,6 +895,7 @@
 							action:'getOneHouse',
 							houseno:col_no,
 						},
+						async:false,
 						success:function(jsonStr){
 							
 							let str = "<div class='card' style='width: 18rem;'>";
@@ -940,27 +941,33 @@
 								$("#controltext").modal('show');
 								$("#message-text").val($("#text"+jsonStr.hos_no).html().substring(4));
 							})
-							$(".cancelcol").click(function(e){
-								e.preventDefault();
-								$.ajax({
-									url:"<%=request.getContextPath()%>/HouColServlet",
-									type:'post',
-									data:{
-										action:'deleteCol',
-										hos_no:$(this).parent().attr('id'),
-										mem_no:mem_no,
-									},
-									async: false,
-									success:function(str){
-										console.log("取消收藏");
-										colarray=getCol(mem_no);
-										reset(colarray);
-									}
-								})
-							})
+							
 						}
 					});
 				}
+				
+				
+				
+				
+				$(".cancelcol").click(function(e){
+					e.preventDefault();
+					$.ajax({
+						url:"<%=request.getContextPath()%>/HouColServlet",
+						type:'post',
+						data:{
+							action:'deleteCol',
+							hos_no:$(this).parent().attr('id'),
+							mem_no:mem_no,
+						},
+						async: false,
+						success:function(str){
+							console.log("取消收藏");
+							colarray=getCol(mem_no);
+							$("#showcol").empty();
+							reset(colarray);
+						}
+					})
+				})
 			}
 			
 			$("#sendtext").click(function(e){

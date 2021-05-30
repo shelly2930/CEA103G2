@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<title>房間照片</title>
+<title>物件詳細資訊</title>
 <!-- =================套用bootstrap要使用以下=========================== -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -605,8 +605,9 @@ h4 {
 	let addcol_hos = null;
 	reset(colarray);
 	function reset(colarray){
+		
+		$("#showcol").empty();
 		for(let col_no of colarray){
-			$("#showcol").empty();
 			$.get({
 				url:"<%=request.getContextPath()%>/HouseJsonServlet",
 				type:"post",
@@ -614,6 +615,7 @@ h4 {
 					action:'getOneHouse',
 					houseno:col_no,
 				},
+				async:false,
 				success:function(jsonStr){
 					
 					let str = "<div class='card' style='width: 18rem;'>";
@@ -656,27 +658,28 @@ h4 {
 						$("#message-text").val($("#text"+jsonStr.hos_no).html().substring(4));
 						
 					})
-					$(".cancelcol").click(function(e){
-						e.preventDefault();
-						$.ajax({
-							url:"<%=request.getContextPath()%>/HouColServlet",
-							type:'post',
-							data:{
-								action:'deleteCol',
-								hos_no:$(this).parent().attr('id'),
-								mem_no:mem_no,
-							},
-							async: false,
-							success:function(str){
-								console.log("取消收藏");
-								colarray=getCol(mem_no);
-								reset(colarray);
-							}
-						})
-					})
+					
 				}
 			});
 		}
+		$(".cancelcol").click(function(e){
+			e.preventDefault();
+			$.ajax({
+				url:"<%=request.getContextPath()%>/HouColServlet",
+				type:'post',
+				data:{
+					action:'deleteCol',
+					hos_no:$(this).parent().attr('id'),
+					mem_no:mem_no,
+				},
+				async: false,
+				success:function(str){
+					console.log("取消收藏");
+					colarray=getCol(mem_no);
+					reset(colarray);
+				}
+			})
+		})
 	}
 	
 	$("#sendtext").click(function(e){
