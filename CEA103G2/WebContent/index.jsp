@@ -179,6 +179,7 @@
 				str+="</div>";
 				$("#showhouse").append(str);
 				$("#xx").owlCarousel({
+						nav:true,
 					  loop: true, // ¥`¿ÙºΩ©Ò
 					  margin: 20, // •~∂Z 10px
 					  autoplay:true,
