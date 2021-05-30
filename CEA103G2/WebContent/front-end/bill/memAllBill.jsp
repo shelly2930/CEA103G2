@@ -119,7 +119,8 @@ tr:hover{
 								int fur_total = 0;
 								List<BillVO> billVOs = billSvc.getMemMonthlyBill(mem_no, bill_date);
 								for(BillVO aBill : billVOs){
-									hos_total += Integer.parseInt(billSvc.getHousePeriodAndMoney(aBill).get("money"));
+									hos_total += Integer.parseInt(billSvc.getHousePeriodAndMoney(aBill).get("money_rent"));
+									hos_total += Integer.parseInt(billSvc.getHousePeriodAndMoney(aBill).get("money_internet"));
 									hos_total += aBill.getBill_power() * houseSvc.getOneHouse(aBill.getHos_no()).getHos_power();
 									hos_total += aBill.getBill_water() * houseSvc.getOneHouse(aBill.getHos_no()).getHos_water();
 								}

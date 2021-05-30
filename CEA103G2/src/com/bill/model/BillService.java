@@ -192,10 +192,12 @@ public class BillService {
 	public Map<String,String> getHousePeriodAndMoney(BillVO billVO) {
 		Map<String,String> map = new HashMap<String,String>();
 		String period = null;
-		Integer money = null;
+		Integer money_rent = null;
+		Integer money_internet = null;
 		RenConVO renConVO = getCurrentRenCon(billVO);
 		System.out.println(renConVO);
 		int hos_rent = new HouseService().getOneHouse(renConVO.getHos_no()).getHos_rent();
+		int hos_internet = new HouseService().getOneHouse(renConVO.getHos_no()).getHos_internet();
 		
 		Date bill_date = billVO.getBill_date();
 		Calendar cal = Calendar.getInstance();
@@ -224,17 +226,20 @@ public class BillService {
 				
 				if(betweenMonth == 1) {
 					period = lastMonth_bill + "/" + dateOfMonth_eff + " - " + lastMonth_bill + "/" + DaysOfLastMonth_bill;
-					int partOf_hos_rent = (int)Math.round((double)(DaysOfLastMonth_bill - dateOfMonth_eff + 1) / (double)DaysOfLastMonth_bill * hos_rent);
-				    money = partOf_hos_rent;
+					double percent = (double)(DaysOfLastMonth_bill - dateOfMonth_eff + 1) / (double)DaysOfLastMonth_bill;
+					money_rent = (int)Math.round(percent * hos_rent);
+					money_internet = (int)Math.round(percent * hos_internet);
 				}else {
 					period = lastMonth_bill + "/1 - " + lastMonth_bill + "/" + DaysOfLastMonth_bill;
-					money = hos_rent;
+					money_rent = hos_rent;
+					money_internet = hos_internet;
 				}
 			//合約終止日在帳單日期之前,且一定是在上個月(getCurrentRenCon已過濾過)
 			}else {
 				period = lastMonth_bill + "/1 - " + lastMonth_bill + "/" + dateOfMonth_end;
-		    	int partOf_hos_rent = (int)Math.round((double)dateOfMonth_end / (double)DaysOfLastMonth_bill * hos_rent);
-		    	money = partOf_hos_rent;
+				double percent = (double)dateOfMonth_end / (double)DaysOfLastMonth_bill;
+		    	money_rent = (int)Math.round(percent * hos_rent);
+		    	money_internet = (int)Math.round(percent * hos_internet);
 			}
 		//解約日非空值,依解約日判斷
 		}else {
@@ -249,11 +254,13 @@ public class BillService {
 				
 				if(betweenMonth == 1) {
 					period = lastMonth_bill + "/" + dateOfMonth_eff + " - " + lastMonth_bill + "/" + DaysOfLastMonth_bill;
-					int partOf_hos_rent = (int)Math.round((double)(DaysOfLastMonth_bill - dateOfMonth_eff + 1) / (double)DaysOfLastMonth_bill * hos_rent);
-				    money = partOf_hos_rent;
+					double percent = (double)(DaysOfLastMonth_bill - dateOfMonth_eff + 1) / (double)DaysOfLastMonth_bill;
+					money_rent = (int)Math.round(percent * hos_rent);
+					money_internet = (int)Math.round(percent * hos_internet);
 				}else {
 					period = lastMonth_bill + "/1 - " + lastMonth_bill + "/" + DaysOfLastMonth_bill;
-					money = hos_rent;
+					money_rent = hos_rent;
+					money_internet = hos_internet;
 				}
 			//合約解約日在帳單日期之前,且一定是在上個月(getCurrentRenCon已過濾過)
 			}else {
@@ -261,18 +268,21 @@ public class BillService {
 				if(year_tmt == year_eff && month_tmt == month_eff){
 					period = lastMonth_bill + "/" + dateOfMonth_eff + " - " + lastMonth_bill + "/" + dateOfMonth_tmt;
 					int betweenDay = dateOfMonth_tmt - dateOfMonth_eff;
-					int partOf_hos_rent = (int)Math.round((double)betweenDay / (double)DaysOfLastMonth_bill * hos_rent);
-					money = partOf_hos_rent;
+					double percent = (double)betweenDay / (double)DaysOfLastMonth_bill;
+					money_rent = (int)Math.round(percent * hos_rent);
+					money_internet = (int)Math.round(percent * hos_internet);
 				}else {
 					period = lastMonth_bill + "/1 - " + lastMonth_bill + "/" + dateOfMonth_tmt;
-			    	int partOf_hos_rent = (int)Math.round((double)dateOfMonth_tmt / (double)DaysOfLastMonth_bill * hos_rent);
-			    	money = partOf_hos_rent;
+					double percent = (double)dateOfMonth_tmt / (double)DaysOfLastMonth_bill;
+			    	money_rent = (int)Math.round(percent * hos_rent);
+			    	money_internet = (int)Math.round(percent * hos_internet);
 				}
 			}
 		}
 		
 		map.put("period", period);
-		map.put("money", money.toString());
+		map.put("money_rent", money_rent.toString());
+		map.put("money_internet", money_internet.toString());
 		return map;
 	}
 	

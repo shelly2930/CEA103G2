@@ -408,16 +408,16 @@
 			  cancelButtonText: '取消'
 			}).then((result) => {
 				if (result.isConfirmed) {
-				Swal.fire({
-				   	icon:'success',
-				   	title:'修改成功',
-				   	showConfirmButton: false,
-					timer: 1000
-				   });
+					Swal.fire({
+					   	icon:'success',
+					   	title:'修改成功',
+					   	showConfirmButton: false,
+						timer: 1000
+					});
+					setTimeout(function(){
+						$("#form1").submit();
+				  	},1000);
 				}
-				setTimeout(function(){
-					$("#form1").submit();
-			  	},1000);
 			})
 	});
     

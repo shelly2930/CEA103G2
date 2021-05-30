@@ -75,11 +75,17 @@ background-color: #dddddd !important;
 						<tbody>
 							<c:forEach var="billVO" items="${list}">
 							<tr>
-								<td rowspan="3">${houseSvc.getOneHouse(billVO.hos_no).hos_name}</td>
+								<td rowspan="4">${houseSvc.getOneHouse(billVO.hos_no).hos_name}</td>
 								<td>房屋租金</td>
 								<td>${houseSvc.getOneHouse(billVO.hos_no).hos_rent}</td>
 								<td>${billSvc.getHousePeriodAndMoney(billVO).get("period")}</td>
-								<td>${billSvc.getHousePeriodAndMoney(billVO).get("money")}</td>
+								<td>${billSvc.getHousePeriodAndMoney(billVO).get("money_rent")}</td>
+							</tr>
+							<tr>
+								<td>網路費</td>
+								<td>${houseSvc.getOneHouse(billVO.hos_no).hos_internet}</td>
+								<td>${billSvc.getHousePeriodAndMoney(billVO).get("period")}</td>
+								<td>${billSvc.getHousePeriodAndMoney(billVO).get("money_internet")}</td>
 							</tr>
 							<tr>
 								<td>電費</td>
