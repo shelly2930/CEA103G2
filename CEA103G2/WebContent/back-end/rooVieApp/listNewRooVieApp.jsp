@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>後台空頁</title>
+    <title>查看預約</title>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Custom fonts for this template-->
     <link href="<%=request.getContextPath()%>/template_back-end/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<title>房間照片</title>
+<title>物件詳細資訊</title>
 <!-- =================套用bootstrap要使用以下=========================== -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
