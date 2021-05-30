@@ -106,7 +106,7 @@
 
 
 	<!-- product_list2 part start-->
-	<section class="product_list best_seller  fur" style='padding:100px !important;'>
+	<section class="product_list best_seller  fur" style='padding-top:100px  !important;'>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
@@ -178,12 +178,11 @@
 				}
 				str+="</div>";
 				$("#showhouse").append(str);
-				
 				$("#xx").owlCarousel({
 					  loop: true, // ¥`¿ÙºΩ©Ò
 					  margin: 20, // •~∂Z 10px
 					  autoplay:true,
-					  autoplayTimeout:2500,
+					  autoplayTimeout:8000,
 					  autoplayHoverPause:true,
 					  responsive: {
 					    0: {
