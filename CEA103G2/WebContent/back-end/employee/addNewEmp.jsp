@@ -198,7 +198,7 @@
 <script>
 // 當emp_username欄位blur時及時驗證(Ajax)
 window.addEventListener("load", function() {
-	document.getElementsByName("emp_username")[0].onblur = getInfo;
+	document.getElementsByName("emp_username")[0].onkeyup = getInfo;
 	}, false);
 
 function getInfo(){ 

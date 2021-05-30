@@ -46,7 +46,7 @@ public class RenFurAppService {
 					renFurDetDAO.update(renFurDetVO);
 				}
 			}
-		} else {
+		}else if(rfa_status == 0){
 			if(emp_no == 0)
 				rfa_status = new Byte("0");
 			else
