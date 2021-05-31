@@ -490,13 +490,13 @@
 			                                            </a>
 			                                        </li>
 			                                          <li class="page-item">
-			                                            <a class="page-link" href="<%=request.getContextPath()%>/house/house.do?orderCol=hos_state&orderType=asc&action=listHouse_AllOrQuery" aria-label="Previous">
+			                                            <a class="page-link" href="<%=request.getContextPath()%>/house/house.do?orderCol=hos_date&orderType=asc&action=listHouse_AllOrQuery" aria-label="Previous">
 			                                                <i class="fas  fa-5x fa-clock" style='font-size:22px'></i>
 			                                                <i class="ti-angle-double-up"></i>
 			                                            </a>
 			                                        </li>
 			                                         <li class="page-item">
-			                                            <a class="page-link" href="<%=request.getContextPath()%>/house/house.do?orderCol=hos_state&orderType=desc&action=listHouse_AllOrQuery" aria-label="Next">
+			                                            <a class="page-link" href="<%=request.getContextPath()%>/house/house.do?orderCol=hos_date&orderType=desc&action=listHouse_AllOrQuery" aria-label="Next">
 			                                                <i class="fas fa-clock" style='font-size:22px'></i>
 			                                                <i class="ti-angle-double-down"></i>
 			                                            </a>

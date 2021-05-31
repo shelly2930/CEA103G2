@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>選取預約時間</title>
+<title>查看合約</title>
 
 </head>
 

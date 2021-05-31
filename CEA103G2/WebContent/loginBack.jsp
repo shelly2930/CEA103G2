@@ -25,6 +25,7 @@
 <html lang="zh-tw">
 <head>
 	<meta charset="UTF-8">
+	<link rel='icon' href='<%=request.getContextPath()%>/index_img/icon01.ico'>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>HowTrue BackEndLogin</title>
 	<style>

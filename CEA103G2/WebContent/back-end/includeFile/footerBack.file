@@ -26,7 +26,7 @@
 				  </div>
 			</div>
 			<script>
-			
+			$('head').append("<link rel='icon' href='<%=request.getContextPath()%>/index_img/icon01.ico'>");
 			$(document).ready(function(){
 				connectNotice();
 			})
