@@ -376,9 +376,9 @@ $(document).ready(function(){
 					}
 	   			 }
 			});
-		}else if(status===1){
+		}else if(status==1){
 			Swal.fire("很抱歉！<br>請先完成租屋合約繳費手續，再租用家具，謝謝！");
-		}else if(status===0){
+		}else if(status==0){
 			Swal.fire("很抱歉！<br>由於您的租屋申請正在審核中，請待完成審核及合約繳費手續後，再租用家具，謝謝！");
 		}else{
 			Swal.fire("很抱歉！<br>請先完成租屋手續，再租用家具，謝謝！");
