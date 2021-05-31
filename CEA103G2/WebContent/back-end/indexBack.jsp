@@ -142,6 +142,9 @@
 /* 	.unassigned{ */
 /* 		border: 2px black solid; */
 /* 	} */
+	.dis-none{
+		display: none!important;
+	}
 </style>
 </head>
 
@@ -353,7 +356,7 @@ function addRenFurApp() {
 					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-info text-white' href='<%=request.getContextPath()%>/renFurApp/renFurApp.do?rfa_no="
 						+renFurAppVO.rfa_no+"&action=getOne_For_Update'>"+hour+":00 租家具申請</a>");
 				if(${employeeVO.emp_job != "主管"} && renFurAppVO.emp_no != ${employeeVO.emp_no}){
-					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
+					$("."+year+"-"+month+"-"+date).find("a").addClass("dis-none");
 				}
 				if(renFurAppVO.rfa_status == 0){
 					$("."+year+"-"+month+"-"+date).find("a").addClass("unassigned");
@@ -384,7 +387,7 @@ function addRooVieApp() {
 					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-warning text-white'" +
 							"href='<%=request.getContextPath()%>/back-end/rooVieApp/listNewRooVieApp_EMP.jsp'>"+hour+":00 預約看房申請</a>");
 				if(${employeeVO.emp_job != "主管"} && RooVieAppVO.emp_no != ${employeeVO.emp_no}){
-					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
+					$("."+year+"-"+month+"-"+date).find("a").addClass("dis-none");
 				}
 				if(RooVieAppVO.rva_status == 0){
 					$("."+year+"-"+month+"-"+date).find("a").addClass("unassigned");
@@ -415,7 +418,7 @@ function addHouse() {
 					("<a class='event d-block p-1 pl-2 pr-2 mb-1 rounded text-truncate small bg-success text-white' href='<%=request.getContextPath()%>/house/house.do?houseno="
 						+HouseVO.hos_no+"&action=getOneHouseForUpdate'>"+hour+":00 預約代管申請</a>");
 				if(${employeeVO.emp_job != "主管"} && HouseVO.emp_no != ${employeeVO.emp_no}){
-					$("."+year+"-"+month+"-"+date).find("a").css("visibility","hidden");
+					$("."+year+"-"+month+"-"+date).find("a").addClass("dis-none");
 				}
 				if(HouseVO.hos_status == 0){
 					$("."+year+"-"+month+"-"+date).find("a").addClass("unassigned");

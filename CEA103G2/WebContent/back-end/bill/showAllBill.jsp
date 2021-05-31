@@ -236,19 +236,19 @@
     					Swal.fire({
 	    					icon:'info',
 	    					title:'尚無新帳單',
-	    					showConfirmButton: false,
-	    					timer: 1000
+// 	    					showConfirmButton: false,
+// 	    					timer: 1000
 	    				});
     				}else{
 	    				Swal.fire({
 	    					icon:'success',
 	    					title:'成功新增'+ amountOfInsert + '筆帳單',
-	    					showConfirmButton: false,
-	    					timer: 1000
+// 	    					showConfirmButton: false,
+// 	    					timer: 1000
 	    				});
-	    				setTimeout(function(){
-	    					$(location).prop('href', '<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0');
-	    			  	},1000);
+// 	    				setTimeout(function(){
+<%-- 	    					$(location).prop('href', '<%=request.getContextPath()%>/back-end/bill/showAllBill.jsp?status=0'); --%>
+// 	    			  	},1000);
     				}
     			}
     		});

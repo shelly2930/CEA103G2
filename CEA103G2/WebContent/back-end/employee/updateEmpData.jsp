@@ -197,7 +197,7 @@
                         </div>
 
 						<input type="hidden" name="action" value="updateBySup">
-						<input type="hidden" name="emp_no" value="${employeeVO.emp_no}">
+						<input type="hidden" name="emp_no" id="emp_no" value="${employeeVO.emp_no}">
 					</form>
 
 				</div>
@@ -218,16 +218,16 @@
 	<%@ include file="/back-end/includeFile/otherBack.file" %>
 
 <script>
-// 當emp_username欄位blur時及時驗證(Ajax)
+
 $("#sendEmail").click(function(){
 	$.ajax({
 		url: "${pageContext.request.contextPath}/employee/employee.do",
 		type: "post",
 		data: {
 			action: "sendEmail",
+			emp_no: $("#emp_no").val(),
 			emp_email: $("#emp_email").val(),
-			emp_username: $("#emp_username").val(),
-			emp_password: $("#emp_password").val()
+			emp_username: $("#emp_username").val()
 		},
 		success: function(data){
 			if(data === "發送成功"){

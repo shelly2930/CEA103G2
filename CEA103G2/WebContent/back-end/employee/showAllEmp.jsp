@@ -8,7 +8,10 @@
 <%
 	EmployeeService employeeSvc = new EmployeeService();
 	List<EmployeeVO> list = employeeSvc.getAll();
-	int status = Integer.parseInt(request.getParameter("status"));
+	int status = 1;
+	if(request.getParameter("status") != null){
+		status = Integer.parseInt(request.getParameter("status"));
+	}
 	int size = list.size();
 	List<EmployeeVO> newList = new ArrayList<EmployeeVO>();
 	if(status == 1){

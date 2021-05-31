@@ -672,7 +672,7 @@ public class EmployeeServlet extends HttpServlet {
 		
 		if("sendEmail".equals(action)) {
 			PrintWriter out = res.getWriter();
-			
+			System.out.println("=======!!!!!!!!======");
 			String emp_email = req.getParameter("emp_email").trim();
 			String emp_emailReg = "^.+@{1}.+$";
 			if(emp_email == null || emp_email.length() == 0) {
